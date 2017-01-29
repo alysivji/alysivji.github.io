@@ -8,7 +8,7 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
 
-    <title>Siv Scripts - </title>
+    <title>Creating MongoDB Pipelines in Scrapy - Siv Scripts</title>
 
    
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
@@ -65,13 +65,14 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Sat 28 January 2017
+  Wed 01 February 2017
 </abbr> <h1>
-  <a href="/getting-started-with-folium.html" rel="bookmark"
-     title="Permalink to Visualizing Geospatial Data in Python Using Folium">
-    Visualizing Geospatial Data in Python Using Folium
+  <a href="/drafts/mongodb-pipelines-in-scrapy.html" rel="bookmark"
+     title="Permalink to Creating MongoDB Pipelines in Scrapy">
+    Creating MongoDB Pipelines in Scrapy
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -81,28 +82,50 @@
       Tutorials</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->  
-      <div class="summary">
-		<blockquote>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<blockquote>
 <h2>Bullet Points</h2>
 <ul>
-<li>Use Python to display location data on interactive map</li>
-<li>Cluster points in heatmap to visualize usage</li>
+<li></li>
+<li></li>
 </ul>
 </blockquote>
 <hr>
 <h2>Introduction</h2>
-<p>One of my favorite things about Python is how there seems to be a library to do anything you want. It's a testament to the community that so many people are …</p>
-		<p class="content-emphasis"><a href="/getting-started-with-folium.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
+<hr>
+<h2>Getting Data</h2>
+<p>Create a new directory. Navigate to it in the console and get the data:</p>
+<div class="highlight"><pre><span></span><span class="go">mkdir data &amp;&amp; cd data</span>
+<span class="go">wget &quot;https://s3.amazonaws.com/divvy-data/tripdata/Divvy_Trips_2016_Q1Q2.zip&quot;</span>
+</pre></div>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="/tag/scrapy.html"><i class="fa fa-tag"></i>scrapy</a>&nbsp;
+	<a href="/tag/mongodb.html"><i class="fa fa-tag"></i>mongodb</a>&nbsp;
+	<a href="/tag/web-scraping.html"><i class="fa fa-tag"></i>web-scraping</a>&nbsp;
+	<a href="/tag/automation.html"><i class="fa fa-tag"></i>automation</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
 
-    <hr />
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
 
-<nav class="index-pager">
-
-</nav> <!-- /index-pager -->
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="/drafts/mongodb-pipelines-in-scrapy.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -200,5 +223,30 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
