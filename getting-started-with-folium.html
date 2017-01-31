@@ -79,7 +79,7 @@
 <abbr class="article-header-date">
   Mon 30 January 2017
 </abbr> <h1>
-  <a href="/drafts/getting-started-with-folium.html" rel="bookmark"
+  <a href="/getting-started-with-folium.html" rel="bookmark"
      title="Permalink to Visualizing Geospatial Data in Python Using Folium">
     Visualizing Geospatial Data in Python Using Folium
   </a>
@@ -97,7 +97,7 @@
 <h2>Bullet Points</h2>
 <ul>
 <li>Use Python to display location data on interactive map</li>
-<li>Cluster points in heatmap to visualize usage</li>
+<li>Cluster points in a heatmap to visualize usage</li>
 </ul>
 </blockquote>
 <hr>
@@ -105,10 +105,23 @@
 <p>One of my favorite things about Python is how there seems to be a library to do anything you want. It's a testament to the community that so many people are willing to share their time to make it easier for somebody else to get started.</p>
 <p>I've always been a huge fan of the <a href="http://leafletjs.com/">Leaflet - the JavaScript map library</a> and when I found out there is a <a href="https://github.com/python-visualization/folium">Python interface (Folium)</a>, I wanted to sit down and explore.</p>
 <p>Little about me: I'm Aly. I live in Chicago and I love riding my bike. However, it's winter and I can't ride as much as I want to. So I thought, what's the next best thing? Analyzing data shared by the the City of Chicago's Bike Share system, <a href="divvybikes.com">Divvy</a>.</p>
-<p>Divvy Bikes came to Chicago in 2013 and <a href="http://www.loopnorth.com/news/divvy0102.htm">celebrated their 10th millionth trip in early 2017</a>. There are stations located all over the city and you can get a 1 day pass for $10 or a yearly membership for $100. Each time you check out a bike, you have 30 minutes to return to any station before late fees apply. You can check out as many 30 minute blocks as your pass permits.</p>
+<p>Divvy Bikes came to Chicago in 2013 and <a href="http://www.loopnorth.com/news/divvy0102.htm">celebrated their 10th millionth trip in early 2017</a>. There are stations located all over the city and you can get a 1 day pass for $10 or a yearly membership for $100. Each time you check out a bike, you have 30 minutes to return it to any station before late fees apply. You can check out as many 30 minute blocks as your pass permits.</p>
 <p>Divvy shares their data and they've held <a href="http://digital.cityofchicago.org/index.php/congratulations-to-the-winners-of-the-2014-divvy-data-challenge/">visualization</a> <a href="http://sharedusemobilitycenter.org/news/3-takeaways-from-the-divvy-bikeshare-data-challenge/">competitions</a> in the past. It seems like a fun dataset set to explore so let's see what we can come up with after a little Python:</p>
 <hr>
+<h2>What You Need to Follow Along</h2>
+<h3>Development Tools (Stack)</h3>
+<ul>
+<li><a href="https://www.python.org/downloads/">Python 3</a></li>
+<li>PyData stack (<a href="http://pandas.pydata.org/pandas-docs/stable/install.html">Pandas</a>, <a href="http://matplotlib.org/users/installing.html">matplotlib</a>, <a href="http://seaborn.pydata.org/installing.html">seaborn</a>)</li>
+<li><a href="http://folium.readthedocs.io/en/latest/installing.html">Folium</a></li>
+</ul>
+<h3>Code</h3>
+<ul>
+<li><a href="https://github.com/alysivji/divvy-station-heatmap-folium/blob/master/1-create-divvy-station-heatmap.ipynb">Jupyter Notebook</a></li>
+</ul>
+<hr>
 <h2>Getting Data</h2>
+<p>(<a href="https://www.divvybikes.com/system-data">Divvy Data - website</a>)</p>
 <p>Create a new directory. Navigate to it in the console and get the data:</p>
 <div class="highlight"><pre><span></span><span class="go">mkdir data &amp;&amp; cd data</span>
 <span class="go">wget &quot;https://s3.amazonaws.com/divvy-data/tripdata/Divvy_Trips_2016_Q1Q2.zip&quot;</span>
@@ -133,7 +146,6 @@
 
 <hr>
 <h2>Loading Data into Pandas</h2>
-<p><a href="https://github.com/alysivji/divvy-station-heatmap-folium/blob/master/1-create-divvy-station-heatmap.ipynb">Download notebook from Github to follow along</a></p>
 <div class="highlight"><pre><span></span><span class="n">divvyStations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/Divvy_Trips_2016_Q1Q2/Divvy_Stations_2016_Q1Q2.csv&#39;</span><span class="p">)</span>
 <span class="n">divvyStations</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -321,7 +333,7 @@ Trips from A -&gt; A: 3.3%
 <li>How long are these trips?</li>
 <li>Who is taking them?</li>
 <li>Where are they taking them?</li>
-<li>Tourists who don't know where the next station is? Or subscribes running errards around the neighbourhood? Can we draw conclusions?</li>
+<li>Tourists who don't know where the next station is? Or subscribers running errards around the neighbourhood? Can we draw conclusions?</li>
 </ul>
 <div class="highlight"><pre><span></span><span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripduration&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span>
 <span class="n">sameStationTrips</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -440,7 +452,8 @@ Trips from A -&gt; A: 3.3%
 
 
 <p><img alt="png" src="images\1_output_21_1.png"></p>
-<div class="highlight"><pre><span></span><span class="c1"># Divvy&#39;s charge more for rides larger than 30 minutes so lets see that distribution of usage for less than 30</span>
+<div class="highlight"><pre><span></span><span class="c1"># Divvy&#39;s charge more for rides larger than 30 minutes so lets see that</span>
+<span class="c1"># distribution of usage for less than 30</span>
 <span class="n">sameStationTrips</span><span class="p">[</span><span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> \
     <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;usertype&#39;</span><span class="p">)[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> \
     <span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -448,7 +461,8 @@ Trips from A -&gt; A: 3.3%
 
 
 <p><img alt="png" src="images\1_output_22_1.png"></p>
-<div class="highlight"><pre><span></span><span class="c1"># Acording to Folium docs, we can feed heatmap function with (n, 3) weights</span>
+<div class="highlight"><pre><span></span><span class="c1"># Acording to Folium docs, we can pass the heatmap function a (n, 3) matrix</span>
+<span class="c1"># with weights in the column</span>
 <span class="n">sameStationCountsByStationID</span> <span class="o">=</span> <span class="n">sameStationTrips</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_station_id&#39;</span><span class="p">)[</span><span class="s1">&#39;trip_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
 <span class="n">sameStationCountsByStationID</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;numTrips&#39;</span>
 </pre></div>
@@ -503,7 +517,7 @@ Trips from A -&gt; A: 3.3%
 <hr>
 <h2>Write Helper Function to Simply Function Calls</h2>
 <p>I want to map the data I put together and even though Folium makes it pretty easy, we're still spending a lot of time wrangling information into the correct format to get the plots we want.</p>
-<p>This is the perfect place for a helper function (with default keyword arguments) to come in and do most of the heavy lifting, leaving us with a simple API we can use to produce complicated plots.</p>
+<p>This is the perfect place for a helper function (with default keyword arguments) to come in and do most of the heavy lifting. We're left with a simple API we can use to produce more complex plots.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mapPoints</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">latCol</span><span class="o">=</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">lonCol</span><span class="o">=</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
               <span class="n">plotPoints</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ptRadius</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> 
               <span class="n">drawHeatmap</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">heatMapWeightsCol</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">heatMapWeightsNormalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">heatMapRadius</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
@@ -589,7 +603,7 @@ Trips from A -&gt; A: 3.3%
 <p>The annual members, on the other hand, have a usage pattern that is more concentrated in neighborhoods. Consequently, this suggests that they are picking something up or running some other errand before returning their bike to the station where they originally retrieved it from. I've used Divvy in this manner by picking up takeout from a restaurant that is outside walking distance.</p>
 <hr>
 <h2>Next Steps</h2>
-<p>In a future post, I will demostrate how to create <a href="https://en.wikipedia.org/wiki/Choropleth_map">fancy choropleth maps</a> to quicky visualize state/county data.</p>
+<p>In a future post, I will demostrate how to create <a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth maps</a> to quicky visualize state/county data.</p>
   </div>
   
 <div class="article-tag-list">
@@ -612,7 +626,7 @@ Trips from A -&gt; A: 3.3%
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="/drafts/getting-started-with-folium.html" 
+        data-href="/getting-started-with-folium.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
@@ -647,6 +661,8 @@ Trips from A -&gt; A: 3.3%
 <div class="col-xs-6 col-md-12">
 <h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
 <ul class="list-unstyled category-links">
+  <li><a href="/category/tutorials.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
 </ul>
 </div>
 
@@ -654,6 +670,54 @@ Trips from A -&gt; A: 3.3%
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-4">
+      <a href="/tag/cycling.html">
+          <i class="fa fa-tag"></i>
+        cycling
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/visualization.html">
+          <i class="fa fa-tag"></i>
+        visualization
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="/tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
 </p>
 
 <hr />
