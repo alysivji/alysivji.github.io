@@ -52,7 +52,7 @@
       <div class="collapse navbar-collapse" id="main-navbar-collapse">
         <ul class="nav navbar-nav">
               <li>
-                <a href="/pages/about-me.html">About</a>
+                <a href="/pages/about.html">About</a>
               </li>
             <li class="divider"></li>
             <li class="">
@@ -103,26 +103,24 @@
 </blockquote>
 <hr>
 <h2>Introduction</h2>
-<p>Wouldn't it be great if every website had a <em>free</em> API we could poll to get the data we wanted?</p>
-<p>Sure we can hack together something primative using <a href="http://docs.python-requests.org/en/master/">Requests</a> and <a href="https://www.crummy.com/software/BeautifulSoup/">Beautiful Soup (bs4)</a>, but if you want to do anything more complex like getting the next page or creating data validation pipelines, you're going to have to do a lot of work.</p>
-<p>There is where <a href="https://scrapy.org/">Scrapy</a> shines. It provides an extendible web scraping framework that you can use in any project requiring extraction of structured data.</p>
+<p>Wouldn't it be great if every website had a <em>free</em> API that we could poll to get the data we wanted?</p>
+<p>We could hack together something primative using <a href="http://docs.python-requests.org/en/master/">Requests</a> and <a href="https://www.crummy.com/software/BeautifulSoup/">Beautiful Soup (bs4)</a>, but if we ever want to do anything more complex such as following links to the next page or creating data validation pipelines, we would have to do a lot more work.</p>
+<p>This is where <a href="https://scrapy.org/">Scrapy</a> really shines. Scrapy provides an extendible web scraping framework that we can use in any project requiring extraction of structured data. If the website doesn't have an API, we can now build a solution to parse the <strong>data</strong> we need in a <strong>format</strong> we want.</p>
 <p>I highly recommend the reader work through <a href="https://doc.scrapy.org/en/master/intro/tutorial.html">the Scrapy tutorial from the documentation</a>. It's a great introduction into the terminology and process flow of the framework. This tutorial is written on the assumption that the reader is familiar with Scrapy.</p>
 <p>Acknowledgements: I used <a href="https://realpython.com/blog/python/web-scraping-with-scrapy-and-mongodb/">this Real Python post</a> as a guide along with the <a href="https://doc.scrapy.org/en/1.3/">latest version of Scrapy docs (v1.3)</a>.</p>
 <hr>
 <h2>Project Description</h2>
-<p><em>Author Note: Always read the website's robot.txt file before writing a scraper. Be nice when making requests. Be nice in general. Good rule to live by.</em></p>
-<p>Reddit provides a platform for niche communities to have discussions on very specific topics. I frequent <a href="http://www.reddit.com/r/peloton">/r/peloton</a>, <a href="http://www.reddit.com/r/datascience">/r/datascience</a>, and <a href="http://www.reddit.com/r/python">/r/python</a> (amongst others) to get a quick digest of what's going on in the communities I'm a part of. The Reddit voting system, along with the tendency of people to correct others, ensures that I won't have to spend a lot of time wading through filler to get the information I am looking for.</p>
-<p>If I can design and then automate a process that can check a list of subreddits and send me a weekly digest, I can stop wasting my time on Reddit and spend more time working on projects like this.</p>
+<p><em>Author Note: Always read the website's robot.txt file before writing a scraper. Be nice when making requests. Be nice in general. It's a good rule to live by.</em></p>
+<p>Reddit provides a platform for niche communities to have discussions on very specific topics. As a way to stay abreast of the latest information in my areas of interest, I frequent sub-reddits such as <a href="http://www.reddit.com/r/peloton">/r/peloton</a>, <a href="http://www.reddit.com/r/datascience">/r/datascience</a>, and <a href="http://www.reddit.com/r/python">/r/python</a>. The Reddit voting system, along with the tendency of people to correct others, ensures that I won't have to spend a lot of time filtering information to get what I need.</p>
+<p>If I can design and automate a process to generate weekly digests of my most visited subreddits, I can spend more time working on projects like this.</p>
 <blockquote>
 <h3>Process Outline</h3>
 <ul>
 <li>Given a list of subredits, scrape 'Top Posts'</li>
 <li>Build pipeline to store item in MongoDB</li>
-<li>Automate scaping and step up as CRON job or trigger function on Bluemix</li>
-<li>Design website to show scraped data stored in MongoDB<ul>
+<li>Automate scaping and set up as CRON job or trigger function on Bluemix</li>
+<li>Design website to show scraped data stored in MongoDB</li>
 <li>Research into Angular2 vs Django/Flask</li>
-</ul>
-</li>
 </ul>
 </blockquote>
 <p>This will be the first in a series of posts that will create a fullstack solution to the workflow described above.</p>
@@ -170,7 +168,7 @@
 <h2>Implement Crawler</h2>
 <h3>Items to Scrape</h3>
 <p>Let's take a look at the <a href="https://www.reddit.com/r/peloton/top/?sort=top&amp;t=all">all-time list of top posts from /r/peloton</a>. Below is a screenshot with the items we want to scrape highlighed.</p>
-<p><img src="..\images\2_reddit_items_to_parse.png" alt="Reddit Top Posts -- items to scrape" width=750/></p>
+<p><img src="..\images\1-10\2_reddit_items_to_parse.png" alt="Reddit Top Posts -- items to scrape" width=750/></p>
 <p>From this we can create our item templates. I added a few more pieces of information (subreddit, date) to provide additional context.</p>
 <div class="highlight"><pre><span></span><span class="c1"># items.py</span>
 
@@ -194,7 +192,7 @@
 <h3>Create Spider</h3>
 <p>We will follow the <a href="https://doc.scrapy.org/en/latest/intro/tutorial.html">template from the Scrapy docs</a> to create the spider.</p>
 <p>The first part of the code defines the spider settings and then tells Scrapy which URLs to parse (<code>start_urls</code> variable). <a href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions">Shoutout to list comprehensions</a>!</p>
-<p>The parse function tells Scrapy how to process each of the downloaded reponses (<a href="https://doc.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.Spider.parse">docs</a>). I've done a bit of front-end web development in a previous life so I decided to use CSS selectors to extract items from the HTML source (<a href="https://doc.scrapy.org/en/latest/topics/selectors.html">more details in the Scrapy docs</a>). We also use <a href="https://wiki.python.org/moin/Generators">generators</a> since we're all about being Pythonic on this blog. And because the Scrapy documentation uses generators. If you're curious about Python generators, I highly recommend <a href="https://www.youtube.com/watch?v=5-qadlG7tWo">this awesome David Beazley talk from PyCon 2014</a>.</p>
+<p>The parse function tells Scrapy how to process each of the downloaded reponses (<a href="https://doc.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.Spider.parse">docs</a>). Since I have a bit of experience with front-end web development, I decided to use CSS selectors to extract items from the HTML source (<a href="https://doc.scrapy.org/en/latest/topics/selectors.html">more details in the Scrapy docs</a>). We used <a href="https://wiki.python.org/moin/Generators">generators</a> to <code>yield</code> items since we're all about being Pythonic on this blog (and because the Scrapy documentation uses generators). If you're curious about Python generators, I highly recommend <a href="https://www.youtube.com/watch?v=5-qadlG7tWo">this awesome David Beazley talk from PyCon 2014</a>.</p>
 <div class="highlight"><pre><span></span><span class="c1"># spiders/__init__.py</span>
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
@@ -238,10 +236,10 @@
 <h4>Notes</h4>
 <ul>
 <li>
-<p>If I wanted to grab the top 50 posts versus only the top 25, I would have to write some code in the parse method that can follow "next page" links and generate new <code>Request</code> objects. <a href="https://doc.scrapy.org/en/latest/intro/tutorial.html#following-links">More details can be found in the docs</a>.</p>
+<p>If I wanted to grab the top 50 posts versus the top 25, I would have to add code in the parse method to follow "next page" links and generate new <code>Request</code> objects. <a href="https://doc.scrapy.org/en/latest/intro/tutorial.html#following-links">More details can be found in the docs</a>.</p>
 </li>
 <li>
-<p>Scrapy will remember webpages it has already seen so that's also one less thing for us to worry about. Just another benefit of using a framework: <em>Scrapy's default options are more comprehensive than anything we can quickly hack together</em></p>
+<p>Scrapy will keep track of visited webapges so that's one less thing for us to worry about. Yet another benefit of using a framework: <em>Scrapy's default options are more comprehensive than anything we can quickly hack together</em></p>
 </li>
 </ul>
 <h3>Pipeline into MongoDB</h3>
@@ -290,7 +288,7 @@
 
 <hr>
 <h2>Configure Settings</h2>
-<p>Scrapy has <a href="https://doc.scrapy.org/en/latest/topics/settings.html#topics-settings-ref">a ton of settings</a> including scheduling and hooks into AWS. I want to be nice to Reddit so I will play around with the download delay setting so we don't make too many requests in a short amount of time.</p>
+<p>Scrapy has <a href="https://doc.scrapy.org/en/latest/topics/settings.html#topics-settings-ref">a ton of settings</a> for us to play around with. I want to be nice to Reddit so I add a download delay to my scraper. This is so we don't make too many requests in a short amount of time.</p>
 <p>We also want to tell Scrapy about our ItemPipeline so it can store the scraped data in MongoDB.</p>
 <div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
 
@@ -356,9 +354,9 @@
 </pre></div>
 
 
-<p>We can see the JSON object that was scraped along with some Scrapy stats and messages.</p>
+<p>We can see the JSON object that was scraped along with Scrapy stats and messages.</p>
 <p>Let's use <a href="https://www.mongodb.com/products/compass">MongoDB Compass</a> to confirm items got loaded into the DB.</p>
-<p><img src="..\images\2_reddit_items_in_mongodb_compass.png" alt="Reddit Items in MongoDB Compass" width=750/></p>
+<p><img src="..\images\1-10\2_reddit_items_in_mongodb_compass.png" alt="Reddit Items in MongoDB Compass" width=750/></p>
 <p>Looks good!</p>
 <hr>
 <h2>Conclusion</h2>
@@ -366,24 +364,26 @@
 <p>I've been going out of my way to mention relevant documentation sections for each of the Scrapy modules I modified. I did this for two reasons:</p>
 <ol>
 <li>To show how great the Scrapy docs are (kudos to the contributors)</li>
-<li>Emphasize that we should always look to the documentation when we get stuck.</li>
+<li>To emphasize that we should always look to the documentation when we get stuck.</li>
 </ol>
-<p>I know it's really easy to Google error messages and find relevant Stack Overflow <em>(Praise Be)</em> posts. But we should always start in the documentation to find our solution. Make sure we are using the library in accordance with best practices.</p>
-<p>What if the docs for the library you are using are not good or incomplete? Once you learn the package, it might be worth taking the time to write better docs or a blog documenting your journey. Python is great because of the community. Be part of the community. Contribute wherever you can. Doesn't matter if you're just a beginner, your help is always appreciated.</p>
+<p>I know it's really easy to Google error messages and find relevant Stack Overflow <em>(Praise Be)</em> posts. However, we should always start our search for a solution in the documentation. Additionally, we can gain insights into best practices as described by the authors of the package.</p>
+<p>What if the docs for the library you are using are awful or incomplete? My suggestion: once you learn the package, take the time to write better docs or a blog entry to document your journey. Python is great because of the community. Become part of the community and contribute wherever you can. It doesn't matter if you're a beginner, your help is always appreciated.</p>
 <hr>
 <h2>Next Steps</h2>
-<p>Future posts in this series will explore how-to:</p>
+<p>Future posts in this series will explore:</p>
 <ul>
-<li><a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script">run Scrapy from a script</a></li>
-<li>create and deploy the script on <a href="http://bluemix.net">Bluemix</a></li>
-<li>build a REST API data access layer on top of MongoDB</li>
-<li>create a front-end interface for this project</li>
+<li><a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script">running Scrapy from a script</a></li>
+<li>deploying and scheduling the script to run on on <a href="http://bluemix.net">Bluemix</a></li>
+<li>building a REST API data access layer on top of MongoDB</li>
+<li>creating a front-end interface for this project</li>
+<li>deploying website as a Cloud Foundary app on Bluemix</li>
 </ul>
   </div>
   
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
 	<a href="/tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="/tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
 	<a href="/tag/scrapy.html"><i class="fa fa-tag"></i>scrapy</a>&nbsp;
 	<a href="/tag/mongodb.html"><i class="fa fa-tag"></i>mongodb</a>&nbsp;
 	<a href="/tag/pymongo.html"><i class="fa fa-tag"></i>pymongo</a>&nbsp;

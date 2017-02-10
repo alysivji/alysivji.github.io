@@ -52,7 +52,7 @@
       <div class="collapse navbar-collapse" id="main-navbar-collapse">
         <ul class="nav navbar-nav">
               <li>
-                <a href="/pages/about-me.html">About</a>
+                <a href="/pages/about.html">About</a>
               </li>
             <li class="divider"></li>
             <li class="">
@@ -102,8 +102,8 @@
 </blockquote>
 <hr>
 <h2>Introduction</h2>
-<p>One of my favorite things about Python is how there seems to be a library to do anything you want. It's a testament to the community that so many people are willing to share their time to make it easier for somebody else to get started.</p>
-<p>I've always been a huge fan of the <a href="http://leafletjs.com/">Leaflet - the JavaScript map library</a> and when I found out there is a <a href="https://github.com/python-visualization/folium">Python interface (Folium)</a>, I wanted to sit down and explore.</p>
+<p>One of my favorite things about Python is how there seems to be a library to do anything you want. It's a testament to the community that so many people are willing to share their time to make it easier for others to get started.</p>
+<p>I've always been a huge fan of <a href="http://leafletjs.com/">Leaflet - the JavaScript map library</a> and when I found out there is a <a href="https://github.com/python-visualization/folium">Python interface (Folium)</a>, I wanted to sit down and explore.</p>
 <p>Little about me: I'm Aly. I live in Chicago and I love riding my bike. However, it's winter and I can't ride as much as I want to. So I thought, what's the next best thing? Analyzing data shared by the the City of Chicago's Bike Share system, <a href="divvybikes.com">Divvy</a>.</p>
 <p>Divvy Bikes came to Chicago in 2013 and <a href="http://www.loopnorth.com/news/divvy0102.htm">celebrated their ten millionth trip in early 2017</a>. There are stations located all over the city and you can get a 1 day pass for $10 or a yearly membership for $100. Each time you check out a bike, you have 30 minutes to return it to any station before late fees apply. You can check out as many 30 minute blocks as your pass permits.</p>
 <p>Divvy shares their data and they've held <a href="http://digital.cityofchicago.org/index.php/congratulations-to-the-winners-of-the-2014-divvy-data-challenge/">visualization</a> <a href="http://sharedusemobilitycenter.org/news/3-takeaways-from-the-divvy-bikeshare-data-challenge/">competitions</a> in the past. It seems like a fun dataset set to explore so let's see what we can come up with after a little Python:</p>
@@ -328,12 +328,13 @@ Trips from A -&gt; A: 3.3%
 </pre></div>
 
 
-<p>This seems like a pretty high percentage of rides to me. Almost 1 in every 5? Let's look into this a bit more:</p>
+<p>This seems like a pretty high percentage of rides to me. Let's look into this a bit more:</p>
 <ul>
 <li>How long are these trips?</li>
 <li>Who is taking them?</li>
-<li>Where are they taking them?</li>
-<li>Tourists who don't know where the next station is? Or subscribers running errards around the neighbourhood? Can we draw conclusions?</li>
+<li>Where are they taking them to?</li>
+<li>Tourists who don't know where the next station is? Or subscribers running errards around the neighbourhood?</li>
+<li>Can we draw conclusions?</li>
 </ul>
 <div class="highlight"><pre><span></span><span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripduration&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span>
 <span class="n">sameStationTrips</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -445,13 +446,13 @@ Trips from A -&gt; A: 3.3%
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes" src="..\images\1_output_20_1.png"></p>
+<p><img alt="Trip Distribution in Minutes" src="..\images\1-10\1_output_20_1.png"></p>
 <div class="highlight"><pre><span></span><span class="n">sameStationTrips</span><span class="p">[</span><span class="n">tripDuration</span> <span class="o">&lt;</span> <span class="n">tripDuration</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="o">.</span><span class="mi">95</span><span class="p">)]</span> \
   <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;usertype&#39;</span><span class="p">)[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1_output_21_1.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\1_output_21_1.png"></p>
 <div class="highlight"><pre><span></span><span class="c1"># Divvy&#39;s charge more for rides larger than 30 minutes so lets see that</span>
 <span class="c1"># distribution of usage for less than 30</span>
 <span class="n">sameStationTrips</span><span class="p">[</span><span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> \
@@ -460,7 +461,10 @@ Trips from A -&gt; A: 3.3%
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1_output_22_1.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\1_output_22_1.png"></p>
+<p>There seems to be a lot of same station trips that are less than two minutes. A two minute station to station trip probably implies a mistaken bicycle checkout. Let's go ahead and exclude rides that are less than 3 minutes and see how the distribution looks.</p>
+<p>Add graph here.</p>
+<p>Much better.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Acording to Folium docs, we can pass the heatmap function a (n, 3) matrix</span>
 <span class="c1"># with weights in the column</span>
 <span class="n">sameStationCountsByStationID</span> <span class="o">=</span> <span class="n">sameStationTrips</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_station_id&#39;</span><span class="p">)[</span><span class="s1">&#39;trip_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
@@ -627,6 +631,7 @@ Trips from A -&gt; A: 3.3%
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
 	<a href="/tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="/tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
 	<a href="/tag/pydata.html"><i class="fa fa-tag"></i>pydata</a>&nbsp;
 	<a href="/tag/folium.html"><i class="fa fa-tag"></i>folium</a>&nbsp;
 	<a href="/tag/pandas.html"><i class="fa fa-tag"></i>pandas</a>&nbsp;
