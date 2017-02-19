@@ -446,13 +446,13 @@ Trips from A -&gt; A: 3.3%
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes" src="..\images\1-10\1_output_20_1.png"></p>
+<p><img alt="Trip Distribution in Minutes" src="..\images\1-10\2_output_20_1.png"></p>
 <div class="highlight"><pre><span></span><span class="n">sameStationTrips</span><span class="p">[</span><span class="n">tripDuration</span> <span class="o">&lt;</span> <span class="n">tripDuration</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="o">.</span><span class="mi">95</span><span class="p">)]</span> \
   <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;usertype&#39;</span><span class="p">)[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\1_output_21_1.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\2_output_21_1.png"></p>
 <div class="highlight"><pre><span></span><span class="c1"># Divvy&#39;s charge more for rides larger than 30 minutes so lets see that</span>
 <span class="c1"># distribution of usage for less than 30</span>
 <span class="n">sameStationTrips</span><span class="p">[</span><span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> \
@@ -461,7 +461,7 @@ Trips from A -&gt; A: 3.3%
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\1_output_22_1.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\2_output_22_1.png"></p>
 <p>There seems to be a lot of same station trips that are less than two minutes. A two minute station to station trip probably implies a mistaken bicycle checkout. Let's go ahead and exclude rides that are less than 3 minutes and see how the distribution looks.</p>
 <p>Add graph here.</p>
 <p>Much better.</p>
