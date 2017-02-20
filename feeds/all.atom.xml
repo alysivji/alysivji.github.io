@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-02-20T06:45:00-06:00</updated><entry><title>Scraping Websites into MongoDB using Scrapy Pipelines</title><link href="http://alysivji.github.io/mongodb-pipelines-in-scrapy.html" rel="alternate"></link><published>2017-02-20T06:45:00-06:00</published><updated>2017-02-20T06:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-02-20:/mongodb-pipelines-in-scrapy.html</id><summary type="html">&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Discuss advantages of using Scrapy framework&lt;/li&gt;
+&lt;li&gt;Create Reddit spider and scrape top posts from list of subreddits&lt;/li&gt;
+&lt;li&gt;Implement Scrapy pipeline to send scraped data into MongoDB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;Wouldn't it be great if every website had a &lt;em&gt;free&lt;/em&gt; API we could poll to get the data we wanted?&lt;/p&gt;
+&lt;p&gt;Sure, we &lt;em&gt;could …&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Discuss advantages of using Scrapy framework&lt;/li&gt;
+&lt;li&gt;Create Reddit spider and scrape top posts from list of subreddits&lt;/li&gt;
+&lt;li&gt;Implement Scrapy pipeline to send scraped data into MongoDB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;Wouldn't it be great if every website had a &lt;em&gt;free&lt;/em&gt; API we could poll to get the data we wanted?&lt;/p&gt;
+&lt;p&gt;Sure, we &lt;em&gt;could&lt;/em&gt; hack together a solution using &lt;a href="http://docs.python-requests.org/en/master/"&gt;Requests&lt;/a&gt; and &lt;a href="https://www.crummy.com/software/BeautifulSoup/"&gt;Beautiful Soup (bs4)&lt;/a&gt;, but if we ever wanted to add features like following next page links or creating data validation pipelines, we would have to do a lot more work.&lt;/p&gt;
+&lt;p&gt;This is where &lt;a href="https://scrapy.org/"&gt;Scrapy&lt;/a&gt; shines. Scrapy provides an extendible web scraping framework we can utilize to extract structured data. If the website doesn't have an API, we can build a solution to parse the &lt;strong&gt;data&lt;/strong&gt; we need into a &lt;strong&gt;format&lt;/strong&gt; we can use.&lt;/p&gt;
+&lt;p&gt;I recommend &lt;a href="https://doc.scrapy.org/en/master/intro/tutorial.html"&gt;the Scrapy tutorial from the documentation&lt;/a&gt; as an introduction into the terminology and process flow of the framework. This tutorial assumes some familiarity with Scrapy.&lt;/p&gt;
+&lt;p&gt;Acknowledgements: I used &lt;a href="https://realpython.com/blog/python/web-scraping-with-scrapy-and-mongodb/"&gt;this Real Python post&lt;/a&gt; as a guide along with the &lt;a href="https://doc.scrapy.org/en/1.3/"&gt;latest version of Scrapy docs (v1.3)&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Project Description&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Author's Note: Always read the &lt;a href="http://www.robotstxt.org/robotstxt.html"&gt;website's robots.txt file&lt;/a&gt; before writing a scraper. Be nice when making requests. Be nice in general. It's a good rule to live by.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Reddit provides a platform for communities to have deep discussions on very specific topics. To stay on top of news in my areas of interest, I frequent subreddits such as &lt;a href="http://www.reddit.com/r/peloton"&gt;/r/peloton&lt;/a&gt;, &lt;a href="http://www.reddit.com/r/datascience"&gt;/r/datascience&lt;/a&gt;, and &lt;a href="http://www.reddit.com/r/python"&gt;/r/python&lt;/a&gt;. The Reddit voting system, along with the tendency of people to correct others, ensures that I won't have to spend a lot of time filtering information to get what I need.&lt;/p&gt;
+&lt;p&gt;If I can design and automate a process to generate weekly digests of my most visited subreddits, I can spend less time on Reddit and more time working on projects like this.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Process Outline&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Given a list of subreddits, scrape 'Top Posts'&lt;/li&gt;
+&lt;li&gt;Build pipeline to store item in MongoDB&lt;/li&gt;
+&lt;li&gt;Automate scraping and set up as CRON job or trigger function on Bluemix&lt;/li&gt;
+&lt;li&gt;Design website to show scraped data stored in MongoDB&lt;ul&gt;
+&lt;li&gt;Research into Angular2 vs Django/Flask&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This will be the first in a series of posts that will create a fullstack solution to the workflow described above.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What You Need to Follow Along&lt;/h2&gt;
+&lt;h3&gt;Development Tools (Stack)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.python.org/downloads/"&gt;Python 3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://doc.scrapy.org/en/latest/intro/install.html"&gt;Scrapy 1.3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.mongodb.com/manual/installation/"&gt;MongoDB&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Installed locally or use a service like &lt;a href="https://mlab.com/"&gt;MLab&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;I will be using a local instance, but you can follow along with &lt;a href="https://docs.mongodb.com/manual/reference/connection-string/"&gt;any Mongo URI&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://api.mongodb.com/python/current/installation.html"&gt;PyMongo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/alysivji/reddit-top-posts-scrapy"&gt;Github Repo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Create Scrapy Project&lt;/h2&gt;
+&lt;p&gt;We will utilize Scrapy's &lt;a href="https://doc.scrapy.org/en/latest/topics/commands.html"&gt;command line tools&lt;/a&gt; to initialize our project.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;scrapy startproject reddit&lt;/span&gt;
+&lt;span class="go"&gt;cd reddit&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The directory structure should look as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── scrapy.cfg              # deploy configuration file&lt;/span&gt;
+&lt;span class="go"&gt;└── reddit                  # project&amp;#39;s Python module&lt;/span&gt;
+&lt;span class="go"&gt;    ├── __init__.py&lt;/span&gt;
+&lt;span class="go"&gt;    ├── items.py            # items definition file&lt;/span&gt;
+&lt;span class="go"&gt;    ├── middlewares.py&lt;/span&gt;
+&lt;span class="go"&gt;    ├── pipelines.py        # project pipelines file&lt;/span&gt;
+&lt;span class="go"&gt;    ├── settings.py         # project settings&lt;/span&gt;
+&lt;span class="go"&gt;    └── spiders             # dir to store spiders&lt;/span&gt;
+&lt;span class="go"&gt;        └── __init__.py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="https://doc.scrapy.org/en/latest/intro/tutorial.html#creating-a-project"&gt;File descriptions from Scrapy docs&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Implement Crawler&lt;/h2&gt;
+&lt;h3&gt;Items to Scrape&lt;/h3&gt;
+&lt;p&gt;Let's take a look at the &lt;a href="https://www.reddit.com/r/peloton/top/?sort=top&amp;amp;t=all"&gt;all-time list of top posts from /r/peloton&lt;/a&gt;. Below is a screenshot with the items we want to scrape highlighed.&lt;/p&gt;
+&lt;p&gt;&lt;img src="..\images\1-10\1_reddit_items_to_parse.png" alt="Reddit Top Posts -- items to scrape" width=750/&gt;&lt;/p&gt;
+&lt;p&gt;From this we can create our item template. We include some additional pieces of information (subreddit, date) to provide context.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# items.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scrapy&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;RedditItem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Item&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="sd"&gt;    Defining the storage containers for the data we&lt;/span&gt;
+&lt;span class="sd"&gt;    plan to scrape&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;sub&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;commentsUrl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Create Spider&lt;/h3&gt;
+&lt;p&gt;We will follow the &lt;a href="https://doc.scrapy.org/en/latest/intro/tutorial.html"&gt;template from the Scrapy docs&lt;/a&gt; to create the spider.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# spiders/__init__.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;dt&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scrapy&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;reddit.items&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RedditItem&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;PostSpider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;post&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;allowed_domains&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;reddit.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;reddit_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datascience&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;week&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;week&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;programming&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;week&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;machinelearning&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;week&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;start_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://www.reddit.com/r/&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;sub&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/top/?sort=top&amp;amp;t=&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;period&lt;/span&gt; \
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;period&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;reddit_urls&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# get the subreddit from the URL&lt;/span&gt;
+        &lt;span class="n"&gt;sub&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# parse thru each of the posts&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div.thing&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;RedditItem&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;today&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sub&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sub&lt;/span&gt;
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a.title::text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract_first&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a.title::attr(href)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract_first&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="c1"&gt;## if self-post, add reddit base url (as it&amp;#39;s relative by default)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;][:&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/r/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https://www.reddit.com&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div.unvoted::text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract_first&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;commentsUrl&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a.comments::attr(href)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract_first&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The first part of the code defines the spider settings and tells Scrapy which URLs to parse (&lt;code&gt;start_urls&lt;/code&gt; variable). &lt;a href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions"&gt;Shoutout to list comprehensions&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;The parse function defines how Scrapy will process each of the downloaded reponses (&lt;a href="https://doc.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.Spider.parse"&gt;docs&lt;/a&gt;). We use CSS selectors to extract data from the HTML (&lt;a href="https://doc.scrapy.org/en/latest/topics/selectors.html"&gt;more details in the Scrapy docs&lt;/a&gt;) before we &lt;code&gt;yield&lt;/code&gt; items back to the framework using &lt;a href="https://wiki.python.org/moin/Generators"&gt;generators&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;Notes&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Generators are awesome because generators are Pythonic. If possible, try to &lt;code&gt;yield&lt;/code&gt; vs &lt;code&gt;return&lt;/code&gt;. &lt;a href="http://dabeaz.com/"&gt;David Beazley&lt;/a&gt; covered generators in &lt;a href="https://www.youtube.com/watch?v=5-qadlG7tWo"&gt;his tutorial from PyCon 2014&lt;/a&gt;. &lt;strong&gt;Must watch for Pythonistas&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If we want to grab the top 50 posts versus the top 25, we would need to modify the parse method to follow "next page" links and generate new &lt;code&gt;Request&lt;/code&gt; objects. &lt;a href="https://doc.scrapy.org/en/latest/intro/tutorial.html#following-links"&gt;More details can be found in the docs&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Scrapy keeps track of visited webpages to prevent scraping the same URL more than once. This is yet another benefit of using a framework: &lt;em&gt;Scrapy's default options are more comprehensive than anything we can quickly hack together&lt;/em&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Pipeline into MongoDB&lt;/h3&gt;
+&lt;p&gt;Once an item is scraped, it can be processed through an Item Pipeline where we perform tasks such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cleansing HTML data&lt;/li&gt;
+&lt;li&gt;validating scraped data (checking that the items contain certain fields)&lt;/li&gt;
+&lt;li&gt;checking for duplicates (and dropping them)&lt;/li&gt;
+&lt;li&gt;storing the scraped item in a database&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="https://doc.scrapy.org/en/latest/topics/item-pipeline.html"&gt;(from Scrapy docs - Item Pipeline)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We don't have any post-processing to perform so let's go ahead and store the data in a MongoDB collection. We will modify &lt;a href="https://doc.scrapy.org/en/latest/topics/item-pipeline.html#write-items-to-mongodb"&gt;an example I found in the Scrapy docs&lt;/a&gt; and use Scrapy's &lt;a href="https://doc.scrapy.org/en/latest/topics/logging.html"&gt;built-in logging service&lt;/a&gt; to make things a bit more professional.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# pipelines.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;logging&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pymongo&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MongoPipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="n"&gt;collection_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;top_reddit_posts&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mongo_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mongo_db&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mongo_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mongo_uri&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mongo_db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mongo_db&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@classmethod&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;from_crawler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;crawler&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;## pull in information from settings.py&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;mongo_uri&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;crawler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MONGO_URI&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+            &lt;span class="n"&gt;mongo_db&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;crawler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MONGO_DATABASE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;open_spider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;## initializing spider&lt;/span&gt;
+        &lt;span class="c1"&gt;## opening db connection&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pymongo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;MongoClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mongo_uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mongo_db&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;close_spider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;## clean up when spider is closed&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process_item&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;## how to handle each post&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;collection_name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Post added to MongoDB&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;h2&gt;Configure Settings&lt;/h2&gt;
+&lt;p&gt;Scrapy has &lt;a href="https://doc.scrapy.org/en/latest/topics/settings.html#topics-settings-ref"&gt;a lot of settings&lt;/a&gt; for us to configure. We will be nice to Reddit and add a randomized download delay; this will ensure that we don't make too many requests in a short amount of time.&lt;/p&gt;
+&lt;p&gt;We also want to tell Scrapy about our MongoDB and ItemPipeline so it can import modules as necessary.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# settings.py&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure a delay for requests for the same website (default: 0)&lt;/span&gt;
+&lt;span class="c1"&gt;# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay&lt;/span&gt;
+&lt;span class="c1"&gt;# See also autothrottle settings and docs&lt;/span&gt;
+&lt;span class="n"&gt;DOWNLOAD_DELAY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;
+&lt;span class="n"&gt;RANDOMIZE_DOWNLOAD_DELAY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure item pipelines&lt;/span&gt;
+&lt;span class="c1"&gt;# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html&lt;/span&gt;
+&lt;span class="n"&gt;ITEM_PIPELINES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;reddit.pipelines.MongoPipeline&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;300&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;MONGO_URI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;mongodb://localhost:27017&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;MONGO_DATABASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;h2&gt;Scraping Reddit Top Posts&lt;/h2&gt;
+&lt;p&gt;We can now run the scraper using the following command from the scrapy project folder:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;scrapy crawl post&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Output should appear as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;2017-02-04 16:17:41 [root] DEBUG: Post added to MongoDB&lt;/span&gt;
+&lt;span class="go"&gt;2017-02-04 16:17:41 [scrapy.core.scraper] DEBUG: Scraped from &amp;lt;200 https://www.reddit.com/r/Python/top/?sort=top&amp;amp;t=week&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;{&amp;#39;commentsUrl&amp;#39;: &amp;#39;https://www.reddit.com/r/Python/comments/5qwre9/is_wxpython_still_a_thing/&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;date&amp;#39;: datetime.datetime(2017, 2, 4, 16, 17, 41, 166322),&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;score&amp;#39;: &amp;#39;24&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;sub&amp;#39;: &amp;#39;Python&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;title&amp;#39;: &amp;#39;Is wxPython still a thing?&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;url&amp;#39;: &amp;#39;/r/Python/comments/5qwre9/is_wxpython_still_a_thing/&amp;#39;}&lt;/span&gt;
+&lt;span class="go"&gt;2017-02-04 16:17:41 [scrapy.core.engine] INFO: Closing spider (finished)&lt;/span&gt;
+&lt;span class="go"&gt;2017-02-04 16:17:41 [scrapy.statscollectors] INFO: Dumping Scrapy stats:&lt;/span&gt;
+&lt;span class="go"&gt;{&amp;#39;downloader/request_bytes&amp;#39;: 1451,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/request_count&amp;#39;: 5,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/request_method_count/GET&amp;#39;: 5,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_bytes&amp;#39;: 74227,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_count&amp;#39;: 5,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_status_count/200&amp;#39;: 4,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_status_count/301&amp;#39;: 1,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;finish_reason&amp;#39;: &amp;#39;finished&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;finish_time&amp;#39;: datetime.datetime(2017, 2, 4, 21, 17, 41, 171132),&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;item_scraped_count&amp;#39;: 75,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;log_count/DEBUG&amp;#39;: 156,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;log_count/INFO&amp;#39;: 7,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;response_received_count&amp;#39;: 4,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/dequeued&amp;#39;: 4,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/dequeued/memory&amp;#39;: 4,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/enqueued&amp;#39;: 4,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/enqueued/memory&amp;#39;: 4,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;start_time&amp;#39;: datetime.datetime(2017, 2, 4, 21, 17, 39, 468336)}&lt;/span&gt;
+&lt;span class="go"&gt;2017-02-04 16:17:41 [scrapy.core.engine] INFO: Spider closed (finished)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We see the JSON objects that were scraped.&lt;/p&gt;
+&lt;p&gt;We can confirm the data was stored in the database using &lt;a href="https://www.mongodb.com/products/compass"&gt;MongoDB Compass&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="..\images\1-10\1_reddit_items_in_mongodb_compass.png" alt="Reddit Items in MongoDB Compass" width=750/&gt;&lt;/p&gt;
+&lt;p&gt;Looks good!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In this tutorial, we utilized the &lt;a href="https://scrapy.org/"&gt;Scrapy framework&lt;/a&gt; to scrape Top Posts from Reddit into MongoDB. The above template can be modified to scrape any website we want. Yes, even &lt;a href="https://github.com/scrapy-plugins/scrapy-splash"&gt;Single Page Applications written in JavaScript&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;I've been going out of my way to mention relevant documentation sections for each of the Scrapy modules I utilized. I did this for two reasons:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;To show how great the Scrapy docs are (kudos to the contributors)&lt;/li&gt;
+&lt;li&gt;To emphasize that we should always look to the documentation when we get stuck.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It's easy to Google error messages and find relevant Stack Overflow &lt;em&gt;(Praise Be)&lt;/em&gt; posts. However, we should always start our search for a solution in the documentation. Additionally, we can gain insights into best practices as described by the authors of the package.&lt;/p&gt;
+&lt;p&gt;What if the documentation we are using is awful or incomplete? Once we are done with our project, we should take the time to write better docs or a blog entry documenting our experience. Make it easier for the next person.&lt;/p&gt;
+&lt;p&gt;Python is great because of the community. Become part of the community and contribute wherever you can. It doesn't matter if you're a beginner, your help is always appreciated.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Next Steps&lt;/h2&gt;
+&lt;p&gt;Future posts in this series will explore:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sending an email digest of scraped data&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script"&gt;running Scrapy from a script&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;deploying and scheduling the script to run on &lt;a href="http://bluemix.net"&gt;Bluemix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;building a REST API data access layer on top of MongoDB&lt;/li&gt;
+&lt;li&gt;creating a front-end interface for users&lt;/li&gt;
+&lt;li&gt;deploying front-end as a Cloud Foundary app on Bluemix&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="pymongo"></category><category term="web-scraping"></category><category term="automation"></category><category term="reddit-scraper"></category></entry></feed>
