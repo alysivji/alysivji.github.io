@@ -202,6 +202,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">date</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
     <span class="n">sub</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
@@ -241,6 +242,7 @@
             <span class="n">item</span> <span class="o">=</span> <span class="n">RedditItem</span><span class="p">()</span>
 
             <span class="n">item</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+            <span class="n">item</span><span class="p">[</span><span class="s1">&#39;date_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">item</span><span class="p">[</span><span class="s1">&#39;sub&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub</span>
             <span class="n">item</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a.title::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">extract_first</span><span class="p">()</span>
 
@@ -413,6 +415,9 @@
 <li>creating a front-end interface for users</li>
 <li>deploying front-end as a Cloud Foundary app on Bluemix</li>
 </ul>
+<hr>
+<h2>Updates</h2>
+<p>02/24 - I added a field (date_str) to the top_reddit_posts collection to make indices more effective and have queries run faster.</p>
   </div>
   
 <div class="article-tag-list">
@@ -496,39 +501,15 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="./tag/web-scraping.html">
           <i class="fa fa-tag"></i>
         web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/scrapy.html">
-          <i class="fa fa-tag"></i>
-        scrapy
       </a>
     </span>
     <span class="tag-4">
@@ -538,9 +519,33 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/mongodb.html">
+      <a href="./tag/scrapy.html">
           <i class="fa fa-tag"></i>
-        mongodb
+        scrapy
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/automation.html">
+          <i class="fa fa-tag"></i>
+        automation
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
       </a>
     </span>
 </p>
