@@ -646,7 +646,7 @@ Name: trip_id, dtype: float64
 &lt;p&gt;The second impact of keyword arguments is that they can have default values specified in the function definition. This allows a function to provide additional capabilities when you need them but lets you accept the default behavior most of the time. This can eliminate repetitive code and reduce noise.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.informit.com/articles/article.aspx?p=2314818"&gt;Source&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;We will create a helper function with default keyword arguments to abstact away Folium's complexity. This leaves us with a simplier API we can use going forward.&lt;/p&gt;
+&lt;p&gt;We will create a helper function with default keyword arguments to abstact away Folium's complexity. This leaves us with a simple API we can use going forward.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;map_points&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lat_col&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;latitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lon_col&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;longitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zoom_start&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; \
                 &lt;span class="n"&gt;plot_points&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pt_radius&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; \
                 &lt;span class="n"&gt;draw_heatmap&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;heat_map_weights_col&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; \
@@ -813,8 +813,8 @@ Name: trip_id, dtype: float64
 &lt;hr&gt;
 &lt;h2&gt;Create Scrapy Project&lt;/h2&gt;
 &lt;p&gt;We will utilize Scrapy's &lt;a href="https://doc.scrapy.org/en/latest/topics/commands.html"&gt;command line tools&lt;/a&gt; to initialize our project.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;scrapy startproject reddit&lt;/span&gt;
-&lt;span class="go"&gt;cd reddit&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; scrapy startproject reddit
+&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; reddit
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -836,7 +836,7 @@ Name: trip_id, dtype: float64
 &lt;hr&gt;
 &lt;h2&gt;Implement Crawler&lt;/h2&gt;
 &lt;h3&gt;Items to Scrape&lt;/h3&gt;
-&lt;p&gt;Let's take a look at the &lt;a href="https://www.reddit.com/r/peloton/top/?sort=top&amp;amp;t=all"&gt;all-time list of top posts from /r/peloton&lt;/a&gt;. Below is a screenshot with the items we want to scrape highlighed.&lt;/p&gt;
+&lt;p&gt;Let's take a look at the &lt;a href="https://www.reddit.com/r/peloton/top/?sort=top&amp;amp;t=all"&gt;all-time list of top posts from /r/peloton&lt;/a&gt;. Below is a screenshot with the items we want to scrape highlighted.&lt;/p&gt;
 &lt;p&gt;&lt;img src="..\images\1-10\1_reddit_items_to_parse.png" alt="Reddit Top Posts -- items to scrape" width=750/&gt;&lt;/p&gt;
 &lt;p&gt;From this we can create our item template. We include some additional pieces of information (subreddit, date) to provide context.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# items.py&lt;/span&gt;
@@ -1000,12 +1000,8 @@ Name: trip_id, dtype: float64
 &lt;hr&gt;
 &lt;h2&gt;Scraping Reddit Top Posts&lt;/h2&gt;
 &lt;p&gt;We can now run the scraper using the following command from the scrapy project folder:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;scrapy crawl post&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Output should appear as follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;2017-02-04 16:17:41 [root] DEBUG: Post added to MongoDB&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; scrapy crawl post
+&lt;span class="go"&gt;2017-02-04 16:17:41 [root] DEBUG: Post added to MongoDB&lt;/span&gt;
 &lt;span class="go"&gt;2017-02-04 16:17:41 [scrapy.core.scraper] DEBUG: Scraped from &amp;lt;200 https://www.reddit.com/r/Python/top/?sort=top&amp;amp;t=week&amp;gt;&lt;/span&gt;
 &lt;span class="go"&gt;{&amp;#39;commentsUrl&amp;#39;: &amp;#39;https://www.reddit.com/r/Python/comments/5qwre9/is_wxpython_still_a_thing/&amp;#39;,&lt;/span&gt;
 &lt;span class="go"&gt; &amp;#39;date&amp;#39;: datetime.datetime(2017, 2, 4, 16, 17, 41, 166322),&lt;/span&gt;
@@ -1065,4 +1061,5 @@ Name: trip_id, dtype: float64
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Updates&lt;/h2&gt;
-&lt;p&gt;02/24 - I added a field (date_str) to the top_reddit_posts collection to make indices more effective and have queries run faster.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="pymongo"></category><category term="web-scraping"></category><category term="automation"></category><category term="reddit-scraper"></category></entry></feed>
+&lt;p&gt;02/24 - Added a field (date_str) to the top_reddit_posts collection to make indices more effective and have queries run faster.&lt;/p&gt;
+&lt;p&gt;03/06 - Fixed spelling and formatting&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="pymongo"></category><category term="web-scraping"></category><category term="automation"></category><category term="reddit-scraper"></category></entry></feed>
