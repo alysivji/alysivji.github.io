@@ -808,8 +808,15 @@ Name: trip_id, dtype: float64
 &lt;/ul&gt;
 &lt;h3&gt;Code&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://github.com/alysivji/reddit-top-posts-scrapy"&gt;Github Repo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/alysivji/reddit-top-posts-scrapy"&gt;Github Repo&lt;/a&gt; - Tag: &lt;a href="https://github.com/alysivji/reddit-top-posts-scrapy/tree/blog-scrapy-part1"&gt;blog-scrapy-part1&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;We can checkout the code from the git repository as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout tags/blog-scrapy-part1
+&lt;span class="go"&gt;Note: checking out &amp;#39;tags/blog-scrapy-part1&amp;#39;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or we can use &lt;a href="http://kinolien.github.io/gitzip/"&gt;GitZip&lt;/a&gt; to download the tagged commit by URL.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Create Scrapy Project&lt;/h2&gt;
 &lt;p&gt;We will utilize Scrapy's &lt;a href="https://doc.scrapy.org/en/latest/topics/commands.html"&gt;command line tools&lt;/a&gt; to initialize our project.&lt;/p&gt;
@@ -1053,13 +1060,21 @@ Name: trip_id, dtype: float64
 &lt;p&gt;Future posts in this series will explore:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;sending an email digest of scraped data&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script"&gt;running Scrapy from a script&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;deploying and scheduling the script to run on &lt;a href="http://bluemix.net"&gt;Bluemix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script"&gt;running Scrapy from a script&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;deploying and scheduling the script to run on &lt;a href="https://www.pythonanywhere.com"&gt;Python Anywhere&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;building a REST API data access layer on top of MongoDB&lt;/li&gt;
-&lt;li&gt;creating a front-end interface for users&lt;/li&gt;
-&lt;li&gt;deploying front-end as a Cloud Foundary app on Bluemix&lt;/li&gt;
+&lt;li&gt;creating a front-end interface for users&lt;ul&gt;
+&lt;li&gt;deploying front-end on &lt;a href="https://www.pythonanywhere.com"&gt;Python Anywhere&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;deploying front-end as a Cloud Foundary app on &lt;a href="http://bluemix.net"&gt;Bluemix&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Updates&lt;/h2&gt;
-&lt;p&gt;02/24 - Added a field (date_str) to the top_reddit_posts collection to make indices more effective and have queries run faster.&lt;/p&gt;
-&lt;p&gt;03/06 - Fixed spelling and formatting&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="pymongo"></category><category term="web-scraping"></category><category term="automation"></category><category term="reddit-scraper"></category></entry></feed>
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;02/24&lt;/strong&gt;: Added a field (date_str) to the top_reddit_posts collection to make indices more effective.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;03/06&lt;/strong&gt;: Fixed spelling and formatting&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;03/22&lt;/strong&gt;: Added instructions on pulling tagged commit from Git repo&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="pymongo"></category><category term="web-scraping"></category><category term="automation"></category><category term="reddit-scraper"></category></entry></feed>

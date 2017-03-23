@@ -179,8 +179,8 @@
 </ul>
 <h3>MongoDB in Our Project</h3>
 <h4>Loading Data</h4>
-<p>If you did not follow along the previous post, you can <a href="../files/reddit-posts.json">download the 20170309 data extract</a> and import it into your instance of mongo using the following command:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> mongoimport --db sivji-sandbox --collection top_reddit_posts --type json --file reddit-posts.json
+<p>If you did not follow along the previous post, you can <a href="../files/20170309-reddit-posts.json">download the 20170309 data extract</a> and import it into your instance of mongo using the following command:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> mongoimport --db sivji-sandbox --collection top_reddit_posts --type json --file 20170309-reddit-posts.json
 <span class="go">2017-03-09T15:14:51.021-0700    connected to: localhost</span>
 <span class="go">2017-03-09T15:14:51.043-0700    imported 551 documents</span>
 </pre></div>
@@ -212,7 +212,7 @@
 <hr>
 <h2>MongoEngine</h2>
 <p>Using the <a href="http://docs.mongoengine.org/tutorial.html">tutorial</a> and <a href="http://docs.mongoengine.org/guide/index.html">User Guide</a> as a template, lets create a class to specify our schema.</p>
-<div class="highlight"><pre><span></span><span class="c1"># data_model.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># top_post_emailer/data_model.py</span>
 
 <span class="kn">from</span> <span class="nn">mongoengine.document</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">mongoengine.fields</span> <span class="kn">import</span> <span class="n">DateTimeField</span><span class="p">,</span> <span class="n">IntField</span><span class="p">,</span> <span class="n">StringField</span><span class="p">,</span> <span class="n">URLField</span>
@@ -223,6 +223,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">URLField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">date</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">date_str</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">commentsUrl</span> <span class="o">=</span> <span class="n">URLField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">sub</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># subredit can be 20 chars</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># title can be 300 chars</span>
@@ -242,7 +243,7 @@
 <span class="go">[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)] on darwin</span>
 <span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
 <span class="gp">&gt;</span>&gt;&gt; from mongoengine.connection import connect
-<span class="gp">&gt;</span>&gt;&gt; from data_model import Post
+<span class="gp">&gt;</span>&gt;&gt; from top_post_emailer.data_model import Post
 <span class="gp">&gt;</span>&gt;&gt; <span class="nv">MONGO_URI</span> <span class="o">=</span> <span class="s1">&#39;mongodb://localhost:27017&#39;</span>
 <span class="gp">&gt;</span>&gt;&gt; connect<span class="o">(</span><span class="s1">&#39;sivji-sandbox&#39;</span>, <span class="nv">host</span><span class="o">=</span>MONGO_URI<span class="o">)</span>
 <span class="go">MongoClient(host=[&#39;localhost:27017&#39;], document_class=dict, tz_aware=False, connect=True, read_preference=Primary())</span>
@@ -263,19 +264,19 @@
 <p>Jinja2 is a "modern and designer-friendly templating language for Python" that is the default templating engine bundled with Flask (<a href="http://jinja.pocoo.org/docs/2.9/">additional info can be found in the Jinja docs</a>).</p>
 <p><em>What does this mean?</em> Jinja2 lets us create templates with programming logic (<a href="http://jinja.pocoo.org/docs/2.9/templates/#list-of-control-structures">control structures</a>, <a href="http://jinja.pocoo.org/docs/2.9/templates/#template-inheritance">inheritance</a>) that can be rendered into HTML as the template code is evaluated. This will allow us to build dynamic, database-driven websites using Python! Real Python has a <a href="https://realpython.com/blog/python/primer-on-jinja-templating/">great primer on Jinja Templating</a>.</p>
 <p>Let's start with a basic template that will grab all the Top Posts from the last Reddit scrape.</p>
-<div class="highlight"><pre><span></span><span class="c">&lt;!-- output.html --&gt;</span>
+<div class="highlight"><pre><span></span><span class="c">&lt;!-- top_post_emailer/template.html --&gt;</span>
 
 <span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Reddit Top<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Reddit Top <span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;posts&quot;</span><span class="p">&gt;</span>
-    {% for selected_sub in Post.objects(date__gte=day_to_pull).distinct(&#39;sub&#39;) %}
+    {% for selected_sub in Post.objects(date_str__gte=day_to_pull).distinct(&#39;sub&#39;) %}
         <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>{{ selected_sub }}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
 
-        {% for post in Post.objects(date__gte=day_to_pull, sub=selected_sub) %}
+        {% for post in Post.objects(date_str__gte=day_to_pull, sub=selected_sub) %}
             <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ post.url }}&quot;</span><span class="p">&gt;</span>{{ post.title }}<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span> (Score: {{ post.score }} | <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot; {{ post.commentsUrl }}&quot;</span><span class="p">&gt;</span>Comments<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>)<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
         {% endfor %}
 
@@ -288,23 +289,23 @@
 
 
 <p>We will need a way to render our Jinja2 template. Let's create a function:</p>
-<div class="highlight"><pre><span></span><span class="c1"># render_template.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># top_post_emailer/render_template.py</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">jinja2</span>
 
-<span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">tpl_path</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Given jinja2 template, generate HTML</span>
 <span class="sd">    Adapted from http://matthiaseisen.com/pp/patterns/p0198/</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        * tpl_path - jinja2 template path</span>
+<span class="sd">        * filename - jinja2 template</span>
 <span class="sd">        * context - dict of variables to pass in</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        * rendered HTML from jinja2 templating engine</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">path</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">tpl_path</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span>
         <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">path</span> <span class="ow">or</span> <span class="s1">&#39;./&#39;</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
@@ -312,7 +313,7 @@
 
 
 <p>Let's go back to our Python REPL and test to see if this works:</p>
-<div class="highlight"><pre><span></span><span class="gp">&gt;</span>&gt;&gt; from render_template import render
+<div class="highlight"><pre><span></span><span class="gp">&gt;</span>&gt;&gt; from top_post_emailer.render_template import render
 <span class="gp">&gt;</span>&gt;&gt; <span class="c1">## get the last date the webscraper was run</span>
 <span class="go">... for post in Post.objects().fields(date_str=1).order_by(&#39;-date_str&#39;).limit(1):</span>
 <span class="go">...     day_to_pull = post.date_str</span>
@@ -343,8 +344,9 @@
 <p>Let's finish off this post by creating a <a href="https://en.wikipedia.org/wiki/Minimum_viable_product">minimum viable product (MVP)</a>: a program that emails us a list of all Top Posts scraped from our last Scrapy run. We will use <a href="http://docs.python-requests.org/en/master/">Requests</a> library to interact with <a href="https://www.mailgun.com/">MailGun</a>'s REST API to <a href="https://documentation.mailgun.com/quickstart-sending.html#how-to-start-sending-email">send HTML emails</a>.</p>
 <p>What can we say about <a href="https://github.com/kennethreitz/">Kenneth Reitz</a>'s Requests: HTTP for Humans <a href="http://www.pythonforbeginners.com/requests/using-requests-in-python">that</a> <a href="http://pydanny.blogspot.com/2011/05/python-http-requests-for-humans.html">hasn't</a> <a href="https://www.twilio.com/blog/2016/12/http-requests-in-python-3.html">already</a> <a href="https://www.dataquest.io/blog/python-api-tutorial/">been</a> <a href="http://cramer.io/2014/05/20/mocking-requests-with-responses">said</a>? Nothing. Check the links for more info.</p>
 <p>After a little Python, we come up with the following:</p>
-<div class="highlight"><pre><span></span><span class="c1"># mailgun_emailer.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># top_post_emailer/mailgun_emailer.py</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">configparser</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">HTTPError</span>
@@ -360,7 +362,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1">## api params (using configparser)</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;settings.cfg&#39;</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MailGun&#39;</span><span class="p">,</span> <span class="s1">&#39;api&#39;</span><span class="p">)</span>
     <span class="n">domain</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MailGun&#39;</span><span class="p">,</span> <span class="s1">&#39;domain&#39;</span><span class="p">)</span>
 
@@ -382,7 +384,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="c1"># settings.cfg</span>
+<div class="highlight"><pre><span></span><span class="c1"># top_post_emailer/settings.cfg</span>
 
 <span class="p">[</span><span class="n">MailGun</span><span class="p">]</span>
 <span class="n">api</span> <span class="o">=</span> <span class="p">[</span><span class="n">Your</span> <span class="n">MailGun</span> <span class="n">API</span> <span class="n">key</span> <span class="n">here</span><span class="p">]</span>
@@ -399,15 +401,15 @@
 </ul>
 <hr>
 <h2>Putting it all Together</h2>
-<p>Now that we have all the pieces in place, we can finally write our application to get data out of Mongo and into a Jinja2 template. We can then use MailGun's REST API to send emails.</p>
-<div class="highlight"><pre><span></span><span class="c1"># app.py</span>
+<p>Now that we have all the pieces in place, we can finally write our script to get data out of Mongo and into a Jinja2 template. We can then use MailGun's REST API to send emails.</p>
+<div class="highlight"><pre><span></span><span class="c1"># top_post_emailer/__init__.py</span>
 
 <span class="kn">from</span> <span class="nn">mongoengine.connection</span> <span class="kn">import</span> <span class="n">connect</span>
-<span class="kn">from</span> <span class="nn">data_model</span> <span class="kn">import</span> <span class="n">Post</span>
-<span class="kn">from</span> <span class="nn">render_template</span> <span class="kn">import</span> <span class="n">render</span>
-<span class="kn">from</span> <span class="nn">mailgun_emailer</span> <span class="kn">import</span> <span class="n">send_email</span>
+<span class="kn">from</span> <span class="nn">.data_model</span> <span class="kn">import</span> <span class="n">Post</span>
+<span class="kn">from</span> <span class="nn">.render_template</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">.mailgun_emailer</span> <span class="kn">import</span> <span class="n">send_email</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">email_last_scraped_date</span><span class="p">():</span>
     <span class="c1"># connect to db</span>
     <span class="n">MONGO_URI</span> <span class="o">=</span> <span class="s1">&#39;mongodb://localhost:27017&#39;</span>
     <span class="n">connect</span><span class="p">(</span><span class="s1">&#39;sivji-sandbox&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">MONGO_URI</span><span class="p">)</span>
@@ -426,14 +428,46 @@
 </pre></div>
 
 
-<p>Let's run the app:</p>
+<p>We have <a href="https://docs.python.org/3/tutorial/modules.html#packages">structured our app as a package</a> and we need to create a script to run the application. First we will ensure that our directory structure looks as follows:</p>
+<div class="highlight"><pre><span></span><span class="go">.</span>
+<span class="go">├── README.md</span>
+<span class="go">├── app.py</span>
+<span class="go">└── top_post_emailer</span>
+<span class="go">    ├── __init__.py</span>
+<span class="go">    ├── data_model.py</span>
+<span class="go">    ├── mailgun_emailer.py</span>
+<span class="go">    ├── render_template.py</span>
+<span class="go">    ├── settings.cfg</span>
+<span class="go">    └── template.html</span>
+</pre></div>
+
+
+<p>Now let's create our script:</p>
+<div class="highlight"><pre><span></span><span class="c1"># app.py</span>
+
+<span class="sd">&quot;&quot;&quot;Script to pull and email last Reddit scape from MongoDB</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">top_post_emailer</span> <span class="kn">import</span> <span class="n">email_last_scraped_date</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">email_last_scraped_date</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Run the app from the terminal with the following command:</p>
 <div class="highlight"><pre><span></span><span class="gp"> $</span>  python app.py
 <span class="go">Success!</span>
 </pre></div>
 
 
-<p><img src="/images/1-10/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/></p>
+<p>Did we receive an email?<br />
+<img src="/images/1-10/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/></p>
 <p><a href="https://www.youtube.com/watch?v=EvkAy4kzv54">YIPPEE!</a></p>
+<p>Notes:</p>
+<ul>
+<li>This application is <a href="https://docs.python.org/3/tutorial/modules.html#packages">structured as a package</a>, namely the <code>top_post_emailer</code> package. Packages allow us to separate namespaces, increasing code modularity. I plan to examine this topic in a future post. For now, check out this <a href="https://www.youtube.com/watch?v=0oTh1CXRaQ0">David Beazley tutorial from PyCon2015</a>.</li>
+</ul>
 <hr>
 <h2>Conclusion</h2>
 <p>In this post, we started to look into ways of getting data out of MongoDB and into the hands of our user. We decided to use the Flask framework and started getting our feet wet by generating HTML pages from items stored in our MongoDB instance using MongoEngine and Jinja2. Lastly, we wrote some code to email ourselves the HTML page we created using Requests and the MailGun REST API. This gave us a minimal viable product we can use until we get our Flask website up.</p>
@@ -523,51 +557,21 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="../tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/scrapy.html">
-          <i class="fa fa-tag"></i>
-        scrapy
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/cycling.html">
-          <i class="fa fa-tag"></i>
-        cycling
       </a>
     </span>
     <span class="tag-4">
@@ -589,15 +593,21 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/gis.html">
+      <a href="../tag/automation.html">
           <i class="fa fa-tag"></i>
-        gis
+        automation
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/pydata.html">
+      <a href="../tag/pandas.html">
           <i class="fa fa-tag"></i>
-        pydata
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
       </a>
     </span>
     <span class="tag-4">
@@ -607,15 +617,39 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/data-science.html">
+      <a href="../tag/gis.html">
           <i class="fa fa-tag"></i>
-        data-science
+        gis
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/pandas.html">
+      <a href="../tag/folium.html">
           <i class="fa fa-tag"></i>
-        pandas
+        folium
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/cycling.html">
+          <i class="fa fa-tag"></i>
+        cycling
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
       </a>
     </span>
 </p>

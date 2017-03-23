@@ -160,8 +160,15 @@
 </ul>
 <h3>Code</h3>
 <ul>
-<li><a href="https://github.com/alysivji/reddit-top-posts-scrapy">Github Repo</a></li>
+<li><a href="https://github.com/alysivji/reddit-top-posts-scrapy">Github Repo</a> - Tag: <a href="https://github.com/alysivji/reddit-top-posts-scrapy/tree/blog-scrapy-part1">blog-scrapy-part1</a></li>
 </ul>
+<p>We can checkout the code from the git repository as follows:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> git checkout tags/blog-scrapy-part1
+<span class="go">Note: checking out &#39;tags/blog-scrapy-part1&#39;.</span>
+</pre></div>
+
+
+<p>Or we can use <a href="http://kinolien.github.io/gitzip/">GitZip</a> to download the tagged commit by URL.</p>
 <hr>
 <h2>Create Scrapy Project</h2>
 <p>We will utilize Scrapy's <a href="https://doc.scrapy.org/en/latest/topics/commands.html">command line tools</a> to initialize our project.</p>
@@ -405,16 +412,24 @@
 <p>Future posts in this series will explore:</p>
 <ul>
 <li>sending an email digest of scraped data</li>
-<li><a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script">running Scrapy from a script</a></li>
-<li>deploying and scheduling the script to run on <a href="http://bluemix.net">Bluemix</a></li>
+<li><a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script">running Scrapy from a script</a><ul>
+<li>deploying and scheduling the script to run on <a href="https://www.pythonanywhere.com">Python Anywhere</a></li>
+</ul>
+</li>
 <li>building a REST API data access layer on top of MongoDB</li>
-<li>creating a front-end interface for users</li>
-<li>deploying front-end as a Cloud Foundary app on Bluemix</li>
+<li>creating a front-end interface for users<ul>
+<li>deploying front-end on <a href="https://www.pythonanywhere.com">Python Anywhere</a></li>
+<li>deploying front-end as a Cloud Foundary app on <a href="http://bluemix.net">Bluemix</a></li>
+</ul>
+</li>
 </ul>
 <hr>
 <h2>Updates</h2>
-<p>02/24 - Added a field (date_str) to the top_reddit_posts collection to make indices more effective and have queries run faster.</p>
-<p>03/06 - Fixed spelling and formatting</p>
+<ul>
+<li><strong>02/24</strong>: Added a field (date_str) to the top_reddit_posts collection to make indices more effective.</li>
+<li><strong>03/06</strong>: Fixed spelling and formatting</li>
+<li><strong>03/22</strong>: Added instructions on pulling tagged commit from Git repo</li>
+</ul>
   </div>
   
 <div class="article-tag-list">
@@ -498,51 +513,21 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
+      <a href="./tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="./tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/scrapy.html">
-          <i class="fa fa-tag"></i>
-        scrapy
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/cycling.html">
-          <i class="fa fa-tag"></i>
-        cycling
       </a>
     </span>
     <span class="tag-4">
@@ -564,15 +549,21 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/gis.html">
+      <a href="./tag/automation.html">
           <i class="fa fa-tag"></i>
-        gis
+        automation
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/pydata.html">
+      <a href="./tag/pandas.html">
           <i class="fa fa-tag"></i>
-        pydata
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
       </a>
     </span>
     <span class="tag-4">
@@ -582,15 +573,39 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/data-science.html">
+      <a href="./tag/gis.html">
           <i class="fa fa-tag"></i>
-        data-science
+        gis
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/pandas.html">
+      <a href="./tag/folium.html">
           <i class="fa fa-tag"></i>
-        pandas
+        folium
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/cycling.html">
+          <i class="fa fa-tag"></i>
+        cycling
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
       </a>
     </span>
 </p>
