@@ -125,8 +125,8 @@
 </ul>
 </blockquote>
 <hr>
-<p><a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html">Previously on Siv Scripts</a>, we implemented a Scrapy pipeline to store Top Posts scraped from Reddit into a MongoDB collection. The information we collected will become useful once it's out of the database so let's explore different ways of getting and using the data.</p>
-<p>The obvious solution is to utilize a <a href="https://wiki.python.org/moin/WebFrameworks">Python Web Framework</a> to create a website that displays posts from various subreddits and allows users to mark items they have already seen. Based on our needs, <a href="http://flask.pocoo.org">Flask</a> is the best tool for the job. Creating a Flask-based site requires that we familiarize ourselves with the <a href="http://flask.pocoo.org">Flask</a>, <a href="http://flask.pocoo.org/docs/latest/patterns/">its' recommended design patterns</a>, as well as <a href="http://flask.pocoo.org/extensions/">the various extensions that enable us to create full-featured user experiences</a>.</p>
+<p><a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html">Previously on Siv Scripts</a>, we implemented a web scraping pipeline to store Top Posts scraped from Reddit into a MongoDB collection. The information we collected will become useful once it's out of the database so let's explore different ways of getting and using the data.</p>
+<p>The obvious solution is to utilize a <a href="https://wiki.python.org/moin/WebFrameworks">Python Web Framework</a> to create a website that displays posts from various subreddits and allows users to mark items they have already seen. Based on our needs, <a href="http://flask.pocoo.org">Flask</a> is the best tool for the job. Creating a Flask-based site requires that we familiarize ourselves with the <a href="http://flask.pocoo.org">Flask</a>, <a href="http://flask.pocoo.org/docs/latest/patterns/">its recommended design patterns</a>, as well as <a href="http://flask.pocoo.org/extensions/">the various extensions that enable us to create full-featured user experiences</a>.</p>
 <p>This will take a few posts to cover in depth so let's start at the beginning and explore how to generate HTML pages from MongoDB documents using the <a href="http://mongoengine.org/">MongoEngine ORM</a> and <a href="http://jinja.pocoo.org/">Jinja2 Templating Engine</a>. We will then leverage the <a href="http://docs.python-requests.org/en/master/">Requests library</a> to send emails using <a href="http://www.mailgun.com/">MailGun's REST API</a>; this will provide us with a temporary workaround to view scraped data until our Flask website is complete.</p>
 <hr>
 <h2>What You Need to Follow Along</h2>
@@ -153,7 +153,7 @@
 <p>"MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling" (<a href="https://docs.mongodb.com/manual/introduction/">Mongo Docs</a>).</p>
 <p><em>What does this mean?</em> In comparison to a relational database which focuses on linking data across tables with keys, a document database stores all the data elements together in one location.</p>
 <p><img src="/images/1-10/3_relational_vs_mongo_diagram.png" alt="Comparing Relational Databases to MongoDB" width=500/></p>
-<p>There are <a href="https://www.quora.com/What-is-the-use-case-to-choose-a-document-oriented-database-noSQL-over-RDBMS">many reasons to use document-oriented databases over their relational counterparts</a>. As our database will be the main data source for a variety of projects, it makes sense to use Mongo and take advantage of its' <a href="https://www.mongodb.com/blog/post/why-schemaless">flexible schemaless structure</a>: <em>our database can grow with the needs of our project</em>.</p>
+<p>There are <a href="https://www.quora.com/What-is-the-use-case-to-choose-a-document-oriented-database-noSQL-over-RDBMS">many reasons to use document-oriented databases over their relational counterparts</a>. As our database will be the main data source for a variety of projects, it makes sense to use Mongo and take advantage of its <a href="https://www.mongodb.com/blog/post/why-schemaless">flexible schemaless structure</a>: <em>our database can grow with the needs of our project</em>.</p>
 <p>Other reasons to use MongoDB:</p>
 <ul>
 <li><a href="https://www.quora.com/What-will-be-a-use-case-to-choose-MongoDB-over-other-NoSQL-databases/answer/John-A-De-Goes?srid=hwG0">Rapid, agile development and deployment of web applications</a></li>
@@ -168,7 +168,7 @@
 <p>A record in MongoDB is a document, which is a data structure composed of field and value pairs. MongoDB documents are similar to JSON objects. The values of fields may include other documents, arrays, and arrays of documents<br />
 <img src="/images/1-10/3_mongodb_document_diagram.svg" alt="MongoDB record information" width=350/></p>
 </blockquote>
-<p>MongoDB stores records as BSON documents in collections and collections inside of databases (<a href="https://docs.mongodb.com/manual/core/databases-and-collections/">additional details</a>).</p>
+<p>MongoDB stores records as BSON (binary-JSON) documents in collections and collections inside of databases (<a href="https://docs.mongodb.com/manual/core/databases-and-collections/">additional details</a>).</p>
 <p>When we send a query into Mongo, it <a href="https://docs.mongodb.com/manual/indexes/">performs a collection scan</a>, i.e. scan every document in a collection. This means that performance will become an issue as our data scales. To alleviate this, we can create indexes (<a href="https://docs.mongodb.com/manual/core/index-single/">single field</a>, <a href="https://docs.mongodb.com/manual/core/index-compound/">compound</a>, <a href="https://docs.mongodb.com/manual/core/index-multikey/">multikey</a>, or <a href="https://docs.mongodb.com/manual/core/index-text/">text</a>) to ensure all calls to the database are quick.</p>
 <p>We're glossing over a lot of the details here since database design and optimization is a field unto itself. While we are setting up our database, we will implement the following index strategy recommendations <a href="https://docs.mongodb.com/manual/applications/indexes/">(from the MongoDB documentation)</a>:</p>
 <ul>
@@ -190,13 +190,13 @@
 <p>Let's use <a href="https://www.mongodb.com/products/compass">MongoDB Compass</a> and take a look at a sample document to understand the fields we can pull.</p>
 <p><img src="/images/1-10/3_top_reddit_posts_mongodb-sample-document.png" alt="Sample Document" width=750/></p>
 <p>The <code>date_str</code> field is a string version of the date field. Having a <code>string</code> type versus an <code>ISODate</code> type will make our queries run faster.</p>
-<h4>Creating Indexes</h4>
+<h4>Creating Indexes<a name="creating-mongodb-indexes"></a></h4>
 <p>Following the best practices mentioned above, we should take some time to think the <a href="http://docs.mongoengine.org/guide/querying.html">queries we will need to run</a>. Taking a step back, we need to consider the kind of data we will want our website to display.</p>
 <p><img src="/images/1-10/3_views_indexes_required.png" alt="Indexes to Support Views Required" width=600/></p>
 <p>Use MongoDB Compass to create your index. Should look as follows:</p>
 <p><img src="/images/1-10/3_mongodb_indexes.png" alt="Creating an Index in MongoDB" width=450/></p>
 <p>Our database is all set up and optimized. In the next section we will explore how to get data out of Mongo and into our program.</p>
-<p>Note:</p>
+<h5>Note</h5>
 <ul>
 <li>Adding score to the index will make our queries run faster, but the index will also take up disk space. This example is a bit trivial since it's a toy project, but we should get into the habit of thinking about tradeoffs.</li>
 </ul>
@@ -207,8 +207,8 @@
 <p><em>What does this mean?</em> ORM libraries let allow us to work with databases in the language of our choice. No more fumbling around with database connectors and SQL, we can treat objects in the database as objects in our program. <a href="http://stackoverflow.com/questions/1279613/what-is-an-orm-and-where-can-i-learn-more-about-it">More details can be found in this StackOverflow <em>(Praise Be)</em> discussion</a>.</p>
 <p>Like with all things in programming, <a href="http://www.yegor256.com/2014/12/01/orm-offensive-anti-pattern.html">there</a> <a href="https://martinfowler.com/bliki/OrmHate.html">are</a> <a href="https://blog.codinghorror.com/object-relational-mapping-is-the-vietnam-of-computer-science/">people</a> <a href="http://blogs.tedneward.com/post/the-vietnam-of-computer-science/">who</a> <a href="http://seldo.com/weblog/2011/08/11/orm_is_an_antipattern">consider</a> ORMs as being <a href="https://en.wikipedia.org/wiki/Anti-pattern">anti-patterns</a>. As long as we understand the limitations of using an ORM library (i.e. not a full replacement for querying languages), we can use them to get our projects off the ground quickly. As we scale up, we should revisit the use of an ORM.</p>
 <h3>ORM Libraries in Python</h3>
-<p>For relational databases, <a href="http://www.sqlalchemy.org/">SQL Alchemy</a> reigns supreme. <a href="https://ponyorm.com/">PonyORM</a> uses <a href="https://wiki.python.org/moin/Generators">generators</a> and <a href="http://www.secnetix.de/olli/Python/lambda_functions.hawk">lambdas</a> (<em>Author's Note: (☞ﾟヮﾟ)☞</em>) to write its' queries.</p>
-<p>Since MongoDB is a document database, Object-Relational Mapping becomes Document-Object Mapping (DOM). <a href="http://mongoengine.org/">MongoEngine</a> and <a href="http://namlook.github.io/mongokit/">MongoKit</a> are two popular DOM libraries. In the next section, we will use the MongoEngine library pull data into our program from our instance of MongoDB.</p>
+<p>For relational databases, <a href="http://www.sqlalchemy.org/">SQL Alchemy</a> reigns supreme. <a href="https://ponyorm.com/">PonyORM</a> uses <a href="https://wiki.python.org/moin/Generators">generators</a> and <a href="http://www.secnetix.de/olli/Python/lambda_functions.hawk">lambdas</a> (<em>Author's Note: (☞ﾟヮﾟ)☞</em>) to write its queries.</p>
+<p>Since MongoDB is a document database, Object-Relational Mapping becomes Document-Object Mapping (DOM). <a href="http://mongoengine.org/">MongoEngine</a> and <a href="http://namlook.github.io/mongokit/">MongoKit</a> are two popular DOM libraries. In the next section, we will use the MongoEngine library to pull data into our program from our instance of MongoDB.</p>
 <hr>
 <h2>MongoEngine</h2>
 <p>Using the <a href="http://docs.mongoengine.org/tutorial.html">tutorial</a> and <a href="http://docs.mongoengine.org/guide/index.html">User Guide</a> as a template, lets create a class to specify our schema.</p>
@@ -238,7 +238,7 @@
 
 
 <p>Let's make sure this works by testing in the Python REPL.</p>
-<div class="highlight"><pre><span></span><span class="gp"> $</span>  python
+<div class="highlight"><pre><span></span><span class="gp">$</span> python
 <span class="go">Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 13:19:00) </span>
 <span class="go">[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)] on darwin</span>
 <span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
@@ -253,7 +253,7 @@
 
 
 <p>Looks good!</p>
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>The MongoEngine tutorial performs a wildcard import. <a href="https://www.python.org/dev/peps/pep-0008/">PEP-0008</a> recommends that we stay away from this style of importing as to not clutter the namespace, which confuses both readers and many automated tools</li>
 <li>MongoEngine allows us to <a href="http://docs.mongoengine.org/guide/connecting.html#multiple-databases">connect to multiple databases</a> and <a href="http://docs.mongoengine.org/guide/connecting.html#context-managers">use context-managers to switch between databases and collections</a> (<em>Author's Note: How Pythonic!</em>)</li>
@@ -335,7 +335,7 @@
 
 
 <p>Great! In the next section we will email ourselves this information.</p>
-<p>Notes:</p>
+<h5>Note</h5>
 <ul>
 <li>Once we start building out our Flask website, we can create complex Jinja templates with tables that have <a href="http://jinja.pocoo.org/docs/2.9/tricks/#alternating-rows">alternating row styles</a></li>
 </ul>
@@ -392,7 +392,7 @@
 </pre></div>
 
 
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>We used <a href="https://docs.python.org/3/library/configparser.html">ConfigParser</a> to keep our API keys secret. Check out <a href="https://pymotw.com/3/">PyMOTW</a>'s <a href="https://pymotw.com/3/configparser/">in-depth post about ConfigParser</a>. (<em>Author's Note: How awesome is the <a href="https://docs.python.org/3/library/">Python Standard Library</a>?</em>)</li>
 <li>Shoutout to this post showing <a href="https://bradgignac.com/2014/05/12/sending-email-with-python-and-the-mailgun-api.html">how to send emails thru MailGun using Python</a></li>
@@ -456,7 +456,7 @@
 
 
 <p>Run the app from the terminal with the following command:</p>
-<div class="highlight"><pre><span></span><span class="gp"> $</span>  python app.py
+<div class="highlight"><pre><span></span><span class="gp">$</span> python app.py
 <span class="go">Success!</span>
 </pre></div>
 
@@ -464,14 +464,14 @@
 <p>Did we receive an email?<br />
 <img src="/images/1-10/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/></p>
 <p><a href="https://www.youtube.com/watch?v=EvkAy4kzv54">YIPPEE!</a></p>
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>This application is <a href="https://docs.python.org/3/tutorial/modules.html#packages">structured as a package</a>, namely the <code>top_post_emailer</code> package. Packages allow us to separate namespaces, increasing code modularity. I plan to examine this topic in a future post. For now, check out this <a href="https://www.youtube.com/watch?v=0oTh1CXRaQ0">David Beazley tutorial from PyCon2015</a>.</li>
 </ul>
 <hr>
 <h2>Conclusion</h2>
 <p>In this post, we started to look into ways of getting data out of MongoDB and into the hands of our user. We decided to use the Flask framework and started getting our feet wet by generating HTML pages from items stored in our MongoDB instance using MongoEngine and Jinja2. Lastly, we wrote some code to email ourselves the HTML page we created using Requests and the MailGun REST API. This gave us a minimal viable product we can use until we get our Flask website up.</p>
-<p>In the next next post in this series, we will build upon what we learned and deploy a basic Flask website.</p>
+<p>In the next post in this series, we will build upon what we learned and deploy a basic Flask website.</p>
   </div>
   
 <div class="article-tag-list">
@@ -557,15 +557,21 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="../tag/pydata.html">
           <i class="fa fa-tag"></i>
         pydata
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
       </a>
     </span>
     <span class="tag-4">
@@ -575,33 +581,9 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/reddit-scraper.html">
+      <a href="../tag/data-science.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
+        data-science
       </a>
     </span>
     <span class="tag-4">
@@ -617,27 +599,15 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/gis.html">
+      <a href="../tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
+        reddit-scraper
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/how-to.html">
+      <a href="../tag/python.html">
           <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
+        python
       </a>
     </span>
     <span class="tag-4">
@@ -647,9 +617,39 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/exploring-pypi.html">
+      <a href="../tag/pymongo.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        pymongo
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/automation.html">
+          <i class="fa fa-tag"></i>
+        automation
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
       </a>
     </span>
 </p>

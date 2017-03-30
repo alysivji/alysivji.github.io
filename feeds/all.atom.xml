@@ -915,7 +915,7 @@ Name: trip_id, dtype: float64
 
 &lt;p&gt;The first part of the code defines the spider settings and tells Scrapy which URLs to parse (&lt;code&gt;start_urls&lt;/code&gt; variable). &lt;a href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions"&gt;Shoutout to list comprehensions&lt;/a&gt;!&lt;/p&gt;
 &lt;p&gt;The parse function defines how Scrapy will process each of the downloaded reponses (&lt;a href="https://doc.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.Spider.parse"&gt;docs&lt;/a&gt;). We use CSS selectors to extract data from the HTML (&lt;a href="https://doc.scrapy.org/en/latest/topics/selectors.html"&gt;more details in the Scrapy docs&lt;/a&gt;) before we &lt;code&gt;yield&lt;/code&gt; items back to the framework using &lt;a href="https://wiki.python.org/moin/Generators"&gt;generators&lt;/a&gt;.&lt;/p&gt;
-&lt;h4&gt;Notes&lt;/h4&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Generators are awesome because generators are Pythonic. If possible, try to &lt;code&gt;yield&lt;/code&gt; vs &lt;code&gt;return&lt;/code&gt;. &lt;a href="http://dabeaz.com/"&gt;David Beazley&lt;/a&gt; covered generators in &lt;a href="https://www.youtube.com/watch?v=5-qadlG7tWo"&gt;his tutorial from PyCon 2014&lt;/a&gt;. &lt;strong&gt;Must watch for Pythonistas&lt;/strong&gt;.&lt;/p&gt;

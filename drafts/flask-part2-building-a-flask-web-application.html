@@ -187,7 +187,7 @@
 <li><a href="http://flask.pocoo.org/docs/0.12/quickstart/#logging">logging</a></li>
 </ul>
 <p>The Flask documentation has great advice on how to <a href="http://flask.pocoo.org/docs/0.12/foreword/#growing-with-flask">grow</a> and <a href="http://flask.pocoo.org/docs/0.12/becomingbig/">become big</a> with Flask. We can also leverage the list of <a href="http://flask.pocoo.org/docs/0.12/patterns/">common design patterns</a> to ensure we are following best practices as accepted by the project contributors.</p>
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>Check out the <a href="http://flask.pocoo.org/extensions/">Flask Extension Registry</a> to see a list of ready-made features we can hook into our web app.</li>
 <li>Extensions such as <a href="http://flask-diamond.readthedocs.io/en/latest/">Flask-Diamond</a> can turn Flask into a batteries-included web framework. This extension provides scaffolding for features such: account management, administrative access, databases, email, testing, documentation, deployment, and more. This library was featured in <a href="https://talkpython.fm/episodes/show/97/flask-django-style-with-flask-diamond">Episode 98</a> of the <a href="https://talkpython.fm/">Talk Python to Me</a> podcast. I will be using Flask-Diamond for a work project in the next couple of months; will blog about my experience once the application is in production.</li>
@@ -247,7 +247,7 @@
 </pre></div>
 
 
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>We are using the <a href="https://flask-mongoengine.readthedocs.io/en/latest/">Flask-MongoEngine</a> library instead of the MongoEngine library. This Flask specific library adds <a href="https://flask-mongoengine.readthedocs.io/en/latest/#mongoengine-and-wtforms">support for forms</a> (via <a href="https://wtforms.readthedocs.io/en/latest/">WTForms</a>), <a href="https://flask-mongoengine.readthedocs.io/en/latest/#custom-queryset">error handling</a> (i.e. <a href="https://en.wikipedia.org/wiki/HTTP_404">404</a> support), <a href="https://flask-mongoengine.readthedocs.io/en/latest/#custom-queryset">results pagination</a>, and the <a href="https://flask-mongoengine.readthedocs.io/en/latest/#session-interface">use of MongoDB as a session store</a>.</li>
 </ul>
@@ -274,7 +274,7 @@
 </pre></div>
 
 
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>The Flask API docs provide information on the <a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask">first parameter we pass into</a> the <code>flask.Flask()</code> function (i.e. <code>__name__</code>)</li>
 <li>We will be leveraging Flask's <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">Debug Mode</a> to help us find bugs in our code as we are developing</li>
@@ -339,7 +339,7 @@
 </pre></div>
 
 
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>URL routes can <a href="http://flask.pocoo.org/docs/0.12/quickstart/#variable-rules">include variables in their definitions</a> allowing us to customize our queries to get the exact information requested</li>
 <li>We use <a href="http://docs.mongoengine.org/guide/querying.html">MongoEngine to query our database</a> to get the recordset defined by our various routes</li>
@@ -453,7 +453,7 @@
 </pre></div>
 
 
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li><a href="http://jinja.pocoo.org/docs/2.9/templates/#child-template">Child templates</a> can replace the default content of items in between <code>{% block %}</code> and <code>{% endblock %}</code> tags</li>
 <li>The <a href="http://flask.pocoo.org/docs/0.12/api/#flask.url_for"><code>url_for()</code> method</a> can generate URL endpoints</li>
@@ -557,7 +557,7 @@
 <p>We'll open the page in a browser: <br />
 <img src="/images/1-10/4_running_flask_app.png" alt="Child Templates for Each View" width=700/></p>
 <p>Looks good!</p>
-<p>Notes:</p>
+<h5>Notes</h5>
 <ul>
 <li>In the CSS, I changed the color of the Responsive template from orange to blue as I will be using this template for a few work projects</li>
 </ul>
@@ -649,15 +649,21 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="../tag/pydata.html">
           <i class="fa fa-tag"></i>
         pydata
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
       </a>
     </span>
     <span class="tag-4">
@@ -667,33 +673,9 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/reddit-scraper.html">
+      <a href="../tag/data-science.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
+        data-science
       </a>
     </span>
     <span class="tag-4">
@@ -709,27 +691,15 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/gis.html">
+      <a href="../tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
+        reddit-scraper
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/how-to.html">
+      <a href="../tag/python.html">
           <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
+        python
       </a>
     </span>
     <span class="tag-4">
@@ -739,9 +709,39 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/exploring-pypi.html">
+      <a href="../tag/pymongo.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        pymongo
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/automation.html">
+          <i class="fa fa-tag"></i>
+        automation
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
       </a>
     </span>
 </p>
