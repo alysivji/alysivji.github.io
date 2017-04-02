@@ -1,5 +1,376 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-03-01T06:20:00-06:00</updated><entry><title>Visualizing Geospatial Data in Python Using Folium</title><link href="http://alysivji.github.io/getting-started-with-folium.html" rel="alternate"></link><published>2017-03-01T06:20:00-06:00</published><updated>2017-03-01T06:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-03-01:/getting-started-with-folium.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-04-02T18:00:00-05:00</updated><entry><title>Generating HTML Pages from MongoDB with MongoEngine and Jinja2 (Flask Part 1)</title><link href="http://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html" rel="alternate"></link><published>2017-04-02T18:00:00-05:00</published><updated>2017-04-02T18:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-02:/flask-part1-generating-html-pages-with-mongoengine-jinja2.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Overview of MongoDB&lt;/li&gt;
+&lt;li&gt;Discussion of Object-Relational Mapping (ORM)&lt;/li&gt;
+&lt;li&gt;Use MongoEngine to get items out of MongoDB&lt;/li&gt;
+&lt;li&gt;Render HTML pages using the Jinja2&lt;/li&gt;
+&lt;li&gt;Interact with REST API to send emails with Requests&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html"&gt;Previously on Siv Scripts&lt;/a&gt;, we implemented a web scraping …&lt;/p&gt;</summary><content type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Overview of MongoDB&lt;/li&gt;
+&lt;li&gt;Discussion of Object-Relational Mapping (ORM)&lt;/li&gt;
+&lt;li&gt;Use MongoEngine to get items out of MongoDB&lt;/li&gt;
+&lt;li&gt;Render HTML pages using the Jinja2&lt;/li&gt;
+&lt;li&gt;Interact with REST API to send emails with Requests&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html"&gt;Previously on Siv Scripts&lt;/a&gt;, we implemented a web scraping pipeline to store Top Posts scraped from Reddit into a MongoDB collection. The information we collected will become useful once it's out of the database so let's explore different ways of getting and using the data.&lt;/p&gt;
+&lt;p&gt;The obvious solution is to utilize a &lt;a href="https://wiki.python.org/moin/WebFrameworks"&gt;Python Web Framework&lt;/a&gt; to create a website that displays posts from various subreddits and allows users to mark items they have already seen. Based on our needs, &lt;a href="http://flask.pocoo.org"&gt;Flask&lt;/a&gt; is the best tool for the job. Creating a Flask-based site requires that we familiarize ourselves with the &lt;a href="http://flask.pocoo.org"&gt;Flask&lt;/a&gt;, &lt;a href="http://flask.pocoo.org/docs/latest/patterns/"&gt;its recommended design patterns&lt;/a&gt;, as well as &lt;a href="http://flask.pocoo.org/extensions/"&gt;the various extensions that enable us to create full-featured user experiences&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This will take a few posts to cover in depth so let's start at the beginning and explore how to generate HTML pages from MongoDB documents using the &lt;a href="http://mongoengine.org/"&gt;MongoEngine ORM&lt;/a&gt; and &lt;a href="http://jinja.pocoo.org/"&gt;Jinja2 Templating Engine&lt;/a&gt;. We will then leverage the &lt;a href="http://docs.python-requests.org/en/master/"&gt;Requests library&lt;/a&gt; to send emails using &lt;a href="http://www.mailgun.com/"&gt;MailGun's REST API&lt;/a&gt;; this will provide us with a temporary workaround to view scraped data until our Flask website is complete.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What You Need to Follow Along&lt;/h2&gt;
+&lt;h3&gt;Development Tools (Stack)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.python.org/downloads/"&gt;Python 3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.mongodb.com/manual/installation/"&gt;MongoDB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.mongoengine.org/guide/installing.html"&gt;MongoEngine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://jinja.pocoo.org/docs/2.9/intro/#installation"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.python-requests.org/en/master/user/install/#install"&gt;Requests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mailgun.com/signup"&gt;MailGun account&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Free account is limited to 10K emails per month, more than enough for our purposes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/alysivji/reddit-top-posts-email-from-mongodb"&gt;Github Repo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;MongoDB&lt;/h2&gt;
+&lt;p&gt;In this section we will explore &lt;a href="http://mongodb.com/"&gt;MongoDB&lt;/a&gt;, discuss best practices, and examine how it fits into our project.&lt;/p&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;"MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling" (&lt;a href="https://docs.mongodb.com/manual/introduction/"&gt;Mongo Docs&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;What does this mean?&lt;/em&gt; In comparison to a relational database which focuses on linking data across tables with keys, a document database stores all the data elements together in one location.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/1-10/3_relational_vs_mongo_diagram.png" alt="Comparing Relational Databases to MongoDB" width=500/&gt;&lt;/p&gt;
+&lt;p&gt;There are &lt;a href="https://www.quora.com/What-is-the-use-case-to-choose-a-document-oriented-database-noSQL-over-RDBMS"&gt;many reasons to use document-oriented databases over their relational counterparts&lt;/a&gt;. As our database will be the main data source for a variety of projects, it makes sense to use Mongo and take advantage of its &lt;a href="https://www.mongodb.com/blog/post/why-schemaless"&gt;flexible schemaless structure&lt;/a&gt;: &lt;em&gt;our database can grow with the needs of our project&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Other reasons to use MongoDB:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.quora.com/What-will-be-a-use-case-to-choose-MongoDB-over-other-NoSQL-databases/answer/John-A-De-Goes?srid=hwG0"&gt;Rapid, agile development and deployment of web applications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.mongodb.com/manual/"&gt;Fantastic documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://api.mongodb.com/"&gt;MongoDB has official drivers for all major languages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;MongoDB &lt;a href="https://www.mongodb.com/press/wired-tiger"&gt;acquired WiredTiger&lt;/a&gt; and improved query performance&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://stackoverflow.com/questions/tagged/mongodb"&gt;Over 78K 'mongodb'-tagged questions on StackOverflow&lt;/a&gt; &lt;em&gt;(Praise Be)&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Technical Details&lt;/h3&gt;
+&lt;p&gt;From the &lt;a href="https://docs.mongodb.com/manual/introduction/"&gt;Mongo Docs&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A record in MongoDB is a document, which is a data structure composed of field and value pairs. MongoDB documents are similar to JSON objects. The values of fields may include other documents, arrays, and arrays of documents&lt;br /&gt;
+&lt;img src="/images/1-10/3_mongodb_document_diagram.svg" alt="MongoDB record information" width=350/&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;MongoDB stores records as BSON (&lt;a href="https://en.wikipedia.org/wiki/BSON"&gt;Binary-JSON&lt;/a&gt;) documents in collections and collections inside of databases (&lt;a href="https://docs.mongodb.com/manual/core/databases-and-collections/"&gt;additional details&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;When we send a query into Mongo, it &lt;a href="https://docs.mongodb.com/manual/indexes/"&gt;performs a collection scan&lt;/a&gt;, i.e. it scans every document in our queried collection. This means that performance will become an issue as our data scales. To alleviate this, we can create indexes (&lt;a href="https://docs.mongodb.com/manual/core/index-single/"&gt;single field&lt;/a&gt;, &lt;a href="https://docs.mongodb.com/manual/core/index-compound/"&gt;compound&lt;/a&gt;, &lt;a href="https://docs.mongodb.com/manual/core/index-multikey/"&gt;multikey&lt;/a&gt;, or &lt;a href="https://docs.mongodb.com/manual/core/index-text/"&gt;text&lt;/a&gt;) to ensure all calls to the database are quick.&lt;/p&gt;
+&lt;p&gt;We're glossing over a lot of the details here since database design and optimization is a field unto itself. While we are setting up our database, we will implement the following index strategy recommendations &lt;a href="https://docs.mongodb.com/manual/applications/indexes/"&gt;(from the MongoDB documentation)&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create Indexes to Support Your Queries&lt;/li&gt;
+&lt;li&gt;Use Indexes to Sort Query Results&lt;/li&gt;
+&lt;li&gt;Ensure Indexes Fit in RAM&lt;/li&gt;
+&lt;li&gt;Create Queries that Ensure Selectivity&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;MongoDB in Our Project&lt;/h3&gt;
+&lt;h4&gt;Loading Data&lt;/h4&gt;
+&lt;p&gt;If you did not follow along the previous post, you can &lt;a href="http://alysivji.github.io/files/20170309-reddit-posts.json"&gt;download the 20170309 data extract&lt;/a&gt; and import it into your instance of mongo using the following command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; mongoimport --db sivji-sandbox --collection top_reddit_posts --type json --file 20170309-reddit-posts.json
+&lt;span class="go"&gt;2017-03-09T15:14:51.021-0700    connected to: localhost&lt;/span&gt;
+&lt;span class="go"&gt;2017-03-09T15:14:51.043-0700    imported 551 documents&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Document Schema&lt;/h4&gt;
+&lt;p&gt;Let's use &lt;a href="https://www.mongodb.com/products/compass"&gt;MongoDB Compass&lt;/a&gt; and take a look at a sample document to understand the fields we can pull.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/1-10/3_top_reddit_posts_mongodb-sample-document.png" alt="Sample Document" width=750/&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;date_str&lt;/code&gt; field is a string version of the date field. Having a &lt;code&gt;string&lt;/code&gt; type versus an &lt;code&gt;ISODate&lt;/code&gt; type will make our queries run faster.&lt;/p&gt;
+&lt;p&gt;&lt;a name="creating-mongodb-indexes"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Creating Indexes&lt;/h4&gt;
+&lt;p&gt;Following the best practices mentioned above, we should take some time to think about the &lt;a href="http://docs.mongoengine.org/guide/querying.html"&gt;queries we will need to run&lt;/a&gt;. Taking a step back, we need to consider the kinds of data we will want our website to display.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/1-10/3_views_indexes_required.png" alt="Indexes to Support Views Required" width=600/&gt;&lt;/p&gt;
+&lt;p&gt;Use MongoDB Compass to create the index. Should look as follows:&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/1-10/3_mongodb_indexes.png" alt="Creating an Index in MongoDB" width=450/&gt;&lt;/p&gt;
+&lt;p&gt;Our database is all set up and optimized. In the next section we will explore how to get data out of Mongo and into our program.&lt;/p&gt;
+&lt;h5&gt;Note&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Adding score to the index will make our queries run faster, but the index will also take up disk space. This example is a bit trivial since it's a toy project, but we should get into the habit of thinking about tradeoffs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Object-Relational Mapping (ORM)&lt;/h2&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Object-Relational Mapping (ORM) is a "technique that lets [us] query and manipulate data from a database using an object-oriented paradigm" (&lt;a href="http://stackoverflow.com/questions/1279613/what-is-an-orm-and-where-can-i-learn-more-about-it"&gt;Source&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;What does this mean?&lt;/em&gt; ORM libraries let us work with databases in the language of our choice. No more fumbling around with database connectors and SQL, we can treat objects in the database as objects in our program. &lt;a href="http://stackoverflow.com/questions/1279613/what-is-an-orm-and-where-can-i-learn-more-about-it"&gt;More details can be found in this StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt; discussion&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Like with all things in programming, &lt;a href="http://www.yegor256.com/2014/12/01/orm-offensive-anti-pattern.html"&gt;there&lt;/a&gt; &lt;a href="https://martinfowler.com/bliki/OrmHate.html"&gt;are&lt;/a&gt; &lt;a href="https://blog.codinghorror.com/object-relational-mapping-is-the-vietnam-of-computer-science/"&gt;people&lt;/a&gt; &lt;a href="http://blogs.tedneward.com/post/the-vietnam-of-computer-science/"&gt;who&lt;/a&gt; &lt;a href="http://seldo.com/weblog/2011/08/11/orm_is_an_antipattern"&gt;consider&lt;/a&gt; ORMs to be &lt;a href="https://en.wikipedia.org/wiki/Anti-pattern"&gt;anti-patterns&lt;/a&gt;. As long as we understand the limitations of using an ORM library (i.e. not a full replacement for querying languages), we can use them to get our projects off the ground quickly. As we scale up, we should revisit the use of an ORM.&lt;/p&gt;
+&lt;h3&gt;ORM Libraries in Python&lt;/h3&gt;
+&lt;p&gt;For relational databases, &lt;a href="http://www.sqlalchemy.org/"&gt;SQL Alchemy&lt;/a&gt; reigns supreme. &lt;a href="https://ponyorm.com/"&gt;PonyORM&lt;/a&gt; uses &lt;a href="https://wiki.python.org/moin/Generators"&gt;generators&lt;/a&gt; and &lt;a href="http://www.secnetix.de/olli/Python/lambda_functions.hawk"&gt;lambdas&lt;/a&gt; (&lt;em&gt;Author's Note: (☞ﾟヮﾟ)☞&lt;/em&gt;) to write its queries.&lt;/p&gt;
+&lt;p&gt;Since MongoDB is a document database, Object-Relational Mapping becomes Document-Object Mapping (DOM). &lt;a href="http://mongoengine.org/"&gt;MongoEngine&lt;/a&gt; and &lt;a href="http://namlook.github.io/mongokit/"&gt;MongoKit&lt;/a&gt; are two popular DOM libraries. In the next section, we will use the MongoEngine library to pull data into our program from our instance of MongoDB.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;MongoEngine&lt;/h2&gt;
+&lt;p&gt;Using the &lt;a href="http://docs.mongoengine.org/tutorial.html"&gt;tutorial&lt;/a&gt; and &lt;a href="http://docs.mongoengine.org/guide/index.html"&gt;User Guide&lt;/a&gt; as a template, lets create a class to specify our schema.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/data_model.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mongoengine.document&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Document&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mongoengine.fields&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;IntField&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;URLField&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Document&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39; Class for defining structure of reddit-top-posts collection&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;URLField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;date_str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;commentsUrl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;URLField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;sub&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# subredit can be 20 chars&lt;/span&gt;
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;300&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# title can be 300 chars&lt;/span&gt;
+    &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;IntField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;meta&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;collection&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;top_reddit_posts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# collection name&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;ordering&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;# default ordering&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;auto_create_index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# MongoEngine will not create index&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's make sure this works by testing in the Python REPL.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; python
+&lt;span class="go"&gt;Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 13:19:00) &lt;/span&gt;
+&lt;span class="go"&gt;[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)] on darwin&lt;/span&gt;
+&lt;span class="go"&gt;Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; from mongoengine.connection import connect
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; from top_post_emailer.data_model import Post
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; &lt;span class="nv"&gt;MONGO_URI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;mongodb://localhost:27017&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; connect&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;, &lt;span class="nv"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;MONGO_URI&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="go"&gt;MongoClient(host=[&amp;#39;localhost:27017&amp;#39;], document_class=dict, tz_aware=False, connect=True, read_preference=Primary())&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; Post.objects&lt;span class="o"&gt;()[&lt;/span&gt;0&lt;span class="o"&gt;]&lt;/span&gt;.title
+&lt;span class="go"&gt;&amp;#39;Chrome 56 Will Aggressively Throttle Background Tabs&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Looks good!&lt;/p&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;The MongoEngine tutorial performs a wildcard import. &lt;a href="https://www.python.org/dev/peps/pep-0008/"&gt;PEP-0008&lt;/a&gt; recommends that we stay away from this style of importing as to not clutter the namespace, which confuses both readers and many automated tools&lt;/li&gt;
+&lt;li&gt;MongoEngine allows us to &lt;a href="http://docs.mongoengine.org/guide/connecting.html#multiple-databases"&gt;connect to multiple databases&lt;/a&gt; and &lt;a href="http://docs.mongoengine.org/guide/connecting.html#context-managers"&gt;use context-managers to switch between databases and collections&lt;/a&gt; (&lt;em&gt;Author's Note: How Pythonic!&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;MongoEngine has &lt;a href="http://docs.mongoengine.org/guide/defining-documents.html#fields"&gt;a lot of built-in field types&lt;/a&gt; that we can use for validation checks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Jinja2&lt;/h2&gt;
+&lt;p&gt;Jinja2 is a "modern and designer-friendly templating language for Python" that is the default templating engine bundled with Flask (&lt;a href="http://jinja.pocoo.org/docs/2.9/"&gt;additional info can be found in the Jinja docs&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;What does this mean?&lt;/em&gt; Jinja2 lets us create templates with programming logic (&lt;a href="http://jinja.pocoo.org/docs/2.9/templates/#list-of-control-structures"&gt;control structures&lt;/a&gt;, &lt;a href="http://jinja.pocoo.org/docs/2.9/templates/#template-inheritance"&gt;inheritance&lt;/a&gt;) that can be rendered into HTML as the template code is evaluated. This will allow us to build dynamic, database-driven websites using Python! Real Python has a &lt;a href="https://realpython.com/blog/python/primer-on-jinja-templating/"&gt;great primer on Jinja Templating&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Let's start with a basic template that will grab all the Top Posts from the last Reddit scrape.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- top_post_emailer/template.html --&amp;gt;&lt;/span&gt;
+
+&lt;span class="cp"&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt; &lt;span class="na"&gt;lang&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;en&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Reddit Top &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    {% for selected_sub in Post.objects(date_str__gte=day_to_pull).distinct(&amp;#39;sub&amp;#39;) %}
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ selected_sub }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        {% for post in Post.objects(date_str__gte=day_to_pull, sub=selected_sub) %}
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ post.url }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ post.title }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; (Score: {{ post.score }} | &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; {{ post.commentsUrl }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Comments&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;)&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        {% endfor %}
+
+    {% endfor %}
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We will need a way to render our Jinja2 template. Let's create a function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/render_template.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;jinja2&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39; Given jinja2 template, generate HTML&lt;/span&gt;
+&lt;span class="sd"&gt;    Adapted from http://matthiaseisen.com/pp/patterns/p0198/&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Args:&lt;/span&gt;
+&lt;span class="sd"&gt;        * filename - jinja2 template&lt;/span&gt;
+&lt;span class="sd"&gt;        * context - dict of variables to pass in&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Returns:&lt;/span&gt;
+&lt;span class="sd"&gt;        * rendered HTML from jinja2 templating engine&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;jinja2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Environment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;loader&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;jinja2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileSystemLoader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;./&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's go back to our Python REPL and test to see if this works:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; from top_post_emailer.render_template import render
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; &lt;span class="c1"&gt;## get the last date the webscraper was run&lt;/span&gt;
+&lt;span class="go"&gt;... for post in Post.objects().fields(date_str=1).order_by(&amp;#39;-date_str&amp;#39;).limit(1):&lt;/span&gt;
+&lt;span class="go"&gt;...     day_to_pull = post.date_str&lt;/span&gt;
+&lt;span class="go"&gt;... &lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; &lt;span class="c1"&gt;## pass in variables, render template, and send&lt;/span&gt;
+&lt;span class="go"&gt;... context = {&lt;/span&gt;
+&lt;span class="go"&gt;...     &amp;#39;day_to_pull&amp;#39;: day_to_pull,&lt;/span&gt;
+&lt;span class="go"&gt;...     &amp;#39;Post&amp;#39;: Post,&lt;/span&gt;
+&lt;span class="go"&gt;... }&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; print&lt;span class="o"&gt;(&lt;/span&gt;render&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;template.html&amp;quot;&lt;/span&gt;, context&lt;span class="o"&gt;))&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;    &amp;lt;title&amp;gt;Reddit Top &amp;lt;/title&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;... additional rows omitted ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Great! In the next section we will email ourselves this information.&lt;/p&gt;
+&lt;h5&gt;Note&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Once we start building out our Flask website, we can create complex Jinja templates with tables that have &lt;a href="http://jinja.pocoo.org/docs/2.9/tricks/#alternating-rows"&gt;alternating row styles&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Requests and MailGun API&lt;/h2&gt;
+&lt;p&gt;Let's finish off this post by creating a &lt;a href="https://en.wikipedia.org/wiki/Minimum_viable_product"&gt;minimum viable product (MVP)&lt;/a&gt;: a program that emails us a list of all Top Posts scraped from our last Scrapy run. We will use &lt;a href="http://docs.python-requests.org/en/master/"&gt;Requests&lt;/a&gt; library to interact with &lt;a href="https://www.mailgun.com/"&gt;MailGun&lt;/a&gt;'s REST API to &lt;a href="https://documentation.mailgun.com/quickstart-sending.html#how-to-start-sending-email"&gt;send HTML emails&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;What can we say about &lt;a href="https://github.com/kennethreitz/"&gt;Kenneth Reitz&lt;/a&gt;'s Requests: HTTP for Humans &lt;a href="http://www.pythonforbeginners.com/requests/using-requests-in-python"&gt;that&lt;/a&gt; &lt;a href="http://pydanny.blogspot.com/2011/05/python-http-requests-for-humans.html"&gt;hasn't&lt;/a&gt; &lt;a href="https://www.twilio.com/blog/2016/12/http-requests-in-python-3.html"&gt;already&lt;/a&gt; &lt;a href="https://www.dataquest.io/blog/python-api-tutorial/"&gt;been&lt;/a&gt; &lt;a href="http://cramer.io/2014/05/20/mocking-requests-with-responses"&gt;said&lt;/a&gt;? Nothing. Check the links for more info.&lt;/p&gt;
+&lt;p&gt;After a little Python, we come up with the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/mailgun_emailer.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;configparser&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;requests.exceptions&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTTPError&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;send_email&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;Given HTML template, sends Reddit Top Post Digest email using MailGun&amp;#39;s API&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Arg:&lt;/span&gt;
+&lt;span class="sd"&gt;        html - HTML to send via email&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Returns:&lt;/span&gt;
+&lt;span class="sd"&gt;        None&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="c1"&gt;## api params (using configparser)&lt;/span&gt;
+    &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configparser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigParser&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;settings.cfg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MailGun&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;api&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MailGun&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;domain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;## set requests params&lt;/span&gt;
+    &lt;span class="n"&gt;request_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https://api.mailgun.net/v3/{0}/messages&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;domain&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;from&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;alysivji@gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;to&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;alysivji@gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Reddit Top Post Digest&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;api&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;raise_for_status&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Success!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;HTTPError&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Error {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status_code&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/settings.cfg&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;MailGun&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;MailGun&lt;/span&gt; &lt;span class="n"&gt;API&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;MailGun&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;We used &lt;a href="https://docs.python.org/3/library/configparser.html"&gt;ConfigParser&lt;/a&gt; to keep our API keys secret. Check out &lt;a href="https://pymotw.com/3/"&gt;PyMOTW&lt;/a&gt;'s &lt;a href="https://pymotw.com/3/configparser/"&gt;in-depth post about ConfigParser&lt;/a&gt;. (&lt;em&gt;Author's Note: How awesome is the &lt;a href="https://docs.python.org/3/library/"&gt;Python Standard Library&lt;/a&gt;?&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;Shoutout to this post showing &lt;a href="https://bradgignac.com/2014/05/12/sending-email-with-python-and-the-mailgun-api.html"&gt;how to send emails thru MailGun using Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;a href="docs.python-requests.org/en/master/"&gt;documentation for the Request library&lt;/a&gt; is really good. Go check it out. Also go check out the &lt;a href="https://github.com/kennethreitz/requests/"&gt;codebase&lt;/a&gt;. Very Pythonic.&lt;/li&gt;
+&lt;li&gt;According to &lt;a href="https://www.python.org/dev/peps/pep-0020/"&gt;&lt;em&gt;The Zen of Python&lt;/em&gt;&lt;/a&gt;: "Errors should never pass silently. Unless explicitly silenced." This means we should always try to have exception handling logic in our code. And when possible, &lt;a href="http://oncodingstyle.blogspot.com/2008/10/fail-early-fail-loudly.html"&gt;FAIL LOUDLY&lt;/a&gt;. Found a great StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt; &lt;a href="http://stackoverflow.com/questions/33291788/how-to-use-exceptions-for-different-cases-with-python-requests/33292013"&gt;discussion on how to handle exceptions in Requests&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Putting it all Together&lt;/h2&gt;
+&lt;p&gt;Now that we have all the pieces in place, we can finally write our script to get data out of Mongo and into a Jinja2 template. We can then use MailGun's REST API to send emails.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/__init__.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mongoengine.connection&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;connect&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.data_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.render_template&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;render&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.mailgun_emailer&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;send_email&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;email_last_scraped_date&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;# connect to db&lt;/span&gt;
+    &lt;span class="n"&gt;MONGO_URI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;mongodb://localhost:27017&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MONGO_URI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;## get the last date the webscraper was run&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;order_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-date_str&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;limit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;day_to_pull&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;
+
+    &lt;span class="c1"&gt;## pass in variables, render template, and send&lt;/span&gt;
+    &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;day_to_pull&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;day_to_pull&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Post&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;template.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;send_email&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We have &lt;a href="https://docs.python.org/3/tutorial/modules.html#packages"&gt;structured our app as a package&lt;/a&gt; and we need to create a script to run the application. First we will ensure that our directory structure looks as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── README.md&lt;/span&gt;
+&lt;span class="go"&gt;├── app.py&lt;/span&gt;
+&lt;span class="go"&gt;└── top_post_emailer&lt;/span&gt;
+&lt;span class="go"&gt;    ├── __init__.py&lt;/span&gt;
+&lt;span class="go"&gt;    ├── data_model.py&lt;/span&gt;
+&lt;span class="go"&gt;    ├── mailgun_emailer.py&lt;/span&gt;
+&lt;span class="go"&gt;    ├── render_template.py&lt;/span&gt;
+&lt;span class="go"&gt;    ├── settings.cfg&lt;/span&gt;
+&lt;span class="go"&gt;    └── template.html&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now let's create our script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# app.py&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Script to pull and email last Reddit scape from MongoDB&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;top_post_emailer&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;email_last_scraped_date&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;email_last_scraped_date&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Run the app from the terminal with the following command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; python app.py
+&lt;span class="go"&gt;Success!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Did we receive an email?&lt;br /&gt;
+&lt;img src="/images/1-10/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=EvkAy4kzv54"&gt;YIPPEE!&lt;/a&gt;&lt;/p&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;This application is &lt;a href="https://docs.python.org/3/tutorial/modules.html#packages"&gt;structured as a package&lt;/a&gt;, namely the &lt;code&gt;top_post_emailer&lt;/code&gt; package. Packages allow us to separate namespaces, increasing code modularity. I plan to examine this topic in a future post. For now, check out &lt;a href="https://www.youtube.com/watch?v=0oTh1CXRaQ0"&gt;David Beazley's tutorial from PyCon2015&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In this post, we started to look into ways of getting data out of MongoDB and into the hands of our user. We decided to use the Flask framework and started getting our feet wet by generating HTML pages from items stored in our MongoDB instance using MongoEngine and Jinja2. Lastly, we wrote some code to email ourselves the HTML page we created using Requests and the MailGun REST API. This gave us a minimal viable product we can use until we get our Flask website up.&lt;/p&gt;
+&lt;p&gt;In a future post, we will build upon what we learned and deploy a basic Flask website.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="flask"></category><category term="mongodb"></category><category term="mongoengine"></category><category term="orm"></category><category term="jinja2"></category><category term="requests"></category><category term="config-parser"></category><category term="reddit-scraper"></category></entry><entry><title>Visualizing Geospatial Data in Python Using Folium</title><link href="http://alysivji.github.io/getting-started-with-folium.html" rel="alternate"></link><published>2017-03-01T06:20:00-06:00</published><updated>2017-03-01T06:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-03-01:/getting-started-with-folium.html</id><summary type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Use Python to display location data on interactive map&lt;/li&gt;
