@@ -270,6 +270,7 @@ div.cell.selected.jupyter-soft-selected {
   }
 }
 div.inner_cell {
+  min-width: 0;
   /* Old browsers */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -290,11 +291,6 @@ div.inner_cell {
   box-flex: 1;
   /* Modern browsers */
   flex: 1;
-}
-@-moz-document url-prefix() {
-  div.inner_cell {
-    overflow-x: hidden;
-  }
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
@@ -1113,15 +1109,15 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>One of the most biggest stories of the 2016-17 Premier League season has been the <s>rise</s> <s>fall</s> stationary grace of Manchester United Football Club. The club claimed sole position of 6th place for 104 consecutive days. This included a <a href="http://www.telegraph.co.uk/football/2017/01/26/man-utd-struggle-find-fluidity-17-match-unbeaten-run-comes-end/">17 game unbeated streak</a> where the clubs ahead and behind them did everything in their power to keep pace with the consistent Red Devils.</p>
+<p>One of the biggest stories of the 2016-17 Premier League season has been the <s>rise</s> <s>fall</s> stationary grace of Manchester United Football Club. The team claimed sole position of <a href="http://www.thescore.com/epl/news/1257969-manchester-united-s-104-day-residency-in-6th-place-over">6th place for 104 consecutive days</a>. This included a <a href="http://www.telegraph.co.uk/football/2017/01/26/man-utd-struggle-find-fluidity-17-match-unbeaten-run-comes-end/">17 game unbeated streak</a> where the clubs ahead and behind them did everything in their power to keep pace with the consistent Red Devils.</p>
 <p>The internet, being what it is, has turned United's rooted to 6th place stance into <a href="https://twitter.com/i/moments/830497269183086592">one of this season's spiciest memes</a>.</p>
 <p>It got me thinking: which team has the dubious distinction of holding the same position in the league table for longer than Manchester United? If you'll allow me: <em>Let's not let Manchester United's 6th place reign distract us from the fact that the <a href="http://knowyourmeme.com/memes/the-warriors-blew-a-3-1-lead">Golden State Warriors blew a 3-1 lead in the NBA finals</a>.</em></p>
-<p>Let's utilize our PyData skills and find an answer!</p>
-<h4 id="Aside">Aside<a class="anchor-link" href="#Aside">¶</a></h4><p><a href="https://en.wikipedia.org/wiki/Premier_League#Competition">Wikipedia entry on the Premier League</a>.</p>
-<h5 id="tl;dr:">tl;dr:<a class="anchor-link" href="#tl;dr:">¶</a></h5><ul>
-<li>Each team plays every other team; once @ home, once away</li>
-<li>Points awarded: Win-3, Draw-1, Loss-0</li>
-<li>Teams are ranked by Total Points. Tiebreaks: Goal Difference then Goals Scored</li>
+<p>Let's use our PyData skills and find an answer!</p>
+<h3 id="Suggestion-Reading">Suggestion Reading<a class="anchor-link" href="#Suggestion-Reading">¶</a></h3><p><a href="https://en.wikipedia.org/wiki/Premier_League#Competition">Wikipedia entry on the Premier League</a>.</p>
+<h4 id="TL;DR">TL;DR<a class="anchor-link" href="#TL;DR">¶</a></h4><ul>
+<li>Each team plays every other team: once at home, once away</li>
+<li>Points awarded: Win=3, Draw=1, Loss=0</li>
+<li>Teams are ranked by Total Points, Goal Difference, and then Goals Scored</li>
 </ul>
 </div>
 </div>
@@ -1141,14 +1137,11 @@ h6:hover .anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="What-You-Need-to-Follow-Along">What You Need to Follow Along<a class="anchor-link" href="#What-You-Need-to-Follow-Along">¶</a></h2><h3 id="Development-Tools-(Stack)">Development Tools (Stack)<a class="anchor-link" href="#Development-Tools-(Stack)">¶</a></h3><ul>
-<li><a href="https://www.python.org/downloads/">Python 3.6</a><ul>
-<li>Yes. 3.6. We will be using <a href="https://www.python.org/dev/peps/pep-0498/">f-strings</a> in this analysis</li>
-</ul>
-</li>
+<li><a href="https://www.python.org/downloads/">Python 3.6</a> (Yes, 3.6. We will be using <a href="https://www.python.org/dev/peps/pep-0498/">f-strings</a>)</li>
 <li>PyData stack (<a href="http://pandas.pydata.org/pandas-docs/stable/install.html">Pandas</a>, <a href="http://www.numpy.org/">numpy</a>)</li>
 </ul>
 <h3 id="Code">Code<a class="anchor-link" href="#Code">¶</a></h3><ul>
-<li>[Jupyter Notebook on Github]NEED LINK HERE</li>
+<li><a href="https://github.com/alysivji/blog-notebooks/blob/master/premier-league-holding-steady-league-table/6-pl-analysis-holding-steady-in-the-league-table.ipynb">Jupyter Notebook on Github</a></li>
 </ul>
 </div>
 </div>
@@ -1177,7 +1170,7 @@ h6:hover .anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The hardest thing in Data Science is <a href="https://buckwoody.wordpress.com/2015/12/30/the-hardest-thing-in-data-science/">asking the right question</a>.</p>
-<p>Let's talk a closer look at our problem so we can get a sense of:</p>
+<p>Let's take a closer look at our problem so we can get a sense of:</p>
 <ul>
 <li>the kind of data we need to gather</li>
 <li>the workflow we need to follow to answer our question</li>
@@ -1195,7 +1188,7 @@ h6:hover .anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Working backwards from our desired result gives us the following workflow for our analysis:<br />
-<img src="/images/1-10/6_premier_league_datastudy_workflow.png" alt="Data Study Workflow" width="660/"></p>
+<img alt="Data Study Workflow" src="/images/1-10/6_premier_league_datastudy_workflow.png" width="660/" /></p>
 </div>
 </div>
 </div>
@@ -1231,8 +1224,7 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Being the World's Most Popular Sport, there are a <a href="https://www.jokecamp.com/blog/guide-to-football-and-soccer-data-and-apis/">ton of data sources available</a> for us to use.</p>
-<p>For our analysis, we will be using <a href="http://www.football-data.co.uk/englandm.php">football-data.co.uk match results</a>.</p>
+<p>There are a <a href="https://www.jokecamp.com/blog/guide-to-football-and-soccer-data-and-apis/">ton of data sources available</a> for us to use. For our analysis, we will be using <a href="http://www.football-data.co.uk/englandm.php">match results</a> from <a href="http://www.football-data.co.uk/englandm.php">football-data.co.uk</a>.</p>
 <p>Let's <a href="http://www.football-data.co.uk/mmz4281/1617/E0.csv">download the file</a> which contains results from the 2016-17 Premier League season.</p>
 </div>
 </div>
@@ -1243,25 +1235,26 @@ h6:hover .anchor-link {
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>mkdir data
-<span class="o">!</span>wget http://www.football-data.co.uk/mmz4281/1617/E0.csv -P data/
+<span class="o">!</span>wget -P data/ http://www.football-data.co.uk/mmz4281/1617/E0.csv
 </pre></div>
 </div>
 </div>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>--2017-04-05 12:16:05--  http://www.football-data.co.uk/mmz4281/1617/E0.csv
+<pre>--2017-04-10 17:15:38--  http://www.football-data.co.uk/mmz4281/1617/E0.csv
 Resolving www.football-data.co.uk... 217.160.223.109
 Connecting to www.football-data.co.uk|217.160.223.109|:80... connected.
 HTTP request sent, awaiting response... 200 OK
-Length: 77172 (75K) [text/csv]
+Length: 82422 (80K) [text/csv]
 Saving to: 'data/E0.csv'
 
-data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s   
+data/E0.csv         100%[=====================>]  80.49K   290KB/s   in 0.3s   
 
-2017-04-05 12:16:11 (282 KB/s) - 'data/E0.csv' saved [77172/77172]
+2017-04-10 17:15:39 (290 KB/s) - 'data/E0.csv' saved [82422/82422]
 
 </pre>
 </div>
@@ -1284,7 +1277,6 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
@@ -1306,8 +1298,7 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>After glancing at <a href="http://www.football-data.co.uk/notes.txt">the data notes</a> and our csv, we can see that we only require a subset of our data.</p>
-<p>Load load it into a pandas <code>DataFrame</code>:</p>
+<p>After glancing at <a href="http://www.football-data.co.uk/notes.txt">the data notes</a> and our csv, we will load data into a pandas <code>DataFrame</code>:</p>
 </div>
 </div>
 </div>
@@ -1338,7 +1329,8 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -1451,9 +1443,9 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As previously mentioned, we are using a match results dataset to conduct our analysis. This dataset represents each row in our <code>DataFrame</code> as a result. Leaving data in this format will make it difficult to write <a href="https://tomaugspurger.github.io/modern-1.html">idiomatic pandas expressions</a> to slice-and-dice our <code>DataFrame</code> later on.</p>
-<p><strong>Why?</strong> Going back to our workflow diagram, we will need to write a function to calculate the league table at the end of each day. With our data in the current view, we would need to iterate twice over our data: once to calculate results when <code>current_team == HomeTeam</code> and once when <code>current_team == AwatTeam</code></p>
-<p>A better data structure would be to have each row in our <code>DataFrame</code> represent the result for the team, regardless if they are playing home or away. We can use the <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.melt.html"><code>pandas.melt()</code> function</a> to transform our data as follows:</p>
+<p>As previously mentioned, we are using a match results dataset to conduct our analysis; each row in our <code>DataFrame</code> represents a match result. Leaving data in this format will make it difficult to write <a href="https://tomaugspurger.github.io/modern-1.html">idiomatic pandas expressions</a> to slice-and-dice our <code>DataFrame</code> later on.</p>
+<p><strong>Why?</strong> Going back to our workflow diagram, we require a function to calculate the league table at the end of each day. With our data in its current format, we would need to iterate over our data a total of 2 times: calculate results (1) when <code>current_team == HomeTeam</code> and (2) when <code>current_team == AwayTeam</code>.</p>
+<p>A better data structure would have each row in our <code>DataFrame</code> represent a result for each team, regardless if they are playing home or away. We can use the <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.melt.html"><code>pandas.melt()</code> function</a> to transform our data as follows:</p>
 </div>
 </div>
 </div>
@@ -1466,14 +1458,19 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <span class="c1">## one where each team is 'current_team' and opponent is identfied</span>
 <span class="n">results</span><span class="p">[</span><span class="s1">'H'</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">]</span>
 <span class="n">results</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'AwayTeam'</span><span class="p">]</span>
+<span class="n">cols_to_keep</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Div'</span><span class="p">,</span> <span class="s1">'Date'</span><span class="p">,</span> <span class="s1">'HomeTeam'</span><span class="p">,</span> <span class="s1">'AwayTeam'</span><span class="p">,</span> <span class="s1">'FTHG'</span><span class="p">,</span>
+                <span class="s1">'FTAG'</span><span class="p">,</span> <span class="s1">'FTR'</span><span class="p">,</span> <span class="s1">'HTHG'</span><span class="p">,</span> <span class="s1">'HTAG'</span><span class="p">,</span> <span class="s1">'HTR'</span><span class="p">,</span> <span class="s1">'Referee'</span><span class="p">]</span>
 
 <span class="n">team_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
     <span class="n">results</span><span class="p">,</span> 
-    <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'Div'</span><span class="p">,</span> <span class="s1">'Date'</span><span class="p">,</span> <span class="s1">'HomeTeam'</span><span class="p">,</span> <span class="s1">'AwayTeam'</span><span class="p">,</span> <span class="s1">'FTHG'</span><span class="p">,</span> <span class="s1">'FTAG'</span><span class="p">,</span> <span class="s1">'FTR'</span><span class="p">,</span> <span class="s1">'HTHG'</span><span class="p">,</span> <span class="s1">'HTAG'</span><span class="p">,</span> <span class="s1">'HTR'</span><span class="p">,</span> <span class="s1">'Referee'</span><span class="p">],</span> 
-    <span class="n">value_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'H'</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">],</span>
-    <span class="n">var_name</span><span class="o">=</span><span class="s1">'Home/Away'</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">'Team'</span><span class="p">)</span>
-<span class="n">team_results</span><span class="p">[</span><span class="s1">'Opponent'</span><span class="p">]</span> <span class="o">=</span> \
-    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">==</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'AwayTeam'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">])</span>
+    <span class="n">id_vars</span><span class="o">=</span><span class="n">cols_to_keep</span><span class="p">,</span> 
+    <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'H'</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">],</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s1">'Home/Away'</span><span class="p">,</span>
+    <span class="n">value_name</span><span class="o">=</span><span class="s1">'Team'</span><span class="p">)</span>
+
+<span class="n">team_results</span><span class="p">[</span><span class="s1">'Opponent'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">==</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span>
+                                    <span class="n">team_results</span><span class="p">[</span><span class="s1">'AwayTeam'</span><span class="p">],</span>
+                                    <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1491,7 +1488,8 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[6]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -1562,7 +1560,7 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We need to convert 'home' and 'away' goals to goals scored for each team and calculate a result based on the score. It is probably a good idea to calculate how many points the team won for this particular game.</p>
+<p>We need to transform 'home' and 'away' goals to goals scored for each team and then calculate a result given the combined score. This is also a good spot to calculate how many points the team was awarded for the match result.</p>
 <p>We will use <a href="http://stackoverflow.com/questions/19914937/applying-function-with-multiple-arguments-to-create-a-new-pandas-column">this StackOverflow <em>(Praise Be)</em> post</a> as a guide and proceed as follows:</p>
 </div>
 </div>
@@ -1578,10 +1576,10 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
     <span class="s1">'L'</span><span class="p">:</span> <span class="mi">0</span>
 <span class="p">}</span>
 
-<span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">score_opp</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">score</span> <span class="o">==</span> <span class="n">score_opp</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">'D'</span>
-    <span class="k">elif</span> <span class="n">x</span> <span class="o">></span> <span class="n">y</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">score</span> <span class="o">></span> <span class="n">score_opp</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">'W'</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">'L'</span>
@@ -1596,18 +1594,22 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># full time goals</span>
-<span class="n">team_results</span><span class="p">[</span><span class="s1">'Goals'</span><span class="p">]</span> <span class="o">=</span> \
-    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">==</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTHG'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTAG'</span><span class="p">])</span>
-<span class="n">team_results</span><span class="p">[</span><span class="s1">'Goals_Opp'</span><span class="p">]</span> <span class="o">=</span> \
-    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTHG'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTAG'</span><span class="p">])</span>
+<span class="n">team_results</span><span class="p">[</span><span class="s1">'Goals'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">==</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span>
+                                 <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTHG'</span><span class="p">],</span>
+                                 <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTAG'</span><span class="p">])</span>
+<span class="n">team_results</span><span class="p">[</span><span class="s1">'Goals_Opp'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span>
+                                     <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTHG'</span><span class="p">],</span>
+                                     <span class="n">team_results</span><span class="p">[</span><span class="s1">'FTAG'</span><span class="p">])</span>
 <span class="n">team_results</span><span class="p">[</span><span class="s1">'Result'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">get_result</span><span class="p">)(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Goals'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'Goals_Opp'</span><span class="p">])</span>
 <span class="n">team_results</span><span class="p">[</span><span class="s1">'Points'</span><span class="p">]</span> <span class="o">=</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'Result'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">points_map</span><span class="p">)</span>
 
 <span class="c1"># 1st half goals</span>
-<span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Goals'</span><span class="p">]</span> <span class="o">=</span> \
-    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">==</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTHG'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTAG'</span><span class="p">])</span>
-<span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Goals_Opp'</span><span class="p">]</span> <span class="o">=</span> \
-    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTHG'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTAG'</span><span class="p">])</span>
+<span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Goals'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">==</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span>
+                                    <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTHG'</span><span class="p">],</span>
+                                    <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTAG'</span><span class="p">])</span>
+<span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Goals_Opp'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">],</span>
+                                        <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTHG'</span><span class="p">],</span>
+                                        <span class="n">team_results</span><span class="p">[</span><span class="s1">'HTAG'</span><span class="p">])</span>
 <span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Result'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">get_result</span><span class="p">)(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Goals'</span><span class="p">],</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Goals_Opp'</span><span class="p">])</span>
 <span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Points'</span><span class="p">]</span> <span class="o">=</span> <span class="n">team_results</span><span class="p">[</span><span class="s1">'1H_Result'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">points_map</span><span class="p">)</span>
 
@@ -1627,9 +1629,10 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Drop unnecessary columns and sort by date</span>
-<span class="n">team_results</span> <span class="o">=</span> \
-    <span class="n">team_results</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">'HomeTeam'</span><span class="p">,</span> <span class="s1">'AwayTeam'</span><span class="p">,</span> <span class="s1">'FTHG'</span><span class="p">,</span> <span class="s1">'FTAG'</span><span class="p">,</span> <span class="s1">'FTR'</span><span class="p">,</span> <span class="s1">'HTHG'</span><span class="p">,</span> <span class="s1">'HTAG'</span><span class="p">,</span> <span class="s1">'HTR'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">team_results</span> <span class="o">=</span> <span class="n">team_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'Date'</span><span class="p">,</span> <span class="s1">'Referee'</span><span class="p">])</span>
+<span class="n">cols_to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'HomeTeam'</span><span class="p">,</span> <span class="s1">'AwayTeam'</span><span class="p">,</span> <span class="s1">'FTHG'</span><span class="p">,</span> <span class="s1">'FTAG'</span><span class="p">,</span> <span class="s1">'FTR'</span><span class="p">,</span> <span class="s1">'HTHG'</span><span class="p">,</span> <span class="s1">'HTAG'</span><span class="p">,</span> <span class="s1">'HTR'</span><span class="p">]</span>
+<span class="n">team_results</span> <span class="o">=</span> <span class="p">(</span><span class="n">team_results</span>
+                    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cols_to_drop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'Date'</span><span class="p">,</span> <span class="s1">'Referee'</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
@@ -1647,7 +1650,8 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[10]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -1697,7 +1701,7 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <td>0</td>
 </tr>
 <tr>
-<th>294</th>
+<th>314</th>
 <td>E0</td>
 <td>2016-08-13</td>
 <td>C Pawson</td>
@@ -1739,7 +1743,7 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <td>0</td>
 </tr>
 <tr>
-<th>293</th>
+<th>313</th>
 <td>E0</td>
 <td>2016-08-13</td>
 <td>J Moss</td>
@@ -1802,36 +1806,40 @@ data/E0.csv         100%[=====================>]  75.36K   282KB/s   in 0.3s
 <div class="prompt input_prompt">In [11]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Testing out to make sure standings Function works</span>
-<span class="n">team_results</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Team'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="s1">'Points'</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Testing the standings function against real world data</span>
+<span class="p">(</span><span class="n">team_results</span>
+     <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Team'</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="s1">'Points'</span><span class="p">]</span>
+     <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[11]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>Team
-Chelsea           69
-Tottenham         62
-Liverpool         59
-Man City          58
-Man United        53
-Arsenal           51
-Everton           50
+Chelsea           75
+Tottenham         68
+Liverpool         63
+Man City          61
+Man United        57
+Everton           54
+Arsenal           54
 West Brom         44
+Southampton       40
+Watford           37
 Stoke             36
-Southampton       34
-Watford           34
-Bournemouth       34
-Leicester         33
-West Ham          33
-Burnley           32
-Crystal Palace    31
+Leicester         36
+Burnley           36
+West Ham          36
+Bournemouth       35
+Crystal Palace    34
+Hull              30
 Swansea           28
-Hull              27
-Middlesbrough     23
+Middlesbrough     24
 Sunderland        20
 Name: Points, dtype: int64</pre>
 </div>
@@ -1844,8 +1852,8 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As of, [date] this is true.
-[show image]</p>
+<p>This matches the current table (as of April 10 2007)<br />
+<img alt="Data Study Workflow" src="/images/1-10/6_premier_league_table_20170410.png" width="550/" /></p>
 </div>
 </div>
 </div>
@@ -1872,7 +1880,8 @@ Name: Points, dtype: int64</pre>
     <span class="n">record</span><span class="p">[</span><span class="s1">'GD'</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">'GF'</span><span class="p">]</span> <span class="o">-</span> <span class="n">record</span><span class="p">[</span><span class="s1">'GA'</span><span class="p">]</span>
     <span class="n">record</span><span class="p">[</span><span class="s1">'Points'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="n">points_col</span><span class="p">])</span>
     
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">'Played'</span><span class="p">,</span> <span class="s1">'Won'</span><span class="p">,</span> <span class="s1">'Drawn'</span><span class="p">,</span> <span class="s1">'Lost'</span><span class="p">,</span> <span class="s1">'GF'</span><span class="p">,</span> <span class="s1">'GA'</span><span class="p">,</span> <span class="s1">'GD'</span><span class="p">,</span> <span class="s2">"Points"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">record</span><span class="p">,</span>
+                     <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">'Played'</span><span class="p">,</span> <span class="s1">'Won'</span><span class="p">,</span> <span class="s1">'Drawn'</span><span class="p">,</span> <span class="s1">'Lost'</span><span class="p">,</span> <span class="s1">'GF'</span><span class="p">,</span> <span class="s1">'GA'</span><span class="p">,</span> <span class="s1">'GD'</span><span class="p">,</span> <span class="s2">"Points"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1887,7 +1896,11 @@ Name: Points, dtype: int64</pre>
 <span class="n">results_byteam</span> <span class="o">=</span> <span class="n">team_results</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'Team'</span><span class="p">])</span>
 
 <span class="p">(</span><span class="n">results_byteam</span> 
-     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span> <span class="s1">'Result'</span><span class="p">,</span> <span class="s1">'Goals'</span><span class="p">,</span> <span class="s1">'Goals_Opp'</span><span class="p">,</span> <span class="s1">'Points'</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span>
+            <span class="n">result_col</span><span class="o">=</span><span class="s1">'Result'</span><span class="p">,</span>
+            <span class="n">goals_col</span><span class="o">=</span><span class="s1">'Goals'</span><span class="p">,</span>
+            <span class="n">goals_opp_col</span><span class="o">=</span><span class="s1">'Goals_Opp'</span><span class="p">,</span>
+            <span class="n">points_col</span><span class="o">=</span><span class="s1">'Points'</span><span class="p">)</span>
      <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'Points'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1895,7 +1908,8 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[13]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -1926,222 +1940,222 @@ Name: Points, dtype: int64</pre>
 <tbody>
 <tr>
 <th>Chelsea</th>
-<td>29</td>
-<td>22</td>
+<td>31</td>
+<td>24</td>
 <td>3</td>
 <td>4</td>
-<td>60</td>
-<td>23</td>
-<td>37</td>
-<td>69</td>
+<td>65</td>
+<td>25</td>
+<td>40</td>
+<td>75</td>
 </tr>
 <tr>
 <th>Tottenham</th>
-<td>29</td>
-<td>18</td>
+<td>31</td>
+<td>20</td>
 <td>8</td>
 <td>3</td>
-<td>57</td>
-<td>21</td>
-<td>36</td>
-<td>62</td>
+<td>64</td>
+<td>22</td>
+<td>42</td>
+<td>68</td>
 </tr>
 <tr>
 <th>Liverpool</th>
-<td>30</td>
-<td>17</td>
-<td>8</td>
+<td>32</td>
+<td>18</td>
+<td>9</td>
 <td>5</td>
-<td>64</td>
-<td>37</td>
-<td>27</td>
-<td>59</td>
+<td>68</td>
+<td>40</td>
+<td>28</td>
+<td>63</td>
 </tr>
 <tr>
 <th>Man City</th>
-<td>29</td>
-<td>17</td>
+<td>31</td>
+<td>18</td>
 <td>7</td>
-<td>5</td>
-<td>56</td>
-<td>32</td>
-<td>24</td>
-<td>58</td>
+<td>6</td>
+<td>60</td>
+<td>35</td>
+<td>25</td>
+<td>61</td>
 </tr>
 <tr>
 <th>Man United</th>
-<td>28</td>
-<td>14</td>
-<td>11</td>
+<td>30</td>
+<td>15</td>
+<td>12</td>
 <td>3</td>
-<td>42</td>
-<td>23</td>
-<td>19</td>
-<td>53</td>
+<td>46</td>
+<td>24</td>
+<td>22</td>
+<td>57</td>
 </tr>
 <tr>
 <th>Arsenal</th>
-<td>28</td>
-<td>15</td>
+<td>30</td>
+<td>16</td>
 <td>6</td>
-<td>7</td>
-<td>58</td>
-<td>36</td>
+<td>8</td>
+<td>61</td>
+<td>39</td>
 <td>22</td>
-<td>51</td>
+<td>54</td>
 </tr>
 <tr>
 <th>Everton</th>
-<td>30</td>
-<td>14</td>
+<td>32</td>
+<td>15</td>
+<td>9</td>
 <td>8</td>
-<td>8</td>
-<td>52</td>
-<td>33</td>
-<td>19</td>
-<td>50</td>
+<td>57</td>
+<td>36</td>
+<td>21</td>
+<td>54</td>
 </tr>
 <tr>
 <th>West Brom</th>
-<td>30</td>
+<td>32</td>
 <td>12</td>
 <td>8</td>
-<td>10</td>
+<td>12</td>
 <td>39</td>
-<td>38</td>
-<td>1</td>
+<td>41</td>
+<td>-2</td>
 <td>44</td>
 </tr>
 <tr>
-<th>Stoke</th>
+<th>Southampton</th>
 <td>30</td>
-<td>9</td>
-<td>9</td>
+<td>11</td>
+<td>7</td>
 <td>12</td>
-<td>33</td>
+<td>37</td>
+<td>37</td>
+<td>0</td>
+<td>40</td>
+</tr>
+<tr>
+<th>Watford</th>
+<td>31</td>
+<td>10</td>
+<td>7</td>
+<td>14</td>
+<td>36</td>
+<td>52</td>
+<td>-16</td>
+<td>37</td>
+</tr>
+<tr>
+<th>Leicester</th>
+<td>31</td>
+<td>10</td>
+<td>6</td>
+<td>15</td>
+<td>39</td>
+<td>51</td>
+<td>-12</td>
+<td>36</td>
+</tr>
+<tr>
+<th>Stoke</th>
+<td>32</td>
+<td>9</td>
+<td>9</td>
+<td>14</td>
+<td>34</td>
+<td>47</td>
+<td>-13</td>
+<td>36</td>
+</tr>
+<tr>
+<th>Burnley</th>
+<td>32</td>
+<td>10</td>
+<td>6</td>
+<td>16</td>
+<td>32</td>
 <td>44</td>
-<td>-11</td>
+<td>-12</td>
+<td>36</td>
+</tr>
+<tr>
+<th>West Ham</th>
+<td>32</td>
+<td>10</td>
+<td>6</td>
+<td>16</td>
+<td>42</td>
+<td>57</td>
+<td>-15</td>
 <td>36</td>
 </tr>
 <tr>
 <th>Bournemouth</th>
-<td>30</td>
-<td>9</td>
-<td>7</td>
-<td>14</td>
-<td>42</td>
-<td>54</td>
-<td>-12</td>
-<td>34</td>
-</tr>
-<tr>
-<th>Southampton</th>
-<td>28</td>
-<td>9</td>
-<td>7</td>
-<td>12</td>
-<td>33</td>
-<td>36</td>
-<td>-3</td>
-<td>34</td>
-</tr>
-<tr>
-<th>Watford</th>
-<td>29</td>
-<td>9</td>
-<td>7</td>
-<td>13</td>
-<td>34</td>
-<td>48</td>
-<td>-14</td>
-<td>34</td>
-</tr>
-<tr>
-<th>Leicester</th>
-<td>29</td>
-<td>9</td>
-<td>6</td>
-<td>14</td>
-<td>35</td>
-<td>47</td>
-<td>-12</td>
-<td>33</td>
-</tr>
-<tr>
-<th>West Ham</th>
-<td>30</td>
-<td>9</td>
-<td>6</td>
-<td>15</td>
-<td>41</td>
-<td>54</td>
-<td>-13</td>
-<td>33</td>
-</tr>
-<tr>
-<th>Burnley</th>
-<td>30</td>
-<td>9</td>
-<td>5</td>
-<td>16</td>
-<td>31</td>
-<td>44</td>
-<td>-13</td>
 <td>32</td>
+<td>9</td>
+<td>8</td>
+<td>15</td>
+<td>45</td>
+<td>59</td>
+<td>-14</td>
+<td>35</td>
 </tr>
 <tr>
 <th>Crystal Palace</th>
-<td>29</td>
-<td>9</td>
-<td>4</td>
-<td>16</td>
-<td>38</td>
-<td>47</td>
-<td>-9</td>
 <td>31</td>
-</tr>
-<tr>
-<th>Swansea</th>
-<td>30</td>
-<td>8</td>
+<td>10</td>
 <td>4</td>
-<td>18</td>
-<td>36</td>
-<td>63</td>
-<td>-27</td>
-<td>28</td>
+<td>17</td>
+<td>42</td>
+<td>50</td>
+<td>-8</td>
+<td>34</td>
 </tr>
 <tr>
 <th>Hull</th>
-<td>30</td>
-<td>7</td>
+<td>32</td>
+<td>8</td>
 <td>6</td>
-<td>17</td>
-<td>28</td>
-<td>59</td>
+<td>18</td>
+<td>33</td>
+<td>64</td>
 <td>-31</td>
-<td>27</td>
+<td>30</td>
+</tr>
+<tr>
+<th>Swansea</th>
+<td>32</td>
+<td>8</td>
+<td>4</td>
+<td>20</td>
+<td>37</td>
+<td>67</td>
+<td>-30</td>
+<td>28</td>
 </tr>
 <tr>
 <th>Middlesbrough</th>
-<td>29</td>
+<td>31</td>
 <td>4</td>
-<td>11</td>
-<td>14</td>
-<td>20</td>
-<td>33</td>
-<td>-13</td>
-<td>23</td>
+<td>12</td>
+<td>15</td>
+<td>22</td>
+<td>37</td>
+<td>-15</td>
+<td>24</td>
 </tr>
 <tr>
 <th>Sunderland</th>
-<td>29</td>
+<td>31</td>
 <td>5</td>
 <td>5</td>
-<td>19</td>
+<td>21</td>
 <td>24</td>
-<td>51</td>
-<td>-27</td>
+<td>56</td>
+<td>-32</td>
 <td>20</td>
 </tr>
 </tbody>
@@ -2159,7 +2173,11 @@ Name: Points, dtype: int64</pre>
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get League Table for First Half Goals only</span>
 <span class="p">(</span><span class="n">results_byteam</span>
-     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span> <span class="s1">'1H_Result'</span><span class="p">,</span> <span class="s1">'1H_Goals'</span><span class="p">,</span> <span class="s1">'1H_Goals_Opp'</span><span class="p">,</span> <span class="s1">'1H_Points'</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span>
+            <span class="n">result_col</span><span class="o">=</span><span class="s1">'Result'</span><span class="p">,</span>
+            <span class="n">goals_col</span><span class="o">=</span><span class="s1">'Goals'</span><span class="p">,</span>
+            <span class="n">goals_opp_col</span><span class="o">=</span><span class="s1">'Goals_Opp'</span><span class="p">,</span>
+            <span class="n">points_col</span><span class="o">=</span><span class="s1">'Points'</span><span class="p">)</span>
      <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'Points'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -2167,7 +2185,8 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[14]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -2198,223 +2217,223 @@ Name: Points, dtype: int64</pre>
 <tbody>
 <tr>
 <th>Chelsea</th>
-<td>29</td>
-<td>16</td>
-<td>8</td>
-<td>5</td>
-<td>26</td>
-<td>13</td>
-<td>13</td>
-<td>56</td>
-</tr>
-<tr>
-<th>Liverpool</th>
-<td>30</td>
-<td>15</td>
-<td>9</td>
-<td>6</td>
-<td>33</td>
-<td>17</td>
-<td>16</td>
-<td>54</td>
-</tr>
-<tr>
-<th>Man City</th>
-<td>29</td>
-<td>15</td>
-<td>8</td>
-<td>6</td>
+<td>31</td>
+<td>24</td>
+<td>3</td>
+<td>4</td>
+<td>65</td>
 <td>25</td>
-<td>13</td>
-<td>12</td>
-<td>53</td>
-</tr>
-<tr>
-<th>Man United</th>
-<td>28</td>
-<td>12</td>
-<td>11</td>
-<td>5</td>
-<td>21</td>
-<td>9</td>
-<td>12</td>
-<td>47</td>
+<td>40</td>
+<td>75</td>
 </tr>
 <tr>
 <th>Tottenham</th>
-<td>29</td>
-<td>12</td>
-<td>11</td>
+<td>31</td>
+<td>20</td>
+<td>8</td>
+<td>3</td>
+<td>64</td>
+<td>22</td>
+<td>42</td>
+<td>68</td>
+</tr>
+<tr>
+<th>Liverpool</th>
+<td>32</td>
+<td>18</td>
+<td>9</td>
+<td>5</td>
+<td>68</td>
+<td>40</td>
+<td>28</td>
+<td>63</td>
+</tr>
+<tr>
+<th>Man City</th>
+<td>31</td>
+<td>18</td>
+<td>7</td>
 <td>6</td>
+<td>60</td>
+<td>35</td>
 <td>25</td>
-<td>10</td>
+<td>61</td>
+</tr>
+<tr>
+<th>Man United</th>
+<td>30</td>
 <td>15</td>
-<td>47</td>
+<td>12</td>
+<td>3</td>
+<td>46</td>
+<td>24</td>
+<td>22</td>
+<td>57</td>
 </tr>
 <tr>
 <th>Arsenal</th>
-<td>28</td>
-<td>11</td>
-<td>12</td>
-<td>5</td>
-<td>23</td>
-<td>16</td>
-<td>7</td>
-<td>45</td>
-</tr>
-<tr>
-<th>West Brom</th>
 <td>30</td>
-<td>9</td>
-<td>15</td>
+<td>16</td>
 <td>6</td>
-<td>20</td>
-<td>15</td>
-<td>5</td>
-<td>42</td>
+<td>8</td>
+<td>61</td>
+<td>39</td>
+<td>22</td>
+<td>54</td>
 </tr>
 <tr>
 <th>Everton</th>
-<td>30</td>
+<td>32</td>
+<td>15</td>
+<td>9</td>
 <td>8</td>
-<td>14</td>
-<td>8</td>
-<td>19</td>
-<td>17</td>
-<td>2</td>
-<td>38</td>
+<td>57</td>
+<td>36</td>
+<td>21</td>
+<td>54</td>
 </tr>
 <tr>
-<th>Bournemouth</th>
-<td>30</td>
-<td>9</td>
-<td>11</td>
-<td>10</td>
-<td>21</td>
-<td>23</td>
+<th>West Brom</th>
+<td>32</td>
+<td>12</td>
+<td>8</td>
+<td>12</td>
+<td>39</td>
+<td>41</td>
 <td>-2</td>
-<td>38</td>
+<td>44</td>
+</tr>
+<tr>
+<th>Southampton</th>
+<td>30</td>
+<td>11</td>
+<td>7</td>
+<td>12</td>
+<td>37</td>
+<td>37</td>
+<td>0</td>
+<td>40</td>
+</tr>
+<tr>
+<th>Watford</th>
+<td>31</td>
+<td>10</td>
+<td>7</td>
+<td>14</td>
+<td>36</td>
+<td>52</td>
+<td>-16</td>
+<td>37</td>
+</tr>
+<tr>
+<th>Leicester</th>
+<td>31</td>
+<td>10</td>
+<td>6</td>
+<td>15</td>
+<td>39</td>
+<td>51</td>
+<td>-12</td>
+<td>36</td>
 </tr>
 <tr>
 <th>Stoke</th>
-<td>30</td>
+<td>32</td>
 <td>9</td>
-<td>11</td>
-<td>10</td>
-<td>20</td>
-<td>21</td>
-<td>-1</td>
-<td>38</td>
+<td>9</td>
+<td>14</td>
+<td>34</td>
+<td>47</td>
+<td>-13</td>
+<td>36</td>
 </tr>
 <tr>
 <th>Burnley</th>
-<td>30</td>
+<td>32</td>
+<td>10</td>
 <td>6</td>
-<td>18</td>
-<td>6</td>
-<td>14</td>
-<td>17</td>
-<td>-3</td>
+<td>16</td>
+<td>32</td>
+<td>44</td>
+<td>-12</td>
 <td>36</td>
 </tr>
 <tr>
 <th>West Ham</th>
-<td>30</td>
-<td>8</td>
-<td>12</td>
+<td>32</td>
 <td>10</td>
+<td>6</td>
 <td>16</td>
-<td>24</td>
-<td>-8</td>
+<td>42</td>
+<td>57</td>
+<td>-15</td>
 <td>36</td>
 </tr>
 <tr>
-<th>Southampton</th>
-<td>28</td>
-<td>7</td>
-<td>14</td>
-<td>7</td>
+<th>Bournemouth</th>
+<td>32</td>
+<td>9</td>
+<td>8</td>
 <td>15</td>
-<td>15</td>
-<td>0</td>
+<td>45</td>
+<td>59</td>
+<td>-14</td>
 <td>35</td>
 </tr>
 <tr>
-<th>Leicester</th>
-<td>29</td>
-<td>8</td>
-<td>9</td>
-<td>12</td>
-<td>17</td>
-<td>25</td>
-<td>-8</td>
-<td>33</td>
-</tr>
-<tr>
-<th>Watford</th>
-<td>29</td>
-<td>7</td>
-<td>10</td>
-<td>12</td>
-<td>14</td>
-<td>24</td>
-<td>-10</td>
+<th>Crystal Palace</th>
 <td>31</td>
-</tr>
-<tr>
-<th>Swansea</th>
-<td>30</td>
-<td>5</td>
-<td>14</td>
-<td>11</td>
-<td>12</td>
-<td>22</td>
-<td>-10</td>
-<td>29</td>
-</tr>
-<tr>
-<th>Middlesbrough</th>
-<td>29</td>
+<td>10</td>
 <td>4</td>
-<td>16</td>
-<td>9</td>
-<td>11</td>
 <td>17</td>
-<td>-6</td>
-<td>28</td>
+<td>42</td>
+<td>50</td>
+<td>-8</td>
+<td>34</td>
 </tr>
 <tr>
 <th>Hull</th>
-<td>30</td>
-<td>4</td>
-<td>14</td>
-<td>12</td>
+<td>32</td>
 <td>8</td>
-<td>19</td>
-<td>-11</td>
-<td>26</td>
+<td>6</td>
+<td>18</td>
+<td>33</td>
+<td>64</td>
+<td>-31</td>
+<td>30</td>
 </tr>
 <tr>
-<th>Crystal Palace</th>
-<td>29</td>
-<td>5</td>
-<td>10</td>
-<td>14</td>
+<th>Swansea</th>
+<td>32</td>
+<td>8</td>
+<td>4</td>
+<td>20</td>
+<td>37</td>
+<td>67</td>
+<td>-30</td>
+<td>28</td>
+</tr>
+<tr>
+<th>Middlesbrough</th>
+<td>31</td>
+<td>4</td>
 <td>12</td>
-<td>23</td>
-<td>-11</td>
-<td>25</td>
+<td>15</td>
+<td>22</td>
+<td>37</td>
+<td>-15</td>
+<td>24</td>
 </tr>
 <tr>
 <th>Sunderland</th>
-<td>29</td>
-<td>3</td>
-<td>13</td>
-<td>13</td>
-<td>9</td>
+<td>31</td>
+<td>5</td>
+<td>5</td>
 <td>21</td>
-<td>-12</td>
-<td>22</td>
+<td>24</td>
+<td>56</td>
+<td>-32</td>
+<td>20</td>
 </tr>
 </tbody>
 </table>
@@ -2431,7 +2450,11 @@ Name: Points, dtype: int64</pre>
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get League Table for Second Half Goals only</span>
 <span class="p">(</span><span class="n">results_byteam</span>
-     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span> <span class="s1">'2H_Result'</span><span class="p">,</span> <span class="s1">'2H_Goals'</span><span class="p">,</span> <span class="s1">'2H_Goals_Opp'</span><span class="p">,</span> <span class="s1">'2H_Points'</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span>
+            <span class="n">result_col</span><span class="o">=</span><span class="s1">'Result'</span><span class="p">,</span>
+            <span class="n">goals_col</span><span class="o">=</span><span class="s1">'Goals'</span><span class="p">,</span>
+            <span class="n">goals_opp_col</span><span class="o">=</span><span class="s1">'Goals_Opp'</span><span class="p">,</span>
+            <span class="n">points_col</span><span class="o">=</span><span class="s1">'Points'</span><span class="p">)</span>
      <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'Points'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -2439,7 +2462,8 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[15]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -2470,223 +2494,223 @@ Name: Points, dtype: int64</pre>
 <tbody>
 <tr>
 <th>Chelsea</th>
-<td>29</td>
-<td>19</td>
-<td>7</td>
-<td>3</td>
-<td>34</td>
-<td>10</td>
+<td>31</td>
 <td>24</td>
-<td>64</td>
+<td>3</td>
+<td>4</td>
+<td>65</td>
+<td>25</td>
+<td>40</td>
+<td>75</td>
 </tr>
 <tr>
 <th>Tottenham</th>
-<td>29</td>
-<td>15</td>
-<td>10</td>
-<td>4</td>
-<td>32</td>
-<td>11</td>
-<td>21</td>
-<td>55</td>
-</tr>
-<tr>
-<th>Man City</th>
-<td>29</td>
-<td>14</td>
-<td>11</td>
-<td>4</td>
 <td>31</td>
-<td>19</td>
-<td>12</td>
-<td>53</td>
-</tr>
-<tr>
-<th>Everton</th>
-<td>30</td>
-<td>14</td>
-<td>10</td>
-<td>6</td>
-<td>33</td>
-<td>16</td>
-<td>17</td>
-<td>52</td>
-</tr>
-<tr>
-<th>Arsenal</th>
-<td>28</td>
-<td>15</td>
-<td>6</td>
-<td>7</td>
-<td>35</td>
 <td>20</td>
-<td>15</td>
-<td>51</td>
+<td>8</td>
+<td>3</td>
+<td>64</td>
+<td>22</td>
+<td>42</td>
+<td>68</td>
 </tr>
 <tr>
 <th>Liverpool</th>
-<td>30</td>
-<td>14</td>
+<td>32</td>
+<td>18</td>
 <td>9</td>
-<td>7</td>
+<td>5</td>
+<td>68</td>
+<td>40</td>
+<td>28</td>
+<td>63</td>
+</tr>
+<tr>
+<th>Man City</th>
 <td>31</td>
-<td>20</td>
-<td>11</td>
-<td>51</td>
+<td>18</td>
+<td>7</td>
+<td>6</td>
+<td>60</td>
+<td>35</td>
+<td>25</td>
+<td>61</td>
 </tr>
 <tr>
 <th>Man United</th>
-<td>28</td>
+<td>30</td>
+<td>15</td>
 <td>12</td>
-<td>11</td>
-<td>5</td>
-<td>21</td>
-<td>14</td>
-<td>7</td>
-<td>47</td>
-</tr>
-<tr>
-<th>Crystal Palace</th>
-<td>29</td>
-<td>11</td>
-<td>8</td>
-<td>10</td>
-<td>26</td>
+<td>3</td>
+<td>46</td>
 <td>24</td>
-<td>2</td>
-<td>41</td>
+<td>22</td>
+<td>57</td>
 </tr>
 <tr>
-<th>West Ham</th>
+<th>Arsenal</th>
 <td>30</td>
-<td>11</td>
+<td>16</td>
+<td>6</td>
 <td>8</td>
-<td>11</td>
-<td>25</td>
-<td>30</td>
-<td>-5</td>
-<td>41</td>
+<td>61</td>
+<td>39</td>
+<td>22</td>
+<td>54</td>
 </tr>
 <tr>
-<th>Southampton</th>
-<td>28</td>
+<th>Everton</th>
+<td>32</td>
+<td>15</td>
 <td>9</td>
 <td>8</td>
-<td>11</td>
-<td>18</td>
+<td>57</td>
+<td>36</td>
 <td>21</td>
-<td>-3</td>
-<td>35</td>
-</tr>
-<tr>
-<th>Watford</th>
-<td>29</td>
-<td>9</td>
-<td>7</td>
-<td>13</td>
-<td>20</td>
-<td>24</td>
-<td>-4</td>
-<td>34</td>
+<td>54</td>
 </tr>
 <tr>
 <th>West Brom</th>
-<td>30</td>
+<td>32</td>
+<td>12</td>
 <td>8</td>
-<td>9</td>
-<td>13</td>
-<td>19</td>
-<td>23</td>
-<td>-4</td>
-<td>33</td>
+<td>12</td>
+<td>39</td>
+<td>41</td>
+<td>-2</td>
+<td>44</td>
+</tr>
+<tr>
+<th>Southampton</th>
+<td>30</td>
+<td>11</td>
+<td>7</td>
+<td>12</td>
+<td>37</td>
+<td>37</td>
+<td>0</td>
+<td>40</td>
+</tr>
+<tr>
+<th>Watford</th>
+<td>31</td>
+<td>10</td>
+<td>7</td>
+<td>14</td>
+<td>36</td>
+<td>52</td>
+<td>-16</td>
+<td>37</td>
 </tr>
 <tr>
 <th>Leicester</th>
-<td>29</td>
-<td>7</td>
-<td>11</td>
-<td>11</td>
-<td>18</td>
-<td>22</td>
-<td>-4</td>
-<td>32</td>
-</tr>
-<tr>
-<th>Bournemouth</th>
-<td>30</td>
-<td>7</td>
-<td>9</td>
-<td>14</td>
-<td>21</td>
 <td>31</td>
-<td>-10</td>
-<td>30</td>
+<td>10</td>
+<td>6</td>
+<td>15</td>
+<td>39</td>
+<td>51</td>
+<td>-12</td>
+<td>36</td>
 </tr>
 <tr>
 <th>Stoke</th>
-<td>30</td>
-<td>5</td>
-<td>14</td>
-<td>11</td>
-<td>13</td>
-<td>23</td>
-<td>-10</td>
-<td>29</td>
-</tr>
-<tr>
-<th>Swansea</th>
-<td>30</td>
-<td>7</td>
-<td>8</td>
-<td>15</td>
-<td>24</td>
-<td>41</td>
-<td>-17</td>
-<td>29</td>
-</tr>
-<tr>
-<th>Middlesbrough</th>
-<td>29</td>
-<td>5</td>
-<td>13</td>
-<td>11</td>
+<td>32</td>
 <td>9</td>
-<td>16</td>
-<td>-7</td>
-<td>28</td>
-</tr>
-<tr>
-<th>Sunderland</th>
-<td>29</td>
-<td>6</td>
-<td>10</td>
-<td>13</td>
-<td>15</td>
-<td>30</td>
-<td>-15</td>
-<td>28</td>
+<td>9</td>
+<td>14</td>
+<td>34</td>
+<td>47</td>
+<td>-13</td>
+<td>36</td>
 </tr>
 <tr>
 <th>Burnley</th>
-<td>30</td>
-<td>6</td>
+<td>32</td>
 <td>10</td>
-<td>14</td>
+<td>6</td>
+<td>16</td>
+<td>32</td>
+<td>44</td>
+<td>-12</td>
+<td>36</td>
+</tr>
+<tr>
+<th>West Ham</th>
+<td>32</td>
+<td>10</td>
+<td>6</td>
+<td>16</td>
+<td>42</td>
+<td>57</td>
+<td>-15</td>
+<td>36</td>
+</tr>
+<tr>
+<th>Bournemouth</th>
+<td>32</td>
+<td>9</td>
+<td>8</td>
+<td>15</td>
+<td>45</td>
+<td>59</td>
+<td>-14</td>
+<td>35</td>
+</tr>
+<tr>
+<th>Crystal Palace</th>
+<td>31</td>
+<td>10</td>
+<td>4</td>
 <td>17</td>
-<td>27</td>
-<td>-10</td>
-<td>28</td>
+<td>42</td>
+<td>50</td>
+<td>-8</td>
+<td>34</td>
 </tr>
 <tr>
 <th>Hull</th>
-<td>30</td>
-<td>7</td>
-<td>5</td>
+<td>32</td>
+<td>8</td>
+<td>6</td>
 <td>18</td>
+<td>33</td>
+<td>64</td>
+<td>-31</td>
+<td>30</td>
+</tr>
+<tr>
+<th>Swansea</th>
+<td>32</td>
+<td>8</td>
+<td>4</td>
 <td>20</td>
-<td>40</td>
-<td>-20</td>
-<td>26</td>
+<td>37</td>
+<td>67</td>
+<td>-30</td>
+<td>28</td>
+</tr>
+<tr>
+<th>Middlesbrough</th>
+<td>31</td>
+<td>4</td>
+<td>12</td>
+<td>15</td>
+<td>22</td>
+<td>37</td>
+<td>-15</td>
+<td>24</td>
+</tr>
+<tr>
+<th>Sunderland</th>
+<td>31</td>
+<td>5</td>
+<td>5</td>
+<td>21</td>
+<td>24</td>
+<td>56</td>
+<td>-32</td>
+<td>20</td>
 </tr>
 </tbody>
 </table>
@@ -2710,7 +2734,7 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can use the <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.rank.html"><code>DataFrame.rank()</code> method</a> to rank the league table we create based on Premier League tiebrakers (Total Points -> Goal Difference -> Goals Scored).</p>
+<p>We can use the <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.rank.html"><code>DataFrame.rank()</code> method</a> to rank each team based on Premier League tiebreaks (Total Points -> Goal Difference -> Goals Scored).</p>
 </div>
 </div>
 </div>
@@ -2721,7 +2745,11 @@ Name: Points, dtype: int64</pre>
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Rank Teams in Standings</span>
 <span class="n">league_table</span> <span class="o">=</span> <span class="p">(</span><span class="n">results_byteam</span>
-                    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span> <span class="s1">'Result'</span><span class="p">,</span> <span class="s1">'Goals'</span><span class="p">,</span> <span class="s1">'Goals_Opp'</span><span class="p">,</span> <span class="s1">'Points'</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span>
+                           <span class="n">result_col</span><span class="o">=</span><span class="s1">'Result'</span><span class="p">,</span>
+                           <span class="n">goals_col</span><span class="o">=</span><span class="s1">'Goals'</span><span class="p">,</span>
+                           <span class="n">goals_opp_col</span><span class="o">=</span><span class="s1">'Goals_Opp'</span><span class="p">,</span>
+                           <span class="n">points_col</span><span class="o">=</span><span class="s1">'Points'</span><span class="p">)</span>
                     <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'Points'</span><span class="p">,</span> <span class="s1">'GD'</span><span class="p">,</span> <span class="s1">'GF'</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -2744,7 +2772,8 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[17]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -2777,241 +2806,241 @@ Name: Points, dtype: int64</pre>
 <tbody>
 <tr>
 <th>Chelsea</th>
-<td>29</td>
-<td>22</td>
+<td>31</td>
+<td>24</td>
 <td>3</td>
 <td>4</td>
-<td>60</td>
-<td>23</td>
-<td>37</td>
-<td>69</td>
+<td>65</td>
+<td>25</td>
+<td>40</td>
+<td>75</td>
 <td>1</td>
 </tr>
 <tr>
 <th>Tottenham</th>
-<td>29</td>
-<td>18</td>
+<td>31</td>
+<td>20</td>
 <td>8</td>
 <td>3</td>
-<td>57</td>
-<td>21</td>
-<td>36</td>
-<td>62</td>
+<td>64</td>
+<td>22</td>
+<td>42</td>
+<td>68</td>
 <td>2</td>
 </tr>
 <tr>
 <th>Liverpool</th>
-<td>30</td>
-<td>17</td>
-<td>8</td>
+<td>32</td>
+<td>18</td>
+<td>9</td>
 <td>5</td>
-<td>64</td>
-<td>37</td>
-<td>27</td>
-<td>59</td>
+<td>68</td>
+<td>40</td>
+<td>28</td>
+<td>63</td>
 <td>3</td>
 </tr>
 <tr>
 <th>Man City</th>
-<td>29</td>
-<td>17</td>
+<td>31</td>
+<td>18</td>
 <td>7</td>
-<td>5</td>
-<td>56</td>
-<td>32</td>
-<td>24</td>
-<td>58</td>
+<td>6</td>
+<td>60</td>
+<td>35</td>
+<td>25</td>
+<td>61</td>
 <td>4</td>
 </tr>
 <tr>
 <th>Man United</th>
-<td>28</td>
-<td>14</td>
-<td>11</td>
+<td>30</td>
+<td>15</td>
+<td>12</td>
 <td>3</td>
-<td>42</td>
-<td>23</td>
-<td>19</td>
-<td>53</td>
+<td>46</td>
+<td>24</td>
+<td>22</td>
+<td>57</td>
 <td>5</td>
 </tr>
 <tr>
 <th>Arsenal</th>
-<td>28</td>
-<td>15</td>
+<td>30</td>
+<td>16</td>
 <td>6</td>
-<td>7</td>
-<td>58</td>
-<td>36</td>
+<td>8</td>
+<td>61</td>
+<td>39</td>
 <td>22</td>
-<td>51</td>
+<td>54</td>
 <td>6</td>
 </tr>
 <tr>
 <th>Everton</th>
-<td>30</td>
-<td>14</td>
+<td>32</td>
+<td>15</td>
+<td>9</td>
 <td>8</td>
-<td>8</td>
-<td>52</td>
-<td>33</td>
-<td>19</td>
-<td>50</td>
+<td>57</td>
+<td>36</td>
+<td>21</td>
+<td>54</td>
 <td>7</td>
 </tr>
 <tr>
 <th>West Brom</th>
-<td>30</td>
+<td>32</td>
 <td>12</td>
 <td>8</td>
-<td>10</td>
+<td>12</td>
 <td>39</td>
-<td>38</td>
-<td>1</td>
+<td>41</td>
+<td>-2</td>
 <td>44</td>
 <td>8</td>
-</tr>
-<tr>
-<th>Stoke</th>
-<td>30</td>
-<td>9</td>
-<td>9</td>
-<td>12</td>
-<td>33</td>
-<td>44</td>
-<td>-11</td>
-<td>36</td>
-<td>9</td>
 </tr>
 <tr>
 <th>Southampton</th>
-<td>28</td>
-<td>9</td>
+<td>30</td>
+<td>11</td>
 <td>7</td>
 <td>12</td>
-<td>33</td>
-<td>36</td>
-<td>-3</td>
-<td>34</td>
-<td>10</td>
-</tr>
-<tr>
-<th>Bournemouth</th>
-<td>30</td>
+<td>37</td>
+<td>37</td>
+<td>0</td>
+<td>40</td>
 <td>9</td>
-<td>7</td>
-<td>14</td>
-<td>42</td>
-<td>54</td>
-<td>-12</td>
-<td>34</td>
-<td>11</td>
 </tr>
 <tr>
 <th>Watford</th>
-<td>29</td>
-<td>9</td>
+<td>31</td>
+<td>10</td>
 <td>7</td>
-<td>13</td>
-<td>34</td>
-<td>48</td>
-<td>-14</td>
-<td>34</td>
-<td>12</td>
+<td>14</td>
+<td>36</td>
+<td>52</td>
+<td>-16</td>
+<td>37</td>
+<td>10</td>
 </tr>
 <tr>
 <th>Leicester</th>
-<td>29</td>
-<td>9</td>
+<td>31</td>
+<td>10</td>
 <td>6</td>
-<td>14</td>
-<td>35</td>
-<td>47</td>
+<td>15</td>
+<td>39</td>
+<td>51</td>
 <td>-12</td>
-<td>33</td>
+<td>36</td>
+<td>11</td>
+</tr>
+<tr>
+<th>Burnley</th>
+<td>32</td>
+<td>10</td>
+<td>6</td>
+<td>16</td>
+<td>32</td>
+<td>44</td>
+<td>-12</td>
+<td>36</td>
+<td>12</td>
+</tr>
+<tr>
+<th>Stoke</th>
+<td>32</td>
+<td>9</td>
+<td>9</td>
+<td>14</td>
+<td>34</td>
+<td>47</td>
+<td>-13</td>
+<td>36</td>
 <td>13</td>
 </tr>
 <tr>
 <th>West Ham</th>
-<td>30</td>
-<td>9</td>
+<td>32</td>
+<td>10</td>
 <td>6</td>
-<td>15</td>
-<td>41</td>
-<td>54</td>
-<td>-13</td>
-<td>33</td>
+<td>16</td>
+<td>42</td>
+<td>57</td>
+<td>-15</td>
+<td>36</td>
 <td>14</td>
 </tr>
 <tr>
-<th>Burnley</th>
-<td>30</td>
-<td>9</td>
-<td>5</td>
-<td>16</td>
-<td>31</td>
-<td>44</td>
-<td>-13</td>
+<th>Bournemouth</th>
 <td>32</td>
+<td>9</td>
+<td>8</td>
+<td>15</td>
+<td>45</td>
+<td>59</td>
+<td>-14</td>
+<td>35</td>
 <td>15</td>
 </tr>
 <tr>
 <th>Crystal Palace</th>
-<td>29</td>
-<td>9</td>
-<td>4</td>
-<td>16</td>
-<td>38</td>
-<td>47</td>
-<td>-9</td>
 <td>31</td>
-<td>16</td>
-</tr>
-<tr>
-<th>Swansea</th>
-<td>30</td>
-<td>8</td>
+<td>10</td>
 <td>4</td>
-<td>18</td>
-<td>36</td>
-<td>63</td>
-<td>-27</td>
-<td>28</td>
 <td>17</td>
+<td>42</td>
+<td>50</td>
+<td>-8</td>
+<td>34</td>
+<td>16</td>
 </tr>
 <tr>
 <th>Hull</th>
-<td>30</td>
-<td>7</td>
+<td>32</td>
+<td>8</td>
 <td>6</td>
-<td>17</td>
-<td>28</td>
-<td>59</td>
+<td>18</td>
+<td>33</td>
+<td>64</td>
 <td>-31</td>
-<td>27</td>
+<td>30</td>
+<td>17</td>
+</tr>
+<tr>
+<th>Swansea</th>
+<td>32</td>
+<td>8</td>
+<td>4</td>
+<td>20</td>
+<td>37</td>
+<td>67</td>
+<td>-30</td>
+<td>28</td>
 <td>18</td>
 </tr>
 <tr>
 <th>Middlesbrough</th>
-<td>29</td>
+<td>31</td>
 <td>4</td>
-<td>11</td>
-<td>14</td>
-<td>20</td>
-<td>33</td>
-<td>-13</td>
-<td>23</td>
+<td>12</td>
+<td>15</td>
+<td>22</td>
+<td>37</td>
+<td>-15</td>
+<td>24</td>
 <td>19</td>
 </tr>
 <tr>
 <th>Sunderland</th>
-<td>29</td>
+<td>31</td>
 <td>5</td>
 <td>5</td>
-<td>19</td>
+<td>21</td>
 <td>24</td>
-<td>51</td>
-<td>-27</td>
+<td>56</td>
+<td>-32</td>
 <td>20</td>
 <td>20</td>
 </tr>
@@ -3028,7 +3057,8 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Fantastic! This is the exact ranking we see online! [have picture]</p>
+<p>Fantastic! This is the exact ranking we see online!<br />
+<img alt="Data Study Workflow" src="/images/1-10/6_premier_league_table_20170410.png" width="550/" /></p>
 </div>
 </div>
 </div>
@@ -3037,24 +3067,13 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is great, but there is one problem. How do we rank teams at the start of the season when some have played a game while others have not. The <code>pandas.rank()</code> function will work in all cases, except for the edge case where not all teams have completed a game. We will need to take this into account when created our <code>rank_teams()</code> function.</p>
+<p>This is great, but there is one problem. How do we rank teams at the start of the season when some have played a game while others have not. The <code>pandas.rank()</code> function will work in all cases, except for the edge case where not every team has completed its first game. We will need to take this into account when created our custom <code>rank_teams()</code> function.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In [18]:</div>
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">all_teams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [19]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">rank_teams</span><span class="p">(</span><span class="n">league_table</span><span class="p">,</span> <span class="n">team_list</span><span class="p">):</span>
@@ -3077,7 +3096,7 @@ Name: Points, dtype: int64</pre>
         <span class="n">ranked_teams</span> <span class="o">=</span> <span class="n">team_rank</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
         <span class="n">teams_to_add</span> <span class="o">=</span> <span class="p">{</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">team_list</span> <span class="k">if</span> <span class="n">team</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ranked_teams</span><span class="p">}</span>  
         
-        <span class="c1"># position to remaining teams</span>
+        <span class="c1"># position to rank remaining teams</span>
         <span class="n">rank_to_assign</span> <span class="o">=</span> <span class="n">team_rank</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span>
         
         <span class="c1"># add teams that haven't played a game to rankings</span>
@@ -3094,18 +3113,20 @@ Name: Points, dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [20]:</div>
+<div class="prompt input_prompt">In [19]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Let's test our function to make sure it works</span>
-<span class="n">rank_teams</span><span class="p">(</span><span class="n">league_table</span><span class="p">,</span> <span class="n">all_teams</span><span class="p">)</span>
+<span class="n">all_teams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">team_results</span><span class="p">[</span><span class="s1">'Team'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">rank_teams</span><span class="p">(</span><span class="n">league_table</span><span class="p">,</span> <span class="n">team_list</span><span class="o">=</span><span class="n">all_teams</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[19]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>Team
 Chelsea            1
@@ -3116,16 +3137,16 @@ Man United         5
 Arsenal            6
 Everton            7
 West Brom          8
-Stoke              9
-Southampton       10
-Bournemouth       11
-Watford           12
-Leicester         13
+Southampton        9
+Watford           10
+Leicester         11
+Burnley           12
+Stoke             13
 West Ham          14
-Burnley           15
+Bournemouth       15
 Crystal Palace    16
-Swansea           17
-Hull              18
+Hull              17
+Swansea           18
 Middlesbrough     19
 Sunderland        20
 dtype: int64</pre>
@@ -3154,7 +3175,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [21]:</div>
+<div class="prompt input_prompt">In [20]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get list of days</span>
@@ -3170,27 +3191,42 @@ dtype: int64</pre>
     <span class="c1"># create league table with ranking</span>
     <span class="c1"># premier league ranking goes: Points, GD, GF</span>
     <span class="n">league_table</span> <span class="o">=</span> <span class="p">(</span><span class="n">dailyresults_byteam</span>
-                        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span> <span class="s1">'Result'</span><span class="p">,</span> <span class="s1">'Goals'</span><span class="p">,</span> <span class="s1">'Goals_Opp'</span><span class="p">,</span> <span class="s1">'Points'</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">standings</span><span class="p">,</span>
+                               <span class="n">result_col</span><span class="o">=</span><span class="s1">'Result'</span><span class="p">,</span>
+                               <span class="n">goals_col</span><span class="o">=</span><span class="s1">'Goals'</span><span class="p">,</span>
+                               <span class="n">goals_opp_col</span><span class="o">=</span><span class="s1">'Goals_Opp'</span><span class="p">,</span>
+                               <span class="n">points_col</span><span class="o">=</span><span class="s1">'Points'</span><span class="p">)</span>
                         <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'Points'</span><span class="p">,</span> <span class="s1">'GD'</span><span class="p">,</span> <span class="s1">'GF'</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="n">team_rank</span> <span class="o">=</span> <span class="n">rank_teams</span><span class="p">(</span><span class="n">league_table</span><span class="p">,</span> <span class="n">all_teams</span><span class="p">)</span>
+    <span class="n">team_rank</span> <span class="o">=</span> <span class="n">rank_teams</span><span class="p">(</span><span class="n">league_table</span><span class="p">,</span> <span class="n">team_list</span><span class="o">=</span><span class="n">all_teams</span><span class="p">)</span>
     
     <span class="n">rank_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">team_rank</span><span class="p">)</span>
     
-<span class="c1"># create historical ranking dataframe</span>
-<span class="n">rank_history</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+<span class="c1"># create historical ranking dataframe from list of ranks</span>
+<span class="n">rank_history_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
                     <span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">rank_history</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">all_dates</span><span class="p">))</span>
 
 <span class="c1"># Reindex and include all dates</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">rank_history</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">rank_history</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="n">rank_history</span> <span class="o">=</span> <span class="n">rank_history</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'ffill'</span><span class="p">)</span>
-<span class="n">rank_history</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">rank_history_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="n">rank_history_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">rank_history_df</span> <span class="o">=</span> <span class="n">rank_history_df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'ffill'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rank_history_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[21]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -3335,1297 +3371,174 @@ dtype: int64</pre>
 <td>6</td>
 <td>15</td>
 </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rank_history_df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[22]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Arsenal</th>
+<th>Bournemouth</th>
+<th>Burnley</th>
+<th>Chelsea</th>
+<th>Crystal Palace</th>
+<th>Everton</th>
+<th>Hull</th>
+<th>Leicester</th>
+<th>Liverpool</th>
+<th>Man City</th>
+<th>Man United</th>
+<th>Middlesbrough</th>
+<th>Southampton</th>
+<th>Stoke</th>
+<th>Sunderland</th>
+<th>Swansea</th>
+<th>Tottenham</th>
+<th>Watford</th>
+<th>West Brom</th>
+<th>West Ham</th>
+</tr>
+</thead>
+<tbody>
 <tr>
-<th>2016-08-18</th>
+<th>2017-04-06</th>
+<td>5</td>
+<td>13</td>
 <td>14</td>
-<td>20</td>
-<td>18</td>
-<td>3</td>
-<td>18</td>
-<td>8</td>
-<td>3</td>
-<td>15</td>
-<td>2</td>
-<td>3</td>
-<td>1</td>
-<td>8</td>
-<td>8</td>
-<td>8</td>
-<td>15</td>
-<td>6</td>
-<td>8</td>
-<td>8</td>
-<td>6</td>
-<td>15</td>
-</tr>
-<tr>
-<th>2016-08-19</th>
-<td>14</td>
-<td>20</td>
-<td>18</td>
-<td>3</td>
-<td>18</td>
-<td>8</td>
-<td>3</td>
-<td>15</td>
-<td>2</td>
-<td>3</td>
-<td>1</td>
-<td>8</td>
-<td>13</td>
-<td>8</td>
-<td>15</td>
-<td>6</td>
-<td>8</td>
-<td>8</td>
-<td>6</td>
-<td>15</td>
-</tr>
-<tr>
-<th>2016-08-20</th>
-<td>12</td>
-<td>19</td>
-<td>7</td>
-<td>4</td>
-<td>20</td>
-<td>5</td>
-<td>3</td>
-<td>14</td>
-<td>9</td>
-<td>1</td>
-<td>2</td>
-<td>11</td>
-<td>15</td>
-<td>16</td>
-<td>17</td>
-<td>10</td>
-<td>6</td>
-<td>13</td>
-<td>8</td>
-<td>17</td>
-</tr>
-<tr>
-<th>2016-08-21</th>
-<td>13</td>
-<td>20</td>
-<td>8</td>
-<td>4</td>
-<td>19</td>
-<td>5</td>
-<td>3</td>
-<td>15</td>
-<td>11</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>16</td>
-<td>17</td>
-<td>18</td>
-<td>12</td>
-<td>7</td>
-<td>14</td>
-<td>9</td>
-<td>9</td>
-</tr>
-<tr>
-<th>2016-08-22</th>
-<td>13</td>
-<td>20</td>
-<td>8</td>
-<td>4</td>
-<td>19</td>
-<td>5</td>
-<td>3</td>
-<td>15</td>
-<td>11</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>16</td>
-<td>17</td>
-<td>18</td>
-<td>12</td>
-<td>7</td>
-<td>14</td>
-<td>9</td>
-<td>9</td>
-</tr>
-<tr>
-<th>2016-08-23</th>
-<td>13</td>
-<td>20</td>
-<td>8</td>
-<td>4</td>
-<td>19</td>
-<td>5</td>
-<td>3</td>
-<td>15</td>
-<td>11</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>16</td>
-<td>17</td>
-<td>18</td>
-<td>12</td>
-<td>7</td>
-<td>14</td>
-<td>9</td>
-<td>9</td>
-</tr>
-<tr>
-<th>2016-08-24</th>
-<td>13</td>
-<td>20</td>
-<td>8</td>
-<td>4</td>
-<td>19</td>
-<td>5</td>
-<td>3</td>
-<td>15</td>
-<td>11</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>16</td>
-<td>17</td>
-<td>18</td>
-<td>12</td>
-<td>7</td>
-<td>14</td>
-<td>9</td>
-<td>9</td>
-</tr>
-<tr>
-<th>2016-08-25</th>
-<td>13</td>
-<td>20</td>
-<td>8</td>
-<td>4</td>
-<td>19</td>
-<td>5</td>
-<td>3</td>
-<td>15</td>
-<td>11</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>16</td>
-<td>17</td>
-<td>18</td>
-<td>12</td>
-<td>7</td>
-<td>14</td>
-<td>9</td>
-<td>9</td>
-</tr>
-<tr>
-<th>2016-08-26</th>
-<td>13</td>
-<td>20</td>
-<td>8</td>
-<td>4</td>
-<td>19</td>
-<td>5</td>
-<td>3</td>
-<td>15</td>
-<td>11</td>
-<td>1</td>
-<td>2</td>
-<td>5</td>
-<td>16</td>
-<td>17</td>
-<td>18</td>
-<td>12</td>
-<td>7</td>
-<td>14</td>
-<td>9</td>
-<td>9</td>
-</tr>
-<tr>
-<th>2016-08-27</th>
-<td>7</td>
-<td>19</td>
-<td>13</td>
-<td>1</td>
-<td>17</td>
-<td>3</td>
-<td>5</td>
-<td>9</td>
-<td>10</td>
-<td>4</td>
-<td>2</td>
-<td>8</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2016-08-28</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-08-29</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-08-30</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-08-31</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-01</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-02</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-03</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-04</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-05</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-06</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-07</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-08</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-09</th>
-<td>8</td>
-<td>19</td>
-<td>13</td>
-<td>2</td>
-<td>17</td>
-<td>4</td>
-<td>5</td>
-<td>9</td>
-<td>11</td>
-<td>1</td>
-<td>3</td>
-<td>6</td>
-<td>15</td>
-<td>20</td>
-<td>16</td>
-<td>13</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2016-09-10</th>
-<td>6</td>
-<td>13</td>
-<td>13</td>
-<td>2</td>
-<td>11</td>
-<td>8</td>
-<td>7</td>
-<td>15</td>
-<td>5</td>
-<td>1</td>
-<td>3</td>
-<td>9</td>
-<td>18</td>
-<td>20</td>
-<td>19</td>
-<td>16</td>
-<td>4</td>
-<td>10</td>
-<td>12</td>
-<td>17</td>
-</tr>
-<tr>
-<th>2016-09-11</th>
-<td>6</td>
-<td>14</td>
-<td>14</td>
-<td>2</td>
-<td>11</td>
-<td>8</td>
-<td>7</td>
-<td>16</td>
-<td>5</td>
-<td>1</td>
-<td>3</td>
-<td>9</td>
-<td>18</td>
-<td>20</td>
-<td>19</td>
-<td>13</td>
-<td>4</td>
-<td>10</td>
-<td>12</td>
-<td>17</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>2017-03-04</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>3</td>
-<td>4</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-05</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-06</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-07</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-08</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-09</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-10</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>19</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>18</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-11</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-12</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-13</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-14</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-15</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-16</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-17</th>
-<td>5</td>
-<td>14</td>
-<td>12</td>
-<td>1</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>6</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>16</td>
-<td>2</td>
-<td>13</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<th>2017-03-18</th>
-<td>5</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>6</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>7</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-19</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
 <td>1</td>
 <td>16</td>
 <td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
 <td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
+<td>11</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>19</td>
+<td>9</td>
 <td>12</td>
+<td>20</td>
+<td>18</td>
+<td>2</td>
+<td>10</td>
+<td>8</td>
+<td>15</td>
 </tr>
 <tr>
-<th>2017-03-20</th>
-<td>6</td>
-<td>11</td>
+<th>2017-04-07</th>
+<td>5</td>
 <td>13</td>
+<td>14</td>
 <td>1</td>
 <td>16</td>
 <td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
 <td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
+<td>11</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>19</td>
+<td>9</td>
 <td>12</td>
+<td>20</td>
+<td>18</td>
+<td>2</td>
+<td>10</td>
+<td>8</td>
+<td>15</td>
 </tr>
 <tr>
-<th>2017-03-21</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
+<th>2017-04-08</th>
+<td>5</td>
+<td>15</td>
+<td>12</td>
 <td>1</td>
 <td>16</td>
 <td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
 <td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-22</th>
-<td>6</td>
 <td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
 <td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-23</th>
+<td>4</td>
 <td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
 <td>19</td>
-<td>10</td>
 <td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-24</th>
-<td>6</td>
-<td>11</td>
 <td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
 <td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-25</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
 <td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
 <td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-26</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
 <td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-27</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-28</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-29</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-30</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-03-31</th>
-<td>6</td>
-<td>11</td>
-<td>13</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>15</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>14</td>
-<td>8</td>
-<td>12</td>
-</tr>
-<tr>
-<th>2017-04-01</th>
-<td>6</td>
-<td>11</td>
-<td>15</td>
-<td>1</td>
-<td>16</td>
-<td>7</td>
-<td>18</td>
-<td>13</td>
-<td>3</td>
-<td>4</td>
-<td>5</td>
-<td>19</td>
-<td>10</td>
-<td>9</td>
-<td>20</td>
-<td>17</td>
-<td>2</td>
-<td>12</td>
 <td>8</td>
 <td>14</td>
 </tr>
 <tr>
-<th>2017-04-02</th>
+<th>2017-04-09</th>
 <td>6</td>
-<td>11</td>
 <td>15</td>
+<td>12</td>
 <td>1</td>
 <td>16</td>
 <td>7</td>
-<td>18</td>
-<td>13</td>
+<td>17</td>
+<td>11</td>
 <td>3</td>
 <td>4</td>
 <td>5</td>
 <td>19</td>
-<td>10</td>
 <td>9</td>
+<td>13</td>
 <td>20</td>
-<td>17</td>
+<td>18</td>
 <td>2</td>
+<td>10</td>
+<td>8</td>
+<td>14</td>
+</tr>
+<tr>
+<th>2017-04-10</th>
+<td>6</td>
+<td>15</td>
 <td>12</td>
+<td>1</td>
+<td>16</td>
+<td>7</td>
+<td>17</td>
+<td>11</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>19</td>
+<td>9</td>
+<td>13</td>
+<td>20</td>
+<td>18</td>
+<td>2</td>
+<td>10</td>
 <td>8</td>
 <td>14</td>
 </tr>
 </tbody>
 </table>
-<p>233 rows × 20 columns</p>
 </div>
 </div>
 </div>
@@ -4637,23 +3550,30 @@ dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that we have Team Rankings across the entire season, we can adapt <a href="http://stackoverflow.com/questions/14358567/finding-consecutive-segments-in-a-pandas-data-frame">code found on StackOverflow <em>(Praise Be)</em></a> to find consecutive segments inside the the our <code>rank_history DataFrame</code>.</p>
-<p>We will also use a <a href="http://stackoverflow.com/questions/9647202/ordinal-numbers-replacement">lambda formula found on StackOverflow <em>(Praise Be)</em>]</a> to output the ordinal suffix for each position (i.e. 6=6th. 3=3rd).</p>
+<p>Now that we have Team Rankings across the entire season, we can adapt <a href="http://stackoverflow.com/questions/14358567/finding-consecutive-segments-in-a-pandas-data-frame">code found on StackOverflow <em>(Praise Be)</em></a> to find consecutive segments in the <code>rank_history_df</code> DataFrame.</p>
+<p>We will also use a <a href="http://stackoverflow.com/questions/9647202/ordinal-numbers-replacement">lambda formula found on StackOverflow <em>(Praise Be)</em></a> to output the ordinal suffix for each position (i.e. 6=6th. 3=3rd).</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [22]:</div>
+<div class="prompt input_prompt">In [23]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ordinal</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="s2">"</span><span class="si">%d%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s2">"tsnrhtdd"</span><span class="p">[(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">%</span><span class="k">10</span>!=1)*(n%10<4)*n%10::4])
 
+<span class="c1"># for each team in the league, get the length of the longest streak</span>
 <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">all_teams</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">rank_history</span><span class="p">[</span><span class="n">team</span><span class="p">]</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">]</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'block'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">df</span><span class="o">.</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
-    <span class="n">streak_lengths</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'A'</span><span class="p">,</span><span class="s1">'block'</span><span class="p">])[</span><span class="s1">'index'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">rank_history_team</span> <span class="o">=</span> <span class="n">rank_history_df</span><span class="p">[</span><span class="n">team</span><span class="p">]</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+    <span class="n">rank_history_team</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">]</span>
+    <span class="n">rank_history_team</span><span class="p">[</span><span class="s1">'block'</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rank_history_team</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">rank_history_team</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+                                      <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+                                      <span class="o">.</span><span class="n">cumsum</span><span class="p">())</span>
+
+    <span class="n">streak_lengths</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank_history_team</span>
+                          <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                          <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'A'</span><span class="p">,</span><span class="s1">'block'</span><span class="p">])[</span><span class="s1">'index'</span><span class="p">]</span>
+                          <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
     
     <span class="n">pos</span> <span class="o">=</span> <span class="n">streak_lengths</span><span class="o">.</span><span class="n">argmax</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">max_length</span> <span class="o">=</span> <span class="n">streak_lengths</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -4664,12 +3584,13 @@ dtype: int64</pre>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Arsenal was 4th for 27 days
 Bournemouth was 14th for 46 days
 Burnley was 14th for 28 days
-Chelsea was 1st for 113 days
+Chelsea was 1st for 121 days
 Crystal Palace was 17th for 35 days
 Everton was 7th for 82 days
 Hull was 18th for 42 days
@@ -4678,13 +3599,13 @@ Liverpool was 4th for 27 days
 Man City was 1st for 55 days
 Man United was 6th for 104 days
 Middlesbrough was 16th for 31 days
-Southampton was 10th for 30 days
-Stoke was 9th for 30 days
-Sunderland was 20th for 61 days
+Southampton was 10th for 31 days
+Stoke was 9th for 31 days
+Sunderland was 20th for 69 days
 Swansea was 19th for 35 days
 Tottenham was 5th for 63 days
 Watford was 14th for 28 days
-West Brom was 8th for 93 days
+West Brom was 8th for 101 days
 West Ham was 18th for 27 days
 </pre>
 </div>
@@ -4697,7 +3618,7 @@ West Ham was 18th for 27 days
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We know that Manchester United held 6th for 104 days. This matches the output of our program.</p>
+<p>We know that <a href="http://www.thescore.com/epl/news/1257969-manchester-united-s-104-day-residency-in-6th-place-over">Manchester United held 6th for 104 days</a>. This matches the output of our program so we know our function is working!</p>
 </div>
 </div>
 </div>
@@ -4715,8 +3636,8 @@ West Ham was 18th for 27 days
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To complete our task, we will need to run the above workflow across all the seasons available on <a href="http://www.football-data.co.uk/englandm.php">football-data.co.uk match results</a>.</p>
-<p>I wrote up a script to download and analyze each season's data and print a list of teams with streaks >=104 days. It's a bit messy, but it gets the job done. We can run the script as follows:</p>
+<p>To complete our task, we will need to run the above workflow across all seasons available on <a href="http://www.football-data.co.uk/englandm.php">football-data.co.uk match results</a>.</p>
+<p>I wrote up a script to download and analyze each season's data and print a list of teams with streaks >=104 days. It's a bit messy, but it gets the job done; we can <a href="https://github.com/alysivji/blog-notebooks/blob/master/premier-league-holding-steady-league-table/longest_streak.py">download it from Github</a>. We can run the script as follows:</p>
 <div class="highlight"><pre><span></span><span class="gp">$</span> python longest_streak.py
 
 <span class="go">9394</span>
@@ -4818,7 +3739,7 @@ West Ham was 18th for 27 days
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Ahem.</strong> Don't let Manchester United's 104 days in 6th place distract you from the fact that Everton were 6th for 128 days in the 2008-09 Premier League season.</p>
-<h5 id="Note">Note<a class="anchor-link" href="#Note">¶</a></h5><ul>
+<h4 id="Note">Note<a class="anchor-link" href="#Note">¶</a></h4><ul>
 <li>From the above output, we can see how competitive each PL season was on a high level. This might be a good topic for further study.</li>
 </ul>
 </div>
@@ -4852,6 +3773,7 @@ West Ham was 18th for 27 days
 </div>
 </div>
 </div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -4962,87 +3884,9 @@ West Ham was 18th for 27 days
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
-      <a href="../tag/config-parser.html">
+      <a href="../tag/pymongo.html">
           <i class="fa fa-tag"></i>
-        config-parser
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/jinja2.html">
-          <i class="fa fa-tag"></i>
-        jinja2
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/requests.html">
-          <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/mongoengine.html">
-          <i class="fa fa-tag"></i>
-        mongoengine
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pydata.html">
-          <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/visualization.html">
-          <i class="fa fa-tag"></i>
-        visualization
+        pymongo
       </a>
     </span>
     <span class="tag-4">
@@ -5058,9 +3902,39 @@ West Ham was 18th for 27 days
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/automation.html">
+      <a href="../tag/gis.html">
           <i class="fa fa-tag"></i>
-        automation
+        gis
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/requests.html">
+          <i class="fa fa-tag"></i>
+        requests
       </a>
     </span>
     <span class="tag-4">
@@ -5070,9 +3944,63 @@ West Ham was 18th for 27 days
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/pandas.html">
+      <a href="../tag/mongoengine.html">
           <i class="fa fa-tag"></i>
-        pandas
+        mongoengine
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/config-parser.html">
+          <i class="fa fa-tag"></i>
+        config-parser
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/visualization.html">
+          <i class="fa fa-tag"></i>
+        visualization
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/automation.html">
+          <i class="fa fa-tag"></i>
+        automation
       </a>
     </span>
     <span class="tag-4">
@@ -5082,15 +4010,9 @@ West Ham was 18th for 27 days
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/scrapy.html">
+      <a href="../tag/jinja2.html">
           <i class="fa fa-tag"></i>
-        scrapy
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
+        jinja2
       </a>
     </span>
 </p>
