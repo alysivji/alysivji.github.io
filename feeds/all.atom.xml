@@ -1,5 +1,469 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-04-02T18:00:00-05:00</updated><entry><title>Generating HTML Pages from MongoDB with MongoEngine and Jinja2 (Flask Part 1)</title><link href="http://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html" rel="alternate"></link><published>2017-04-02T18:00:00-05:00</published><updated>2017-04-02T18:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-02:/flask-part1-generating-html-pages-with-mongoengine-jinja2.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-04-11T02:45:00-05:00</updated><entry><title>Building a Flask Web Application (Flask Part 2)</title><link href="http://alysivji.github.io/flask-part2-building-a-flask-web-application.html" rel="alternate"></link><published>2017-04-11T02:45:00-05:00</published><updated>2017-04-11T02:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-11:/flask-part2-building-a-flask-web-application.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Web frameworks intro&lt;/li&gt;
+&lt;li&gt;Explore the Flask microframework&lt;/li&gt;
+&lt;li&gt;Understand the Model-View-Controller (MVC) pattern&lt;/li&gt;
+&lt;li&gt;Build Flask web app&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;Last time&lt;/a&gt; we started our web application adventure by learning how to generate dynamic HTML webpages from data stored in MongoDB using MongoEngine and …&lt;/p&gt;</summary><content type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Web frameworks intro&lt;/li&gt;
+&lt;li&gt;Explore the Flask microframework&lt;/li&gt;
+&lt;li&gt;Understand the Model-View-Controller (MVC) pattern&lt;/li&gt;
+&lt;li&gt;Build Flask web app&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;Last time&lt;/a&gt; we started our web application adventure by learning how to generate dynamic HTML webpages from data stored in MongoDB using MongoEngine and Jinja2. In this post, we will leverage the &lt;a href="http://flask.pocoo.org/"&gt;Flask microframework&lt;/a&gt; to serve the webpages we render to our users.&lt;/p&gt;
+&lt;p&gt;Specifically we will explore the Flask library, learn about the Model-View-Controller (MVC) design pattern, and discuss how Flask fits into MVC by building our first Flask web application to display &lt;a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html"&gt;scraped data stored in MongoDB&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What You Need to Follow Along&lt;/h2&gt;
+&lt;h3&gt;Development Tools (Stack)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.python.org/downloads/"&gt;Python 3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.mongodb.com/manual/installation/"&gt;MongoDB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://flask.pocoo.org/docs/0.12/installation/"&gt;Flask&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://flask-mongoengine.readthedocs.io/en/latest/"&gt;Flask-MongoEngine&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/alysivji/reddit-top-posts-website-flask"&gt;Github Repo&lt;/a&gt; - Tag: &lt;a href="https://github.com/alysivji/reddit-top-posts-website-flask/tree/blog-flask-part2"&gt;blog-flask-part2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can checkout the code from the git repository as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout tags/blog-flask-part2
+&lt;span class="go"&gt;Note: checking out &amp;#39;tags/blog-flask-part2&amp;#39;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or we can use &lt;a href="http://kinolien.github.io/gitzip/"&gt;GitZip&lt;/a&gt; to download the tagged commit by URL.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Introduction to Web Frameworks&lt;/h2&gt;
+&lt;p&gt;What is a web framework? When should we use one?&lt;/p&gt;
+&lt;p&gt;A web framework is a library that allows us to "write web applications or services without having to handle low-level details such as protocols, sockets or process/thread management". The majority of Python web frameworks are "exclusively server-side technologies" (i.e. render pages on the server before sending to users), but they are increasingly supporting client-side technologies (like Ajax -- think &lt;a href="https://www.google.com/maps"&gt;Google Maps&lt;/a&gt;) to provide users with rich, interactive experiences in the browser (&lt;a href="https://wiki.python.org/moin/WebFrameworks"&gt;Source&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Some common tasks that web frameworks can handle include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;URL routing&lt;/li&gt;
+&lt;li&gt;HTML, XML, JSON, and other output format templating&lt;/li&gt;
+&lt;li&gt;Database manipulation&lt;/li&gt;
+&lt;li&gt;Security against Cross-site request forgery (CSRF) and other attacks&lt;/li&gt;
+&lt;li&gt;Session storage and retrieval&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="https://www.fullstackpython.com/web-frameworks.html"&gt;(from Full Stack Python)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;There are &lt;a href="https://wiki.python.org/moin/WebFrameworks"&gt;no shortage of Python web frameworks&lt;/a&gt; for us to use; their functionality falls on the spectrum of "executing a single use case to providing every known feature" to developers (the &lt;strong&gt;batteries included&lt;/strong&gt; approach) (&lt;a href="https://www.fullstackpython.com/web-frameworks.html"&gt;Source&lt;/a&gt;). O'Reilly released a &lt;a href="https://www.oreilly.com/learning/python-web-frameworks"&gt;short, but detailed, e-book&lt;/a&gt; that examines the entire Python web framework ecosystem and provides detailed analysis of the 6 most widely used libraries: &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt;, &lt;a href="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt;, &lt;a href="http://www.tornadoweb.org/"&gt;Tornado&lt;/a&gt;, &lt;a href="https://bottlepy.org/"&gt;Bottle&lt;/a&gt;, &lt;a href="https://trypyramid.com/"&gt;Pyramid&lt;/a&gt;, and &lt;a href="http://cherrypy.org/"&gt;CherryPy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For our use case, we will be creating and deploying a Flask web application.&lt;/p&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.codingdojo.com/blog/choosing-python-web-frameworks/"&gt;Choosing Python Web Frameworks: Django and Flask&lt;/a&gt; - Coding Dojo&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wakatime.com/blog/14-pirates-use-flask-the-navy-uses-django"&gt;Pirates use Flask, the Navy uses Django&lt;/a&gt; - WakaTime Blog&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://stackoverflow.com/questions/12781655/flask-or-django-for-a-beginner"&gt;Flask or Django for a beginner?&lt;/a&gt; - StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt;&lt;ul&gt;
+&lt;li&gt;Synopsis: Start with Flask, switch to Django if we need to scale&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Flask&lt;/h2&gt;
+&lt;p&gt;In the &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;previous post&lt;/a&gt;, we briefly mentioned that Flask is the best Python web framework for our use case. What does this mean? In this section, we will introduce Flask and discuss the features that make it so popular.&lt;/p&gt;
+&lt;p&gt;As the name implies, the &lt;a href="http://flask.pocoo.org/"&gt;Flask microframework&lt;/a&gt; is a lightweight web framework that we can extend to get the functionality we require.&lt;/p&gt;
+&lt;p&gt;From the &lt;a href="http://flask.pocoo.org/docs/0.12/foreword/"&gt;documentation&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Flask aims to keep the core simple but extensible. Flask won’t make many decisions for you, such as what database to use. Those decisions that it does make, such as what templating engine to use, are easy to change. Everything else is up to you, so that Flask can be everything you need and nothing you don’t.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taking a build-your-own framework approach to web development allows us to get projects off the ground quickly; we only use the extensions we require for our specific use case. With &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/"&gt;just a few lines of code&lt;/a&gt;, we can create a website with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#routing"&gt;URL routing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#rendering-templates"&gt;template rendering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#accessing-request-data"&gt;two&lt;/a&gt;-&lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#message-flashing"&gt;way&lt;/a&gt; client communication&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#redirects-and-errors"&gt;redirects and error handling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#logging"&gt;logging&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Flask documentation has great advice on &lt;a href="http://flask.pocoo.org/docs/0.12/foreword/#growing-with-flask"&gt;how to grow&lt;/a&gt; and &lt;a href="http://flask.pocoo.org/docs/0.12/becomingbig/"&gt;become big&lt;/a&gt; with Flask. We can also leverage the list of &lt;a href="http://flask.pocoo.org/docs/0.12/patterns/"&gt;common design patterns&lt;/a&gt; to ensure we are following best practices as outline by the project contributors.&lt;/p&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Check out the &lt;a href="http://flask.pocoo.org/extensions/"&gt;Flask Extension Registry&lt;/a&gt; to see a list of ready-made features we can hook into our web app.&lt;/li&gt;
+&lt;li&gt;Extensions such as &lt;a href="http://flask-diamond.readthedocs.io/en/latest/"&gt;Flask-Diamond&lt;/a&gt; can turn Flask into a batteries-included web framework. This extension provides scaffolding for features such as: account management, administrative access, databases, email, testing, documentation, deployment, and more. This library was featured in &lt;a href="https://talkpython.fm/episodes/show/97/flask-django-style-with-flask-diamond"&gt;Episode 98&lt;/a&gt; of the &lt;a href="https://talkpython.fm/"&gt;Talk Python to Me&lt;/a&gt; podcast. I will be using Flask-Diamond for a work project in the next couple of months and will blog about my experience once the application is in production.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/sloria/cookiecutter-flask"&gt;Cookiecutter Flask&lt;/a&gt; is batteries-included library based on the &lt;a href="http://getbootstrap.com/"&gt;Bootstrap template&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://exploreflask.com/en/latest/index.html"&gt;Explore Flask&lt;/a&gt; is an online resource detailing best practices and patterns for developing web applications with Flask.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Model-View-Controller&lt;/h2&gt;
+&lt;p&gt;Model–View–Controller (MVC) is an architectural pattern for implementing user interfaces. It divides an application into three interconnected parts: the Model, the View, and the Controller. Separating the "internal representations of information from the ways that information is presented to and accepted from the user" allows us to increase modularity for simultaneous development and code reuse (&lt;a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"&gt;Source&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Each of the components is defined as follows:&lt;br /&gt;
+&lt;img src="/images/1-10/4_mvc_components_description.png" alt="Description of MVC Components" width=600/&gt;&lt;/p&gt;
+&lt;h3&gt;Interactions Betweeen Components&lt;/h3&gt;
+&lt;p&gt;The MVC design pattern also defines interactions between components, as we can see in the following diagram &lt;a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"&gt;from Wikipedia&lt;/a&gt;:&lt;br /&gt;
+&lt;img src="/images/1-10/4_mvc_diagram.png" alt="Diagram of interactions within the MVC pattern (from Wikipedia)" width=360/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;strong&gt;model&lt;/strong&gt; stores data that is retrieved according to commands from the &lt;strong&gt;controller&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;strong&gt;view&lt;/strong&gt; generates output for the user based on changes in the &lt;strong&gt;model&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;strong&gt;controller&lt;/strong&gt; acts on both &lt;strong&gt;model&lt;/strong&gt; and &lt;strong&gt;view&lt;/strong&gt;; it sends commands to the &lt;strong&gt;model&lt;/strong&gt; to update its state and to the &lt;strong&gt;view&lt;/strong&gt; to change information presented to users&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In the next section, we will examine how Flask fits into the MVC framework by building our first web application.&lt;/p&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"&gt;Model–view–controller&lt;/a&gt; - Wikipedia&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://softwareengineering.stackexchange.com/questions/127624/what-is-mvc-really"&gt;What is MVC, really?&lt;/a&gt; - StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://realpython.com/blog/python/the-model-view-controller-mvc-paradigm-summarized-with-legos/"&gt;Model-View-Controller (MVC) Explained -- With Legos&lt;/a&gt; - Real Python&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.tomdalling.com/blog/software-design/model-view-controller-explained/"&gt;Model View Controller Explained&lt;/a&gt; - Tom Dalling&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.tutorialspoint.com/design_pattern/mvc_pattern.htm"&gt;Design Patterns - MVC Pattern&lt;/a&gt; - Tutorials Point&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Building Reddit Top Post Web App&lt;/h2&gt;
+&lt;p&gt;Using the Flask &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#quickstart"&gt;Quickstart&lt;/a&gt; and &lt;a href="http://flask.pocoo.org/docs/0.12/tutorial/#tutorial"&gt;Tutorial&lt;/a&gt; as reference, let's open up our favorite text editor and start coding!&lt;/p&gt;
+&lt;h3&gt;Model&lt;/h3&gt;
+&lt;p&gt;In the &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;previous post&lt;/a&gt;, we utilized the MongoEngine ORM library to pull data out of MongoDB. We modify our code to get the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# models.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask_mongoengine&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MongoEngine&lt;/span&gt;
+
+&lt;span class="n"&gt;db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MongoEngine&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Document&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39; Class for defining structure of reddit-top-posts collection&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;URLField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;date_str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;commentsUrl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;URLField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;sub&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# subredit can be 20 chars&lt;/span&gt;
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;300&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# title can be 300 chars&lt;/span&gt;
+    &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IntField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;required&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;meta&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;collection&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;top_reddit_posts&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# collection name&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;ordering&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;# default ordering&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;auto_create_index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# MongoEngine will not create index&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Note&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;We are using the &lt;a href="https://flask-mongoengine.readthedocs.io/en/latest/"&gt;Flask-MongoEngine&lt;/a&gt; library instead of the MongoEngine library. This Flask specific library adds &lt;a href="https://flask-mongoengine.readthedocs.io/en/latest/#mongoengine-and-wtforms"&gt;support for forms&lt;/a&gt; (via &lt;a href="https://wtforms.readthedocs.io/en/latest/"&gt;WTForms&lt;/a&gt;), &lt;a href="https://flask-mongoengine.readthedocs.io/en/latest/#custom-queryset"&gt;error handling&lt;/a&gt; (i.e. &lt;a href="https://en.wikipedia.org/wiki/HTTP_404"&gt;404&lt;/a&gt; support), &lt;a href="https://flask-mongoengine.readthedocs.io/en/latest/#custom-queryset"&gt;results pagination&lt;/a&gt;, and the &lt;a href="https://flask-mongoengine.readthedocs.io/en/latest/#session-interface"&gt;use of MongoDB as a session store&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Controller&lt;/h3&gt;
+&lt;p&gt;The code for the controller can be split into three sections: initialization, routing, and execution.&lt;/p&gt;
+&lt;h4&gt;Initialization&lt;/h4&gt;
+&lt;p&gt;After creating a Flask instance, we set our &lt;a href="http://flask.pocoo.org/docs/0.12/config/"&gt;configuration options&lt;/a&gt; and connect our database to the current instance.&lt;/p&gt;
+&lt;p&gt;Since Flask is instance based, we create an instance and configure the settings for that instance. This allows us to have &lt;a href="https://damyanon.net/flask-series-configuration/"&gt;multiple processes, each with a different configuration&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# app.py (1/3)&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;render_template&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;
+
+&lt;span class="c1"&gt;# initialize instance of WSGI application&lt;/span&gt;
+&lt;span class="c1"&gt;# act as a central registry for the view functions, URL rules, template configs&lt;/span&gt;
+&lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;## include db name in URI; _HOST entry overwrites all others&lt;/span&gt;
+&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MONGODB_HOST&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;mongodb://localhost:27017/sivji-sandbox&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+&lt;span class="c1"&gt;# initalize app with database&lt;/span&gt;
+&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;init_app&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;The Flask API docs provide information on the &lt;a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask"&gt;first parameter we pass into&lt;/a&gt; the &lt;code&gt;flask.Flask()&lt;/code&gt; function (i.e. &lt;code&gt;__name__&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;We will be leveraging Flask's &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode"&gt;Debug Mode&lt;/a&gt; to help us find bugs in our code as we are developing.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Routing&lt;/h4&gt;
+&lt;p&gt;Flask requires us to &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#routing"&gt;define URL routes&lt;/a&gt; for our web application so it knows which pages to display/render when users access specific URLs.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://realpython.com/blog/python/the-model-view-controller-mvc-paradigm-summarized-with-legos/"&gt;From Real Python&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Each route is associated with a controller – more specifically, a certain function within a controller, known as a controller action. So when you enter a URL, the application attempts to find a matching route, and, if it’s successful, it calls that route’s associated controller action.&lt;/p&gt;
+&lt;p&gt;Within the controller action, two main things typically occur: the models are used to retrieve all of the necessary data from a database; and that data is passed to a view, which renders the requested page. The data retrieved via the models is generally added to a data structure (like a list or dictionary), and that structure is what’s sent to the view.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We use &lt;a href="http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/#templating-decorator"&gt;decorators&lt;/a&gt; to define URL routes in our application instance. What's a decorator? Great question! &lt;a href="http://thecodeship.com/patterns/guide-to-python-function-decorators/"&gt;Check out this primer on function decorators in Python&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# app.py (2/3)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;index&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;## get the last date the webscraper was run&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;order_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-date_str&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;limit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;day_to_pull&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;render_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;index.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;day_to_pull&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;day_to_pull&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/date&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;all_dates&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;## get all the dates the scraper was run on&lt;/span&gt;
+    &lt;span class="n"&gt;dates&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;distinct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date_str&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;render_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;all-dates.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;dates&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;reversed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dates&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# latest date on top&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/date/&amp;lt;day_to_pull&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;by_date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;day_to_pull&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;render_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;index.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;day_to_pull&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;day_to_pull&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/sub&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;all_subs&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;## get all the dates the scraper was run on&lt;/span&gt;
+    &lt;span class="n"&gt;subs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;distinct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sub&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;render_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;all-subreddits.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;subs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;subs&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# sort list of subreddits&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/sub/&amp;lt;sub_to_pull&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;by_subreddit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sub_to_pull&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;render_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;by-subreddit.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;sub_to_pull&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;URL routes can &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#variable-rules"&gt;include variables in their definitions&lt;/a&gt; allowing us to customize our queries to get the exact information requested.&lt;/li&gt;
+&lt;li&gt;We use &lt;a href="http://docs.mongoengine.org/guide/querying.html"&gt;MongoEngine to query our database&lt;/a&gt; to get the recordset defined by our various routes.&lt;/li&gt;
+&lt;li&gt;Flask supports &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#http-methods"&gt;all HTTP request methods&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Controllers pass data into view templates and then render HTML using Jinja2. We will cover this topic in the &lt;code&gt;View&lt;/code&gt; section.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Execution&lt;/h4&gt;
+&lt;p&gt;To run our Flask application, we can add the following code to our &lt;code&gt;app.py&lt;/code&gt; module to ensure it executes when it's &lt;a href="http://stackoverflow.com/questions/419163/what-does-if-name-main-do"&gt;run as a script&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# app.py (3/3)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;View&lt;/h3&gt;
+&lt;p&gt;As we mentioned before, the view is the user interface (UI) of our web application which renders data from the model as defined by our template. If this sounds familiar, it's because it is. &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;We have already used the Jinja2 Templating Engine to generate HTML webpages&lt;/a&gt;. In this section, we will build upon our previous work and leverage the concept of &lt;a href="http://jinja.pocoo.org/docs/2.9/templates/#template-inheritance"&gt;Jinja template inheritance&lt;/a&gt; to create complex applications using an inheritance hierarchy.&lt;/p&gt;
+&lt;p&gt;Let's start off by acknowledging that as programmers, we aren't designers, but this shouldn't limit our ability to produce web app with attractive UIs. Like everything else in development, we can stand on the shoulders of giants and use templates created by those who came before us. The &lt;a href="https://html5boilerplate.com/"&gt;HTML5 Boilerplate&lt;/a&gt; is a popular front-end template we can use to kickstart our project.&lt;/p&gt;
+&lt;p&gt;Using &lt;a href="http://www.creativebloq.com/web-design/how-use-html-boilerplate-11513798"&gt;this post on how to use the HTML5 Boilerplate&lt;/a&gt; as a reference, let's get our hands dirty and create templates for our Reddit Top Posts website. Download and extract a copy of the &lt;a href="http://www.initializr.com/try"&gt;Responsive Template&lt;/a&gt; (&lt;a href="http://verekia.com/initializr/responsive-template/"&gt;docs&lt;/a&gt;) from &lt;a href="http://www.initializr.com/"&gt;initializr.com&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/1-10/4_download_responsive_template.png" alt="Download Reponsive Template" width=600/&gt;&lt;/p&gt;
+&lt;p&gt;Since Flask looks for Jinja2 files in the &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#rendering-templates"&gt;&lt;code&gt;templates&lt;/code&gt; folder&lt;/a&gt; and javascript/css files in the &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#static-files"&gt;&lt;code&gt;static&lt;/code&gt; folder&lt;/a&gt;, we will structure our application folder as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── app.py&lt;/span&gt;
+&lt;span class="go"&gt;├── models.py&lt;/span&gt;
+&lt;span class="go"&gt;├── static&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── css&lt;/span&gt;
+&lt;span class="go"&gt;│   │   ├── main.css&lt;/span&gt;
+&lt;span class="go"&gt;│   │   ├── normalize.css&lt;/span&gt;
+&lt;span class="go"&gt;│   │   └── normalize.min.css&lt;/span&gt;
+&lt;span class="go"&gt;│   └── js&lt;/span&gt;
+&lt;span class="go"&gt;│       ├── main.js&lt;/span&gt;
+&lt;span class="go"&gt;│       └── vendor&lt;/span&gt;
+&lt;span class="go"&gt;│           ├── jquery-1.11.2.min.js&lt;/span&gt;
+&lt;span class="go"&gt;│           └── modernizr-2.8.3-respond-1.4.2.min.js&lt;/span&gt;
+&lt;span class="go"&gt;├── status&lt;/span&gt;
+&lt;span class="go"&gt;└── templates&lt;/span&gt;
+&lt;span class="go"&gt;    ├── 404.html&lt;/span&gt;
+&lt;span class="go"&gt;    ├── all-dates.html&lt;/span&gt;
+&lt;span class="go"&gt;    ├── all-subreddits.html&lt;/span&gt;
+&lt;span class="go"&gt;    ├── base.html&lt;/span&gt;
+&lt;span class="go"&gt;    ├── by-subreddit.html&lt;/span&gt;
+&lt;span class="go"&gt;    └── index.html&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Base Template&lt;/h4&gt;
+&lt;p&gt;Using the concepts of &lt;a href="http://jinja.pocoo.org/docs/2.9/templates/#template-inheritance"&gt;Jinja2 template inheritence&lt;/a&gt; to create our hierarchy of views, we create our base template as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--templates/base.html--&amp;gt;&lt;/span&gt;
+
+&lt;span class="cp"&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;no-js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;lang&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;utf-8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;http-equiv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;X-UA-Compatible&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;IE=edge,chrome=1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Reddit Top Posts - {% block title %} {% endblock %}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;description&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;viewport&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;width=device-width, initial-scale=1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;link&lt;/span&gt; &lt;span class="na"&gt;rel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;../static/css/normalize.min.css&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;link&lt;/span&gt; &lt;span class="na"&gt;rel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;../static/css/main.css&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;header-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;header&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrapper clearfix&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h1&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Reddit Top Posts&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;nav&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ url_for(&amp;#39;index&amp;#39;) }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Home&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Log In&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Sign Up&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;nav&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;header&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;main-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;main wrapper clearfix&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;article&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                    {% block content %}
+
+                    {% endblock %}
+                &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;article&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;aside&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                    {% block aside %}
+                        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ url_for(&amp;#39;all_dates&amp;#39;) }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Select by Date&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+                        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ url_for(&amp;#39;all_subs&amp;#39;) }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Select by Subreddit&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                    {% endblock %}
+                &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;aside&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c"&gt;&amp;lt;!-- #main --&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c"&gt;&amp;lt;!-- #main-container --&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;footer-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;footer&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrapper&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h5&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="ni"&gt;&amp;amp;copy;&lt;/span&gt; Copyright 2017 by &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://alysivji.github.io&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Aly Sivji&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h5&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;jQuery&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;script src=&amp;quot;../static/js/vendor/jquery-1.11.2.min.js&amp;quot;&amp;gt;&amp;lt;\/script&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;../static/js/main.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://jinja.pocoo.org/docs/2.9/templates/#child-template"&gt;Child templates&lt;/a&gt; can replace the default content of items in between &lt;code&gt;{% block %}&lt;/code&gt; and &lt;code&gt;{% endblock %}&lt;/code&gt; tags.&lt;/li&gt;
+&lt;li&gt;The &lt;a href="http://flask.pocoo.org/docs/0.12/api/#flask.url_for"&gt;&lt;code&gt;url_for()&lt;/code&gt; method&lt;/a&gt; can generate URL endpoints&lt;/li&gt;
+&lt;li&gt;We changed the paths to the files in the &lt;code&gt;static&lt;/code&gt; folder to match our new web application directory structure.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Child Templates&lt;/h4&gt;
+&lt;p&gt;Each of our child templates will display a different view of our data. We will design our views as follows:&lt;br/&gt;
+&lt;img src="/images/1-10/4_templates_for_each_view.png" alt="Child Templates for Each View" width=600/&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--templates/index.html--&amp;gt;&lt;/span&gt;
+
+{% extends &amp;quot;base.html&amp;quot; %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Last Run: {{ day_to_pull }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        {% for selected_sub in Post.objects(date_str__gte=day_to_pull).distinct(&amp;#39;sub&amp;#39;) %}
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ selected_sub }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+            {% for post in Post.objects(date_str__gte=day_to_pull, sub=selected_sub) %}
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ post.url }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ post.title }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; (Score: {{ post.score }} | &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; {{ post.commentsUrl }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Comments&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;)&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            {% endfor %}
+
+        {% endfor %}
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+{% endblock %}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--templates/by_subreddits.html--&amp;gt;&lt;/span&gt;
+
+{% extends &amp;quot;base.html&amp;quot; %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Selected Sub-Reddit: {{ sub }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+    {% for date in Post.objects(sub=sub).fields(date_str=1).distinct(&amp;#39;date_str&amp;#39;) %}
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ date }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            {% for post in Post.objects(date_str=date, sub=sub).order_by(&amp;#39;-date_str&amp;#39;) %}
+                &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ post.url }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ post.title }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; (Score: {{ post.score }} | &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; {{ post.commentsUrl }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Comments&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;)&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            {% endfor %}
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+    {% endfor %}
+{% endblock %}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--templates/all-dates.html--&amp;gt;&lt;/span&gt;
+
+{% extends &amp;quot;base.html&amp;quot; %}
+
+{% block title %}By Date{% endblock %}
+
+{% block content %}
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Available Dates&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        {% for date in dates %}
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ url_for(&amp;#39;by_date&amp;#39;, day_to_pull=date) }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ date }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        {% endfor %}
+
+{% endblock %}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--templates/all-subreddits.html--&amp;gt;&lt;/span&gt;
+
+{% extends &amp;quot;base.html&amp;quot; %}
+
+{% block title %}By Sub-Reddit{% endblock %}
+
+{% block content %}
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Available Sub-Reddits&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h3&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+        {% for sub in subs %}
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ url_for(&amp;#39;by_subreddit&amp;#39;, sub_to_pull=sub) }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{ sub }}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        {% endfor %}
+
+{% endblock %}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's it. We can now run our web app.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Running Flask Application&lt;/h2&gt;
+&lt;p&gt;Let's run the app:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; python app.py
+&lt;span class="go"&gt;* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)&lt;/span&gt;
+&lt;span class="go"&gt;* Restarting with stat&lt;/span&gt;
+&lt;span class="go"&gt;* Debugger is active!&lt;/span&gt;
+&lt;span class="go"&gt;* Debugger pin code: 302-658-435&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We'll open the page in a browser: &lt;br /&gt;
+&lt;img src="/images/1-10/4_running_flask_app.png" alt="Child Templates for Each View" width=700/&gt;&lt;/p&gt;
+&lt;p&gt;Looks good!&lt;/p&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;In the CSS, I changed the color of the Responsive template from orange to blue as I will be using this template for a few work projects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In this post, we looked at different ways of getting data out of MongoDB and into the hands of our user. We covered Python web frameworks, explored the Flask microframework, learned about the Model-View-Controller design pattern, and created our first Flask web application.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Next Steps&lt;/h2&gt;
+&lt;p&gt;The next post in this series on Flask will delve into testing; specifically, unit testing in Flask using the &lt;code&gt;unittest&lt;/code&gt; module from the &lt;a href="https://docs.python.org/3/library/index.html"&gt;Python Standard Library&lt;/a&gt;. Unit testing will allow us to create tests which can ensure our program functionality does not change as we implement additional features to this project.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="flask"></category><category term="mongodb"></category><category term="flask-mongoengine"></category><category term="jinja2"></category><category term="reddit-scraper"></category></entry><entry><title>Generating HTML Pages from MongoDB with MongoEngine and Jinja2 (Flask Part 1)</title><link href="http://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html" rel="alternate"></link><published>2017-04-02T18:00:00-05:00</published><updated>2017-04-02T18:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-02:/flask-part1-generating-html-pages-with-mongoengine-jinja2.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
