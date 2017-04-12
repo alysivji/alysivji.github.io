@@ -1,5 +1,377 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Tutorials</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/tutorials.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-04-11T02:45:00-05:00</updated><entry><title>Building a Flask Web Application (Flask Part 2)</title><link href="http://alysivji.github.io/flask-part2-building-a-flask-web-application.html" rel="alternate"></link><published>2017-04-11T02:45:00-05:00</published><updated>2017-04-11T02:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-11:/flask-part2-building-a-flask-web-application.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Tutorials</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/tutorials.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-04-12T03:00:00-05:00</updated><entry><title>Scheduling Web Scrapers on the PythonAnywhere Cloud (Scrapy Part 2)</title><link href="http://alysivji.github.io/scrapy-part2-running-scrapy-on-pythonanywhere.html" rel="alternate"></link><published>2017-04-12T03:00:00-05:00</published><updated>2017-04-12T03:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-12:/scrapy-part2-running-scrapy-on-pythonanywhere.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Running Scrapy spider as a script&lt;/li&gt;
+&lt;li&gt;Scheduling script to run on PythonAnywhere cloud&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html"&gt;Previously on Siv Scripts&lt;/a&gt;, we created a web scraping pipeline to pull Top Posts from Reddit and store them in a MongoDB collection. At this stage, we …&lt;/p&gt;</summary><content type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;h4&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Running Scrapy spider as a script&lt;/li&gt;
+&lt;li&gt;Scheduling script to run on PythonAnywhere cloud&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://alysivji.github.io/mongodb-pipelines-in-scrapy.html"&gt;Previously on Siv Scripts&lt;/a&gt;, we created a web scraping pipeline to pull Top Posts from Reddit and store them in a MongoDB collection. At this stage, we still have to manually execute our crawler via the command-line interface (CLI) each time we want to scrape Reddit.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Cue &lt;a href="https://twitter.com/raymondh"&gt;Raymond Hettinger&lt;/a&gt;:&lt;/em&gt; There &lt;strong&gt;MUST&lt;/strong&gt; be a better way!&lt;/p&gt;
+&lt;p&gt;And there is!&lt;/p&gt;
+&lt;p&gt;In this post, we will convert our command-line Scrapy application into a script that we will schedule to run on the &lt;a href="https://www.pythonanywhere.com"&gt;Python Anywhere&lt;/a&gt; cloud platform. In addition, we will use our &lt;code&gt;top_post_emailer&lt;/code&gt; module to &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;automatically send ourselves an email digest&lt;/a&gt; of the data that was scraped.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What You Need to Follow Along&lt;/h2&gt;
+&lt;h3&gt;Development Tools (Stack)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.python.org/downloads/"&gt;PythonAnywhere account&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.mongodb.com/manual/installation/"&gt;MongoDB&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Cloud accessible installation -- &lt;a href="https://mlab.com/"&gt;MLab&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Free Sandbox plan provides single database with 0.5 GB storage on a shared VM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mailgun.com/signup"&gt;MailGun account&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Free account is limited to 10K emails per month, more than enough for our purposes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/alysivji/reddit-top-posts-scrapy"&gt;Github Repo&lt;/a&gt; - Tag: &lt;a href="https://github.com/alysivji/reddit-top-posts-scrapy/tree/blog-scrapy-part2"&gt;blog-scrapy-part2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can checkout the code from the git repository as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout tags/blog-scrapy-part2
+&lt;span class="go"&gt;Note: checking out &amp;#39;tags/blog-scrapy-part2&amp;#39;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or we can use &lt;a href="http://kinolien.github.io/gitzip/"&gt;GitZip&lt;/a&gt; to download the tagged commit by URL.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Setting up MongoDB on mLab&lt;/h2&gt;
+&lt;p&gt;Up until now we have been using a local instance of MongoDB to store our scraped data. Since we will be running our scraper on the cloud, we will also need to create an online instance of our database where we can store data.&lt;/p&gt;
+&lt;p&gt;Head over to &lt;a href="https://mlab.com/"&gt;mLab&lt;/a&gt; to create an account and set up a collection in our sandbox database to store the data.&lt;/p&gt;
+&lt;p&gt;Let's initialize our MongoDB collection with documents from our local collection. &lt;a href="https://docs.mongodb.com/manual/core/backups/"&gt;From the MongoDB docs&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; mongoexport --db sivji-sandbox --collection top_reddit_posts --out 20170322-reddit-posts.json
+&lt;span class="go"&gt;2017-03-22T23:18:39.404-0500    connected to: localhost&lt;/span&gt;
+&lt;span class="go"&gt;2017-03-22T23:18:39.429-0500    exported 751 records&lt;/span&gt;
+
+&lt;span class="gp"&gt;$&lt;/span&gt; mongoimport -h &amp;lt;mlab-url&amp;gt;:port -d sivji-sandbox -c top_reddit_posts -u &amp;lt;dbuser&amp;gt; -p &amp;lt;dbpass&amp;gt; --file 20170322-reddit-posts.json
+&lt;span class="go"&gt;2017-03-22T23:21:14.075-0500    connected to: &amp;lt;mlab-url&amp;gt;:port&lt;/span&gt;
+&lt;span class="go"&gt;2017-03-22T23:21:15.504-0500    imported 751 documents&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can use &lt;a href="https://www.mongodb.com/products/compass"&gt;MongoDB Compass&lt;/a&gt; to view our mLab instance and create indexes for our collection. I covered how to do this in a &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html#creating-mongodb-indexes"&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Running Scrapy From a Script&lt;/h2&gt;
+&lt;p&gt;Currently we run our spider using the &lt;code&gt;scrapy crawl&lt;/code&gt; command via Scrapy's CLI. Looking through the Scrapy documentation, we see that we can &lt;a href="http://scrapy.readthedocs.io/en/latest/topics/practices.html#run-from-script"&gt;utilize Scrapy's API and run our scraper as a script&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In our Scrapy directory, let's add the following file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# app.py (v1)&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Script to crawl Top Posts across sub reddits and store results in MongoDB&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.crawler&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;CrawlerProcess&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;reddit.spiders&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PostSpider&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;CrawlerProcess&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;get_project_settings&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+    &lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crawl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PostSpider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# the script will block here until the crawling is finished&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's also take this opportunity to modify our Scrapy project to use our mLab MongoDB instance. This will require us to change the following files:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# settings.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;configparser&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure item pipelines&lt;/span&gt;
+&lt;span class="c1"&gt;# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html&lt;/span&gt;
+&lt;span class="n"&gt;ITEM_PIPELINES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;reddit.pipelines.MongoPipeline&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;300&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;## get mongodb params (using configparser)&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configparser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigParser&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;settings.cfg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;mlab_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MongoDB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;mlab_uri&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;MONGO_URI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mlab_uri&lt;/span&gt;
+&lt;span class="n"&gt;MONGO_DATABASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/settings.cfg&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;MongoDB&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;mlab_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;mLab&lt;/span&gt; &lt;span class="n"&gt;URI&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Our Scrapy project folder should have the following structure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── app.py&lt;/span&gt;
+&lt;span class="go"&gt;├── reddit&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── __init__.py&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── items.py&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── middlewares.py&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── pipelines.py&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── settings.cfg&lt;/span&gt;
+&lt;span class="go"&gt;│   ├── settings.py&lt;/span&gt;
+&lt;span class="go"&gt;│   └── spiders&lt;/span&gt;
+&lt;span class="go"&gt;│       └── __init__.py&lt;/span&gt;
+&lt;span class="go"&gt;└── scrapy.cfg&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can execute our Reddit Top Posts scraper as a script by running  &lt;code&gt;app.py&lt;/code&gt; in a Python interpreter.&lt;/p&gt;
+&lt;h4&gt;Aside: Testing Web Scrapers&lt;/h4&gt;
+&lt;p&gt;How should we test web scrapers?&lt;/p&gt;
+&lt;p&gt;We could download an offline copy of the webpage we are scraping and use that to test changes to our &lt;code&gt;parse()&lt;/code&gt; method. Let's think about this a bit more: what happens if the website changes its layout and our offline copy becomes stale? A StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt; user &lt;a href="http://stackoverflow.com/a/12741030/4326704"&gt;suggested a good workflow for this situation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We could also consider utilizing &lt;a href="https://doc.scrapy.org/en/latest/topics/contracts.html"&gt;Spider contracts&lt;/a&gt; to check if we are getting expected results for a specified URL. Be aware of the &lt;a href="http://stackoverflow.com/a/38193550/4326704"&gt;limitations and issues with contracts&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will not be implementing any kind of unit tests for this scraper. The Reddit layout is more-or-less static. If the website changes, we will notice this in the email digests we receive and we can make the necessary modifications at that time. For projects that are a bit more critical than our toy scraper, we should probably set up unit tests as described above.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;&lt;code&gt;import&lt;/code&gt; Email Functionality&lt;/h2&gt;
+&lt;p&gt;In a previous post, we &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;created the &lt;code&gt;top_post_emailer&lt;/code&gt; to send ourselves email digests&lt;/a&gt;. Let's &lt;code&gt;import&lt;/code&gt; this package and wire it into our script.&lt;/p&gt;
+&lt;p&gt;If you followed the previous post, copy the &lt;code&gt;top_post_emailer&lt;/code&gt; folder into the Scrapy project folder. If you do not already have this package, you can download &lt;a href="https://github.com/alysivji/reddit-top-posts-email-from-mongodb/tree/master/top_post_emailer"&gt;this folder from Github&lt;/a&gt; using &lt;a href="http://kinolien.github.io/gitzip/"&gt;GitZip&lt;/a&gt; and extract it into the Scrapy project folder.&lt;/p&gt;
+&lt;p&gt;Since we are using mLab as our database, we will need to update the following files:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/__init__.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;configparser&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mongoengine.connection&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;connect&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.data_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.render_template&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;render&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.mailgun_emailer&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;send_email&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;email_last_scraped_date&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;## mongodb params (using configparser)&lt;/span&gt;
+    &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configparser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigParser&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;settings.cfg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;mlab_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;MongoDB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;mlab_uri&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# connect to db&lt;/span&gt;
+    &lt;span class="n"&gt;MONGO_URI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mlab_uri&lt;/span&gt;
+    &lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MONGO_URI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;    
+
+    &lt;span class="c1"&gt;## get the last date the webscraper was run&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;order_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-date_str&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;limit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;day_to_pull&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;
+
+    &lt;span class="c1"&gt;## pass in variables, render template, and send&lt;/span&gt;
+    &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;day_to_pull&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;day_to_pull&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;&amp;#39;Post&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;template.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;send_email&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# top_post_emailer/settings.cfg&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;MailGun&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;MailGun&lt;/span&gt; &lt;span class="n"&gt;API&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;MailGun&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;MongoDB&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;mlab_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Your&lt;/span&gt; &lt;span class="n"&gt;mLab&lt;/span&gt; &lt;span class="n"&gt;URI&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's add email functionality to our script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# app.py (v2 - final version)&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Script to crawl Top Posts across sub reddits and store results in MongoDB&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;logging&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.utils.project&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_project_settings&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.crawler&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;CrawlerProcess&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;reddit.spiders&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PostSpider&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;top_post_emailer&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;email_last_scraped_date&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basicConfig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;INFO&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;logger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getLogger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# only run on saturdays (once a week)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strftime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;today&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;%A&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;saturday&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;crawler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;CrawlerProcess&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;get_project_settings&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+        &lt;span class="n"&gt;crawler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crawl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PostSpider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;crawler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# the script will block here until the crawling is finished&lt;/span&gt;
+
+        &lt;span class="n"&gt;email_last_scraped_date&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Scrape complete and email sent.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Script did not run.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Note&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;We used the &lt;a href="https://docs.python.org/3/library/logging.html"&gt;Python &lt;code&gt;logging&lt;/code&gt; module&lt;/a&gt; to provide additional details on the innerworkings of our application. Another fantastic tool available in the &lt;a href="https://docs.python.org/3/library/index.html"&gt;Python Standard Library&lt;/a&gt;. &lt;em&gt;Batteries are included&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;PythonAnywhere&lt;/h2&gt;
+&lt;p&gt;In this section we will explore the PythonAnywhere cloud platform, set up a Python virtual environment for our scraper, and configure the PythonAnywhere scheduler to run our Scrapy script.&lt;/p&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.pythonanywhere.com/"&gt;From the website&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;PythonAnywhere makes it easy to create and run Python programs in the cloud. You can write your programs in a web-based editor or just run a console session from any modern web browser. There's storage space on our servers, and you can preserve your session state and access it from anywhere, with no need to pay for, or configure, your own server. Start work on your work desktop, then later pick up from where you left off by accessing exactly the same session from your laptop.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;What does this mean?&lt;/em&gt; For 5 bucks a month, we can host websites and schedule batch jobs in a fully configurable Python environment.&lt;/p&gt;
+&lt;p&gt;More information can be found on &lt;a href="https://www.pythonanywhere.com/"&gt;their website&lt;/a&gt; and &lt;a href="https://talkpython.fm/episodes/show/10/bringing-python-to-the-masses-with-hosting-and-devops-at-pythonanywhere"&gt;Episode 10 of the Talk Python to Me podcast&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Setting Up Environment&lt;/h3&gt;
+&lt;p&gt;After you create an account, you will need to open up a Bash console:&lt;br /&gt;
+&lt;img src="/images/1-10/5_pythonanywhere_console.png" alt="PythonAnywhere - Create Console" width=400/&gt;&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;virtualenv&lt;/code&gt; and &lt;code&gt;pip&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Now we will set up a &lt;code&gt;virtualenv&lt;/code&gt; and &lt;code&gt;pip install&lt;/code&gt; required packages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;11:06 ~ $&lt;/span&gt; mkvirtualenv scrapy36 --python&lt;span class="o"&gt;=&lt;/span&gt;/usr/bin/python3.6
+&lt;span class="go"&gt;Running virtualenv with interpreter /usr/bin/python3.6&lt;/span&gt;
+&lt;span class="go"&gt;Using base prefix &amp;#39;/usr&amp;#39;&lt;/span&gt;
+&lt;span class="go"&gt;New python executable in /home/pythonsivji/.virtualenvs/scrapy36/bin/python3.6&lt;/span&gt;
+&lt;span class="go"&gt;Also creating executable in /home/pythonsivji/.virtualenvs/scrapy36/bin/python&lt;/span&gt;
+&lt;span class="go"&gt;Installing setuptools, pip, wheel...done.&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /home/pythonsivji/.virtualenvs/scrapy36/bin/predeactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /home/pythonsivji/.virtualenvs/scrapy36/bin/postdeactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /home/pythonsivji/.virtualenvs/scrapy36/bin/preactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /home/pythonsivji/.virtualenvs/scrapy36/bin/postactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /home/pythonsivji/.virtualenvs/scrapy36/bin/get_env_details&lt;/span&gt;
+&lt;span class="go"&gt;(scrapy36) 11:08 ~ $ which python&lt;/span&gt;
+&lt;span class="go"&gt;/home/pythonsivji/.virtualenvs/scrapy36/bin/python&lt;/span&gt;
+&lt;span class="go"&gt;(scrapy36) 11:08 ~ $ pip install scrapy mongoengine jinja2 requests&lt;/span&gt;
+&lt;span class="go"&gt;Collecting scrapy&lt;/span&gt;
+&lt;span class="go"&gt;  Downloading Scrapy-1.3.3-py2.py3-none-any.whl (240kB)&lt;/span&gt;
+&lt;span class="go"&gt;    100% |████████████████████████████████| 245kB 2.2MB/s&lt;/span&gt;
+&lt;span class="go"&gt;Collecting mongoengine&lt;/span&gt;
+&lt;span class="go"&gt;  Downloading mongoengine-0.11.0.tar.gz (352kB)&lt;/span&gt;
+&lt;span class="go"&gt;    100% |████████████████████████████████| 358kB 1.8MB/s&lt;/span&gt;
+&lt;span class="go"&gt;Collecting jinja2&lt;/span&gt;
+&lt;span class="go"&gt;Collecting requests&lt;/span&gt;
+&lt;span class="go"&gt;... additional rows ommitted ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Additional Resources&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://realpython.com/blog/python/python-virtual-environments-a-primer/"&gt;Python Virtual Environments - a Primer&lt;/a&gt; - Real Python&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://help.pythonanywhere.com/pages/Virtualenvs/"&gt;PythonAnywhere help page: &lt;code&gt;virtualenv&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Uploading code into PythonAnywhere&lt;/h4&gt;
+&lt;p&gt;There are &lt;a href="https://help.pythonanywhere.com/pages/FTP/"&gt;many ways&lt;/a&gt; to get code in and out of PythonAnywhere. We will be uploading our local project folder to Github and then cloning our repo into PythonAnywhere as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;(scrapy36) 23:50 ~ $ mkdir siv-dev &amp;amp;&amp;amp; cd siv-dev&lt;/span&gt;
+&lt;span class="go"&gt;(scrapy36) 23:51 ~/siv-dev $ git clone https://github.com/alysivji/reddit-top-posts-scrapy.git&lt;/span&gt;
+&lt;span class="go"&gt;Cloning into &amp;#39;reddit-top-posts-scrapy&amp;#39;...&lt;/span&gt;
+&lt;span class="go"&gt;remote: Counting objects: 63, done.&lt;/span&gt;
+&lt;span class="go"&gt;remote: Compressing objects: 100% (23/23), done.&lt;/span&gt;
+&lt;span class="go"&gt;remote: Total 63 (delta 9), reused 0 (delta 0), pack-reused 39&lt;/span&gt;
+&lt;span class="go"&gt;Unpacking objects: 100% (63/63), done.&lt;/span&gt;
+&lt;span class="go"&gt;Checking connectivity... done.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Creating a git repo is not covered here. There are plenty of online resources available that cover this topic in the requisite detail. &lt;a href="https://xkcd.com/1597/"&gt;Relevant xkcd&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Make sure you add &lt;code&gt;settings.cfg&lt;/code&gt; to your &lt;code&gt;.gitignore&lt;/code&gt; file if you are using a public repo. In this case, you will need to manually upload the &lt;code&gt;settings.cfg&lt;/code&gt; files into their respective folders&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Set up Scheduler&lt;/h3&gt;
+&lt;p&gt;In order to &lt;a href="https://help.pythonanywhere.com/pages/VirtualEnvInScheduledTasks"&gt;run a scheduled task in a virtualenv&lt;/a&gt;, we require the full path to the virtualenv's Python. We can get this as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;(scrapy36) 23:52 ~/siv-dev/reddit-top-posts-scrapy (master)$ which python&lt;/span&gt;
+&lt;span class="go"&gt;/home/pythonsivji/.virtualenvs/scrapy36/bin/python&lt;/span&gt;
+&lt;span class="go"&gt;(scrapy36) 23:54 ~/siv-dev/reddit-top-posts-scrapy (master)$ pwd&lt;/span&gt;
+&lt;span class="go"&gt;/home/pythonsivji/siv-dev/reddit-top-posts-scrapy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we will create a bash script to &lt;code&gt;cd&lt;/code&gt; into our project directory and execute the Scrapy script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ./run_reddit_scraper&lt;/span&gt;
+
+&lt;span class="c1"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c1"&gt;# scrapy project files require us to be in the project folder to load settings&lt;/span&gt;
+&lt;span class="c1"&gt;# run with scrapy virtualenv&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt; /home/pythonsivji/siv-dev/reddit-top-posts-scrapy/
+&lt;span class="s2"&gt;&amp;quot;/home/pythonsivji/.virtualenvs/scrapy36/bin/python&amp;quot;&lt;/span&gt; app.py
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In the console, we will need to change permissions to make our newly-created file executable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; chmod &lt;span class="m"&gt;755&lt;/span&gt; run_reddit_scraper
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next, we schedule the following command to run &lt;strong&gt;Daily&lt;/strong&gt; at &lt;strong&gt;10:00 UTC&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;./run_reddit_scraper&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The Schedule dashboard should look as follows:&lt;br /&gt;
+&lt;img src="/images/1-10/5_python_anywhere_schedule_task.png" alt="PythonAnywhere - Scheduled Task" width=400/&gt;&lt;/p&gt;
+&lt;h3&gt;Monitoring Runtime&lt;/h3&gt;
+&lt;p&gt;Let's take a look at the log to make sure everything is working:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;... additional rows omitted ...&lt;/span&gt;
+&lt;span class="go"&gt;DEBUG:root:Post added to MongoDB&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:29 [root] DEBUG: Post added to MongoDB&lt;/span&gt;
+&lt;span class="go"&gt;DEBUG:scrapy.core.scraper:Scraped from &amp;lt;200 https://www.reddit.com/r/MachineLearning/top/?sort=top&amp;amp;t=week&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;{&amp;#39;commentsUrl&amp;#39;: &amp;#39;https://www.reddit.com/r/MachineLearning/comments/61kym3/p_poker_hand_classification_advice_needed/&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;date&amp;#39;: datetime.datetime(2017, 4, 1, 14, 45, 29, 385712),&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;date_str&amp;#39;: &amp;#39;2017-04-01&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;score&amp;#39;: 24,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;sub&amp;#39;: &amp;#39;MachineLearning&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;title&amp;#39;: &amp;#39;[P] Poker hand classification, advice needed&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;url&amp;#39;: &amp;#39;https://www.reddit.com/r/MachineLearning/comments/61kym3/p_poker_hand_classification_advice_needed/&amp;#39;}&lt;/span&gt;
+&lt;span class="go"&gt;INFO:scrapy.core.engine:Closing spider (finished)&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:29 [scrapy.core.engine] INFO: Closing spider (finished)&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:29 [scrapy.statscollectors] INFO: Dumping Scrapy stats:&lt;/span&gt;
+&lt;span class="go"&gt;{&amp;#39;downloader/request_bytes&amp;#39;: 2388,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/request_count&amp;#39;: 7,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/request_method_count/GET&amp;#39;: 7,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_bytes&amp;#39;: 101355,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_count&amp;#39;: 7,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_status_count/200&amp;#39;: 5,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;downloader/response_status_count/301&amp;#39;: 2,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;finish_reason&amp;#39;: &amp;#39;finished&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;finish_time&amp;#39;: datetime.datetime(2017, 4, 1, 14, 45, 29, 398366),&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;item_scraped_count&amp;#39;: 100,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;log_count/DEBUG&amp;#39;: 208,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;log_count/INFO&amp;#39;: 7,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;response_received_count&amp;#39;: 5,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/dequeued&amp;#39;: 6,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/dequeued/memory&amp;#39;: 6,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/enqueued&amp;#39;: 6,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;scheduler/enqueued/memory&amp;#39;: 6,&lt;/span&gt;
+&lt;span class="go"&gt; &amp;#39;start_time&amp;#39;: datetime.datetime(2017, 4, 1, 14, 45, 26, 699177)}&lt;/span&gt;
+&lt;span class="go"&gt;INFO:scrapy.core.engine:Spider closed (finished)&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:29 [scrapy.core.engine] INFO: Spider closed (finished)&lt;/span&gt;
+&lt;span class="go"&gt;DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): api.mailgun.net&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:29 [requests.packages.urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): api.mailgun.net&lt;/span&gt;
+&lt;span class="go"&gt;DEBUG:requests.packages.urllib3.connectionpool:https://api.mailgun.net:443 &amp;quot;POST /v3/sandbox024e4bcae7814311932f6e9569cea611.mailgun.org/messages HTTP/1.1&amp;quot; 200 138&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:30 [requests.packages.urllib3.connectionpool] DEBUG: https://api.mailgun.net:443 &amp;quot;POST /v3/sandbox024e4bcae7814311932f6e9569cea611.mailgun.org/messages HTTP/1.1&amp;quot; 200 138&lt;/span&gt;
+&lt;span class="go"&gt;INFO:__main__:Scrape complete and email sent.&lt;/span&gt;
+&lt;span class="go"&gt;2017-04-01 14:45:30 [__main__] INFO: Scrape complete and email sent.&lt;/span&gt;
+&lt;span class="go"&gt;Success!&lt;/span&gt;
+
+&lt;span class="go"&gt;2017-04-01 14:45:30 -- Completed task, took 11.00 seconds, return code was 0.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Was the email digest sent?&lt;br /&gt;
+&lt;img src="/images/1-10/5_email_digest.png" alt="PythonAnywhere - Create Console" width=400/&gt;&lt;/p&gt;
+&lt;p&gt;And we're done!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In this post, we refactored our Reddit Top Posts web scraper to automatically run on the PythonAnywhere cloud. Now that our data collection process is automated, we just have to monitor emails to ensure the script is working as intended.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="mlab"></category><category term="python-anywhere"></category><category term="web-scraping"></category><category term="automation"></category><category term="reddit-scraper"></category></entry><entry><title>Building a Flask Web Application (Flask Part 2)</title><link href="http://alysivji.github.io/flask-part2-building-a-flask-web-application.html" rel="alternate"></link><published>2017-04-11T02:45:00-05:00</published><updated>2017-04-11T02:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-11:/flask-part2-building-a-flask-web-application.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
