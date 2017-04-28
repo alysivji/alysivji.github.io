@@ -116,25 +116,37 @@
 	<blockquote>
 <h4>Summary</h4>
 <ul>
-<li>Web frameworks intro</li>
-<li>Explore the Flask microframework</li>
-<li>Understand the Model-View-Controller (MVC) pattern</li>
-<li>Build Flask web app</li>
+<li></li>
+<li></li>
 </ul>
 </blockquote>
 <hr>
-<p>Introduction spiel</p>
-<p>also read effective python... maybe beazley too (python cookbook)</p>
-<p><a href="https://www.youtube.com/watch?v=wf-BqAjZb8M">beyond pep 8</a></p>
-<p>https://docs.python.org/3/library/contextlib.html</p>
-<p>https://en.wikibooks.org/wiki/Python_Programming/Context_Managers</p>
-<p>https://jeffknupp.com/blog/2016/03/07/python-with-context-managers/</p>
+<p>http://www.pythonforbeginners.com/error-handling/python-try-and-except</p>
+<p>Coming into Python from a C# background, I fell into my old habit of using <code>try ... except ... finally</code> blocks anytime I was doing anything with an external resource.</p>
+<p>In the book Code Complete, Steve McConnel mentions that one of the major themes is to "Program into Your Language, Not in It" What does this mean?</p>
+<blockquote>
+<p>Don’t limit your programming thinking only to the concepts that are supported auto- matically by your language. The best programmers think of what they want to do, and then they assess how to accomplish their objectives with the programming tools at their disposal.</p>
+</blockquote>
+<p>To me this means that I should be going out of my way to be "Pythonic" and, when possible, try to use Python best practices or reommended design pattersn.</p>
+<p>Context managers.... use it to consume resources</p>
+<h3>Context</h3>
+<p>I recently read a blog post by <a href="https://twitter.com/jeresig">John Resig</a> where he discussed how <a href="https://johnresig.com/blog/write-code-every-day/">writing code everyday</a> reduced his anxiety about not working hard enough on side projects. By spending a minimum of 30 mintues/day making incremental progoress, he kept his current task processing in the back of his mind and started to complete more and more projects.</p>
+<p>If writing code everyday is good enough for the creator of jQuery, surely this deliberate method of practice will help me grow as a software developer. I've been documenting my streak by using the <a href="https://twitter.com/search?q=%23codeeveryday">#codeeveryday hashtag</a> on Twitter.</p>
+<p>After knocking out a few side projects from my todo list, I started to create a script to analyze my #codeeveryday streak.</p>
+<p>7_meta_meme.jpeg</p>
+<p><a href="https://www.youtube.com/watch?v=wf-BqAjZb8M">beyond pep 8</a>
+GET TIME IN VIDEO WHERE HE TALKS ABOUT IT</p>
 <p>http://book.pythontips.com/en/latest/context_managers.html</p>
+<p>https://jeffknupp.com/blog/2016/03/07/python-with-context-managers/</p>
+<p>Crucially, the variable only exists within the indented block below the with statement.</p>
+<p>Let's go over what we have. Like any class, there's an <strong>init</strong>() method that sets up the object (in our case, setting the file name to open and the mode to open it in). <strong>enter</strong>() opens and returns the file (also creating an attribute open_file so that we can refer to it in <strong>exit</strong>()). <strong>exit</strong>() just closes the file. Running the code above works because the file is being closed when it leaves the with File('foo.txt', 'w') as infile: block. Even if code in that block raised an exception, the file would still be closed.</p>
+<p>http://book.pythontips.com/en/latest/context_managers.html#handling-exceptions
+we pass information back into the <strong>exit</strong>() method and we can use this information to decide to shut down the resource</p>
 <hr>
 <h2>What You Need to Follow Along</h2>
 <h3>Development Tools (Stack)</h3>
 <ul>
-<li><a href="https://www.python.org/downloads/">PythonAnywhere account</a></li>
+<li><a href="https://www.python.org/downloads/">Python 3.6</a></li>
 <li><a href="https://docs.mongodb.com/manual/installation/">MongoDB</a><ul>
 <li>Cloud accessible installation -- <a href="https://mlab.com/">MLab</a></li>
 <li>Free Sandbox plan provides single database with 0.5 GB storage on a shared VM</li>
@@ -286,39 +298,15 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
-      <a href="../tag/python-anywhere.html">
+      <a href="../tag/pymongo.html">
           <i class="fa fa-tag"></i>
-        python-anywhere
+        pymongo
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pydata.html">
+      <a href="../tag/automation.html">
           <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/jinja2.html">
-          <i class="fa fa-tag"></i>
-        jinja2
-      </a>
-    </span>
-    <span class="tag-0">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-0">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
+        automation
       </a>
     </span>
     <span class="tag-4">
@@ -328,69 +316,9 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/soccer.html">
-          <i class="fa fa-tag"></i>
-        soccer
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/requests.html">
-          <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="../tag/gis.html">
           <i class="fa fa-tag"></i>
         gis
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/config-parser.html">
-          <i class="fa fa-tag"></i>
-        config-parser
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/cycling.html">
-          <i class="fa fa-tag"></i>
-        cycling
       </a>
     </span>
     <span class="tag-4">
@@ -405,28 +333,52 @@
         folium
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/flask-mongoengine.html">
+    <span class="tag-1">
+      <a href="../tag/python.html">
           <i class="fa fa-tag"></i>
-        flask-mongoengine
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
+        python
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/web-scraping.html">
+      <a href="../tag/data-science.html">
           <i class="fa fa-tag"></i>
-        web-scraping
+        data-science
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/requests.html">
+          <i class="fa fa-tag"></i>
+        requests
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/soccer.html">
+          <i class="fa fa-tag"></i>
+        soccer
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/cycling.html">
+          <i class="fa fa-tag"></i>
+        cycling
       </a>
     </span>
     <span class="tag-2">
@@ -435,10 +387,82 @@
         scrapy
       </a>
     </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/quick-hit.html">
+          <i class="fa fa-tag"></i>
+        quick-hit
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
     <span class="tag-4">
       <a href="../tag/mongoengine.html">
           <i class="fa fa-tag"></i>
         mongoengine
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/config-parser.html">
+          <i class="fa fa-tag"></i>
+        config-parser
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/jinja2.html">
+          <i class="fa fa-tag"></i>
+        jinja2
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/python-anywhere.html">
+          <i class="fa fa-tag"></i>
+        python-anywhere
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/flask-mongoengine.html">
+          <i class="fa fa-tag"></i>
+        flask-mongoengine
       </a>
     </span>
 </p>
