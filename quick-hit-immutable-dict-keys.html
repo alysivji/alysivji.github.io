@@ -270,6 +270,7 @@ div.cell.selected.jupyter-soft-selected {
   }
 }
 div.inner_cell {
+  min-width: 0;
   /* Old browsers */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -290,11 +291,6 @@ div.inner_cell {
   box-flex: 1;
   /* Modern browsers */
   flex: 1;
-}
-@-moz-document url-prefix() {
-  div.inner_cell {
-    overflow-x: hidden;
-  }
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
@@ -1109,7 +1105,8 @@ h6:hover .anchor-link {
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[1]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>{('Aly', 'Sivji'): True}</pre>
 </div>
@@ -1143,7 +1140,8 @@ h6:hover .anchor-link {
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[2]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>{('Aly', 'Sivji'): True, Person(first_name='Bob', last_name='Smith'): True}</pre>
 </div>
@@ -1173,7 +1171,8 @@ h6:hover .anchor-link {
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>The Zen of Python, by Tim Peters
 
@@ -1211,6 +1210,7 @@ Namespaces are one honking great idea -- let's do more of those!
 </div>
 </div>
 </div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -1325,93 +1325,9 @@ Namespaces are one honking great idea -- let's do more of those!
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/python-anywhere.html">
-          <i class="fa fa-tag"></i>
-        python-anywhere
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/mongoengine.html">
-          <i class="fa fa-tag"></i>
-        mongoengine
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="./tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/visualization.html">
-          <i class="fa fa-tag"></i>
-        visualization
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="./tag/flask-mongoengine.html">
           <i class="fa fa-tag"></i>
         flask-mongoengine
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/scrapy.html">
-          <i class="fa fa-tag"></i>
-        scrapy
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pydata.html">
-          <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="./tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
       </a>
     </span>
     <span class="tag-2">
@@ -1420,34 +1336,22 @@ Namespaces are one honking great idea -- let's do more of those!
         jinja2
       </a>
     </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
+    <span class="tag-1">
+      <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/requests.html">
-          <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/cycling.html">
-          <i class="fa fa-tag"></i>
-        cycling
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
+        mongodb
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/data-science.html">
+      <a href="./tag/web-scraping.html">
           <i class="fa fa-tag"></i>
-        data-science
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
       </a>
     </span>
     <span class="tag-4">
@@ -1457,21 +1361,45 @@ Namespaces are one honking great idea -- let's do more of those!
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/pymongo.html">
+      <a href="./tag/cycling.html">
           <i class="fa fa-tag"></i>
-        pymongo
+        cycling
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/mongodb.html">
+    <span class="tag-2">
+      <a href="./tag/pydata.html">
           <i class="fa fa-tag"></i>
-        mongodb
+        pydata
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/automation.html">
+          <i class="fa fa-tag"></i>
+        automation
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/soccer.html">
+      <a href="./tag/gis.html">
           <i class="fa fa-tag"></i>
-        soccer
+        gis
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
       </a>
     </span>
     <span class="tag-4">
@@ -1481,9 +1409,81 @@ Namespaces are one honking great idea -- let's do more of those!
       </a>
     </span>
     <span class="tag-4">
+      <a href="./tag/mongoengine.html">
+          <i class="fa fa-tag"></i>
+        mongoengine
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
         exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/visualization.html">
+          <i class="fa fa-tag"></i>
+        visualization
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/python-anywhere.html">
+          <i class="fa fa-tag"></i>
+        python-anywhere
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/requests.html">
+          <i class="fa fa-tag"></i>
+        requests
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/soccer.html">
+          <i class="fa fa-tag"></i>
+        soccer
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
       </a>
     </span>
 </p>

@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="A Gentle Introduction into Context Managers: The Pythonic Way of Managing Resources">
+    <meta name="twitter:title" content="A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content="..">
 
-    <title>A Gentle Introduction into Context Managers: The Pythonic Way of Managing Resources - Siv Scripts</title>
+    <title>A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -100,8 +100,8 @@
   Mon 08 May 2017
 </abbr> <h1>
   <a href="../drafts/managing-resources-with-context-managers-pythonic.html" rel="bookmark"
-     title="Permalink to A Gentle Introduction into Context Managers: The Pythonic Way of Managing Resources">
-    A Gentle Introduction into Context Managers: The Pythonic Way of Managing Resources
+     title="Permalink to A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources">
+    A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -270,6 +270,7 @@ div.cell.selected.jupyter-soft-selected {
   }
 }
 div.inner_cell {
+  min-width: 0;
   /* Old browsers */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -290,11 +291,6 @@ div.inner_cell {
   box-flex: 1;
   /* Modern browsers */
   flex: 1;
-}
-@-moz-document url-prefix() {
-  div.inner_cell {
-    overflow-x: hidden;
-  }
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
@@ -1091,9 +1087,9 @@ h6:hover .anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <blockquote><h4 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h4><ul>
-<li>Understand <code>with</code> statement and the context manager protocol</li>
-<li>Implement Context Managers class to query MongoDB</li>
-<li>Learn to convert <code>try...finally</code> blocks to <code>with</code> blocks</li>
+<li>Explore the <code>with</code> statement and the context manager protocol</li>
+<li>Implement class that can be used as a context manager to query MongoDB</li>
+<li>Convert <code>try...finally</code> blocks to <code>with</code> blocks and increase code readability</li>
 </ul>
 </blockquote>
 </div>
@@ -1119,7 +1115,7 @@ h6:hover .anchor-link {
 <p>...</p>
 <p>Programming using the most obvious path amounts to programming in a language rather than programming into a language; it’s the programmer’s equivalent of “If Freddie jumped off a bridge, would you jump off a bridge, too?” Think about your technical goals, and then decide how best to accomplish those goals by programming into your language.</p>
 </blockquote>
-<p>Said another way, just because you do things a certain way in one language, that doesn't mean that you should be following the same pattern in another language. When I came into Python from C# and JavaScript, I brought all my habits with me. Instead of looking for the <a href="http://python-guide-pt-br.readthedocs.io/en/latest/writing/style/">Pythonic solution</a>, I looked for the Python syntax to do things the way I've always done them.</p>
+<p>Said another way, just because you do things a certain way in one language, that doesn't mean that you should be following the same pattern in another language. When I came into Python from C# and JavaScript, I brought all my habits with me. Instead of looking for a <a href="http://python-guide-pt-br.readthedocs.io/en/latest/writing/style/">Pythonic solution</a>, I looked for the Python syntax to do things the way I've always done them.</p>
 <p>Take <a href="https://en.wikipedia.org/wiki/Resource_management_%28computing%29">resource management</a> as an example. I used <code>try...except...finally</code> blocks (<code>try-catch-finally</code> in C# & JavaScript) to ensure that I closed the resource that was being consumed, even if an exception occurred. Although this method works, we are not using the tools and language patterns provided by the <a href="https://docs.python.org/3.6/library/">Python standard library</a>.</p>
 <p><em>Cue <a href="https://twitter.com/raymondh">Raymond Hettinger</a>:</em> There <strong>MUST</strong> be a better way!</p>
 <p>And there is! It's something we've all used before and probably never even thought about: <a href="https://docs.python.org/3.6/library/stdtypes.html#context-manager-types">context managers</a> and the <a href="https://docs.python.org/3.6/reference/compound_stmts.html#the-with-statement"><code>with</code> statement</a>!</p>
@@ -1144,6 +1140,7 @@ h6:hover .anchor-link {
 <h2 id="What-You-Need-to-Follow-Along">What You Need to Follow Along<a class="anchor-link" href="#What-You-Need-to-Follow-Along">¶</a></h2><h3 id="Development-Tools-(Stack)">Development Tools (Stack)<a class="anchor-link" href="#Development-Tools-(Stack)">¶</a></h3><ul>
 <li><a href="https://www.python.org/downloads/">Python 3</a></li>
 <li><a href="https://docs.mongodb.com/manual/installation/">MongoDB</a> (local or online instance)</li>
+<li><a href="https://api.mongodb.com/python/current/installation.html">PyMongo</a></li>
 </ul>
 <h3 id="Code">Code<a class="anchor-link" href="#Code">¶</a></h3><ul>
 <li><a href="https://github.com/alysivji/codeeveryday/blob/master/2017-04-codeeveryday-hashtag-streak/create-tweet-hashtag-dashboard.ipynb">Jupyter Notebook on Github</a></li>
@@ -1166,6 +1163,7 @@ h6:hover .anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="with-Statement-and-Context-Manager-Protocol"><code>with</code> Statement and Context Manager Protocol<a class="anchor-link" href="#with-Statement-and-Context-Manager-Protocol">¶</a></h2><p>The <code>with</code> statement is a control-flow structure that allow us to encapsulate <code>try...except...finally</code> blocks for convenient reuse resulting in cleaner and easier to understand code (<a href="https://www.python.org/dev/peps/pep-0343/">PEP 343</a> | <a href="https://docs.python.org/3/reference/compound_stmts.html#with">Python Docs</a>).</p>
+<p>The <code>with</code> statement supports a runtime context which is implemented through a pair of methods that are executed before the statement body is entered (<code>__enter__()</code>) as well as after the statement body is exited (<code>__exit__()</code>) (<a href="https://docs.python.org/3.6/library/stdtypes.html#context-manager-types">Source</a>).</p>
 <p>The basic structure looks as follows:</p>
 <div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">context</span><span class="o">-</span><span class="n">expression</span> <span class="p">[</span><span class="k">as</span> <span class="n">var</span><span class="p">]:</span>
         <span class="n">with_statement_body</span>
@@ -1200,7 +1198,8 @@ and <strong>exit</strong></li>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[1]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>'3.6.1 |Continuum Analytics, Inc.| (default, Mar 22 2017, 19:25:17) \n[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)]'</pre>
 </div>
@@ -1250,7 +1249,8 @@ and <strong>exit</strong></li>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__init__ called
 </pre>
@@ -1271,7 +1271,8 @@ and <strong>exit</strong></li>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>0</pre>
 </div>
@@ -1292,7 +1293,8 @@ and <strong>exit</strong></li>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[5]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>2</pre>
 </div>
@@ -1314,7 +1316,8 @@ and <strong>exit</strong></li>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside with statement body
@@ -1339,7 +1342,8 @@ __exit__ called
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 2
@@ -1365,7 +1369,8 @@ __exit__ called
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 4
@@ -1390,7 +1395,8 @@ __exit__ called
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__init__ called
 __enter__ called
@@ -1417,7 +1423,8 @@ __exit__ called
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside with statement body
@@ -1428,7 +1435,8 @@ exc_traceback: <traceback object at 0x103f22e08>
 </pre>
 </div>
 </div>
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -1465,7 +1473,8 @@ exc_traceback: <traceback object at 0x103f22e08>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside with statement body
@@ -1487,7 +1496,7 @@ Finally section
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can handle Exceptions inside our <code>__exit__()</code> block and <code>return True</code> to supress it up the chain. We'll come back to this in a bit...</p>
+<p>We can handle Exceptions inside our <code>__exit__()</code> block and <code>return True</code> to surpress it up the chain. We'll come back to this in a bit...</p>
 </div>
 </div>
 </div>
@@ -1509,7 +1518,8 @@ Finally section
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside first context
@@ -1525,7 +1535,8 @@ exc_traceback: <traceback object at 0x103f22948>
 </pre>
 </div>
 </div>
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -1556,7 +1567,8 @@ exc_traceback: <traceback object at 0x103f22948>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[13]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>4</pre>
 </div>
@@ -1584,7 +1596,8 @@ exc_traceback: <traceback object at 0x103f22948>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside first context
@@ -1600,7 +1613,8 @@ exc_traceback: <traceback object at 0x103f34988>
 </pre>
 </div>
 </div>
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -1630,7 +1644,8 @@ exc_traceback: <traceback object at 0x103f34988>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[15]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>6</pre>
 </div>
@@ -1643,7 +1658,7 @@ exc_traceback: <traceback object at 0x103f34988>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Since we created <code>my_object</code> outside of our <code>with</code> statement, it can be changed. Just an instance.</p>
+<p>Since we created an instance of <code>Foo</code> outside of our <code>with</code> statement, we can change the <code>my_object</code> variable as it is just an instance we can use anywhere in our code.</p>
 <p>If we create a new instance in the <code>context_expression</code> in our with statement, it only exists inside the with's scope</p>
 </div>
 </div>
@@ -1703,7 +1718,8 @@ exc_traceback: <traceback object at 0x103f34988>
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__init__ called
 __enter__ called
@@ -1744,7 +1760,7 @@ exception handled
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Creating-a-Context-Manager">Creating a Context Manager<a class="anchor-link" href="#Creating-a-Context-Manager">¶</a></h2><h3 id="Project-Background">Project Background<a class="anchor-link" href="#Project-Background">¶</a></h3><p>A blog post by <a href="https://twitter.com/jeresig">John Resig</a> on the benefits of <a href="https://johnresig.com/blog/write-code-every-day/">writing code everyday</a> inspired me to set aside a minimum of 30 minutes each day to work on side projects. I've been documenting my streak using the <a href="https://twitter.com/search?q=%23codeeveryday">#codeeveryday hashtag</a> on Twitter.</p>
 <p>After knocking out a few side projects from my todo list, I started working on a script that would analyze my #codeeveryday tweets and create a dashboard to display progress.</p>
-<p><img src="/images/1-10/8_meta_meme.jpg" alt="Meta Xzibit" width="400" /></p>
+<p><img alt="Meta Xzibit" src="/images/1-10/8_meta_meme.jpg" width="400" /></p>
 <p>In my AWS account, I have a Lambda script that downloads and store my tweets in a MongoDB instance running on MLab. I will be querying this data store to generate my dashboard, but you can use any Mongo collection you want.</p>
 <h3 id="Using-try...finally-Blocks">Using <code>try...finally</code> Blocks<a class="anchor-link" href="#Using-try...finally-Blocks">¶</a></h3><p>Let's take a look at <a href="https://github.com/alysivji/codeeveryday/blob/master/2017-04-codeeveryday-hashtag-streak/create-tweet-hashtag-dashboard.ipynb">our function</a> to query MongoDB for all tweets containing a specific hashtag using the <code>try...finally</code> pattern:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">download_tweets_by_hashtag_nonpythonic</span><span class="p">(</span><span class="n">hashtag</span><span class="p">):</span>
@@ -1854,6 +1870,7 @@ exception handled
 </div>
 </div>
 </div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -1969,93 +1986,9 @@ exception handled
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/python-anywhere.html">
-          <i class="fa fa-tag"></i>
-        python-anywhere
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/mongoengine.html">
-          <i class="fa fa-tag"></i>
-        mongoengine
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/visualization.html">
-          <i class="fa fa-tag"></i>
-        visualization
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="../tag/flask-mongoengine.html">
           <i class="fa fa-tag"></i>
         flask-mongoengine
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/scrapy.html">
-          <i class="fa fa-tag"></i>
-        scrapy
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pydata.html">
-          <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
       </a>
     </span>
     <span class="tag-2">
@@ -2064,34 +1997,22 @@ exception handled
         jinja2
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
+    <span class="tag-1">
+      <a href="../tag/mongodb.html">
           <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/requests.html">
-          <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/cycling.html">
-          <i class="fa fa-tag"></i>
-        cycling
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
+        mongodb
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/data-science.html">
+      <a href="../tag/web-scraping.html">
           <i class="fa fa-tag"></i>
-        data-science
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
       </a>
     </span>
     <span class="tag-4">
@@ -2101,21 +2022,45 @@ exception handled
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/pymongo.html">
+      <a href="../tag/cycling.html">
           <i class="fa fa-tag"></i>
-        pymongo
+        cycling
       </a>
     </span>
-    <span class="tag-1">
-      <a href="../tag/mongodb.html">
+    <span class="tag-2">
+      <a href="../tag/pydata.html">
           <i class="fa fa-tag"></i>
-        mongodb
+        pydata
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/automation.html">
+          <i class="fa fa-tag"></i>
+        automation
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/soccer.html">
+      <a href="../tag/gis.html">
           <i class="fa fa-tag"></i>
-        soccer
+        gis
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
       </a>
     </span>
     <span class="tag-4">
@@ -2125,9 +2070,81 @@ exception handled
       </a>
     </span>
     <span class="tag-4">
+      <a href="../tag/mongoengine.html">
+          <i class="fa fa-tag"></i>
+        mongoengine
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="../tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
         exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/visualization.html">
+          <i class="fa fa-tag"></i>
+        visualization
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/python-anywhere.html">
+          <i class="fa fa-tag"></i>
+        python-anywhere
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/requests.html">
+          <i class="fa fa-tag"></i>
+        requests
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/soccer.html">
+          <i class="fa fa-tag"></i>
+        soccer
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
       </a>
     </span>
 </p>
