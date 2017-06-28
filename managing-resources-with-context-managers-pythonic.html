@@ -1028,8 +1028,10 @@ h6:hover .anchor-link {
 .highlight .mh { color: #666666 } /* Literal.Number.Hex */
 .highlight .mi { color: #666666 } /* Literal.Number.Integer */
 .highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
 .highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
 .highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .highlight .s2 { color: #BA2121 } /* Literal.String.Double */
 .highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -1040,9 +1042,11 @@ h6:hover .anchor-link {
 .highlight .s1 { color: #BA2121 } /* Literal.String.Single */
 .highlight .ss { color: #19177C } /* Literal.String.Symbol */
 .highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
 .highlight .vc { color: #19177C } /* Name.Variable.Class */
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
 <style type="text/css">
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
@@ -1081,31 +1085,30 @@ h6:hover .anchor-link {
 
 .ansi-bold { font-weight: bold; }
 </style>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<blockquote><h4 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h4><ul>
+<blockquote><h4 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h4><ul>
 <li>Explore <code>with</code> statements and the context manager protocol</li>
 <li>Implement context manager class to query MongoDB</li>
 <li>Convert <code>try...finally</code> block to <code>with</code> block and increase code readability</li>
 </ul>
 </blockquote>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -1116,53 +1119,53 @@ h6:hover .anchor-link {
 <p>Programming using the most obvious path amounts to programming in a language rather than programming into a language; it’s the programmer’s equivalent of “If Freddie jumped off a bridge, would you jump off a bridge, too?” Think about your technical goals, and then decide how best to accomplish those goals by programming into your language.</p>
 </blockquote>
 <p>Said another way, doing things a certain way in one language doesn't mean that we should follow the same pattern in another language. When I came into Python from C# and JavaScript, I brought all my habits with me. Instead of looking for a <a href="http://python-guide-pt-br.readthedocs.io/en/latest/writing/style/">Pythonic solution</a>, I looked for the Python syntax to do things the way I've always done them.</p>
-<p>Take <a href="https://en.wikipedia.org/wiki/Resource_management_%28computing%29">resource management</a> as an example. I used <code>try...except...finally</code> blocks (<code>try-catch-finally</code> in C# & JavaScript) to ensure that I closed the resource that was being consumed, even if an exception occurred. Although this method works, we are not using the tools and language patterns provided by the <a href="https://docs.python.org/3.6/library/">Python standard library</a>.</p>
+<p>Take <a href="https://en.wikipedia.org/wiki/Resource_management_%28computing%29">resource management</a> as an example. I used <code>try...except...finally</code> blocks (<code>try-catch-finally</code> in C# &amp; JavaScript) to ensure that I closed the resource that was being consumed, even if an exception occurred. Although this method works, we are not using the tools and language patterns provided by the <a href="https://docs.python.org/3.6/library/">Python standard library</a>.</p>
 <p><em>Cue <a href="https://twitter.com/raymondh">Raymond Hettinger</a>:</em> There <strong>MUST</strong> be a better way!</p>
 <p>And there is! It's something we've all used before and probably never even thought about: <a href="https://docs.python.org/3.6/library/stdtypes.html#context-manager-types">context managers</a> and the <a href="https://docs.python.org/3.6/reference/compound_stmts.html#the-with-statement"><code>with</code> statement</a>!</p>
 <p>In this tutorial, we will explore the <code>with</code> statement and context manager protocol in a bit more depth before implementing our own context manager to query MongoDB.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-You-Need-to-Follow-Along">What You Need to Follow Along<a class="anchor-link" href="#What-You-Need-to-Follow-Along">¶</a></h2><h3 id="Development-Tools-(Stack)">Development Tools (Stack)<a class="anchor-link" href="#Development-Tools-(Stack)">¶</a></h3><ul>
+<h2 id="What-You-Need-to-Follow-Along">What You Need to Follow Along<a class="anchor-link" href="#What-You-Need-to-Follow-Along">&#182;</a></h2><h3 id="Development-Tools-(Stack)">Development Tools (Stack)<a class="anchor-link" href="#Development-Tools-(Stack)">&#182;</a></h3><ul>
 <li><a href="https://www.python.org/downloads/">Python 3</a></li>
 <li><a href="https://docs.mongodb.com/manual/installation/">MongoDB</a> (local or online instance)</li>
 <li><a href="https://api.mongodb.com/python/current/installation.html">PyMongo</a></li>
 </ul>
-<h3 id="Code">Code<a class="anchor-link" href="#Code">¶</a></h3><ul>
+<h3 id="Code">Code<a class="anchor-link" href="#Code">&#182;</a></h3><ul>
 <li><a href="https://github.com/alysivji/codeeveryday-hashtag-dashboard/blob/master/create-tweet-hashtag-dashboard.ipynb">Jupyter Notebook on Github</a></li>
 </ul>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="with-Statement-and-Context-Manager-Protocol"><code>with</code> Statement and Context Manager Protocol<a class="anchor-link" href="#with-Statement-and-Context-Manager-Protocol">¶</a></h2><p>The <code>with</code> statement is a control-flow structure that allows us to encapsulate <code>try...except...finally</code> blocks for convenient reuse. As a result, we have written cleaner and more readable code (<a href="https://www.python.org/dev/peps/pep-0343/">PEP 343</a> | <a href="https://docs.python.org/3/reference/compound_stmts.html#with">Python Docs</a>).</p>
+<h2 id="with-Statement-and-Context-Manager-Protocol"><code>with</code> Statement and Context Manager Protocol<a class="anchor-link" href="#with-Statement-and-Context-Manager-Protocol">&#182;</a></h2><p>The <code>with</code> statement is a control-flow structure that allows us to encapsulate <code>try...except...finally</code> blocks for convenient reuse. As a result, we have written cleaner and more readable code (<a href="https://www.python.org/dev/peps/pep-0343/">PEP 343</a> | <a href="https://docs.python.org/3/reference/compound_stmts.html#with">Python Docs</a>).</p>
 <p>The <code>with</code> statement supports a runtime context which is implemented through a pair of methods executed (1) before the statement body is entered (<code>__enter__()</code>) and (2) after the statement body is exited (<code>__exit__()</code>) (<a href="https://docs.python.org/3.6/library/stdtypes.html#context-manager-types">Source</a>).</p>
 <p>The basic structure looks as follows:</p>
 <div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">context</span><span class="o">-</span><span class="n">expression</span> <span class="p">[</span><span class="k">as</span> <span class="n">var</span><span class="p">]:</span>
@@ -1182,142 +1185,197 @@ and <strong>exit</strong></li>
 <p>Inside of our class, we can implement the <code>__init__()</code> method to set up our object as the statements do not need to be repeated for each instance. For a database context manager, we can set up our connection inside <code>__init__()</code> and return an object or cursor from the <code>__enter__()</code> method.</p>
 <p>The variable that comes after the <code>as</code> keyword is optional, but it should be included and used to refer to the object returned from <code>__enter__()</code> inside our <code>with_statement_body</code>.</p>
 <p>I think that's more than enough theory. Let's head into the REPL:</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">version</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[1]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
-<pre>'3.6.1 |Continuum Analytics, Inc.| (default, Mar 22 2017, 19:25:17) \n[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)]'</pre>
+<pre>&#39;3.6.1 |Continuum Analytics, Inc.| (default, Mar 22 2017, 19:25:17) \n[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)]&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Let's figure out control flow... create object with __enter__ and __exit__ methods</span>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Let&#39;s figure out control flow... create object with __enter__ and __exit__ methods</span>
 
 <span class="k">class</span> <span class="nc">Foo</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'__init__ called'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__init__ called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_var</span> <span class="o">=</span> <span class="mi">0</span>
         
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'__enter__ called'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__enter__ called&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
     
     <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'__exit__ called'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__exit__ called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">exc_type</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'exc_type: </span><span class="si">{exc_type}</span><span class="s1">'</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'exc_value: </span><span class="si">{exc_value}</span><span class="s1">'</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'exc_traceback: </span><span class="si">{exc_traceback}</span><span class="s1">'</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;exc_type: </span><span class="si">{exc_type}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;exc_value: </span><span class="si">{exc_value}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;exc_traceback: </span><span class="si">{exc_traceback}</span><span class="s1">&#39;</span><span class="p">)</span>
             
     <span class="k">def</span> <span class="nf">add_two</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_var</span> <span class="o">+=</span> <span class="mi">2</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_object</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__init__ called
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [4]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_object</span><span class="o">.</span><span class="n">init_var</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>0</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [5]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_object</span><span class="o">.</span><span class="n">add_two</span><span class="p">()</span>
 <span class="n">my_object</span><span class="o">.</span><span class="n">init_var</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>2</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># regular flow without exceptions</span>
 <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'inside with statement body'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inside with statement body&#39;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside with statement body
@@ -1325,25 +1383,34 @@ __exit__ called
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># what can we access in the object that is returned inside with statement context</span>
 <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">init_var</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 2
@@ -1351,26 +1418,35 @@ __exit__ called
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># adding 2 to the var inside statement</span>
 <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
     <span class="n">my_object</span><span class="o">.</span><span class="n">add_two</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">init_var</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 4
@@ -1378,25 +1454,34 @@ __exit__ called
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [9]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># using a new instance in context expression</span>
 <span class="k">with</span> <span class="n">Foo</span><span class="p">()</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">init_var</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__init__ called
 __enter__ called
@@ -1405,360 +1490,443 @@ __exit__ called
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [10]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># raising exceptions within block</span>
 <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'inside with statement body'</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'exception raised'</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inside with statement body&#39;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;exception raised&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside with statement body
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised
-exc_traceback: <traceback object at 0x110aebc08>
+exc_traceback: &lt;traceback object at 0x110aebc08&gt;
 </pre>
 </div>
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg"><ipython-input-10-a6c95ae7fd46></span> in <span class="ansi-cyan-fg"><module></span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">&lt;ipython-input-10-a6c95ae7fd46&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
 <span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">with</span> my_object <span class="ansi-green-fg">as</span> obj<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'inside with statement body'</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----> 4</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'exception raised'</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>with_traceback<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;inside with statement body&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;exception raised&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>with_traceback<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">Exception</span>: exception raised</pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [11]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># try to handle exception using try...except...finally</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'inside with statement body'</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'exception raised'</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inside with statement body&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;exception raised&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'handling exception'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;handling exception&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="k">finally</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'Finally section'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finally section&#39;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside with statement body
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised
-exc_traceback: <traceback object at 0x110b52dc8>
+exc_traceback: &lt;traceback object at 0x110b52dc8&gt;
 handling exception
 exception raised
 Finally section
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can handle Exceptions inside our <code>__exit__()</code> block and <code>return True</code> to surpress it up the chain. We'll come back to this in a bit...</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [12]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># with statement within a with statement... with-ception</span>
 <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'inside first context'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inside first context&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'exception raised inner most block'</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;exception raised inner most block&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside first context
 __enter__ called
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised inner most block
-exc_traceback: <traceback object at 0x110b070c8>
+exc_traceback: &lt;traceback object at 0x110b070c8&gt;
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised inner most block
-exc_traceback: <traceback object at 0x110b070c8>
+exc_traceback: &lt;traceback object at 0x110b070c8&gt;
 </pre>
 </div>
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg"><ipython-input-12-926af76a23fc></span> in <span class="ansi-cyan-fg"><module></span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'inside first context'</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-12-926af76a23fc&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;inside first context&#39;</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      4</span>     <span class="ansi-green-fg">with</span> my_object <span class="ansi-green-fg">as</span> obj2<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">----> 5</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'exception raised inner most block'</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>with_traceback<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;exception raised inner most block&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>with_traceback<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      6</span> 
-<span class="ansi-green-intense-fg ansi-bold">      7</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'a'</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;a&#39;</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">Exception</span>: exception raised inner most block</pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [13]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># increment before exception, does it go thru?</span>
 <span class="n">my_object</span><span class="o">.</span><span class="n">init_var</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>4</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [14]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># how does variable context change?</span>
 <span class="c1"># with statement within a with statement... with-ception</span>
 <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
     <span class="n">my_object</span><span class="o">.</span><span class="n">add_two</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'inside first context'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inside first context&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">my_object</span> <span class="k">as</span> <span class="n">obj2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'exception raised inner most block'</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;exception raised inner most block&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'a'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__enter__ called
 inside first context
 __enter__ called
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised inner most block
-exc_traceback: <traceback object at 0x110aeb988>
+exc_traceback: &lt;traceback object at 0x110aeb988&gt;
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised inner most block
-exc_traceback: <traceback object at 0x110aeb988>
+exc_traceback: &lt;traceback object at 0x110aeb988&gt;
 </pre>
 </div>
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">Exception</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg"><ipython-input-14-f11e7f99c627></span> in <span class="ansi-cyan-fg"><module></span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'inside first context'</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">&lt;ipython-input-14-f11e7f99c627&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;inside first context&#39;</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      6</span>     <span class="ansi-green-fg">with</span> my_object <span class="ansi-green-fg">as</span> obj2<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">----> 7</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'exception raised inner most block'</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>with_traceback<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> Exception<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;exception raised inner most block&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>with_traceback<span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      8</span> 
-<span class="ansi-green-intense-fg ansi-bold">      9</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'a'</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span>     print<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;a&#39;</span><span class="ansi-blue-fg">)</span>
 
 <span class="ansi-red-fg">Exception</span>: exception raised inner most block</pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [15]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_object</span><span class="o">.</span><span class="n">init_var</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>6</pre>
 </div>
+
+</div>
+
 </div>
 </div>
+
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Since we created an instance of <code>Foo</code> outside of our <code>with</code> statement, we can access/change <code>my_object</code> as it is just an instance that can use within our code.</p>
 <p>If we create a new instance in the <code>with</code> statement's <code>context_expression</code>, it only exists inside the with statement body.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Handling-exceptions-in-__exit__()-method">Handling exceptions in <code>__exit__()</code> method<a class="anchor-link" href="#Handling-exceptions-in-__exit__()-method">¶</a></h4>
+<h4 id="Handling-exceptions-in-__exit__()-method">Handling exceptions in <code>__exit__()</code> method<a class="anchor-link" href="#Handling-exceptions-in-__exit__()-method">&#182;</a></h4>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [16]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Foo2</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'__init__ called'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__init__ called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_var</span> <span class="o">=</span> <span class="mi">0</span>
         
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'__enter__ called'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__enter__ called&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
     
     <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'__exit__ called'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__exit__ called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">exc_type</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'exc_type: </span><span class="si">{exc_type}</span><span class="s1">'</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'exc_value: </span><span class="si">{exc_value}</span><span class="s1">'</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'exc_traceback: </span><span class="si">{exc_traceback}</span><span class="s1">'</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">'exception handled'</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;exc_type: </span><span class="si">{exc_type}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;exc_value: </span><span class="si">{exc_value}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;exc_traceback: </span><span class="si">{exc_traceback}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exception handled&#39;</span><span class="p">)</span>
         <span class="c1"># return True to handle exception...</span>
         <span class="k">return</span> <span class="kc">True</span>
             
     <span class="k">def</span> <span class="nf">add_two</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_var</span> <span class="o">+=</span> <span class="mi">2</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [17]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
-<div class="input_area">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># using a new instance in context expression</span>
 <span class="k">with</span> <span class="n">Foo2</span><span class="p">()</span> <span class="k">as</span> <span class="n">obj</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">init_var</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'exception raised'</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;exception raised&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>__init__ called
 __enter__ called
 0
 __exit__ called
-exc_type: <class &#x27;exception&#x27;>
+exc_type: &lt;class &#39;Exception&#39;&gt;
 exc_value: exception raised
-exc_traceback: <traceback object at 0x110b74348>
+exc_traceback: &lt;traceback object at 0x110b74348&gt;
 exception handled
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Playing around in the REPL is invaluable to figuring out how things work.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="When-to-use-Context-Managers">When to use Context Managers<a class="anchor-link" href="#When-to-use-Context-Managers">¶</a></h2><p>Dave Brondsema gave a <a href="https://www.youtube.com/watch?v=cSbD5SKwak0">great talk on Decorators and Context Managers</a> at PyCon 2012. <a href="https://youtu.be/cSbD5SKwak0?t=13m15s">He mentioned</a> that we should use context managers when we see any of the following patterns in our code:</p>
+<h2 id="When-to-use-Context-Managers">When to use Context Managers<a class="anchor-link" href="#When-to-use-Context-Managers">&#182;</a></h2><p>Dave Brondsema gave a <a href="https://www.youtube.com/watch?v=cSbD5SKwak0">great talk on Decorators and Context Managers</a> at PyCon 2012. <a href="https://youtu.be/cSbD5SKwak0?t=13m15s">He mentioned</a> that we should use context managers when we see any of the following patterns in our code:</p>
 <ul>
 <li><code>Open</code> - <code>Close</code> (see example below)</li>
 <li><code>Lock</code> - <code>Release</code></li>
@@ -1767,50 +1935,50 @@ exception handled
 <li><code>Start</code> - <code>Stop</code></li>
 </ul>
 <p>Arnav Khare details a lot of great use cases of <a href="http://arnavk.com/posts/python-context-managers/">Context Managers in the Real World</a> and provides starter code for each example.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Creating-a-Context-Manager">Creating a Context Manager<a class="anchor-link" href="#Creating-a-Context-Manager">¶</a></h2><h3 id="Project-Background">Project Background<a class="anchor-link" href="#Project-Background">¶</a></h3><p>A blog post by <a href="https://twitter.com/jeresig">John Resig</a> on the benefits of <a href="https://johnresig.com/blog/write-code-every-day/">writing code everyday</a> inspired me to set aside a minimum of 30 minutes each day to work on side projects. I've been documenting my streak using the <a href="https://twitter.com/search?q=%23codeeveryday">#codeeveryday hashtag</a> on Twitter.</p>
+<h2 id="Creating-a-Context-Manager">Creating a Context Manager<a class="anchor-link" href="#Creating-a-Context-Manager">&#182;</a></h2><h3 id="Project-Background">Project Background<a class="anchor-link" href="#Project-Background">&#182;</a></h3><p>A blog post by <a href="https://twitter.com/jeresig">John Resig</a> on the benefits of <a href="https://johnresig.com/blog/write-code-every-day/">writing code everyday</a> inspired me to set aside a minimum of 30 minutes each day to work on side projects. I've been documenting my streak using the <a href="https://twitter.com/search?q=%23codeeveryday">#codeeveryday hashtag</a> on Twitter.</p>
 <p>After knocking out a few side projects from my todo list, I started working on a script that would analyze my #codeeveryday tweets and create a dashboard to display progress.</p>
-<p><img alt="Meta Xzibit" src="/images/1-10/8_meta_meme.jpg" width="400" /></p>
+<p><img src="/images/1-10/8_meta_meme.jpg" alt="Meta Xzibit" width="400" /></p>
 <p>In my AWS account, I have a Lambda script that downloads and store my tweets in a MongoDB instance running on MLab. I will be querying this data store to generate my dashboard, but you can use any Mongo collection you want.</p>
-<h3 id="Using-try...finally-Blocks">Using <code>try...finally</code> Blocks<a class="anchor-link" href="#Using-try...finally-Blocks">¶</a></h3><p>Let's take a look at <a href="https://github.com/alysivji/codeeveryday-hashtag-dashboard/blob/master/create-tweet-hashtag-dashboard.ipynb">our function</a> to query MongoDB for all tweets containing a specific hashtag using the <code>try...finally</code> pattern:</p>
+<h3 id="Using-try...finally-Blocks">Using <code>try...finally</code> Blocks<a class="anchor-link" href="#Using-try...finally-Blocks">&#182;</a></h3><p>Let's take a look at <a href="https://github.com/alysivji/codeeveryday-hashtag-dashboard/blob/master/create-tweet-hashtag-dashboard.ipynb">our function</a> to query MongoDB for all tweets containing a specific hashtag using the <code>try...finally</code> pattern:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">download_tweets_by_hashtag_nonpythonic</span><span class="p">(</span><span class="n">hashtag</span><span class="p">):</span>
-    <span class="sd">'''Connect to MongoDB, download tweets with param hashtags</span>
+    <span class="sd">&#39;&#39;&#39;Connect to MongoDB, download tweets with param hashtags</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        * hashtag - text hashtag</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">        * list of Tweets containing hashtag</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">tweets</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">mlab_uri</span><span class="p">)</span>
         <span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_default_database</span><span class="p">()</span>
         <span class="n">coll</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
-        <span class="n">tweets</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">"entities.hashtags.text"</span><span class="p">:</span><span class="n">f</span><span class="s2">"{hashtag}"</span><span class="p">})</span>
+        <span class="n">tweets</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;entities.hashtags.text&quot;</span><span class="p">:</span><span class="n">f</span><span class="s2">&quot;{hashtag}&quot;</span><span class="p">})</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">tweets</span>
 </pre></div>
 <p>While this does work, we have to remember to add code in our <code>finally</code> block to close the connection to our resource in the event that we encounter an exception.</p>
-<h3 id="Using-Context-Managers">Using Context Managers<a class="anchor-link" href="#Using-Context-Managers">¶</a></h3><p>We begin by <a href="http://book.pythontips.com/en/latest/context_managers.html#implementing-context-manager-as-a-class">implementing our context manager as a class</a>.</p>
+<h3 id="Using-Context-Managers">Using Context Managers<a class="anchor-link" href="#Using-Context-Managers">&#182;</a></h3><p>We begin by <a href="http://book.pythontips.com/en/latest/context_managers.html#implementing-context-manager-as-a-class">implementing our context manager as a class</a>.</p>
 <p>This class requires the following methods:</p>
 <ul>
 <li><code>__init__()</code> method to set up the object. We will be connecting to our Mongo database and setting our collection variable</li>
@@ -1820,73 +1988,73 @@ exception handled
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 
 <span class="k">class</span> <span class="nc">MongoCollection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">'''Connect to mongodb and return collection within context manager</span>
-<span class="sd">    '''</span>
+    <span class="sd">&#39;&#39;&#39;Connect to mongodb and return collection within context manager</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">collection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">collection</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_default_database</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span>
 
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 <p>With our context manager created, we write our search command inside a <code>with</code> block as follows:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">download_tweets_by_hashtag</span><span class="p">(</span><span class="n">hashtag</span><span class="p">):</span>
-    <span class="sd">'''Connect to MongoDB, download tweets with param hashtags</span>
+    <span class="sd">&#39;&#39;&#39;Connect to MongoDB, download tweets with param hashtags</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        * hashtag - text hashtag</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">        * list of Tweets containing hashtag</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">with</span> <span class="n">MongoCollection</span><span class="p">(</span><span class="n">mlab_uri</span><span class="p">,</span> <span class="n">collection</span><span class="p">)</span> <span class="k">as</span> <span class="n">coll</span><span class="p">:</span>
-        <span class="n">tweets</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">'entities.hashtags.text'</span><span class="p">:</span><span class="n">f</span><span class="s1">'{hashtag}'</span><span class="p">})</span>
+        <span class="n">tweets</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;entities.hashtags.text&#39;</span><span class="p">:</span><span class="n">f</span><span class="s1">&#39;{hashtag}&#39;</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
 </pre></div>
 <p>The code is a lot cleaner as we have abstracted away the database connection information in our <code>MongoCollection</code> class.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h2><p>Thinking about software development in a deliberate manner makes us better coders. One of the ways we can do this is by "programming into our language, not in it." This means we should be using our language of choice in an idiomatic way versus porting over how we have always done things.</p>
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Thinking about software development in a deliberate manner makes us better coders. One of the ways we can do this is by "programming into our language, not in it." This means we should be using our language of choice in an idiomatic way versus porting over how we have always done things.</p>
 <p>In this tutorial, we learned about context managers and the <code>with</code> statement. We created a context manager object to retrieve documents out of MongoDB and abstracted away the connection logic within our class.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-</hr></div>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Additional-Resources">Additional Resources<a class="anchor-link" href="#Additional-Resources">¶</a></h4><ul>
+<h4 id="Additional-Resources">Additional Resources<a class="anchor-link" href="#Additional-Resources">&#182;</a></h4><ul>
 <li><a href="https://jeffknupp.com/blog/2016/03/07/python-with-context-managers/">Jeff Knupp - Python with Context Managers</a></li>
 <li><a href="http://book.pythontips.com/en/latest/context_managers.html"><em>Python Tips</em> - Context Managers</a></li>
 <li><a href="http://stackoverflow.com/questions/3693771/trying-to-understand-python-with-statement-and-context-managers">StackOverflow <em>(Praise Be)</em> discussion</a></li>
@@ -1894,9 +2062,12 @@ exception handled
 <li><a href="https://www.youtube.com/watch?v=ORo1-sXmvGg&amp;t=1822s">Context Managers: Advanced Techniques YouTube video</a></li>
 <li><a href="https://www.youtube.com/watch?v=cSbD5SKwak0">Dave Brondsema - Decorators and Context Managers</a> (PyCon 2012)</li>
 </ul>
+
 </div>
 </div>
 </div>
+ 
+
 
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
@@ -1997,6 +2168,8 @@ exception handled
 <div class="col-xs-6 col-md-12">
 <h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
 <ul class="list-unstyled category-links">
+  <li><a href="./category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
   <li><a href="./category/tutorials.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
 </ul>
@@ -2006,34 +2179,22 @@ exception handled
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
     <span class="tag-1">
       <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pydata.html">
-          <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
       </a>
     </span>
     <span class="tag-4">
@@ -2042,16 +2203,28 @@ exception handled
         python-anywhere
       </a>
     </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
+    <span class="tag-4">
+      <a href="./tag/quick-hit.html">
           <i class="fa fa-tag"></i>
-        web-scraping
+        quick-hit
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
       </a>
     </span>
     <span class="tag-1">
-      <a href="./tag/how-to.html">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        how-to
+        python
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
       </a>
     </span>
     <span class="tag-3">
@@ -2061,45 +2234,15 @@ exception handled
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/requests.html">
+      <a href="./tag/config-parser.html">
           <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/jinja2.html">
-          <i class="fa fa-tag"></i>
-        jinja2
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
+        config-parser
       </a>
     </span>
     <span class="tag-4">
       <a href="./tag/mongoengine.html">
           <i class="fa fa-tag"></i>
         mongoengine
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/mlab.html">
-          <i class="fa fa-tag"></i>
-        mlab
       </a>
     </span>
     <span class="tag-4">
@@ -2115,12 +2258,6 @@ exception handled
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="./tag/visualization.html">
           <i class="fa fa-tag"></i>
         visualization
@@ -2132,34 +2269,28 @@ exception handled
         soccer
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-3">
+      <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
+        data-science
       </a>
     </span>
     <span class="tag-3">
-      <a href="./tag/flask.html">
+      <a href="./tag/automation.html">
           <i class="fa fa-tag"></i>
-        flask
+        automation
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/config-parser.html">
+      <a href="./tag/requests.html">
           <i class="fa fa-tag"></i>
-        config-parser
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/quick-hit.html">
-          <i class="fa fa-tag"></i>
-        quick-hit
+        requests
       </a>
     </span>
     <span class="tag-4">
@@ -2168,10 +2299,52 @@ exception handled
         flask-mongoengine
       </a>
     </span>
+    <span class="tag-4">
+      <a href="./tag/mlab.html">
+          <i class="fa fa-tag"></i>
+        mlab
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/jinja2.html">
+          <i class="fa fa-tag"></i>
+        jinja2
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
       </a>
     </span>
 </p>

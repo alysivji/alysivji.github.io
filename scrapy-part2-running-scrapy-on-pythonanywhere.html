@@ -158,11 +158,11 @@
 <p>Up until now we have been using a local instance of MongoDB to store our scraped data. Since we will be running our scraper on the cloud, we will also need to create an online instance of our database where we can store data.</p>
 <p>Head over to <a href="https://mlab.com/">mLab</a> to create an account and set up a collection in our sandbox database to store the data.</p>
 <p>Let's initialize our MongoDB collection with documents from our local collection. <a href="https://docs.mongodb.com/manual/core/backups/">From the MongoDB docs</a>:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> mongoexport --db sivji-sandbox --collection top_reddit_posts --out 20170322-reddit-posts.json
+<div class="highlight"><pre><span></span><span class="gp">$</span> mongoexport --db sivji-sandbox --collection top_reddit_posts --out <span class="m">20170322</span>-reddit-posts.json
 <span class="go">2017-03-22T23:18:39.404-0500    connected to: localhost</span>
 <span class="go">2017-03-22T23:18:39.429-0500    exported 751 records</span>
 
-<span class="gp">$</span> mongoimport -h &lt;mlab-url&gt;:port -d sivji-sandbox -c top_reddit_posts -u &lt;dbuser&gt; -p &lt;dbpass&gt; --file 20170322-reddit-posts.json
+<span class="gp">$</span> mongoimport -h &lt;mlab-url&gt;:port -d sivji-sandbox -c top_reddit_posts -u &lt;dbuser&gt; -p &lt;dbpass&gt; --file <span class="m">20170322</span>-reddit-posts.json
 <span class="go">2017-03-22T23:21:14.075-0500    connected to: &lt;mlab-url&gt;:port</span>
 <span class="go">2017-03-22T23:21:15.504-0500    imported 751 documents</span>
 </pre></div>
@@ -181,7 +181,7 @@
 <span class="kn">from</span> <span class="nn">scrapy.crawler</span> <span class="kn">import</span> <span class="n">CrawlerProcess</span>
 <span class="kn">from</span> <span class="nn">reddit.spiders</span> <span class="kn">import</span> <span class="n">PostSpider</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">process</span> <span class="o">=</span> <span class="n">CrawlerProcess</span><span class="p">(</span><span class="n">get_project_settings</span><span class="p">())</span>
 
     <span class="n">process</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">PostSpider</span><span class="p">)</span>
@@ -205,7 +205,7 @@
 
 <span class="c1">## get mongodb params (using configparser)</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
-<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
+<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
 <span class="n">mlab_uri</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MongoDB&#39;</span><span class="p">,</span> <span class="s1">&#39;mlab_uri&#39;</span><span class="p">)</span>
 
 <span class="n">MONGO_URI</span> <span class="o">=</span> <span class="n">mlab_uri</span>
@@ -261,7 +261,7 @@
 <span class="k">def</span> <span class="nf">email_last_scraped_date</span><span class="p">():</span>
     <span class="c1">## mongodb params (using configparser)</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
     <span class="n">mlab_uri</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MongoDB&#39;</span><span class="p">,</span> <span class="s1">&#39;mlab_uri&#39;</span><span class="p">)</span>
 
     <span class="c1"># connect to db</span>
@@ -306,9 +306,9 @@
 <span class="kn">from</span> <span class="nn">reddit.spiders</span> <span class="kn">import</span> <span class="n">PostSpider</span>
 <span class="kn">from</span> <span class="nn">top_post_emailer</span> <span class="kn">import</span> <span class="n">email_last_scraped_date</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
     <span class="c1"># only run on saturdays (once a week)</span>
     <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">(),</span> <span class="s1">&#39;%A&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;saturday&#39;</span><span class="p">:</span>
@@ -552,6 +552,8 @@
 <div class="col-xs-6 col-md-12">
 <h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
 <ul class="list-unstyled category-links">
+  <li><a href="./category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
   <li><a href="./category/tutorials.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
 </ul>
@@ -561,34 +563,22 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
     <span class="tag-1">
       <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pydata.html">
-          <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
       </a>
     </span>
     <span class="tag-4">
@@ -597,16 +587,28 @@
         python-anywhere
       </a>
     </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
+    <span class="tag-4">
+      <a href="./tag/quick-hit.html">
           <i class="fa fa-tag"></i>
-        web-scraping
+        quick-hit
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
       </a>
     </span>
     <span class="tag-1">
-      <a href="./tag/how-to.html">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        how-to
+        python
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
       </a>
     </span>
     <span class="tag-3">
@@ -616,45 +618,15 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/requests.html">
+      <a href="./tag/config-parser.html">
           <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/jinja2.html">
-          <i class="fa fa-tag"></i>
-        jinja2
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
+        config-parser
       </a>
     </span>
     <span class="tag-4">
       <a href="./tag/mongoengine.html">
           <i class="fa fa-tag"></i>
         mongoengine
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/mlab.html">
-          <i class="fa fa-tag"></i>
-        mlab
       </a>
     </span>
     <span class="tag-4">
@@ -670,12 +642,6 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="./tag/visualization.html">
           <i class="fa fa-tag"></i>
         visualization
@@ -687,34 +653,28 @@
         soccer
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-3">
+      <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
+        data-science
       </a>
     </span>
     <span class="tag-3">
-      <a href="./tag/flask.html">
+      <a href="./tag/automation.html">
           <i class="fa fa-tag"></i>
-        flask
+        automation
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/config-parser.html">
+      <a href="./tag/requests.html">
           <i class="fa fa-tag"></i>
-        config-parser
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/quick-hit.html">
-          <i class="fa fa-tag"></i>
-        quick-hit
+        requests
       </a>
     </span>
     <span class="tag-4">
@@ -723,10 +683,52 @@
         flask-mongoengine
       </a>
     </span>
+    <span class="tag-4">
+      <a href="./tag/mlab.html">
+          <i class="fa fa-tag"></i>
+        mlab
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/jinja2.html">
+          <i class="fa fa-tag"></i>
+        jinja2
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
       </a>
     </span>
 </p>

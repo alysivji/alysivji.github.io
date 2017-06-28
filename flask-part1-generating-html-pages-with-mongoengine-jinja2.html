@@ -180,7 +180,7 @@
 <h3>MongoDB in Our Project</h3>
 <h4>Loading Data</h4>
 <p>If you did not follow along the previous post, you can <a href="./files/20170309-reddit-posts.json">download the 20170309 data extract</a> and import it into your instance of mongo using the following command:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> mongoimport --db sivji-sandbox --collection top_reddit_posts --type json --file 20170309-reddit-posts.json
+<div class="highlight"><pre><span></span><span class="gp">$</span> mongoimport --db sivji-sandbox --collection top_reddit_posts --type json --file <span class="m">20170309</span>-reddit-posts.json
 <span class="go">2017-03-09T15:14:51.021-0700    connected to: localhost</span>
 <span class="go">2017-03-09T15:14:51.043-0700    imported 551 documents</span>
 </pre></div>
@@ -248,7 +248,7 @@
 <span class="gp">&gt;</span>&gt;&gt; <span class="nv">MONGO_URI</span> <span class="o">=</span> <span class="s1">&#39;mongodb://localhost:27017&#39;</span>
 <span class="gp">&gt;</span>&gt;&gt; connect<span class="o">(</span><span class="s1">&#39;sivji-sandbox&#39;</span>, <span class="nv">host</span><span class="o">=</span>MONGO_URI<span class="o">)</span>
 <span class="go">MongoClient(host=[&#39;localhost:27017&#39;], document_class=dict, tz_aware=False, connect=True, read_preference=Primary())</span>
-<span class="gp">&gt;</span>&gt;&gt; Post.objects<span class="o">()[</span>0<span class="o">]</span>.title
+<span class="gp">&gt;</span>&gt;&gt; Post.objects<span class="o">()[</span><span class="m">0</span><span class="o">]</span>.title
 <span class="go">&#39;Chrome 56 Will Aggressively Throttle Background Tabs&#39;</span>
 </pre></div>
 
@@ -306,7 +306,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        * rendered HTML from jinja2 templating engine</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span>
         <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">path</span> <span class="ow">or</span> <span class="s1">&#39;./&#39;</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
@@ -363,7 +363,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1">## api params (using configparser)</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s1">&#39;settings.cfg&#39;</span><span class="p">))</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MailGun&#39;</span><span class="p">,</span> <span class="s1">&#39;api&#39;</span><span class="p">)</span>
     <span class="n">domain</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MailGun&#39;</span><span class="p">,</span> <span class="s1">&#39;domain&#39;</span><span class="p">)</span>
 
@@ -451,7 +451,7 @@
 
 <span class="kn">from</span> <span class="nn">top_post_emailer</span> <span class="kn">import</span> <span class="n">email_last_scraped_date</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">email_last_scraped_date</span><span class="p">()</span>
 </pre></div>
 
@@ -548,6 +548,8 @@
 <div class="col-xs-6 col-md-12">
 <h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
 <ul class="list-unstyled category-links">
+  <li><a href="./category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
   <li><a href="./category/tutorials.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
 </ul>
@@ -557,34 +559,22 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
     <span class="tag-1">
       <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pymongo.html">
-          <i class="fa fa-tag"></i>
-        pymongo
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/automation.html">
-          <i class="fa fa-tag"></i>
-        automation
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pydata.html">
-          <i class="fa fa-tag"></i>
-        pydata
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
       </a>
     </span>
     <span class="tag-4">
@@ -593,16 +583,28 @@
         python-anywhere
       </a>
     </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
+    <span class="tag-4">
+      <a href="./tag/quick-hit.html">
           <i class="fa fa-tag"></i>
-        web-scraping
+        quick-hit
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
       </a>
     </span>
     <span class="tag-1">
-      <a href="./tag/how-to.html">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        how-to
+        python
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pydata.html">
+          <i class="fa fa-tag"></i>
+        pydata
       </a>
     </span>
     <span class="tag-3">
@@ -612,45 +614,15 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/requests.html">
+      <a href="./tag/config-parser.html">
           <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/jinja2.html">
-          <i class="fa fa-tag"></i>
-        jinja2
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
+        config-parser
       </a>
     </span>
     <span class="tag-4">
       <a href="./tag/mongoengine.html">
           <i class="fa fa-tag"></i>
         mongoengine
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/mlab.html">
-          <i class="fa fa-tag"></i>
-        mlab
       </a>
     </span>
     <span class="tag-4">
@@ -666,12 +638,6 @@
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="./tag/visualization.html">
           <i class="fa fa-tag"></i>
         visualization
@@ -683,34 +649,28 @@
         soccer
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-3">
+      <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
+        data-science
       </a>
     </span>
     <span class="tag-3">
-      <a href="./tag/flask.html">
+      <a href="./tag/automation.html">
           <i class="fa fa-tag"></i>
-        flask
+        automation
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/config-parser.html">
+      <a href="./tag/requests.html">
           <i class="fa fa-tag"></i>
-        config-parser
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/quick-hit.html">
-          <i class="fa fa-tag"></i>
-        quick-hit
+        requests
       </a>
     </span>
     <span class="tag-4">
@@ -719,10 +679,52 @@
         flask-mongoengine
       </a>
     </span>
+    <span class="tag-4">
+      <a href="./tag/mlab.html">
+          <i class="fa fa-tag"></i>
+        mlab
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/jinja2.html">
+          <i class="fa fa-tag"></i>
+        jinja2
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pymongo.html">
+          <i class="fa fa-tag"></i>
+        pymongo
       </a>
     </span>
 </p>

@@ -4,11 +4,17 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A Page in Solving Problems Using Code: About" />
+    <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Coding in Containers">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
 
-    <title>About - Siv Scripts</title>
+    <title>Coding in Containers - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -62,7 +68,7 @@
 
       <div class="collapse navbar-collapse" id="main-navbar-collapse">
         <ul class="nav navbar-nav">
-              <li class="active">
+              <li>
                 <a href="../pages/about.html">About</a>
               </li>
             <li class="divider"></li>
@@ -88,16 +94,81 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<article itemscope="itemscope" 
-         itemtype="http://schema.org/WebPage">
-  <header>
-    <h1 itemprop="name headline">About</h1>
-  </header>
-  <div class="content-body" itemprop="text">
-    <p>This blog serves to document my journey to becoming an <code>expert</code> programmer.</p>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Wed 28 June 2017
+</abbr> <h1>
+  <a href="../drafts/containerized-development-environments.html" rel="bookmark"
+     title="Permalink to Coding in Containers">
+    Coding in Containers
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="../category/thoughts.html">
+      Thoughts</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>I'm taking an Introduction to Tensorflow training class thru <a href="https://www.safaribooksonline.com/home/">Safari</a> this week. We were given a choice of setting up our classroom environment either in Conda or inside of a <a href="https://www.docker.com/">Docker</a> container.</p>
+<p>Ever since <a href="https://www.continuum.io/">Anaconda</a> started getting in my way during this year's PyCon sprints, I have been moving my development away from conda and into <a href="http://python-guide-pt-br.readthedocs.io/en/latest/dev/virtualenvs/">other virtual environment tools</a> that are part of the Python ecosystem. Still have conda installed on my system (and, yes, the sticker is still on my laptop), but it needs to be <a href="https://twitter.com/CaiusSivjus/status/867101730986532864">activated it through a bash function</a>:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span>  gogoconda
+<span class="go">Conda is activated</span>
+</pre></div>
+
+
+<p>Now I'm all in Python 3.6.1, <a href="https://pypi.python.org/pypi/virtualenv">virtualenv</a>, and <a href="http://virtualenvwrapper.readthedocs.io/en/latest/index.html">virtualenvwrapper</a> as part of my default Python install. Even went as far as adding <code>alias python='python3'</code> and <code>alias pip='pip3'</code> to the bottom of my <code>.bash_profile</code>.</p>
+<p>I really didn't want to go back Conda for a single workshop, so I decide to fire up Docker and <code>docker build</code> an image from the provided <code>Dockerfile</code>. A few minutes (and a <code>docker run</code>) later, I'm SSH-ed into a container and I notice that the course material are inside of the container with me. That could be a problem... whatever changes I make will disappear once this container is removed.</p>
+<p>As stated in the Docker docs, the best way to store data is through the <a href="https://docs.docker.com/engine/tutorials/dockervolumes/">use of a data volume</a>, i.e. a persistent folder on the local machine that is running the Docker Engine. After fixing the <code>Dockerfile</code> and rebuilding the image, I initialize a new container using the <code>-v /full/path/to/local/folder:/tensorflow</code> flag as part of the <code>docker run</code> command.</p>
+<p>Now, the data inside of my container is actually stored in a folder on my local drive. My development environment that contains all the required dependencies for my project is isolated from everything else on my system.</p>
+<p><strong>Boom</strong> 🐳 🐳 🐳</p>
+<p>Portability just like that. No more worrying about hardware failures and having to spend hours getting my system back to the state where <em>everything just worked</em>. No wonder everyone loves Docker!</p>
+<p>During the month of July, I will be doing <strong>all my development work</strong> inside of Docker containers. No matter how trivial the task, it will be done inside of a container.</p>
+<p>Not sure how I'm going to do this at work since Docker for Windows requires Win10 and I'm stuck with Win7. Might have to run a Debian VM or use <a href="https://www.docker.com/products/docker-toolbox">Docker Toolbox</a>. That's on me.</p>
+<p>I plan to keep semi-detailed notes while I experiment and figure out what workflow works the best. Building off a slim base image? Have a ready-to-go container for data science work? Stay tuned!</p>
   </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/docker.html"><i class="fa fa-tag"></i>docker</a>&nbsp;
+	<a href="../tag/dev-life.html"><i class="fa fa-tag"></i>dev-life</a>&nbsp;
+	<a href="../tag/dev-tools.html"><i class="fa fa-tag"></i>dev-tools</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
 
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
 
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/containerized-development-environments.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
 </article>
         </div><!-- /content -->
 
@@ -352,5 +423,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
