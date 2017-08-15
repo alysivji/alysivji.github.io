@@ -7569,6 +7569,7 @@ West Ham was 18th for 27 days
 &lt;li&gt;&lt;a href="http://exploreflask.com/en/latest/index.html"&gt;Explore Flask&lt;/a&gt; is an online resource detailing best practices and patterns for developing web applications with Flask.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
+&lt;p&gt;&lt;a name="model-view-controller"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Model-View-Controller&lt;/h2&gt;
 &lt;p&gt;Model–View–Controller (MVC) is an architectural pattern for implementing user interfaces. It divides an application into three interconnected parts: the Model, the View, and the Controller. Separating the "internal representations of information from the ways that information is presented to and accepted from the user" allows us to increase modularity for simultaneous development and code reuse (&lt;a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"&gt;Source&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Each of the components is defined as follows:&lt;br /&gt;

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="Aly Sivji" />
+    <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Interactive, Web-Based Dashboards in Python">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
+
+    <title>Interactive, Web-Based Dashboards in Python - Siv Scripts</title>
+
+   
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous">
+
+
+      <link rel="stylesheet" href="../theme/css/tango.css" />
+      <link rel="stylesheet" href="../theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="../theme/css/dataframe.css" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="../favicon.ico" />
+        <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90986575-1', '');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+   
+    <nav class="navbar navbar-default">
+      <div class="container">
+	   <div class="navbar-header">
+		<button type="button" class="navbar-toggle" 
+				data-toggle="collapse" data-target="#main-navbar-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="../" rel="home">
+          <i class="fa fa-home fa-fw fa-lg"> </i> </a>
+       </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+        <ul class="nav navbar-nav">
+              <li>
+                <a href="../pages/about.html">About</a>
+              </li>
+              <li>
+                <a href="../pages/talks.html">Talks</a>
+              </li>
+            <li class="divider"></li>
+            <li class="">
+              <a href="../archives.html">Archives</a>
+            </li>
+          <li class="divider"></li>
+            <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+                   type="application/atom+xml" rel="alternate">
+                <i class="fa fa-rss fa-fw fa-lg"></i> </a></li>
+        </ul> <!-- /nav -->
+      </div> <!-- /navbar-collapse -->
+	  </div> <!-- /container -->
+    </nav> <!-- /navbar -->
+
+	<div class="jumbotron" id="overview">
+	  <div class="container">
+		<h1><a href="../">Siv Scripts</a></h1>
+		<p class="lead">Solving Problems Using Code</p>
+	  </div>
+	</div>
+
+    <div class="container" id="main-container">
+      <div class="row">
+        <div class="col-md-9" id="content">
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Tue 15 August 2017
+</abbr> <h1>
+  <a href="../drafts/reactive-dashboards-with-dash.html" rel="bookmark"
+     title="Permalink to Interactive, Web-Based Dashboards in Python">
+    Interactive, Web-Based Dashboards in Python
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="../category/drafts.html">
+      Drafts</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<blockquote>
+<h4>Summary</h4>
+<ul>
+<li>Explore Dash</li>
+<li>Discuss how we can structure Dash apps using MVC</li>
+<li>Build interactive dashboard to display historical soocer results</li>
+</ul>
+</blockquote>
+<hr>
+<p>I spent a good portion of 2014-15 learning JavaScript to create interactive, web-based dashboards for a work project. I wrapped <a href="">d3</a> with <a href="">Angular1 directives</a> to create modular components that were used to visualize data.</p>
+<p>Data Analysis is definitely not one of JavaScript's strengths. Most of my code was trying to cobble together <code>DataFrame</code>-esque operations with JSON data. I missed R. I missed Python. I even missed MATLAB.</p>
+<p>When I found <a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503">Dash</a> a couple of months ago, I was blown away.</p>
+<p>With Dash, we can create interactive, web-based dashboards with <strong>pure Python</strong>. All the front-end work, all that dreaded JavaScript, that's not our problem anymore.</p>
+<p>How easy is Dash to use? In around an hour and with &lt;100 lines of code, I created a <a href="https://github.com/alysivji/talks/blob/master/data-science-workflows-using-docker-containers/workflow3-data-driven-app/plot_timeseries.py">dashboard to display live streaming data</a> for my <a href="https://www.youtube.com/watch?v=3CKVOPPqW9Q">PyOhio talk</a>.</p>
+<p>Dash is a powerful library that simplifies the development of data-driven applications. Dash enables Data Scentists to become <a href="http://www.laurencegellert.com/2012/08/what-is-a-full-stack-developer/">Full Stack Developers</a>.</p>
+<p>In this post we will explore Dash, discuss how the Model-View-Controller pattern can be used to structure Dash applications, and build a dashboard to display historical soccer results.</p>
+<hr>
+<h2>Dash Overview</h2>
+<blockquote>
+<p><a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503">Dash is a Open Source Python library for creating reactive, Web-based applications</a></p>
+</blockquote>
+<p>Dash apps consist of a Flask server that communicates with front-end React components using JSON packets over HTTP requests.</p>
+<p>We use the provided Python interface to design our application layout and to enable interaction between components. User interaction triggers Python functions; these functions can perform any action before returning a result back to the specified component.</p>
+<p>Dash applications are written in Python. <strong>No HTML or JavaScript is necessary.</strong></p>
+<p>We are able to plug into React's <a href="https://github.com/brillout/awesome-react-components">extensive ecosystem</a> through an <a href="https://github.com/plotly/dash-components-archetype">included toolset</a> that packages React components into Dash-useable components.</p>
+<hr>
+<h2>Dash Application Design: MVC Pattern</h2>
+<p>As I worked my way through the <a href="https://plot.ly/dash/">documentation</a>, I kept noticing that every Dash application could be divided into the following components:</p>
+<ul>
+<li><strong>Data Manipulation</strong> - Perform operations to read / transform data for display</li>
+<li><strong>Dashboard Layout</strong> - Visually render data into output representation</li>
+<li><strong>Interaction Between Components</strong> - Convert user input to commmands for data manipulation + render</li>
+</ul>
+<p>Good god, <a href="https://www.theatlantic.com/entertainment/archive/2013/09/good-god-s-jim-ross-music-career-retrospective/311189/">that's the <strike>Undertaker's</strike></a> Model-View-Controller (MVC) Pattern's music! (Note: I covered MVC in a <a href="/flask-part2-building-a-flask-web-application.html#model-view-controller">previous post</a>)</p>
+<p>When designing a Dash application, we should stucture our code into three sections:</p>
+<ol>
+<li>Data Manipulation (Model)</li>
+<li>Dashboard Layout (View)</li>
+<li>Interaction Between Components (Controller)</li>
+</ol>
+<p>I created the <a href="https://gist.github.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb">following template</a> to help us get started:
+<script src="https://gist.github.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb.js"></script></p>
+<hr>
+<h2>Historical Matchup Dashboard</h2>
+<p>In this section, we will create a full-featured Dash application that can be used to view historicial soccer data.</p>
+<p>We will use the following process to create / modify Dash applications:</p>
+<ol>
+<li><strong>Create/Update Layout</strong> Figure out where component will be placed</li>
+<li><strong>Map Interactions with Other Components</strong> Specify interaction in callback decorators</li>
+<li><strong>Wire in Data Model</strong> Data manipulation to link interaction and render</li>
+</ol>
+<hr>
+<h3>Setting Up Environment and Installing Dependencies</h3>
+<p>There are <a href="https://plot.ly/dash/installation">installation instructions</a> in the Dash Documentation. Alternatively, we can create a <code>virtualenv</code> and <code>pip install</code>  the <a href="https://raw.githubusercontent.com/alysivji/historical-results-dashboard/master/requirements.txt">requirements file</a>.</p>
+<div class="highlight"><pre><span></span><span class="go">mkdir historical-results-dashboard &amp;&amp; cd historical-results-dashboard</span>
+<span class="go">mkvirtualenv dash-app</span>
+<span class="go">wget https://raw.githubusercontent.com/alysivji/historical-results-dashboard/master/requirements.txt</span>
+<span class="go">pip install -r requirements.txt</span>
+</pre></div>
+
+
+<p>Data is stored in an SQLite database:</p>
+<div class="highlight"><pre><span></span><span class="go">wget https://github.com/alysivji/historical-results-dashboard/blob/master/soccer-stats.db?raw=true soccer-stats.db</span>
+</pre></div>
+
+
+<p>Download the Dash application template file:</p>
+<div class="highlight"><pre><span></span><span class="go">wget https://gist.githubusercontent.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb/raw/d7bfeb84e2c825cfb5d4feee15982c763651e72e/dash_app_template.py app.py</span>
+</pre></div>
+
+
+<hr>
+<h3>Dashboard Layout (View)</h3>
+<p>Our app will look as follows:<br />
+<img src="/images/11-20/11_dash_app_layout.png" alt="Dash App Layout" width=500/></p>
+<p>Users will be able to select Division, Season, and Team via Dropdown components. Selection will trigger actions to update tables (Results + Win/Loss/Draw/Points Summary) and a graph (Points Accumulated vs Time)</p>
+<p>We begin by translating the layout from above into Dash components (both <a href="https://github.com/plotly/dash-core-components">core</a> + <a href="https://github.com/plotly/dash-html-components">HTML</a> components will be required):</p>
+<div class="highlight"><pre><span></span><span class="c1">#########################</span>
+<span class="c1"># Dashboard Layout / View</span>
+<span class="c1">#########################</span>
+
+<span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">max_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Given dataframe, return template generated using Dash components</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span>
+        <span class="c1"># Header</span>
+        <span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Tr</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Th</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="p">])]</span> <span class="o">+</span>
+
+        <span class="c1"># Body</span>
+        <span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Tr</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Td</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span>
+        <span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataframe</span><span class="p">),</span> <span class="n">max_rows</span><span class="p">))]</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">onLoad_division_options</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Actions to perform upon initial page load&#39;&#39;&#39;</span>
+
+    <span class="n">division_options</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">division</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">division</span><span class="p">}</span>
+         <span class="k">for</span> <span class="n">division</span> <span class="ow">in</span> <span class="n">get_divisions</span><span class="p">()]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">division_options</span>
+
+
+<span class="c1"># Set up Dashboard and create layout</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">css</span><span class="o">.</span><span class="n">append_css</span><span class="p">({</span>
+    <span class="s2">&quot;external_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://codepen.io/chriddyp/pen/bWLwgP.css&quot;</span>
+<span class="p">})</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+
+    <span class="c1"># Page Header</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s1">&#39;Soccer Results Viewer&#39;</span><span class="p">)</span>
+    <span class="p">]),</span>
+
+    <span class="c1"># Dropdown Grid</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="c1"># Select Division Dropdown</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="s1">&#39;Select Division&#39;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;three columns&#39;</span><span class="p">),</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;division-selector&#39;</span><span class="p">,</span>
+                                      <span class="n">options</span><span class="o">=</span><span class="n">onLoad_division_options</span><span class="p">()),</span>
+                         <span class="n">className</span><span class="o">=</span><span class="s1">&#39;nine columns&#39;</span><span class="p">)</span>
+            <span class="p">]),</span>
+
+            <span class="c1"># Select Season Dropdown</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="s1">&#39;Select Season&#39;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;three columns&#39;</span><span class="p">),</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;season-selector&#39;</span><span class="p">),</span>
+                         <span class="n">className</span><span class="o">=</span><span class="s1">&#39;nine columns&#39;</span><span class="p">)</span>
+            <span class="p">]),</span>
+
+            <span class="c1"># Select Team Dropdown</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="s1">&#39;Select Team&#39;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;three columns&#39;</span><span class="p">),</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;team-selector&#39;</span><span class="p">),</span>
+                         <span class="n">className</span><span class="o">=</span><span class="s1">&#39;nine columns&#39;</span><span class="p">)</span>
+            <span class="p">]),</span>
+        <span class="p">],</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;six columns&#39;</span><span class="p">),</span>
+
+        <span class="c1"># Empty</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">className</span><span class="o">=</span><span class="s1">&#39;six columns&#39;</span><span class="p">),</span>
+    <span class="p">],</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;twleve columns&#39;</span><span class="p">),</span>
+
+    <span class="c1"># Match Results Grid</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+
+        <span class="c1"># Match Results Table</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;match-results&#39;</span><span class="p">),</span>
+            <span class="n">className</span><span class="o">=</span><span class="s1">&#39;six columns&#39;</span>
+        <span class="p">),</span>
+
+        <span class="c1"># Season Summary Table and Graph</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="c1"># summary table</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;season-summary&#39;</span><span class="p">),</span>
+
+            <span class="c1"># graph</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;season-graph&#39;</span><span class="p">)</span>
+            <span class="c1"># style={},</span>
+
+        <span class="p">],</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;six columns&#39;</span><span class="p">)</span>
+    <span class="p">]),</span>
+<span class="p">])</span>
+</pre></div>
+
+
+<h5>Notes:</h5>
+<ul>
+<li>We used HTML <code>&lt;DIV&gt;</code> elements and the <a href="https://codepen.io/chriddyp/pen/bWLwgP">Dash Style Guide</a> to design the layout</li>
+<li>Tables can be rendered two different ways: <a href="https://community.plot.ly/t/display-tables-in-dash/4707/13">Native HTML or Plotly Table</a></li>
+<li>We just wireframed components in this section, data will be populated via Model and Controller</li>
+</ul>
+<hr>
+<h3>Interaction Between Components (Controller)</h3>
+<p>Once we create our layout, we will need to map out the interaction between the various components. We do this using the provided <code>app.callback()</code> decorator.</p>
+<p>The parameters we pass into the decorator are:</p>
+<ul>
+<li>Output component + property we want to update</li>
+<li>list of all the Input components + properties that can be used to trigger the function</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="c1">#############################################</span>
+<span class="c1"># Interaction Between Components / Controller</span>
+<span class="c1">#############################################</span>
+
+<span class="c1"># Load Seasons in Dropdown</span>
+<span class="nd">@app.callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;options&#39;</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;division-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">populate_season_selector</span><span class="p">(</span><span class="n">division</span><span class="p">):</span>
+    <span class="n">seasons</span> <span class="o">=</span> <span class="n">get_seasons</span><span class="p">(</span><span class="n">division</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">season</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">season</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span>
+    <span class="p">]</span>
+
+
+<span class="c1"># Load Teams into dropdown</span>
+<span class="nd">@app.callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;team-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;options&#39;</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;division-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">populate_team_selector</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">):</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="n">get_teams</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">team</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">team</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span>
+    <span class="p">]</span>
+
+
+<span class="c1"># Load Match results</span>
+<span class="nd">@app.callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;match-results&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;division-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;team-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">load_match_results</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">get_match_results</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generate_table</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">max_rows</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+
+<span class="c1"># Update Season Summary Table</span>
+<span class="nd">@app.callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-summary&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;figure&#39;</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;division-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;team-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">load_season_summary</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">get_match_results</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">)</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">calculate_season_summary</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">table</span>
+
+
+<span class="c1"># Update Season Point Graph</span>
+<span class="nd">@app.callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-graph&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;figure&#39;</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;division-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;season-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">component_id</span><span class="o">=</span><span class="s1">&#39;team-selector&#39;</span><span class="p">,</span> <span class="n">component_property</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">load_season_points_graph</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">get_match_results</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">)</span>
+
+    <span class="n">figure</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">figure</span> <span class="o">=</span> <span class="n">draw_season_points_graph</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">figure</span>
+</pre></div>
+
+
+<h5>Notes:</h5>
+<ul>
+<li>Each <code>app.callback()</code> decorator can only be bound to a single Output <code>(component, property)</code> pair</li>
+<li>While we could add Data Manipulation code in this section, separating the application into components makes it easier to work with</li>
+</ul>
+<hr>
+<h3>Data Manipulation (Model)</h3>
+<p>We finish the dashboard by wiring our Model into both the View and the Controller.</p>
+<div class="highlight"><pre><span></span><span class="c1">###########################</span>
+<span class="c1"># Data Manipulation / Model</span>
+<span class="c1">###########################</span>
+
+<span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+        <span class="n">sql</span><span class="o">=</span><span class="n">q</span><span class="p">,</span>
+        <span class="n">con</span><span class="o">=</span><span class="n">conn</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">get_divisions</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Returns the list of divisions that are stored in the database&#39;&#39;&#39;</span>
+
+    <span class="n">division_query</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT DISTINCT division</span>
+<span class="s1">        FROM results</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="n">divisions</span> <span class="o">=</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">division_query</span><span class="p">)</span>
+    <span class="n">divisions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">divisions</span><span class="p">[</span><span class="s1">&#39;division&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">divisions</span>
+
+
+<span class="k">def</span> <span class="nf">get_seasons</span><span class="p">(</span><span class="n">division</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Returns the seasons of the datbase store&#39;&#39;&#39;</span>
+
+    <span class="n">seasons_query</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT DISTINCT season</span>
+<span class="s1">        FROM results</span>
+<span class="s1">        WHERE division=&#39;{division}&#39;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="n">seasons</span> <span class="o">=</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">seasons_query</span><span class="p">)</span>
+    <span class="n">seasons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">seasons</span><span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">seasons</span>
+
+
+<span class="k">def</span> <span class="nf">get_teams</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Returns all teams playing in the division in the season&#39;&#39;&#39;</span>
+
+    <span class="n">teams_query</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT DISTINCT team</span>
+<span class="s1">        FROM results</span>
+<span class="s1">        WHERE division=&#39;{division}&#39;</span>
+<span class="s1">        AND season=&#39;{season}&#39;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">teams_query</span><span class="p">)</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">teams</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">teams</span>
+
+
+<span class="k">def</span> <span class="nf">get_match_results</span><span class="p">(</span><span class="n">division</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">team</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Returns match results for the selected prompts&#39;&#39;&#39;</span>
+
+    <span class="n">results_query</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        SELECT date, team, opponent, goals, goals_opp, result, points</span>
+<span class="s1">        FROM results</span>
+<span class="s1">        WHERE division=&#39;{division}&#39;</span>
+<span class="s1">        AND season=&#39;{season}&#39;</span>
+<span class="s1">        AND team=&#39;{team}&#39;</span>
+<span class="s1">        ORDER BY date ASC</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="n">match_results</span> <span class="o">=</span> <span class="n">fetch_data</span><span class="p">(</span><span class="n">results_query</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">match_results</span>
+
+
+<span class="k">def</span> <span class="nf">calculate_season_summary</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">])[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;Points&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;points&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="p">},</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;Points&#39;</span><span class="p">],</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary</span>
+
+
+<span class="k">def</span> <span class="nf">draw_season_points_graph</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+    <span class="n">dates</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;points&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Points Accumulation&#39;</span><span class="p">,</span>
+            <span class="n">showlegend</span><span class="o">=</span><span class="bp">False</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">figure</span>
+</pre></div>
+
+
+<h5>Notes:</h5>
+<ul>
+<li>Data is queried from the database each time there is an interaction</li>
+<li>We can <a href="https://plot.ly/dash/performance">improve performance through memoization</a></li>
+<li>We use f-strings when creating SQL queries. Code is Python 3.6+ compliant</li>
+</ul>
+<hr>
+<h3>Run Application</h3>
+<p>Let's run <code>app.py</code> to make sure everything works.</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">export</span> <span class="nv">DB_URI</span><span class="o">=</span>sqlite:///soccer-stats.db
+<span class="gp">$</span> python app.py
+<span class="go">* Running on http://0.0.0.0:8050/ (Press CTRL+C to quit)</span>
+<span class="go">* Restarting with stat</span>
+</pre></div>
+
+
+<p>Opening a web browser...<br />
+<img src="/images/11-20/11_soccer_results_dashboard.png" alt="Soccer Results Dashboard" width=800/></p>
+<p>And we're good to go!</p>
+<hr>
+<h2>Conclusion</h2>
+<p>Dash is a powerful Python library that simplifies data-driven webapp development. It combines the powerful Python data ecosystem with the reactive front-end strengths of JavaScript.</p>
+<p>I have a couple of fun project ideas, but I need to up my React game. Stay tuned.</p>
+<hr>
+<h2>Additional Resources</h2>
+<ul>
+<li><a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503">Dash Announcement Letter</a></li>
+<li><a href="https://plot.ly/dash/">Dash Documentation</a></li>
+<li><a href="https://codepen.io/chriddyp/pen/bWLwgP">Dash Style Guide</a></li>
+<li>SciPy talk: <a href="https://www.youtube.com/watch?v=sea2K4AuPOk">Dash - A New Framework for Building User Interfaces for Technical Computing</a></li>
+<li><a href="https://plot.ly/dash/gallery">Dash Gallery</a></li>
+<li><a href="https://plot.ly/python/">Plotly Documentation</a></li>
+</ul>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="../tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+	<a href="../tag/data-viz.html"><i class="fa fa-tag"></i>data-viz</a>&nbsp;
+	<a href="../tag/interactive-data-science.html"><i class="fa fa-tag"></i>interactive-data-science</a>&nbsp;
+	<a href="../tag/exploring-pypi.html"><i class="fa fa-tag"></i>exploring-pypi</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/reactive-dashboards-with-dash.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
+        </div><!-- /content -->
+
+        <div class="col-md-3 sidebar-nav" id="sidebar">
+
+<div class="row">
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-comment fa-fw fa-lg"></i> Social</h4>
+<ul class="list-unstyled social-links">
+    <li><a href="http://linkedin.com/in/alysivji/" target="_blank">
+	  <i class="fa fa-linkedin-square fa-fw fa-lg" title="LinkedIn"></i>
+		LinkedIn
+	</a></li>
+    <li><a href="http://github.com/alysivji" target="_blank">
+	  <i class="fa fa-github-square fa-fw fa-lg" title="GitHub"></i>
+		GitHub
+	</a></li>
+    <li><a href="https://twitter.com/CaiusSivjus" target="_blank">
+	  <i class="fa fa-twitter-square fa-fw fa-lg" title="Twitter"></i>
+		Twitter
+	</a></li>
+</ul>
+</div>
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
+<ul class="list-unstyled category-links">
+  <li><a href="../category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
+  <li><a href="../category/thoughts.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
+  <li><a href="../category/tutorials.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
+</ul>
+</div>
+
+</div> <!-- /row -->
+
+<h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
+<p class="tag-cloud">
+    <span class="tag-4">
+      <a href="../tag/dev-tools.html">
+          <i class="fa fa-tag"></i>
+        dev-tools
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/mongoengine.html">
+          <i class="fa fa-tag"></i>
+        mongoengine
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/requests.html">
+          <i class="fa fa-tag"></i>
+        requests
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/quick-hit.html">
+          <i class="fa fa-tag"></i>
+        quick-hit
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/talks.html">
+          <i class="fa fa-tag"></i>
+        talks
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/jinja2.html">
+          <i class="fa fa-tag"></i>
+        jinja2
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+</p>
+<h4><i class="fa fa-rss fa-fw fa-lg"></i> Feeds</h4>
+<ul class="list-unstyled">
+    <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+		   type="application/atom+xml" rel="alternate">
+		<i class="fa fa-rss-square fa-fw fa-lg"></i> Atom Feed</a></li>
+</ul>
+
+<hr />
+
+        </div><!--/sidebar -->
+      </div><!--/row-->
+    </div><!--/.container /#main-container -->
+
+    <footer id="site-footer">
+ 
+      <address id="site-colophon">
+        <p class="text-center text-muted">
+        Site built using <a href="http://getpelican.com/" target="_blank">Pelican</a>
+        &nbsp;&bull;&nbsp; Theme based on
+        <a href="http://www.voidynullness.net/page/voidy-bootstrap-pelican-theme/"
+           target="_blank">VoidyBootstrap</a> by 
+        <a href="http://www.robertiwancz.com/"
+           target="_blank">RKI</a>  
+        </p>
+      </address><!-- /colophon  -->
+    </footer>
+
+<!-- DISQUS script for displaying comment count -->
+<script type="text/javascript">
+    var disqus_shortname = 'siv-scripts';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- javascript -->
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
+</html>
