@@ -119,14 +119,14 @@
 	<blockquote>
 <h4>Summary</h4>
 <ul>
-<li>Explore Dash</li>
+<li>Explore Plotly's new Dash library</li>
 <li>Discuss how we can structure Dash apps using MVC</li>
 <li>Build interactive dashboard to display historical soocer results</li>
 </ul>
 </blockquote>
 <hr>
 <p>I spent a good portion of 2014-15 learning JavaScript to create interactive, web-based dashboards for a work project. I wrapped <a href="https://d3js.org/">D3.js</a> with <a href="https://angularjs.org/">Angular directives</a> to create modular components that were used to visualize data.</p>
-<p>Data Analysis is definitely not one of JavaScript's strengths. Most of my code was trying to cobble together <code>DataFrame</code>-esque operations with JSON data. I missed R. I missed Python. I even missed MATLAB.</p>
+<p>Data Analysis is not one of JavaScript's strengths; most of my code was trying to cobble together <code>DataFrame</code>-esque operations with JSON data. I missed R. I missed Python. I even missed MATLAB.</p>
 <p>When I found <a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503">Dash</a> a couple of months ago, I was blown away.</p>
 <p>With Dash, we can create interactive, web-based dashboards with <strong>pure Python</strong>. All the front-end work, all that dreaded JavaScript, that's not our problem anymore.</p>
 <p>How easy is Dash to use? In around an hour and with &lt;100 lines of code, I created a <a href="https://github.com/alysivji/talks/blob/master/data-science-workflows-using-docker-containers/workflow3-data-driven-app/plot_timeseries.py">dashboard to display live streaming data</a> for my <a href="https://www.youtube.com/watch?v=3CKVOPPqW9Q">PyOhio talk</a>.</p>
@@ -138,6 +138,7 @@
 <p><a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503">Dash is a Open Source Python library for creating reactive, Web-based applications</a></p>
 </blockquote>
 <p>Dash apps consist of a Flask server that communicates with front-end React components using JSON packets over HTTP requests.</p>
+<p><em>What does this mean?</em> We can run a Flask app to create a web page with a dashboard. Interaction in the browser can call code to re-render certain parts of the web page.</p>
 <p>We use the provided Python interface to design our application layout and to enable interaction between components. User interaction triggers Python functions; these functions can perform any action before returning a result back to the specified component.</p>
 <p>Dash applications are written in Python. <strong>No HTML or JavaScript is necessary.</strong></p>
 <p>We are able to plug into React's <a href="https://github.com/brillout/awesome-react-components">extensive ecosystem</a> through an <a href="https://github.com/plotly/dash-components-archetype">included toolset</a> that packages React components into Dash-useable components.</p>
@@ -163,9 +164,9 @@
 <p>In this section, we will create a full-featured Dash application that can be used to view historicial soccer data.</p>
 <p>We will use the following process to create / modify Dash applications:</p>
 <ol>
-<li><strong>Create/Update Layout</strong> Figure out where component will be placed</li>
-<li><strong>Map Interactions with Other Components</strong> Specify interaction in callback decorators</li>
-<li><strong>Wire in Data Model</strong> Data manipulation to link interaction and render</li>
+<li><strong>Create/Update Layout</strong> - Figure out where components will be placed</li>
+<li><strong>Map Interactions with Other Components</strong> - Specify interaction in callback decorators</li>
+<li><strong>Wire in Data Model</strong> - Data manipulation to link interaction and render</li>
 </ol>
 <hr>
 <h3>Setting Up Environment and Installing Dependencies</h3>
@@ -182,7 +183,7 @@
 </pre></div>
 
 
-<p>Download the Dash application template file:</p>
+<p>Download the Dash application template file from above:</p>
 <div class="highlight"><pre><span></span><span class="go">wget https://gist.githubusercontent.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb/raw/d7bfeb84e2c825cfb5d4feee15982c763651e72e/dash_app_template.py app.py</span>
 </pre></div>
 
@@ -302,6 +303,7 @@
 <li>Output component + property we want to update</li>
 <li>list of all the Input components + properties that can be used to trigger the function</li>
 </ul>
+<p>Our code looks as follows:</p>
 <div class="highlight"><pre><span></span><span class="c1">#############################################</span>
 <span class="c1"># Interaction Between Components / Controller</span>
 <span class="c1">#############################################</span>
@@ -393,12 +395,15 @@
 
 <h5>Notes:</h5>
 <ul>
-<li>Each <code>app.callback()</code> decorator can only be bound to a single Output <code>(component, property)</code> pair</li>
-<li>While we could add Data Manipulation code in this section, separating the application into components makes it easier to work with</li>
+<li>Each <code>app.callback()</code> decorator can be bound to a single Output <code>(component, property)</code> pair<ul>
+<li>We will need to create additional functions to change multiple Output components</li>
+</ul>
+</li>
+<li>We could add Data Manipulation code in this section, but separating the app into components makes it easier to work with</li>
 </ul>
 <hr>
 <h3>Data Manipulation (Model)</h3>
-<p>We finish the dashboard by wiring our Model into both the View and the Controller.</p>
+<p>We finish the dashboard by wiring our Model into both the View and the Controller:</p>
 <div class="highlight"><pre><span></span><span class="c1">###########################</span>
 <span class="c1"># Data Manipulation / Model</span>
 <span class="c1">###########################</span>
@@ -508,9 +513,11 @@
 
 <h5>Notes:</h5>
 <ul>
-<li>Data is queried from the database each time there is an interaction</li>
+<li>Data is queried from the database each time there is an interaction<ul>
 <li>We can <a href="https://plot.ly/dash/performance">improve performance through memoization</a></li>
-<li>We use f-strings when creating SQL queries. Code is Python 3.6+ compliant</li>
+</ul>
+</li>
+<li>We used f-strings when creating SQL queries. Code is Python 3.6+</li>
 </ul>
 <hr>
 <h3>Run Application</h3>
@@ -527,8 +534,8 @@
 <p>And we're good to go!</p>
 <hr>
 <h2>Conclusion</h2>
-<p>Dash is a powerful Python library that simplifies data-driven webapp development. It combines the powerful Python data ecosystem with the reactive front-end strengths of JavaScript.</p>
-<p>I have a couple of fun project ideas, but I need to up my React game. Stay tuned.</p>
+<p>Dash is a powerful Python library that simplifies data-driven web app development. It combines Python's powerful data ecosystem with one of JavaScript's most popular front-end libraries (<a href="https://facebook.github.io/react/">React</a>).</p>
+<p>In a future post, I will walk through the <a href="https://github.com/plotly/dash-components-archetype">process of converting a React component</a> from <a href="https://www.npmjs.com/">npm</a> into a Dash-useable component. Stay tuned.</p>
 <hr>
 <h4>Additional Resources</h4>
 <ul>
@@ -622,22 +629,46 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-4">
+      <a href="../tag/orm.html">
+          <i class="fa fa-tag"></i>
+        orm
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/requests.html">
+          <i class="fa fa-tag"></i>
+        requests
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
     <span class="tag-3">
       <a href="../tag/web-scraping.html">
           <i class="fa fa-tag"></i>
         web-scraping
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/scrapy.html">
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
-        scrapy
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
+        reddit-scraper
       </a>
     </span>
     <span class="tag-1">
@@ -646,10 +677,34 @@
         how-to
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/jinja2.html">
+    <span class="tag-4">
+      <a href="../tag/quick-hit.html">
           <i class="fa fa-tag"></i>
-        jinja2
+        quick-hit
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/mongoengine.html">
+          <i class="fa fa-tag"></i>
+        mongoengine
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
       </a>
     </span>
     <span class="tag-1">
@@ -665,39 +720,27 @@
       </a>
     </span>
     <span class="tag-4">
+      <a href="../tag/folium.html">
+          <i class="fa fa-tag"></i>
+        folium
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/scrapy.html">
+          <i class="fa fa-tag"></i>
+        scrapy
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="../tag/talks.html">
           <i class="fa fa-tag"></i>
         talks
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/quick-hit.html">
-          <i class="fa fa-tag"></i>
-        quick-hit
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/mongoengine.html">
-          <i class="fa fa-tag"></i>
-        mongoengine
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/orm.html">
-          <i class="fa fa-tag"></i>
-        orm
       </a>
     </span>
     <span class="tag-3">
@@ -706,52 +749,16 @@
         data-science
       </a>
     </span>
+    <span class="tag-3">
+      <a href="../tag/jinja2.html">
+          <i class="fa fa-tag"></i>
+        jinja2
+      </a>
+    </span>
     <span class="tag-4">
       <a href="../tag/dev-tools.html">
           <i class="fa fa-tag"></i>
         dev-tools
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/folium.html">
-          <i class="fa fa-tag"></i>
-        folium
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/requests.html">
-          <i class="fa fa-tag"></i>
-        requests
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
       </a>
     </span>
 </p>
