@@ -426,7 +426,7 @@
 &lt;p&gt;And we're good to go!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Dash is a powerful Python library that simplifies data-driven web app development. It combines Python's powerful data ecosystem with one of JavaScript's most popular front-end libraries (&lt;a href="https://facebook.github.io/react/"&gt;React&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Dash is a Python library that simplifies data-driven web app development. It combines Python's powerful data ecosystem with one of JavaScript's most popular front-end libraries (&lt;a href="https://facebook.github.io/react/"&gt;React&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;In a future post, I will walk through the &lt;a href="https://github.com/plotly/dash-components-archetype"&gt;process of converting a React component&lt;/a&gt; from &lt;a href="https://www.npmjs.com/"&gt;npm&lt;/a&gt; into a Dash-useable component. Stay tuned.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4&gt;Additional Resources&lt;/h4&gt;

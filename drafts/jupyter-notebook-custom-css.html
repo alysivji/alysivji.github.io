@@ -4,11 +4,17 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Posts tagged with dev-tools" />
+    <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Using Custom CSS in Jupyter Notebooks">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
 
-    <title>Tag:dev-tools - Siv Scripts</title>
+    <title>Using Custom CSS in Jupyter Notebooks - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -91,41 +97,69 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-    <li><a href="../" title="Home" rel="home">
-		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-    <li>Tags </li>
-    <li class="active">dev-tools</li>
-</ol>
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Wed 28 June 2017
+  Thu 01 June 2017
 </abbr> <h1>
-  <a href="../containerized-development-environments.html" rel="bookmark"
-     title="Permalink to Coding in Containers: 30 Day Challenge">
-    Coding in Containers: 30 Day Challenge
+  <a href="../drafts/jupyter-notebook-custom-css.html" rel="bookmark"
+     title="Permalink to Using Custom CSS in Jupyter Notebooks">
+    Using Custom CSS in Jupyter Notebooks
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
+    <a href="../category/drafts.html">
+      Drafts</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<p>I'm taking an Introduction to Tensorflow training class thru <a href="https://www.safaribooksonline.com/home/">Safari</a> this week. We were given a choice of setting up our classroom environment either in Conda or inside of a <a href="https://www.docker.com/">Docker</a> container.</p>
-<p>Ever since <a href="https://www.continuum.io/">Anaconda</a> started getting in my way during this year's PyCon sprints, I have been moving my …</p>
-		<p class="content-emphasis"><a href="../containerized-development-environments.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>https://github.com/jupyterlab/jupyterlab/issues/714</p>
+<p>~/.jupyter/custom/custom.css</p>
+<p>css</p>
+<p>!important</p>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="../tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
 
-<nav class="index-pager">
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
 
-</nav> <!-- /index-pager -->
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/jupyter-notebook-custom-css.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -369,5 +403,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>

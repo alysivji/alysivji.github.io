@@ -4,11 +4,17 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Posts tagged with dev-tools" />
+    <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
 
-    <title>Tag:dev-tools - Siv Scripts</title>
+    <title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -91,41 +97,123 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-    <li><a href="../" title="Home" rel="home">
-		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-    <li>Tags </li>
-    <li class="active">dev-tools</li>
-</ol>
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Wed 28 June 2017
+  Thu 24 August 2017
 </abbr> <h1>
-  <a href="../containerized-development-environments.html" rel="bookmark"
-     title="Permalink to Coding in Containers: 30 Day Challenge">
-    Coding in Containers: 30 Day Challenge
+  <a href="../drafts/setting-up-pyenv-virtualenvwrapper.html" rel="bookmark"
+     title="Permalink to Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper">
+    Ultimate Solution to Python Virtual Environments: <code>pyenv</code> + <code>virtualenvwrapper</code>
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
+    <a href="../category/drafts.html">
+      Drafts</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<p>I'm taking an Introduction to Tensorflow training class thru <a href="https://www.safaribooksonline.com/home/">Safari</a> this week. We were given a choice of setting up our classroom environment either in Conda or inside of a <a href="https://www.docker.com/">Docker</a> container.</p>
-<p>Ever since <a href="https://www.continuum.io/">Anaconda</a> started getting in my way during this year's PyCon sprints, I have been moving my …</p>
-		<p class="content-emphasis"><a href="../containerized-development-environments.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>Playing around on the command line is one of my favourite things about programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate balance between everything working and a reformat. Would this be the <code>pip install</code> that ended it all?</p>
+<p>Enter virtual environments.</p>
+<p>A <strong>virtual environment</strong> (<code>venv</code>) is a tool that allows us to keep project dependencies isolated. If Project A requires pandas version 0.17 and Project B requires pandas version 0.21, we can create two virtual environments to separate each project and keep workflows independent. More info in the <a href="https://docs.python.org/3/library/venv.html#venv-def">Python documentation</a>.</p>
+<p>It's been around a year since I started using <code>venv</code>s for each of my projects, but I had yet to find the perfect development workflow.</p>
+<p>Tried <a href="https://www.continuum.io/what-is-anaconda">Anaconda</a>; it was too bloated for non-Data Science work.</p>
+<p>Next came <code>virtualenv + virtualevnwrapper</code>. Did everything I wanted, but had to manually manage Python installations when using different versions of Python.</p>
+<p>Like everybody who learns Docker, I went thru a <a href="containerized-development-environments.html">containerize all the things phase</a>. The non-existent battery life on my Mac told me this wasn't the most feasible solution.</p>
+<p>Then I found <code>pyenv</code>.<br />
+<img src="/images/11-20/13_penv_just_right_meme.jpg" alt="Just Right" width=500/></p>
+<p>In this post, I will describe how to install <code>pyenv</code> and <code>pyenv-virtualenvwrapper</code>. I will also walk through the steps required to setup and use a new virtual environment. This is mostly to document the steps for my benefit, but hopefully it will help others in the same boat.</p>
+<hr>
+<h2><code>pyenv</code></h2>
+<p>What does this do?</p>
+<p><a href="https://github.com/pyenv/pyenv">pyenv</a></p>
+<h3>installation</h3>
+<p><a href="https://github.com/pyenv/pyenv#installation">install pyenv</a></p>
+<h3>updating bash_profile</h3>
+<div class="highlight"><pre><span></span><span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>pyenv init -<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
 
-<nav class="index-pager">
 
-</nav> <!-- /index-pager -->
+<h3>Commands</h3>
+<p><a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md">commands</a></p>
+<p>installing new python
+changing global python
+changing shell python</p>
+<p>what is the command to update the list of python versions?</p>
+<hr>
+<h2><code>pyenv-virtualenvwrapper</code></h2>
+<p>what is it? what does it do?</p>
+<h3>Installation</h3>
+<p><a href="https://github.com/pyenv/pyenv-virtualenvwrapper">install pyenv-virtualenvwrapper</a></p>
+<h3>updating bash profile</h3>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/.virtualenvs
+<span class="nb">source</span> /usr/local/bin/virtualenvwrapper.sh
+</pre></div>
+
+
+<h3>Usage</h3>
+<p>each python installation needs a virtualenvwrapper install</p>
+<p>first time only</p>
+<div class="highlight"><pre><span></span><span class="go">pyenv versions</span>
+<span class="go">pyenv shell [blah]</span>
+<span class="go">pyenv virtualenvwrapper</span>
+</pre></div>
+
+
+<p>making virtual environments</p>
+<p>mkvirtualenv =&gt; use this to make the virtual environment...
+workon [env] =&gt; to enable environment</p>
+<hr>
+<h2>My Workflow</h2>
+<p>I cmobine these with direnv which loads the virtual environment when I <code>cd</code> into a directory. We'll cover that in the future post.</p>
+<p>if you're good with the global install, just mkvirtualenv and you're good to go (shim will hook it up)</p>
+<p>if you want a different version. pyenv shell [version] and then mkvirtualenv. shim will know the one we are looking for.
+this updates our env variable</p>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="../tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+	<a href="../tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/setting-up-pyenv-virtualenvwrapper.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -369,5 +457,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
