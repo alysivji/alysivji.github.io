@@ -1,5 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-08-25T20:00:00-05:00</updated><entry><title>MHI 408-DL: System Acquisition and Lifecycle</title><link href="http://alysivji.github.io/review-mhi408-system-acquisition-and-lifecycle.html" rel="alternate"></link><published>2017-08-25T20:00:00-05:00</published><updated>2017-08-25T20:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-25:/review-mhi408-system-acquisition-and-lifecycle.html</id><summary type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-08-28T18:30:00-05:00</updated><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
+&lt;p&gt;Enter virtual environments.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;virtual …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
+&lt;p&gt;Enter virtual environments.&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;virtual environment&lt;/strong&gt; (&lt;code&gt;venv&lt;/code&gt;) is a tool that allows us to keep project dependencies isolated. If Project A requires pandas version 0.17 and Project B requires pandas version 0.21, we can create a venv for each project and keep workflows independent. More info in the &lt;a href="https://docs.python.org/3/library/venv.html#venv-def"&gt;Python documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It's been around a year since I started using virtual environments in my projects, but I had yet to find the perfect dev workflow.&lt;/p&gt;
+&lt;p&gt;Tried &lt;a href="https://www.continuum.io/what-is-anaconda"&gt;Anaconda&lt;/a&gt;; it was too bloated for non-Data Science work.&lt;/p&gt;
+&lt;p&gt;Next came &lt;a href="https://virtualenv.pypa.io/en/stable/"&gt;virtualenv&lt;/a&gt; + &lt;a href="http://virtualenvwrapper.readthedocs.io/en/latest/"&gt;virtualevnwrapper&lt;/a&gt;. Did everything I wanted, but I had to manually manage Python installations when setting up environments for different versions.&lt;/p&gt;
+&lt;p&gt;Like everyone who learns Docker, I went thru a &lt;a href="containerized-development-environments.html"&gt;containerize all the things phase&lt;/a&gt;. The non-existent battery life on my Mac told me this wasn't the most feasible solution.&lt;/p&gt;
+&lt;p&gt;Then I found pyenv...&lt;br /&gt;
+&lt;img src="/images/11-20/13_penv_just_right_meme.jpg" alt="Just Right" width=500/&gt;&lt;/p&gt;
+&lt;p&gt;In this post, I will describe how to install pyenv and pyenv-virtualenvwrapper. I will also walk through the steps required to setup and use a new virtual environment.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;pyenv&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/pyenv/pyenv#simple-python-version-management-pyenv"&gt;pyenv lets you easily switch between multiple versions of Python&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Background&lt;/h3&gt;
+&lt;p&gt;Anytime we run a command, the OS goes looking for the executible within the list of directories in the &lt;code&gt;$PATH&lt;/code&gt; environment variable.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$PATH&lt;/span&gt;
+&lt;span class="go"&gt;/Users/alysivji/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/alysivji/bin&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; which python
+&lt;span class="go"&gt;/usr/bin/python&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; which python3
+&lt;span class="go"&gt;/usr/local/bin/python3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We see both the default Python and Python3.6 installations are located in the &lt;code&gt;$PATH&lt;/code&gt; var.&lt;/p&gt;
+&lt;p&gt;When we install pyenv, we add an additional directory of &lt;a href="https://en.wikipedia.org/wiki/Shim_(computing)"&gt;shims&lt;/a&gt; to the front of our &lt;code&gt;$PATH&lt;/code&gt;. Each shim intercepts commands (&lt;code&gt;python&lt;/code&gt;, &lt;code&gt;pip&lt;/code&gt;, etc) and redirects them to the appropriate location.&lt;/p&gt;
+&lt;h3&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Check the project's Github for &lt;a href="https://github.com/pyenv/pyenv#installation"&gt;detailed installation instructions&lt;/a&gt;. These instructions assume you have macOS + &lt;a href="https://brew.sh/"&gt;Homebrew&lt;/a&gt; installed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;brew update&lt;/span&gt;
+&lt;span class="go"&gt;brew install pyenv&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Add the following line to &lt;code&gt;~/.bash_profile&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;pyenv init -&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's make sure our installation worked:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;source&lt;/span&gt; ~/.bash_profile
+&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$PATH&lt;/span&gt;
+&lt;span class="go"&gt;/Users/alysivji/.pyenv/shims:/Users/alysivji/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/alysivji/bin&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Looks good! The shims at the front of our &lt;code&gt;$PATH&lt;/code&gt; variable will intercept and redirect all python-related commands.&lt;/p&gt;
+&lt;h3&gt;Commands&lt;/h3&gt;
+&lt;p&gt;We use &lt;code&gt;pyenv install --list&lt;/code&gt; to get a list of all Python versions available for installation. Let's install a few different versions of Python so we can see how pyenv works.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;pyenv install 2.7.13&lt;/span&gt;
+&lt;span class="go"&gt;pyenv install pypy-5.7.1&lt;/span&gt;
+&lt;span class="go"&gt;pyenv install 3.6.2&lt;/span&gt;
+&lt;span class="go"&gt;pyenv install 3.7-dev&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Set the Python we want as our default version:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; pyenv global &lt;span class="m"&gt;3&lt;/span&gt;.6.2
+&lt;span class="gp"&gt;$&lt;/span&gt; pyenv versions
+&lt;span class="go"&gt;  system&lt;/span&gt;
+&lt;span class="go"&gt;  2.7.13&lt;/span&gt;
+&lt;span class="go"&gt;* 3.6.2 (set by /Users/alysivji/.pyenv/version)&lt;/span&gt;
+&lt;span class="go"&gt;  3.7-dev&lt;/span&gt;
+&lt;span class="go"&gt;  pypy-5.7.1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;How does the shim know which version of Python to use? It goes down the &lt;a href="https://github.com/pyenv/pyenv#choosing-the-python-version"&gt;hierarchy&lt;/a&gt; until it finds what it's looking for.&lt;/p&gt;
+&lt;p&gt;Activate different versions of Python using the &lt;code&gt;pyenv shell [version]&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; which python
+&lt;span class="go"&gt;/Users/alysivji/.pyenv/shims/python&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; python
+&lt;span class="go"&gt;Python 3.6.2 (default, Aug 24 2017, 00:00:01)&lt;/span&gt;
+&lt;span class="go"&gt;[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin&lt;/span&gt;
+&lt;span class="go"&gt;Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; exit&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; pyenv shell &lt;span class="m"&gt;2&lt;/span&gt;.7.13
+&lt;span class="gp"&gt;$&lt;/span&gt; which python
+&lt;span class="go"&gt;/Users/alysivji/.pyenv/shims/python&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; python
+&lt;span class="go"&gt;Python 2.7.13 (default, Aug 24 2017, 00:14:24)&lt;/span&gt;
+&lt;span class="go"&gt;[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin&lt;/span&gt;
+&lt;span class="go"&gt;Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice how the pyenv shims take care of everything for us. Next, we'll learn how to create a &lt;code&gt;venv&lt;/code&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;pyenv-virtualenvwrapper&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/pyenv/pyenv-virtualenvwrapper"&gt;pyenv-virtualenvwrapper is a pyenv plugin ... to manage your virtualenvs with virtualenvwrapper&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Detailed &lt;a href="https://github.com/pyenv/pyenv-virtualenvwrapper"&gt;instructions&lt;/a&gt; are on Github. macOS + &lt;a href="https://brew.sh/"&gt;Homebrew&lt;/a&gt; users can follow along:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;brew install pyenv-virtualenvwrapper&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Append to &lt;code&gt;~/.bash_profile&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;true&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;WORKON_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.virtualenvs
+&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/bin/virtualenvwrapper.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Reload the shell:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;source ~/.bash_profile&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Commands&lt;/h3&gt;
+&lt;p&gt;Anytime we install a new version of Python, we will need to install virtualenvwrapper. This is done with either the &lt;code&gt;pyenv virtualenvwrapper&lt;/code&gt; or &lt;code&gt;pyenv virtualenvwrapper_lazy&lt;/code&gt; (&lt;strong&gt;preferred&lt;/strong&gt;) command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; pyenv shell &lt;span class="m"&gt;3&lt;/span&gt;.6.2
+&lt;span class="gp"&gt;$&lt;/span&gt; pyenv virtualenvwrapper_lazy
+&lt;span class="go"&gt;Collecting virtualenvwrapper&lt;/span&gt;
+&lt;span class="go"&gt;Collecting stevedore (from virtualenvwrapper)&lt;/span&gt;
+&lt;span class="go"&gt;  Using cached stevedore-1.25.0-py2.py3-none-any.whl&lt;/span&gt;
+&lt;span class="go"&gt;Collecting virtualenv (from virtualenvwrapper)&lt;/span&gt;
+&lt;span class="go"&gt;  Using cached virtualenv-15.1.0-py2.py3-none-any.whl&lt;/span&gt;
+&lt;span class="go"&gt;Collecting virtualenv-clone (from virtualenvwrapper)&lt;/span&gt;
+&lt;span class="go"&gt;  Using cached virtualenv-clone-0.2.6.tar.gz&lt;/span&gt;
+&lt;span class="go"&gt;Collecting pbr!=2.1.0,&amp;gt;=2.0.0 (from stevedore-&amp;gt;virtualenvwrapper)&lt;/span&gt;
+&lt;span class="go"&gt;  Using cached pbr-3.1.1-py2.py3-none-any.whl&lt;/span&gt;
+&lt;span class="go"&gt;Collecting six&amp;gt;=1.9.0 (from stevedore-&amp;gt;virtualenvwrapper)&lt;/span&gt;
+&lt;span class="go"&gt;  Using cached six-1.10.0-py2.py3-none-any.whl&lt;/span&gt;
+&lt;span class="go"&gt;Installing collected packages: pbr, six, stevedore, virtualenv, virtualenv-clone, virtualenvwrapper&lt;/span&gt;
+&lt;span class="go"&gt;  Running setup.py install for virtualenv-clone ... done&lt;/span&gt;
+&lt;span class="go"&gt;Successfully installed pbr-3.1.1 six-1.10.0 stevedore-1.25.0 virtualenv-15.1.0 virtualenv-clone-0.2.6 virtualenvwrapper-4.7.2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we can use the &lt;a href="http://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html"&gt;virtualenvwrapper shell commands&lt;/a&gt; to manage our environment:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; mkvirtualenv venv_test
+&lt;span class="go"&gt;Using base prefix &amp;#39;/Users/alysivji/.pyenv/versions/3.6.2&amp;#39;&lt;/span&gt;
+&lt;span class="go"&gt;New python executable in /Users/alysivji/.virtualenvs/venv_test/bin/python3.6&lt;/span&gt;
+&lt;span class="go"&gt;Also creating executable in /Users/alysivji/.virtualenvs/venv_test/bin/python&lt;/span&gt;
+&lt;span class="go"&gt;Installing setuptools, pip, wheel...done.&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/predeactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/postdeactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/preactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/postactivate&lt;/span&gt;
+&lt;span class="go"&gt;virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/get_env_details&lt;/span&gt;
+&lt;span class="gp"&gt;(venv_test) $&lt;/span&gt; which python
+&lt;span class="go"&gt;/Users/alysivji/.virtualenvs/venv_test/bin/python&lt;/span&gt;
+&lt;span class="gp"&gt;(venv_test) $&lt;/span&gt; python
+&lt;span class="go"&gt;Python 3.6.2 (default, Aug 24 2017, 00:00:01)&lt;/span&gt;
+&lt;span class="go"&gt;[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin&lt;/span&gt;
+&lt;span class="go"&gt;Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can also switch between virtual environments using the &lt;code&gt;deactivate&lt;/code&gt; and &lt;code&gt;workon&lt;/code&gt; commands:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;(venv_test) $&lt;/span&gt; deactivate
+&lt;span class="gp"&gt;$&lt;/span&gt; workon venv_test
+&lt;span class="gp"&gt;(venv_test) $&lt;/span&gt; python
+&lt;span class="go"&gt;Python 3.6.2 (default, Aug 24 2017, 00:00:01)&lt;/span&gt;
+&lt;span class="go"&gt;[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin&lt;/span&gt;
+&lt;span class="go"&gt;Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.&lt;/span&gt;
+&lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's pretty much it. We can create a virtual environment for any version of Python in two commands.&lt;/p&gt;
+&lt;h4&gt;Notes&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;virtualenvwrapper_lazy&lt;/code&gt; &lt;a href="https://www.reddit.com/r/Python/comments/11e773/tip_virtualenvwrapper_has_a_lazy_version_you_can/"&gt;decreases shell load time&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;We should always look for ways to optimize our development workflows. There are tools out there to help us manage complexity and make our life easy. Find these tools. Use them. It'll make you more productive in the long run.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h5&gt;Additional Resources&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://realpython.com/blog/python/python-virtual-environments-a-primer/"&gt;Real Python Primer on Virtual Environments&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html"&gt;virtualenvwrapper Command List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md"&gt;pyenv Command Reference&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv-virtualenv"&gt;pyenv-virtualenv&lt;/a&gt; - Alternative virtual environment manager for pyenv&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>MHI 408-DL: System Acquisition and Lifecycle</title><link href="http://alysivji.github.io/review-mhi408-system-acquisition-and-lifecycle.html" rel="alternate"></link><published>2017-08-25T20:00:00-05:00</published><updated>2017-08-25T20:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-25:/review-mhi408-system-acquisition-and-lifecycle.html</id><summary type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
 &lt;p&gt;The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
 &lt;p&gt;The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python side projects along the way. But that wasn't the case. &lt;strong&gt;At all.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Somehow, through sheer will (and outstanding course design), Dr. Robinson created a class that has been the most engaging and applicable experience of my grad school career.&lt;/p&gt;
@@ -12,7 +195,7 @@
 &lt;hr&gt;
 &lt;h2&gt;Workload&lt;/h2&gt;
 &lt;p&gt;There are weekly readings and "lectures". Lectures are mostly PowerPoint slides you can go over at your convenience. Not a lot of formal instruction. You would think the tuition I pay would bring more to the table, but it didn't take away from the course.&lt;/p&gt;
-&lt;p&gt;All of Northwestern's MHI classes have discussion boards where students interact and learn in a collobrative environment. This quarter's topics ranged from sharing experiences of being on an acquisition team to debating the merits of different open source licenses. This was right around the time &lt;a href="https://www.reddit.com/r/programming/comments/6nnxir/apache_foundation_bans_use_of_facebook_bsdpatents/"&gt;Apache banned the use of BSD+patent libraries&lt;/a&gt;; I had a lot of fun researching and ranting about React.&lt;/p&gt;
+&lt;p&gt;All of Northwestern's MHI classes have discussion boards where students interact and learn in a collobrative environment. This quarter's discussion topics ranged from sharing experiences of being on an acquisition team to debating the merits of different open source licenses. This was right around the time &lt;a href="https://www.reddit.com/r/programming/comments/6nnxir/apache_foundation_bans_use_of_facebook_bsdpatents/"&gt;Apache banned the use of BSD+patent libraries&lt;/a&gt;; I had a lot of fun researching and ranting about React.&lt;/p&gt;
 &lt;p&gt;The first two weeks of class were hectic with two assignments due right away. Week 2's assignment was long (18-20 hours) and there wasn't much direction from the professor. The topic was to write a Statement of Work and it felt like a consulting engagement. Client expects something at the end of the weekend, you're not quite sure what. Make your best effort to get them what they expect. Seemed to work well enough.&lt;/p&gt;
 &lt;p&gt;Courseload lightened up over the next few weeks as we were place into groups for the remaining assignments. Group work is group work. My group was great, so no compliants from me.&lt;/p&gt;
 &lt;p&gt;The course built up to a mock negotiation held in the final week of the quarter. Students played the part of either vendor or customer, and negotiated the acquisition of an EHR for a 30 office physician group. This was a lot of fun and helped to reinforce the main themes of the course. &lt;em&gt;Anytown Community Physicians, you may be gone, but you are not forgetten&lt;/em&gt;&lt;/p&gt;
