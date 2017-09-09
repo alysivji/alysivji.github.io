@@ -182,7 +182,7 @@ IndexError: pop from empty stack
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.geeksforgeeks.org/stack-data-structure/"&gt;Stack Data Structure - GeeksforGeeks&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)"&gt;Stack (abstract data type) - Wikipedia&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="quick-hit"></category></entry><entry><title>Tuples (and namedtuples) as Python Dictionary Keys</title><link href="http://alysivji.github.io/quick-hit-immutable-dict-keys.html" rel="alternate"></link><published>2017-04-28T12:00:00-05:00</published><updated>2017-04-28T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-28:/quick-hit-immutable-dict-keys.html</id><summary type="html">
+&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="exploring-pypi"></category><category term="quick-hit"></category></entry><entry><title>Tuples (and namedtuples) as Python Dictionary Keys</title><link href="http://alysivji.github.io/quick-hit-immutable-dict-keys.html" rel="alternate"></link><published>2017-04-28T12:00:00-05:00</published><updated>2017-04-28T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-28:/quick-hit-immutable-dict-keys.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
