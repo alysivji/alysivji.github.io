@@ -1,5 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-08-28T18:30:00-05:00</updated><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-09-09T05:15:00-05:00</updated><entry><title>Visualizing Stacks</title><link href="http://alysivji.github.io/quick-hit-visualizing-stacks.html" rel="alternate"></link><published>2017-09-09T05:15:00-05:00</published><updated>2017-09-09T05:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-09:/quick-hit-visualizing-stacks.html</id><summary type="html">&lt;p&gt;A &lt;strong&gt;stack&lt;/strong&gt; is a linear data structure that holds a collection of items. We define the operations performed in the stack from the point of view of a user:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.push()&lt;/code&gt; - add item to top&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.pop()&lt;/code&gt; - remove and return item from top&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.peek()&lt;/code&gt; - return top most element&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.is_empty()&lt;/code&gt; - True if stack …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;A &lt;strong&gt;stack&lt;/strong&gt; is a linear data structure that holds a collection of items. We define the operations performed in the stack from the point of view of a user:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.push()&lt;/code&gt; - add item to top&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.pop()&lt;/code&gt; - remove and return item from top&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.peek()&lt;/code&gt; - return top most element&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.is_empty()&lt;/code&gt; - True if stack is empty, else false&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Elements inside of a stack follow a LIFO (&lt;strong&gt;l&lt;/strong&gt;ast &lt;strong&gt;i&lt;/strong&gt;n, &lt;strong&gt;f&lt;/strong&gt;irst &lt;strong&gt;o&lt;/strong&gt;ut) order of operations. Stacks can be implemented as a &lt;a href="http://www.geeksforgeeks.org/linked-list-set-1-introduction/"&gt;linked list&lt;/a&gt; with a pointer to the top element.&lt;/p&gt;
+&lt;p&gt;In this post, we will explore the Stack &lt;a href="https://en.wikipedia.org/wiki/Abstract_data_type"&gt;ADT&lt;/a&gt; using the &lt;a href="https://github.com/parrt/lolviz"&gt;lolviz&lt;/a&gt; package that was featured in &lt;a href="https://pythonbytes.fm/episodes/show/41/python-concurrency-from-the-ground-up-and-caring-for-our-community"&gt;Episode 41&lt;/a&gt; of the &lt;a href="https://pythonbytes.fm"&gt;Python Bytes&lt;/a&gt; podcast. &lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Import the &lt;code&gt;lolviz&lt;/code&gt; library to visualize data structures.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;lolviz&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Create &lt;code&gt;Node&lt;/code&gt; class. This will be the basis of the linked list.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Node&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;Holds data and pointer to next node&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;next_node&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;next_node&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;next_node&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Create &lt;code&gt;Stack&lt;/code&gt; class with a pointer to the top element and a variable with the number of elements.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Stack&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;Implement Stack as a linked list&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;is_empty&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;Push item into stack&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# point to where head is pointing&lt;/span&gt;
+        &lt;span class="n"&gt;next_node&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;
+        &lt;span class="n"&gt;node&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Node&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;next_node&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;node&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;is_empty&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;IndexError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pop from empty stack&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;node_to_pop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;node_to_pop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;next_node&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;node_to_pop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;peek&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;is_empty&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;IndexError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;stack is empty&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;Use lolviz to visualize data structure&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;llistviz&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;valuefield&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nextfield&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;next_node&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;p&gt;Let's create a new Stack and add elements to it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Stack&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="svg" src="/images/11-20/14_output_11_0.svg"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="svg" src="/images/11-20/14_output_12_0.svg"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="svg" src="/images/11-20/14_output_13_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;If we take a &lt;code&gt;.peak()&lt;/code&gt; at the top most element, we should expect to get 3 back.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;peek&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;3
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Looks good!&lt;/p&gt;
+&lt;p&gt;Now we'll start to &lt;code&gt;.pop()&lt;/code&gt; elements off the Stack.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;3
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="svg" src="/images/11-20/14_output_18_0.svg"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="svg" src="/images/11-20/14_output_20_0.svg"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="svg" src="/images/11-20/14_output_22_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;The stack is now empty, we should get &lt;code&gt;IndexError&lt;/code&gt; exception if we try to &lt;code&gt;.pop()&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---------------------------------------------------------------------------
+
+IndexError                                Traceback (most recent call last)
+
+&amp;lt;ipython-input-15-50ea7ec13fbe&amp;gt; in &amp;lt;module&amp;gt;()
+----&amp;gt; 1 stack.pop()
+
+
+&amp;lt;ipython-input-3-3f28f4042a94&amp;gt; in pop(self)
+     24     def pop(self):
+     25         if self.is_empty():
+---&amp;gt; 26             raise IndexError(&amp;#39;pop from empty stack&amp;#39;)
+     27 
+     28         node_to_pop = self.head
+
+
+IndexError: pop from empty stack
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;p&gt;In this post we used &lt;a href="https://github.com/parrt/lolviz"&gt;lolviz&lt;/a&gt; to visualize a linked list implementation of a Stack. It seems like a great utility that can be used to teach introductory Computer Science concepts.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.geeksforgeeks.org/stack-data-structure/"&gt;Stack Data Structure - GeeksforGeeks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)"&gt;Stack (abstract data type) - Wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="quick-hit"></category></entry><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
 &lt;p&gt;A &lt;strong&gt;virtual …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
@@ -182,7 +365,7 @@
 &lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md"&gt;pyenv Command Reference&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv-virtualenv"&gt;pyenv-virtualenv&lt;/a&gt; - Alternative virtual environment manager for pyenv&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>MHI 408-DL: System Acquisition and Lifecycle</title><link href="http://alysivji.github.io/review-mhi408-system-acquisition-and-lifecycle.html" rel="alternate"></link><published>2017-08-25T20:00:00-05:00</published><updated>2017-08-25T20:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-25:/review-mhi408-system-acquisition-and-lifecycle.html</id><summary type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="terminal"></category><category term="how-to"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>MHI 408-DL: System Acquisition and Lifecycle</title><link href="http://alysivji.github.io/review-mhi408-system-acquisition-and-lifecycle.html" rel="alternate"></link><published>2017-08-25T20:00:00-05:00</published><updated>2017-08-25T20:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-25:/review-mhi408-system-acquisition-and-lifecycle.html</id><summary type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
 &lt;p&gt;The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
 &lt;p&gt;The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python side projects along the way. But that wasn't the case. &lt;strong&gt;At all.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Somehow, through sheer will (and outstanding course design), Dr. Robinson created a class that has been the most engaging and applicable experience of my grad school career.&lt;/p&gt;
@@ -216,20 +399,20 @@
 &lt;p&gt;Lots of practical knowledge in this course. How to work on an acquisition team, write an RFP, evaluate proposals, negotiate a contract, etc.&lt;/p&gt;
 &lt;p&gt;I gave it 6/6 on &lt;a href="http://www.northwestern.edu/ctec/"&gt;CTEC&lt;/a&gt;.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;Related terms: Masters in Medical Informatics, MMI, Masters in Healthcare Informatics, MHI, Northwestern, Healthcare Information Technology, HealthIT, HIT&lt;/p&gt;</content><category term="review"></category><category term="grad-school"></category><category term="health-it"></category></entry><entry><title>Interactive, Web-Based Dashboards in Python</title><link href="http://alysivji.github.io/reactive-dashboards-with-dash.html" rel="alternate"></link><published>2017-08-17T04:50:00-05:00</published><updated>2017-08-17T04:50:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-17:/reactive-dashboards-with-dash.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Related terms: Masters in Medical Informatics, MMI, Masters in Healthcare Informatics, MHI, Northwestern, Healthcare Information Technology, HealthIT, HIT&lt;/p&gt;</content><category term="review"></category><category term="grad-school"></category></entry><entry><title>Interactive, Web-Based Dashboards in Python</title><link href="http://alysivji.github.io/reactive-dashboards-with-dash.html" rel="alternate"></link><published>2017-08-17T04:50:00-05:00</published><updated>2017-08-17T04:50:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-17:/reactive-dashboards-with-dash.html</id><summary type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Explore Plotly's new Dash library&lt;/li&gt;
-&lt;li&gt;Discuss how we can structure Dash apps using MVC&lt;/li&gt;
+&lt;li&gt;Discuss to structure Dash apps using MVC&lt;/li&gt;
 &lt;li&gt;Build interactive dashboard to display historical soocer results&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;I spent a good portion of 2014-15 learning JavaScript to create interactive, web-based dashboards for a work project. I wrapped &lt;a href="https://d3js.org/"&gt;D3.js&lt;/a&gt; with &lt;a href="https://angularjs.org/"&gt;Angular directives&lt;/a&gt; to create …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;I spent a good portion of 2014-15 learning JavaScript to create interactive, web-based dashboards for a work project. I wrapped &lt;a href="https://d3js.org/"&gt;D3.js&lt;/a&gt; with &lt;a href="https://angularjs.org/"&gt;Angular directives&lt;/a&gt; to create modular components …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Explore Plotly's new Dash library&lt;/li&gt;
-&lt;li&gt;Discuss how we can structure Dash apps using MVC&lt;/li&gt;
+&lt;li&gt;Discuss to structure Dash apps using MVC&lt;/li&gt;
 &lt;li&gt;Build interactive dashboard to display historical soocer results&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
@@ -679,7 +862,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;08/01&lt;/strong&gt;: Added link to PyOhio talk&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;08/24&lt;/strong&gt;: Added link to ChiPy talk&lt;/li&gt;
-&lt;/ul&gt;</content><category term="talks"></category></entry><entry><title>Coding in Containers: 30 Day Challenge</title><link href="http://alysivji.github.io/containerized-development-environments.html" rel="alternate"></link><published>2017-06-28T07:10:00-05:00</published><updated>2017-06-28T07:10:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-06-28:/containerized-development-environments.html</id><summary type="html">&lt;p&gt;I'm taking an Introduction to Tensorflow training class thru &lt;a href="https://www.safaribooksonline.com/home/"&gt;Safari&lt;/a&gt; this week. We were given a choice of setting up our classroom environment either in Conda or inside of a &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt; container.&lt;/p&gt;
+&lt;/ul&gt;</content></entry><entry><title>Coding in Containers: 30 Day Challenge</title><link href="http://alysivji.github.io/containerized-development-environments.html" rel="alternate"></link><published>2017-06-28T07:10:00-05:00</published><updated>2017-06-28T07:10:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-06-28:/containerized-development-environments.html</id><summary type="html">&lt;p&gt;I'm taking an Introduction to Tensorflow training class thru &lt;a href="https://www.safaribooksonline.com/home/"&gt;Safari&lt;/a&gt; this week. We were given a choice of setting up our classroom environment either in Conda or inside of a &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt; container.&lt;/p&gt;
 &lt;p&gt;Ever since &lt;a href="https://www.continuum.io/"&gt;Anaconda&lt;/a&gt; started getting in my way during this year's PyCon sprints, I have been moving my …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I'm taking an Introduction to Tensorflow training class thru &lt;a href="https://www.safaribooksonline.com/home/"&gt;Safari&lt;/a&gt; this week. We were given a choice of setting up our classroom environment either in Conda or inside of a &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt; container.&lt;/p&gt;
 &lt;p&gt;Ever since &lt;a href="https://www.continuum.io/"&gt;Anaconda&lt;/a&gt; started getting in my way during this year's PyCon sprints, I have been moving my development away from conda and into &lt;a href="http://python-guide.readthedocs.io/en/latest/dev/virtualenvs/"&gt;other virtual environment tools&lt;/a&gt; that are part of the Python ecosystem. Still have conda installed on my system (and, yes, the sticker is still on my laptop), but it needs to be &lt;a href="https://twitter.com/CaiusSivjus/status/867101730986532864"&gt;activated it through a bash function&lt;/a&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;  gogoconda
@@ -697,7 +880,7 @@
 &lt;h2&gt;The Challenge&lt;/h2&gt;
 &lt;p&gt;During the month of July, I will be doing &lt;strong&gt;all my development work&lt;/strong&gt; inside of Docker containers. No matter how trivial the task, it will be done inside of a container.&lt;/p&gt;
 &lt;p&gt;Not sure how I'm going to do this at work since Docker for Windows requires Win10 and I'm stuck with Win7. Might have to run a Debian VM or use &lt;a href="https://www.docker.com/products/docker-toolbox"&gt;Docker Toolbox&lt;/a&gt;. That's on me.&lt;/p&gt;
-&lt;p&gt;I plan to keep semi-detailed notes while I experiment and figure out what workflow works best. Building off a slim base image? Have a "batteries included" ready-to-go container for data analysis projects? Stay tuned!&lt;/p&gt;</content><category term="docker"></category><category term="dev-tools"></category></entry><entry><title>A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources</title><link href="http://alysivji.github.io/managing-resources-with-context-managers-pythonic.html" rel="alternate"></link><published>2017-05-17T13:00:00-05:00</published><updated>2017-05-17T13:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-05-17:/managing-resources-with-context-managers-pythonic.html</id><summary type="html">
+&lt;p&gt;I plan to keep semi-detailed notes while I experiment and figure out what workflow works best. Building off a slim base image? Have a "batteries included" ready-to-go container for data analysis projects? Stay tuned!&lt;/p&gt;</content><category term="docker"></category><category term="workflow"></category></entry><entry><title>A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources</title><link href="http://alysivji.github.io/managing-resources-with-context-managers-pythonic.html" rel="alternate"></link><published>2017-05-17T13:00:00-05:00</published><updated>2017-05-17T13:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-05-17:/managing-resources-with-context-managers-pythonic.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
@@ -8599,7 +8782,7 @@ West Ham was 18th for 27 days
 &lt;p&gt;In this post, we looked at different ways of getting data out of MongoDB and into the hands of our user. We covered Python web frameworks, explored the Flask microframework, learned about the Model-View-Controller design pattern, and created our first Flask web application.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Next Steps&lt;/h2&gt;
-&lt;p&gt;The next post in this series on Flask will delve into testing; specifically, unit testing in Flask using the &lt;code&gt;unittest&lt;/code&gt; module from the &lt;a href="https://docs.python.org/3/library/index.html"&gt;Python Standard Library&lt;/a&gt;. Unit testing will allow us to create tests which can ensure our program functionality does not change as we implement additional features to this project.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="flask"></category><category term="mongodb"></category><category term="mongoengine"></category><category term="jinja2"></category><category term="reddit-scraper"></category></entry><entry><title>Generating HTML Pages from MongoDB with MongoEngine and Jinja2 (Flask Part 1)</title><link href="http://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html" rel="alternate"></link><published>2017-04-02T18:00:00-05:00</published><updated>2017-04-02T18:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-02:/flask-part1-generating-html-pages-with-mongoengine-jinja2.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;The next post in this series on Flask will delve into testing; specifically, unit testing in Flask using the &lt;code&gt;unittest&lt;/code&gt; module from the &lt;a href="https://docs.python.org/3/library/index.html"&gt;Python Standard Library&lt;/a&gt;. Unit testing will allow us to create tests which can ensure our program functionality does not change as we implement additional features to this project.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="flask"></category><category term="mongodb"></category><category term="reddit-scraper"></category></entry><entry><title>Generating HTML Pages from MongoDB with MongoEngine and Jinja2 (Flask Part 1)</title><link href="http://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html" rel="alternate"></link><published>2017-04-02T18:00:00-05:00</published><updated>2017-04-02T18:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-02:/flask-part1-generating-html-pages-with-mongoengine-jinja2.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
@@ -8970,7 +9153,7 @@ West Ham was 18th for 27 days
 &lt;hr&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;In this post, we started to look into ways of getting data out of MongoDB and into the hands of our user. We decided to use the Flask framework and started getting our feet wet by generating HTML pages from items stored in our MongoDB instance using MongoEngine and Jinja2. Lastly, we wrote some code to email ourselves the HTML page we created using Requests and the MailGun REST API. This gave us a minimal viable product we can use until we get our Flask website up.&lt;/p&gt;
-&lt;p&gt;In a future post, we will build upon what we learned and deploy a basic Flask website.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="flask"></category><category term="mongodb"></category><category term="mongoengine"></category><category term="orm"></category><category term="jinja2"></category><category term="requests"></category><category term="reddit-scraper"></category></entry><entry><title>Visualizing Geospatial Data in Python Using Folium</title><link href="http://alysivji.github.io/getting-started-with-folium.html" rel="alternate"></link><published>2017-03-01T06:20:00-06:00</published><updated>2017-03-01T06:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-03-01:/getting-started-with-folium.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;In a future post, we will build upon what we learned and deploy a basic Flask website.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="flask"></category><category term="mongodb"></category><category term="reddit-scraper"></category></entry><entry><title>Visualizing Geospatial Data in Python Using Folium</title><link href="http://alysivji.github.io/getting-started-with-folium.html" rel="alternate"></link><published>2017-03-01T06:20:00-06:00</published><updated>2017-03-01T06:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-03-01:/getting-started-with-folium.html</id><summary type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Use Python to display location data on interactive map&lt;/li&gt;
@@ -9722,7 +9905,7 @@ Name: trip_id, dtype: float64
 &lt;p&gt;The annual members, on the other hand, have a usage map that is a bit more spread out to the neighborhoods. This could suggest they are running errand before returning their bike to the station where they retrieved it from. I've used Divvy in this manner to pick up take out from a restaurant outside walking distance.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Next Steps&lt;/h2&gt;
-&lt;p&gt;In a future post, I will demostrate how to create &lt;a href="https://en.wikipedia.org/wiki/Choropleth_map"&gt;choropleth maps&lt;/a&gt; to quicky visualize state/county data.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="folium"></category><category term="pandas"></category><category term="gis"></category><category term="data-science"></category><category term="data-viz"></category><category term="exploring-pypi"></category></entry><entry><title>Scraping Websites into MongoDB using Scrapy Pipelines</title><link href="http://alysivji.github.io/mongodb-pipelines-in-scrapy.html" rel="alternate"></link><published>2017-02-20T06:45:00-06:00</published><updated>2017-02-20T06:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-02-20:/mongodb-pipelines-in-scrapy.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;In a future post, I will demostrate how to create &lt;a href="https://en.wikipedia.org/wiki/Choropleth_map"&gt;choropleth maps&lt;/a&gt; to quicky visualize state/county data.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="gis"></category><category term="pandas"></category><category term="data-science"></category><category term="data-viz"></category><category term="exploring-pypi"></category></entry><entry><title>Scraping Websites into MongoDB using Scrapy Pipelines</title><link href="http://alysivji.github.io/mongodb-pipelines-in-scrapy.html" rel="alternate"></link><published>2017-02-20T06:45:00-06:00</published><updated>2017-02-20T06:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-02-20:/mongodb-pipelines-in-scrapy.html</id><summary type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Discuss advantages of using Scrapy framework&lt;/li&gt;
