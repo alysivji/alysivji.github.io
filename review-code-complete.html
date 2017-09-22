@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Visualizing Stacks">
+    <meta name="twitter:title" content="Code Complete">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>Visualizing Stacks - Siv Scripts</title>
+    <title>Code Complete - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,209 +101,135 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sat 09 September 2017
+  Fri 22 September 2017
 </abbr> <h1>
-  <a href="./quick-hit-visualizing-stacks.html" rel="bookmark"
-     title="Permalink to Visualizing Stacks">
-    Visualizing Stacks
+  <a href="./review-code-complete.html" rel="bookmark"
+     title="Permalink to Code Complete">
+    Code Complete
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="./category/quick-hits.html">
-      Quick Hits</a>
+    <a href="./category/thoughts.html">
+      Thoughts</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>A <strong>stack</strong> is a linear data structure that holds a collection of items. We can define operations performed in a stack from the point of view of a user:</p>
+	<p>2017 is the year I became deliberate about my approach to programming. Like most newbie developers, I hacked together spaghetti code around chunks of answers I found on StackOverflow <em>(Praise Be)</em>.</p>
+<p>I didn't care how I solved the problem, only that it was solved enough to cross off my todo list.</p>
+<p>By ignoring recommended software development practices such as coding standards, version control, and testing, I ended up making things harder for myself in the long run.</p>
+<p>I worried about introducing bugs everytime I touched the codebase. I couldn't reuse code because my functions and modules were <a href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)">tightly coupled</a>. It was difficult to wrap my brain around the complexities of large projects with many moving parts.</p>
+<p>Then I discovered <em>Code Complete</em>. Steve McConnell changed the way I thought about code. He made me realize that the process of doing things <strike>the "right way"</strike> methodically is a lot more important than simply solving the problem at hand.</p>
+<p>If we break down tasks into manageable components, we can build anything we can imagine.</p>
+<p>Go read <em>Code Complete</em>. It will change your life the way it changed mine. Doesn't matter if you're a beginner or a seasoned professional, you'll become a better developer just by reading this book.</p>
+<p>In this post, I will summarize the themes of <em>Code Complete</em>.</p>
+<hr>
+<h2>Themes</h2>
+<h3>Reduce Complexity</h3>
+<blockquote>
+<p>A primary goal of software design and construction is conquering complexity. The motivation behind many programming practices is to reduce a program’s complexity, and reducing complexity is arguably the most important key to being an effective programmer.</p>
+</blockquote>
+<p>As we increase the number of things we keep track of, we increase our chances of introducing a bug in our program. If our code is readable, we are more likely to find logic errors.</p>
+<p>Two ways to reduce complexity:</p>
 <ul>
-<li><code>.push()</code> - add item to top</li>
-<li><code>.pop()</code> - remove and return item from top</li>
-<li><code>.peek()</code> - return top most element</li>
-<li><code>.is_empty()</code> - <code>True</code> if stack is empty, else <code>False</code></li>
+<li>Use helper functions</li>
+<li>Refactor conditional tests into readable boolean expressions</li>
 </ul>
-<p>Elements inside of a stack follow a LIFO (<strong>l</strong>ast <strong>i</strong>n, <strong>f</strong>irst <strong>o</strong>ut) order of operations. Stacks can be implemented as a <a href="http://www.geeksforgeeks.org/linked-list-set-1-introduction/">linked list</a> with a pointer to the top element.</p>
-<p>In this post, we will explore the Stack <a href="https://en.wikipedia.org/wiki/Abstract_data_type">ADT</a> using the <a href="https://github.com/parrt/lolviz">lolviz</a> package that was featured in <a href="https://pythonbytes.fm/episodes/show/41/python-concurrency-from-the-ground-up-and-caring-for-our-community">Episode 41</a> of the <a href="https://pythonbytes.fm">Python Bytes</a> podcast. </p>
-<hr>
-<p>Import the <code>lolviz</code> library to visualize data structures.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lolviz</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
+<p>What's easier to read:</p>
+<div class="highlight"><pre><span></span><span class="c1"># okay</span>
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">all_employees</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">employee</span><span class="o">.</span><span class="n">active</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">employee</span><span class="p">)</span>
 
+<span class="c1"># better</span>
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">all_employees</span><span class="p">:</span>
+    <span class="n">currently_employed</span> <span class="o">=</span> <span class="p">(</span><span class="n">employee</span><span class="o">.</span><span class="n">active</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span>
 
-<p>Create <code>Node</code> class. This will be the basis of the linked list.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;Holds data and pointer to next node&#39;&#39;&#39;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">next_node</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_node</span> <span class="o">=</span> <span class="n">next_node</span>
-</pre></div>
-
-
-<p>Create <code>Stack</code> class with a pointer to the top element and a variable with the number of elements.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Stack</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;Implement Stack as a linked list&#39;&#39;&#39;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">False</span>
-
-    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
-
-    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Push item into stack&#39;&#39;&#39;</span>
-
-        <span class="c1"># point to where head is pointing</span>
-        <span class="n">next_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
-        <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">next_node</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node</span>
-
-    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;pop from empty stack&#39;</span><span class="p">)</span>
-
-        <span class="n">node_to_pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node_to_pop</span><span class="o">.</span><span class="n">next_node</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
-
-        <span class="k">return</span> <span class="n">node_to_pop</span><span class="o">.</span><span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;stack is empty&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Use lolviz to visualize data structure&#39;&#39;&#39;</span>
-
-        <span class="k">return</span> <span class="n">llistviz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">,</span> <span class="n">valuefield</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">nextfield</span><span class="o">=</span><span class="s1">&#39;next_node&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">currently_employed</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">employee</span><span class="p">)</span>
 </pre></div>
 
 
 <hr>
-<p>Let's create a new Stack and add elements to it.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
-</pre></div>
+<h3>Process Matters</h3>
+<blockquote>
+<p>Observing large processes and small processes means pausing to pay attention to how you create software. It’s time well spent. Saying that “code is what matters; you have to focus on how good the code is, not some abstract process” is shortsighted and ignores mountains of experimental and practical evidence to the contrary. Software development is a creative exercise. If you don’t understand the creative process, you’re not getting the most out of the primary tool you use to create software—your brain. A bad process wastes your brain cycles. A good process leverages them to maximum advantage.</p>
+</blockquote>
+<p>It's about doing things in a way we can best guarantee success. Sure we can create a product that works, but it only works now. What if requirements change? How are we going to handle those changes?</p>
+<p>We are dealing with a living, breathing product. We need to leverage processes that help us handle changes as they arise.</p>
+<p>One of the reasons I love <em>Code Complete</em> is that it introduced me to the concepts of TDD (Test Driven Development). After years of struggling with regression errors, I finally understood why testing is a large component of proper development methodologies. Tests make our lives easier in the long run.</p>
+<hr>
+<h3>Reability</h3>
+<blockquote>
+<p>You should go to the effort of writing good code, which you can do once, rather than the effort of reading bad code, which you’d have to do again and again.</p>
+</blockquote>
+<p>Code is read by humans far more than it is written. Your interpreter or compiler doesn't care if it's clean or messy so write for your audience, i.e. you in six month's time.</p>
+<p>Both of these blocks of code produce the same output, but which one makes more sense?</p>
+<div class="highlight"><pre><span></span><span class="c1"># bad</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_list</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/11-20/14_output_11_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/11-20/14_output_12_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/11-20/14_output_13_0.svg"></p>
-<p>If we take a <code>.peak()</code> at the top most element, we should expect to get 3 back.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">peek</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>3
-</pre></div>
-
-
-<p>Looks good!</p>
-<p>Now we'll start to <code>.pop()</code> elements off the Stack.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>3
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/11-20/14_output_18_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>2
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/11-20/14_output_20_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>1
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/11-20/14_output_22_0.svg"></p>
-<p>The stack is now empty, we should get <code>IndexError</code> exception if we try to <code>.pop()</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>---------------------------------------------------------------------------
-
-IndexError                                Traceback (most recent call last)
-
-&lt;ipython-input-15-50ea7ec13fbe&gt; in &lt;module&gt;()
-----&gt; 1 stack.pop()
-
-
-&lt;ipython-input-3-3f28f4042a94&gt; in pop(self)
-     24     def pop(self):
-     25         if self.is_empty():
----&gt; 26             raise IndexError(&#39;pop from empty stack&#39;)
-     27 
-     28         node_to_pop = self.head
-
-
-IndexError: pop from empty stack
+<span class="c1"># good</span>
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">company_roster</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">employee</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 
 
 <hr>
-<p>In this post we used <a href="https://github.com/parrt/lolviz">lolviz</a> to visualize a linked list implementation of a Stack. It seems like a great utility that can be used to teach introductory Computer Science concepts.</p>
+<h3>Program into Your Language, Not in It</h3>
+<blockquote>
+<p>Don’t limit your programming thinking only to the concepts that are supported automatically by your language. The best programmers think of what they want to do, and then they assess how to accomplish their objectives with the programming tools at their disposal.</p>
+</blockquote>
+<p>This is a topic I explored when I dug into <a href="/managing-resources-with-context-managers-pythonic.html">Context Managers</a>: doing things a certain way in one language doesn't mean that we should follow the same pattern in another language. When I came into Python from C# and JavaScript, I brought all my habits with me. Instead of looking for a Pythonic solution, I looked for the Python syntax to do things the way I've always done them.</p>
+<p>Always try to use your language of choice idiomatically.</p>
 <hr>
-<h4>Additional Resources</h4>
-<ul>
-<li><a href="http://www.geeksforgeeks.org/stack-data-structure/">Stack Data Structure - GeeksforGeeks</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">Stack (abstract data type) - Wikipedia</a></li>
-</ul>
+<h3>Conventions for Clarity</h3>
+<blockquote>
+<p>The specific way in which ... a question is answered is less important than that it be answered consistently each time. Conventions save programmers the trouble of answering the same questions, making the same arbitrary decisions—again and again.</p>
+</blockquote>
+<p>Programming is hard enough. Use style guides and logical variable names to make it easy for yourself and your team. Doing things in a standard way builds competency. Look for best practices and incorporate them into your process.</p>
+<hr>
+<h3>Program in Terms of the Problem Domain</h3>
+<blockquote>
+<p>Another specific method of dealing with complexity is to work at the highest possible level of abstraction. One way of working at a high level of abstraction is to work in terms of the programming problem rather than the computer science solution.</p>
+</blockquote>
+<p>Keep business logic separate from the underlying implementation. Separate out parts of the project with helper functions, classes, or a REST API.</p>
+<p>The <em>This Developer's Life</em> podcast featured an <a href="http://thisdeveloperslife.com/post/1-0-6-abstraction">abstraction episode</a> which discussed how we primarily concern ourselves with the layer we are currently working in. We might need to peel a layer or two from the onion when we encounter problems, but that's more on a need to know basis.</p>
+<hr>
+<h3>Watch for Warning Signs</h3>
+<blockquote>
+<p>Warning signs in programming alert you to the possibility of problems, but they’re usually not as blatant as a road sign that says “Watch for falling rocks.”</p>
+</blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Code_smell">Code smells</a>. Look out for patterns and symptoms that indicate a deeper problem. I'll dig into this more once I read <a href="https://twitter.com/unclebobmartin">Uncle Bob</a>'s <a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean Code</a>.</p>
+<hr>
+<h3>Iterate, Repeatedly, Again and Again</h3>
+<blockquote>
+<p>The more you iterate in each development activity, the better the product of that activity will be.</p>
+</blockquote>
+<p>Iterating to a final product is a great way to build software since we can be sure that early versions of the feature are implemented in a manner that will be used.</p>
+<p>This is also a good approach to life. Iterate your processes, optimize your workflow as you figure things out.</p>
+<hr>
+<h3>Don't be Religious about Software</h3>
+<blockquote>
+<p>Dogmatic methodologies and high-quality software development don’t mix. Fill your intellectual toolbox with programming alternatives, and improve your skill at choosing the right tool for the job.</p>
+</blockquote>
+<p>Always use the best tool for the job at hand. This might require us to learn a new language, tool, technique, or framework. That's okay. As programmers, we are meant to solve problems. Sometimes this requires us to piece together a solution from many different components.</p>
+<hr>
+<h2>Conclusion</h2>
+<p>The first few chapters of <em>Code Complete</em> totally changed the way I look at software development. I've started to approach programming like a craftsman learning a trade. I am but a simple apprentice learning from the masters who have come before me.</p>
+<p>I need to stay humble and realize that I don't know everything, but that I have the ability within me to figure out how to solve problems. Stand on the shoulders of giants. Use design patterns, algorithms, techniques, frameworks, or whatever else makes life easy. Just remember to approach development pragmatically.</p>
+<hr>
+<h5>References</h5>
+<p>McConnell, S. (2004) Code Complete: A Practical Handbook of Software Construction, Second Edition. Microsoft Press. [ISBN: 0790145196705]</p>
   </div>
   
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
-	<a href="./tag/data-viz.html"><i class="fa fa-tag"></i>data-viz</a>&nbsp;
-	<a href="./tag/exploring-pypi.html"><i class="fa fa-tag"></i>exploring-pypi</a>&nbsp;
-	<a href="./tag/quick-hit.html"><i class="fa fa-tag"></i>quick-hit</a>&nbsp;
+	<a href="./tag/book.html"><i class="fa fa-tag"></i>book</a>&nbsp;
+	<a href="./tag/review.html"><i class="fa fa-tag"></i>review</a>&nbsp;
+	<a href="./tag/productivity.html"><i class="fa fa-tag"></i>productivity</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -317,7 +243,7 @@ IndexError: pop from empty stack
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./quick-hit-visualizing-stacks.html" 
+        data-href="./review-code-complete.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
