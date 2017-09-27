@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Tuples (and namedtuples) as Python Dictionary Keys">
+    <meta name="twitter:title" content="Dictionary Dispatch">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>Tuples (and namedtuples) as Python Dictionary Keys - Siv Scripts</title>
+    <title>Dictionary Dispatch - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,11 +101,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 28 April 2017
+  Wed 27 September 2017
 </abbr> <h1>
-  <a href="./quick-hit-immutable-dict-keys.html" rel="bookmark"
-     title="Permalink to Tuples (and namedtuples) as Python Dictionary Keys">
-    Tuples (and namedtuples) as Python Dictionary Keys
+  <a href="./quick-hit-dictionary-dispatch.html" rel="bookmark"
+     title="Permalink to Dictionary Dispatch">
+    Dictionary Dispatch
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -1093,8 +1093,59 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Was reading the Python design FAQs and saw that <a href="https://docs.python.org/3/faq/design.html#why-are-there-separate-tuple-and-list-data-types">immutable elements can be used as dictionary keys</a>.</p>
-<p>Wait a minute.... tuples are immutable, can they be used as dictionary keys? YES!</p>
+<p><a href="http://www.chipy.org/">ChiPy</a> hosts <a href="https://www.meetup.com/_ChiPy_/events/239174106/">Python Project Night</a> on the 3rd Thursday of every month. Groups of four are given an hour to work through a structured exercise with each person spending 15 minutes at the keyboard writing code. At the end of the hour, one group is selected to present their solution.</p>
+<p>Project Night is a great way to practice problem solving and pair programming skills in an encouraging and helpful environment. Volunteer tutors wander the room providing hints or answering questions as needed.</p>
+<p>Last week's project involved creating a command line application using the <a href="https://github.com/jonathanslenders/python-prompt-toolkit">python prompt toolkit</a>. During show and tell, one of the groups used a Python technique called "dictionary dispatch" to replicate the behavior of a switch statement.</p>
+<p>In this <a href="/category/quick-hits.html">Quick Hit</a>, we will explore the dictionary dispatch technique.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From the <a href="https://docs.python.org/3/reference/datamodel.html">Python data model</a>:</p>
+<blockquote><p>Objects are Python’s abstraction for data. All data in a Python program is represented by objects or by relations between objects.</p>
+</blockquote>
+<p>Everything <strong>is</strong> an object so we can treat everything <strong>like</strong> an object.</p>
+<p>This includes functions. Python functions are "<a href="https://dbader.org/blog/python-first-class-functions">first-class</a>" objects.</p>
+<p>We can:</p>
+<ul>
+<li>assign functions to variables</li>
+<li>store them as data structures</li>
+<li>pass functions as arguments to other functions</li>
+<li>return functions as values</li>
+</ul>
+<p>The dictionary dispatch technique will take advantage of this fact.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's create a simple calculator program that will take two numbers along with an operation (<code>add</code>, <code>sub</code>, <code>mult</code>, <code>div</code>) and then return a computed result.</p>
+<p>We'll define the operation functions as follows:</p>
 
 </div>
 </div>
@@ -1104,99 +1155,67 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">my_dict</span><span class="p">[(</span><span class="s1">&#39;Aly&#39;</span><span class="p">,</span> <span class="s1">&#39;Sivji&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">my_dict</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[1]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;Aly&#39;, &#39;Sivji&#39;): True}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>What about namedtuples? YES! namedtuples are also immutable.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
-
-<span class="n">Person</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Person&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">])</span>
-<span class="n">me</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
-<span class="n">my_dict</span><span class="p">[</span><span class="n">me</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">my_dict</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">-</span> <span class="n">num2</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[2]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;Aly&#39;, &#39;Sivji&#39;): True, Person(first_name=&#39;Bob&#39;, last_name=&#39;Smith&#39;): True}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Any immutable datatype can be used as a dictionary key!</p>
-<p>My data structures can get even flatter!</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">num1</span> <span class="o">/</span> <span class="n">num2</span>
+    <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Can&#39;t divide by 0&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">divide</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">divide</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1213,27 +1232,8 @@ h6:hover .anchor-link {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>The Zen of Python, by Tim Peters
-
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren&#39;t special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you&#39;re Dutch.
-Now is better than never.
-Although never is often better than *right* now.
-If the implementation is hard to explain, it&#39;s a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let&#39;s do more of those!
+<pre>1.0
+Can&#39;t divide by 0
 </pre>
 </div>
 </div>
@@ -1246,7 +1246,107 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Stay Pythonic!</p>
+<p>We will create a mapping that takes in an operation (<strong>key</strong>) and assign it to the appropriate function (<strong>value</strong>):</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">func_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;add&#39;</span><span class="p">:</span> <span class="n">add</span><span class="p">,</span>
+    <span class="s1">&#39;sub&#39;</span><span class="p">:</span> <span class="n">subtract</span><span class="p">,</span>
+    <span class="s1">&#39;mult&#39;</span><span class="p">:</span> <span class="n">multiply</span><span class="p">,</span>
+    <span class="s1">&#39;div&#39;</span><span class="p">:</span> <span class="n">divide</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test to make sure our program works:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">op</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter operation (add, sub, mult, div): &#39;</span><span class="p">)</span>
+<span class="n">val1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter first number: &#39;</span><span class="p">))</span>
+<span class="n">val2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter second number: &#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">func_mapping</span><span class="p">[</span><span class="n">op</span><span class="p">](</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Enter operation (add, sub, mult, div): div
+Enter first number: 5
+Enter second number: 0
+Can&#39;t divide by 0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looks good!</p>
+<p>Based on the selected <code>op</code>, we call the appropriate function to perform a calculation on the entered numbers.</p>
+<p>As Python <a href="https://docs.python.org/3/faq/design.html#why-isn-t-there-a-switch-or-case-statement-in-python">doesn't have a switch or case statement</a>, we can use the dictionary dispatch technique to map functions to case values.</p>
+<p>I fleshed out the calculator program into a console app with the <a href="https://docs.python.org/3/library/argparse.html"><code>argparse</code></a> module from the Python Standard Library. <a href="https://github.com/alysivji/blog-notebooks/blob/master/quick-hits/16_calculator.py">Code is on Github</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Additional-Resources">Additional Resources<a class="anchor-link" href="#Additional-Resources">&#182;</a></h5><ul>
+<li><a href="https://www.pydanny.com/why-doesnt-python-have-switch-case.html">Why Doesn't Python Have Switch/Case?</a> - PyDanny</li>
+<li><a href="https://www.safaribooksonline.com/library/view/python-cookbook-2nd/0596007973/ch04s17.html">Dictionary Dispatching</a> - Python Cookbook</li>
+<li><a href="http://python-3-patterns-idioms-test.readthedocs.io/en/latest/MultipleDispatching.html">Multiple Dispatching</a> - Python 3 Patterns, Recipes and Idioms</li>
+<li><a href="https://en.wikipedia.org/wiki/Multiple_dispatch">Multiple Dispatch</a> - Wikipedia</li>
+</ul>
 
 </div>
 </div>
@@ -1304,7 +1404,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./quick-hit-immutable-dict-keys.html" 
+        data-href="./quick-hit-dictionary-dispatch.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
