@@ -1133,7 +1133,7 @@ Can&amp;#39;t divide by 0
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;We will create a mapping that takes in an operation (&lt;strong&gt;key&lt;/strong&gt;) and assign it to the appropriate function (&lt;strong&gt;value&lt;/strong&gt;):&lt;/p&gt;
+&lt;p&gt;We will create a mapping that takes in an operation (&lt;strong&gt;key&lt;/strong&gt;) and assigns it to the appropriate function (&lt;strong&gt;value&lt;/strong&gt;):&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1269,7 +1269,7 @@ Can&amp;#39;t divide by 0
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category><category term="quick-hit"></category></entry><entry><title>Code Complete</title><link href="http://alysivji.github.io/review-code-complete.html" rel="alternate"></link><published>2017-09-22T11:00:00-05:00</published><updated>2017-09-22T11:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-22:/review-code-complete.html</id><summary type="html">&lt;p&gt;2017 is the year I became deliberate about my approach to programming. Like most newbie developers, I hacked together spaghetti code around chunks of answers I found on StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt;.&lt;/p&gt;
+</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category></entry><entry><title>Code Complete</title><link href="http://alysivji.github.io/review-code-complete.html" rel="alternate"></link><published>2017-09-22T11:00:00-05:00</published><updated>2017-09-22T11:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-22:/review-code-complete.html</id><summary type="html">&lt;p&gt;2017 is the year I became deliberate about my approach to programming. Like most newbie developers, I hacked together spaghetti code around chunks of answers I found on StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;I didn't care how I solved the problem, only that it was solved enough to cross off my todo …&lt;/p&gt;</summary><content type="html">&lt;p&gt;2017 is the year I became deliberate about my approach to programming. Like most newbie developers, I hacked together spaghetti code around chunks of answers I found on StackOverflow &lt;em&gt;(Praise Be)&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;I didn't care how I solved the problem, only that it was solved enough to cross off my todo list.&lt;/p&gt;
 &lt;p&gt;By ignoring recommended software development practices such as coding standards, version control, and testing, I ended up making things harder for myself in the long run.&lt;/p&gt;
@@ -1558,7 +1558,7 @@ IndexError: pop from empty stack
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.geeksforgeeks.org/stack-data-structure/"&gt;Stack Data Structure - GeeksforGeeks&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)"&gt;Stack (abstract data type) - Wikipedia&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="exploring-pypi"></category><category term="quick-hit"></category></entry><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="exploring-pypi"></category></entry><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
 &lt;p&gt;A &lt;strong&gt;virtual …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
@@ -1754,7 +1754,7 @@ IndexError: pop from empty stack
 &lt;hr&gt;
 &lt;h2&gt;Workload&lt;/h2&gt;
 &lt;p&gt;There are weekly readings and "lectures". Lectures are mostly PowerPoint slides you can go over at your convenience. Not a lot of formal instruction. You would think the tuition I pay would bring more to the table, but it didn't take away from the course.&lt;/p&gt;
-&lt;p&gt;All of Northwestern's MHI classes have discussion boards where students interact and learn in a collobrative environment. This quarter's discussion topics ranged from sharing experiences of being on an acquisition team to debating the merits of different open source licenses. This was right around the time &lt;a href="https://www.reddit.com/r/programming/comments/6nnxir/apache_foundation_bans_use_of_facebook_bsdpatents/"&gt;Apache banned the use of BSD+patent libraries&lt;/a&gt;; I had a lot of fun researching and ranting about React.&lt;/p&gt;
+&lt;p&gt;All of Northwestern's MHI classes have discussion boards where students interact and learn in a collabrative environment. This quarter's discussion topics ranged from sharing experiences of being on an acquisition team to debating the merits of different open source licenses. This was right around the time &lt;a href="https://www.reddit.com/r/programming/comments/6nnxir/apache_foundation_bans_use_of_facebook_bsdpatents/"&gt;Apache banned the use of BSD+patent libraries&lt;/a&gt;; I had a lot of fun researching and ranting about React.&lt;/p&gt;
 &lt;p&gt;The first two weeks of class were hectic with two assignments due right away. Week 2's assignment was long (18-20 hours) and there wasn't much direction from the professor. The topic was to write a Statement of Work and it felt like a consulting engagement. Client expects something at the end of the weekend, you're not quite sure what. Make your best effort to get them what they expect. Seemed to work well enough.&lt;/p&gt;
 &lt;p&gt;Courseload lightened up over the next few weeks as we were place into groups for the remaining assignments. Group work is group work. My group was great, so no compliants from me.&lt;/p&gt;
 &lt;p&gt;The course built up to a mock negotiation held in the final week of the quarter. Students played the part of either vendor or customer, and negotiated the acquisition of an EHR for a 30 office physician group. This was a lot of fun and helped to reinforce the main themes of the course. &lt;em&gt;Anytown Community Physicians, you may be gone, but you are not forgetten&lt;/em&gt;&lt;/p&gt;
@@ -1769,7 +1769,7 @@ IndexError: pop from empty stack
 &lt;hr&gt;
 &lt;h2&gt;Instructors&lt;/h2&gt;
 &lt;p&gt;Ray is Awesome. Eric is great.&lt;/p&gt;
-&lt;p&gt;They made sure to incorporate the latest and greatest in HealthIT throughout the class. Eric gave a presentation on Blockchain and its Applications in Healthcare. Definitely soemthing I need to explore in the coming months.&lt;/p&gt;
+&lt;p&gt;They made sure to incorporate the latest and greatest in HealthIT throughout the class. Eric gave a presentation on Blockchain and its Applications in Healthcare. Definitely something I need to explore in the coming months.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;Lots of practical knowledge in this course. How to work on an acquisition team, write an RFP, evaluate proposals, negotiate a contract, etc.&lt;/p&gt;
@@ -1779,16 +1779,16 @@ IndexError: pop from empty stack
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Explore Plotly's new Dash library&lt;/li&gt;
-&lt;li&gt;Discuss to structure Dash apps using MVC&lt;/li&gt;
+&lt;li&gt;Discuss how to structure Dash apps using MVC&lt;/li&gt;
 &lt;li&gt;Build interactive dashboard to display historical soocer results&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;p&gt;I spent a good portion of 2014-15 learning JavaScript to create interactive, web-based dashboards for a work project. I wrapped &lt;a href="https://d3js.org/"&gt;D3.js&lt;/a&gt; with &lt;a href="https://angularjs.org/"&gt;Angular directives&lt;/a&gt; to create modular components …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;I spent a good portion of 2014-15 learning JavaScript to create interactive, web-based dashboards for a work project. I wrapped &lt;a href="https://d3js.org/"&gt;D3.js&lt;/a&gt; with &lt;a href="https://angularjs.org/"&gt;Angular directives&lt;/a&gt; to create modular …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Explore Plotly's new Dash library&lt;/li&gt;
-&lt;li&gt;Discuss to structure Dash apps using MVC&lt;/li&gt;
+&lt;li&gt;Discuss how to structure Dash apps using MVC&lt;/li&gt;
 &lt;li&gt;Build interactive dashboard to display historical soocer results&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
@@ -5445,7 +5445,7 @@ Namespaces are one honking great idea -- let&amp;#39;s do more of those!
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category><category term="quick-hit"></category></entry><entry><title>Premier League Analysis: Holding Steady in the League Table</title><link href="http://alysivji.github.io/pl-analysis-part1-finding-longest-consecutive-position-streak.html" rel="alternate"></link><published>2017-04-13T01:00:00-05:00</published><updated>2017-04-13T01:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-13:/pl-analysis-part1-finding-longest-consecutive-position-streak.html</id><summary type="html">
+</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category></entry><entry><title>Premier League Analysis: Holding Steady in the League Table</title><link href="http://alysivji.github.io/pl-analysis-part1-finding-longest-consecutive-position-streak.html" rel="alternate"></link><published>2017-04-13T01:00:00-05:00</published><updated>2017-04-13T01:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-13:/pl-analysis-part1-finding-longest-consecutive-position-streak.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;

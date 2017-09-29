@@ -1133,7 +1133,7 @@ Can&amp;#39;t divide by 0
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;We will create a mapping that takes in an operation (&lt;strong&gt;key&lt;/strong&gt;) and assign it to the appropriate function (&lt;strong&gt;value&lt;/strong&gt;):&lt;/p&gt;
+&lt;p&gt;We will create a mapping that takes in an operation (&lt;strong&gt;key&lt;/strong&gt;) and assigns it to the appropriate function (&lt;strong&gt;value&lt;/strong&gt;):&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1269,7 +1269,7 @@ Can&amp;#39;t divide by 0
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category><category term="quick-hit"></category></entry><entry><title>Visualizing Stacks</title><link href="http://alysivji.github.io/quick-hit-visualizing-stacks.html" rel="alternate"></link><published>2017-09-09T05:15:00-05:00</published><updated>2017-09-09T05:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-09:/quick-hit-visualizing-stacks.html</id><summary type="html">&lt;p&gt;A &lt;strong&gt;stack&lt;/strong&gt; is a linear data structure that holds a collection of items. We can define operations performed in a stack from the point of view of a user:&lt;/p&gt;
+</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category></entry><entry><title>Visualizing Stacks</title><link href="http://alysivji.github.io/quick-hit-visualizing-stacks.html" rel="alternate"></link><published>2017-09-09T05:15:00-05:00</published><updated>2017-09-09T05:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-09:/quick-hit-visualizing-stacks.html</id><summary type="html">&lt;p&gt;A &lt;strong&gt;stack&lt;/strong&gt; is a linear data structure that holds a collection of items. We can define operations performed in a stack from the point of view of a user:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;.push()&lt;/code&gt; - add item to top&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;.pop()&lt;/code&gt; - remove and return item from top&lt;/li&gt;
@@ -1452,7 +1452,7 @@ IndexError: pop from empty stack
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.geeksforgeeks.org/stack-data-structure/"&gt;Stack Data Structure - GeeksforGeeks&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)"&gt;Stack (abstract data type) - Wikipedia&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="exploring-pypi"></category><category term="quick-hit"></category></entry><entry><title>Tuples (and namedtuples) as Python Dictionary Keys</title><link href="http://alysivji.github.io/quick-hit-immutable-dict-keys.html" rel="alternate"></link><published>2017-04-28T12:00:00-05:00</published><updated>2017-04-28T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-28:/quick-hit-immutable-dict-keys.html</id><summary type="html">
+&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="exploring-pypi"></category></entry><entry><title>Tuples (and namedtuples) as Python Dictionary Keys</title><link href="http://alysivji.github.io/quick-hit-immutable-dict-keys.html" rel="alternate"></link><published>2017-04-28T12:00:00-05:00</published><updated>2017-04-28T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-28:/quick-hit-immutable-dict-keys.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
@@ -2629,4 +2629,4 @@ Namespaces are one honking great idea -- let&amp;#39;s do more of those!
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;
-</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category><category term="quick-hit"></category></entry></feed>
+</content><category term="python"></category><category term="how-to"></category><category term="pythonic"></category></entry></feed>
