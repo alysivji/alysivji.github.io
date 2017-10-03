@@ -1663,7 +1663,7 @@ IndexError: pop from empty stack
 &lt;p&gt;Append to &lt;code&gt;~/.bash_profile&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;true&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;WORKON_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.virtualenvs
-&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/bin/virtualenvwrapper.sh
+pyenv virtualenvwrapper_lazy
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1741,6 +1741,11 @@ IndexError: pop from empty stack
 &lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md"&gt;pyenv Command Reference&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv-virtualenv"&gt;pyenv-virtualenv&lt;/a&gt; - Alternative virtual environment manager for pyenv&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Updates&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;10/02&lt;/strong&gt;: Updated &lt;code&gt;~/.bash_profile&lt;/code&gt; code&lt;/li&gt;
 &lt;/ul&gt;</content><category term="python"></category><category term="terminal"></category><category term="how-to"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>MHI 408-DL: System Acquisition and Lifecycle</title><link href="http://alysivji.github.io/review-mhi408-system-acquisition-and-lifecycle.html" rel="alternate"></link><published>2017-08-25T20:00:00-05:00</published><updated>2017-08-25T20:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-25:/review-mhi408-system-acquisition-and-lifecycle.html</id><summary type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
 &lt;p&gt;The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As part of my degree requirements, I enrolled in &lt;a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;amp;term=4710"&gt;Information System Acquisition and Lifecycle&lt;/a&gt; with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.&lt;/p&gt;
 &lt;p&gt;The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python side projects along the way. But that wasn't the case. &lt;strong&gt;At all.&lt;/strong&gt;&lt;/p&gt;

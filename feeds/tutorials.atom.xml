@@ -104,7 +104,7 @@
 &lt;p&gt;Append to &lt;code&gt;~/.bash_profile&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;true&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;WORKON_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.virtualenvs
-&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/bin/virtualenvwrapper.sh
+pyenv virtualenvwrapper_lazy
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -182,6 +182,11 @@
 &lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md"&gt;pyenv Command Reference&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/pyenv/pyenv-virtualenv"&gt;pyenv-virtualenv&lt;/a&gt; - Alternative virtual environment manager for pyenv&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Updates&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;10/02&lt;/strong&gt;: Updated &lt;code&gt;~/.bash_profile&lt;/code&gt; code&lt;/li&gt;
 &lt;/ul&gt;</content><category term="python"></category><category term="terminal"></category><category term="how-to"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>Interactive, Web-Based Dashboards in Python</title><link href="http://alysivji.github.io/reactive-dashboards-with-dash.html" rel="alternate"></link><published>2017-08-17T04:50:00-05:00</published><updated>2017-08-17T04:50:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-17:/reactive-dashboards-with-dash.html</id><summary type="html">&lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
