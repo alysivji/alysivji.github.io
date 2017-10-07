@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-09-27T12:00:00-05:00</updated><entry><title>Dictionary Dispatch</title><link href="http://alysivji.github.io/quick-hit-dictionary-dispatch.html" rel="alternate"></link><published>2017-09-27T12:00:00-05:00</published><updated>2017-09-27T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-27:/quick-hit-dictionary-dispatch.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-10-07T12:00:00-05:00</updated><entry><title>Terminal Tricks: Directory Bookmarks</title><link href="http://alysivji.github.io/terminal-tricks-bashmarks.html" rel="alternate"></link><published>2017-10-07T12:00:00-05:00</published><updated>2017-10-07T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-10-07:/terminal-tricks-bashmarks.html</id><summary type="html">&lt;p&gt;Even though my development folders are well organized, I still have to feel my way around the filesystem when I'm looking for a project directory. It's like trying to find a lightswitch in a dark room: a &lt;code&gt;cd&lt;/code&gt; here, an &lt;code&gt;ls&lt;/code&gt; there, maybe a &lt;code&gt;find&lt;/code&gt; when I'm stuck.&lt;/p&gt;
+&lt;p&gt;I always …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even though my development folders are well organized, I still have to feel my way around the filesystem when I'm looking for a project directory. It's like trying to find a lightswitch in a dark room: a &lt;code&gt;cd&lt;/code&gt; here, an &lt;code&gt;ls&lt;/code&gt; there, maybe a &lt;code&gt;find&lt;/code&gt; when I'm stuck.&lt;/p&gt;
+&lt;p&gt;I always get to where I want to go, but not without some frustration along the way. Plus, all the seconds spent navigating directories starts to add up.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Wait a minute. I use bookmarks in my browser, so why am I not using them in my shell?&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A quick Google search led me to &lt;a href="https://github.com/huyng/bashmarks"&gt;Bashmarks&lt;/a&gt;. Absolute game changer. I can move around the filesystem with ease.&lt;/p&gt;
+&lt;p&gt;Feel a bit like Dr. Who.&lt;br /&gt;
+&lt;img src="/images/11-20/17_tardis_meme.jpg" alt="Teleport like a boss" /&gt;&lt;/p&gt;
+&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, we will explore Bashmarks, walk through the installation process, and get a feel of the most commonly used commands.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Bashmarks&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://github.com/huyng/bashmarks"&gt;Bashmarks is a [bash] shell script that allows you to save and jump to commonly used directories&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It supports tab completion (!!!) and has a very simple interface with only 5 commands to memorize.&lt;/p&gt;
+&lt;p&gt;Use another shell? Not a problem. There are ports of bashmarks for &lt;a href="https://github.com/techwizrd/fishmarks"&gt;fish&lt;/a&gt; and &lt;a href="https://github.com/jocelynmallon/zshmarks"&gt;zsh&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Download the files into a temporary directory and install using &lt;a href="https://www.gnu.org/software/make/manual/make.html"&gt;GNU make&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;mkdir temp &amp;amp;&amp;amp; cd temp&lt;/span&gt;
+&lt;span class="go"&gt;git clone git://github.com/huyng/bashmarks.git&lt;/span&gt;
+&lt;span class="go"&gt;cd bashmarks&lt;/span&gt;
+&lt;span class="go"&gt;make install&lt;/span&gt;
+&lt;span class="go"&gt;echo &amp;quot;source ~/.local/bin/bashmarks.sh&amp;quot; &amp;gt;&amp;gt; ~/.bash_profile&lt;/span&gt;
+&lt;span class="go"&gt;source ~/.bash_profile&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And we're good to go!&lt;/p&gt;
+&lt;h3&gt;Commands&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;s &amp;lt;bookmark_name&amp;gt; - Saves the current directory as &amp;quot;bookmark_name&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;g &amp;lt;bookmark_name&amp;gt; - Goes (cd) to the directory associated with &amp;quot;bookmark_name&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;p &amp;lt;bookmark_name&amp;gt; - Prints the directory associated with &amp;quot;bookmark_name&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;d &amp;lt;bookmark_name&amp;gt; - Deletes the bookmark&lt;/span&gt;
+&lt;span class="go"&gt;l                 - Lists all available bookmarks&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can save bookmarks using the &lt;code&gt;s [bookmark_name]&lt;/code&gt; command:&lt;br /&gt;
+&lt;img src="/images/11-20/17_bashmarks_save.gif" alt="Create bashmark" width=562 /&gt;&lt;/p&gt;
+&lt;p&gt;List all bashmarks with &lt;code&gt;l&lt;/code&gt;:&lt;br /&gt;
+&lt;img src="/images/11-20/17_bashmarks_list.gif" alt="List bashmarks" width=562 /&gt;&lt;/p&gt;
+&lt;p&gt;Navigate to project directory using &lt;code&gt;g [bookmark_name]&lt;/code&gt;:&lt;br /&gt;
+&lt;img src="/images/11-20/17_bashmarks_jump.gif" alt="Jump to bashmark" width=562 /&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Bashmarks&lt;/h2&gt;
+&lt;p&gt;Bashmarks is a tool that increases developer productivity.&lt;/p&gt;
+&lt;p&gt;Do you have an interesting terminal workflow or trick to share? Please comment below!&lt;/p&gt;</content><category term="terminal"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>Dictionary Dispatch</title><link href="http://alysivji.github.io/quick-hit-dictionary-dispatch.html" rel="alternate"></link><published>2017-09-27T12:00:00-05:00</published><updated>2017-09-27T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-09-27:/quick-hit-dictionary-dispatch.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
@@ -1558,7 +1603,7 @@ IndexError: pop from empty stack
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.geeksforgeeks.org/stack-data-structure/"&gt;Stack Data Structure - GeeksforGeeks&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)"&gt;Stack (abstract data type) - Wikipedia&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="data-viz"></category><category term="exploring-pypi"></category></entry><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="exploring-pypi"></category></entry><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
 &lt;p&gt;A &lt;strong&gt;virtual …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
@@ -2218,7 +2263,7 @@ pyenv virtualenvwrapper_lazy
 &lt;li&gt;&lt;a href="https://codepen.io/chriddyp/pen/bWLwgP"&gt;Dash Style Guide&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://plot.ly/dash/gallery"&gt;Dash Gallery&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://plot.ly/python/"&gt;Plotly Documentation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="data-viz"></category><category term="interactive-data-science"></category><category term="exploring-pypi"></category></entry><entry><title>Flexing my Public Speaking Muscles</title><link href="http://alysivji.github.io/getting-started-with-public-speaking.html" rel="alternate"></link><published>2017-07-31T23:55:00-05:00</published><updated>2017-07-31T23:55:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-07-31:/getting-started-with-public-speaking.html</id><summary type="html">&lt;blockquote&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="data-viz"></category><category term="data-science"></category><category term="exploring-pypi"></category></entry><entry><title>Flexing my Public Speaking Muscles</title><link href="http://alysivji.github.io/getting-started-with-public-speaking.html" rel="alternate"></link><published>2017-07-31T23:55:00-05:00</published><updated>2017-07-31T23:55:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-07-31:/getting-started-with-public-speaking.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;The best way to learn something is to teach someone else.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;With this in mind, I started creating and presenting technical talks on a variety of subjects: &lt;a href="https://github.com/alysivji/talks/tree/master/201704-healthcare-big-data-analytics"&gt;Big Data in Healthcare&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/context-manager-intro"&gt;Python language features&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/201706-knights-tour"&gt;graph algorithms&lt;/a&gt;, etc.&lt;/p&gt;
@@ -9698,7 +9743,7 @@ West Ham was 18th for 27 days
 &lt;p&gt;And we're done!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;In this post, we refactored our Reddit Top Posts web scraper to automatically run on the PythonAnywhere cloud. Now that our data collection process is automated, we just have to monitor emails to ensure the script is working as intended.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="web-scraping"></category><category term="reddit-scraper"></category></entry><entry><title>Building a Flask Web Application (Flask Part 2)</title><link href="http://alysivji.github.io/flask-part2-building-a-flask-web-application.html" rel="alternate"></link><published>2017-04-11T02:45:00-05:00</published><updated>2017-04-11T02:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-11:/flask-part2-building-a-flask-web-application.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;In this post, we refactored our Reddit Top Posts web scraper to automatically run on the PythonAnywhere cloud. Now that our data collection process is automated, we just have to monitor emails to ensure the script is working as intended.&lt;/p&gt;</content><category term="python"></category><category term="how-to"></category><category term="mongodb"></category><category term="web-scraping"></category><category term="reddit-scraper"></category></entry><entry><title>Building a Flask Web Application (Flask Part 2)</title><link href="http://alysivji.github.io/flask-part2-building-a-flask-web-application.html" rel="alternate"></link><published>2017-04-11T02:45:00-05:00</published><updated>2017-04-11T02:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-04-11:/flask-part2-building-a-flask-web-application.html</id><summary type="html">&lt;p&gt;(Note: This post is part of my &lt;a href="https://alysivji.github.io/tag/reddit-scraper.html"&gt;reddit-scraper series&lt;/a&gt;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;h4&gt;Summary&lt;/h4&gt;
 &lt;ul&gt;
@@ -11612,4 +11657,4 @@ Name: trip_id, dtype: float64
 &lt;li&gt;&lt;strong&gt;02/24&lt;/strong&gt;: Added a field (date_str) to the top_reddit_posts collection to make indices more effective.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;03/06&lt;/strong&gt;: Fixed spelling and formatting&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;03/22&lt;/strong&gt;: Added instructions on pulling tagged commit from Git repo&lt;/li&gt;
-&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="scrapy"></category><category term="mongodb"></category><category term="web-scraping"></category><category term="reddit-scraper"></category></entry></feed>
+&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category><category term="mongodb"></category><category term="web-scraping"></category><category term="reddit-scraper"></category></entry></feed>

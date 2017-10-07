@@ -7,8 +7,14 @@
     <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Terminal Tricks: Directory Bookmarks">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content=".">
 
-    <title>Categories - Siv Scripts</title>
+    <title>Terminal Tricks: Directory Bookmarks - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -92,13 +98,111 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<h1 class="direct-heading"><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h1>
-<ul class="direct-list">
-	<li><a href="./category/data-analysis.html">Data Analysis</a></li>
-	<li><a href="./category/quick-hits.html">Quick Hits</a></li>
-	<li><a href="./category/thoughts.html">Thoughts</a></li>
-	<li><a href="./category/tutorials.html">Tutorials</a></li>
-</ul>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Sat 07 October 2017
+</abbr> <h1>
+  <a href="./terminal-tricks-bashmarks.html" rel="bookmark"
+     title="Permalink to Terminal Tricks: Directory Bookmarks">
+    Terminal Tricks: Directory Bookmarks
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="./category/quick-hits.html">
+      Quick Hits</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>Even though my development folders are well organized, I still have to feel my way around the filesystem when I'm looking for a project directory. It's like trying to find a lightswitch in a dark room: a <code>cd</code> here, an <code>ls</code> there, maybe a <code>find</code> when I'm stuck.</p>
+<p>I always get to where I want to go, but not without some frustration along the way. Plus, all the seconds spent navigating directories starts to add up.</p>
+<p><strong><em>Wait a minute. I use bookmarks in my browser, so why am I not using them in my shell?</em></strong></p>
+<p>A quick Google search led me to <a href="https://github.com/huyng/bashmarks">Bashmarks</a>. Absolute game changer. I can move around the filesystem with ease.</p>
+<p>Feel a bit like Dr. Who.<br />
+<img src="/images/11-20/17_tardis_meme.jpg" alt="Teleport like a boss" /></p>
+<p>In this <a href="/category/quick-hits.html">Quick Hit</a>, we will explore Bashmarks, walk through the installation process, and get a feel of the most commonly used commands.</p>
+<hr>
+<h2>Bashmarks</h2>
+<blockquote>
+<p><a href="https://github.com/huyng/bashmarks">Bashmarks is a [bash] shell script that allows you to save and jump to commonly used directories</a></p>
+</blockquote>
+<p>It supports tab completion (!!!) and has a very simple interface with only 5 commands to memorize.</p>
+<p>Use another shell? Not a problem. There are ports of bashmarks for <a href="https://github.com/techwizrd/fishmarks">fish</a> and <a href="https://github.com/jocelynmallon/zshmarks">zsh</a>.</p>
+<h3>Installation</h3>
+<p>Download the files into a temporary directory and install using <a href="https://www.gnu.org/software/make/manual/make.html">GNU make</a>:</p>
+<div class="highlight"><pre><span></span><span class="go">mkdir temp &amp;&amp; cd temp</span>
+<span class="go">git clone git://github.com/huyng/bashmarks.git</span>
+<span class="go">cd bashmarks</span>
+<span class="go">make install</span>
+<span class="go">echo &quot;source ~/.local/bin/bashmarks.sh&quot; &gt;&gt; ~/.bash_profile</span>
+<span class="go">source ~/.bash_profile</span>
+</pre></div>
+
+
+<p>And we're good to go!</p>
+<h3>Commands</h3>
+<div class="highlight"><pre><span></span><span class="go">s &lt;bookmark_name&gt; - Saves the current directory as &quot;bookmark_name&quot;</span>
+<span class="go">g &lt;bookmark_name&gt; - Goes (cd) to the directory associated with &quot;bookmark_name&quot;</span>
+<span class="go">p &lt;bookmark_name&gt; - Prints the directory associated with &quot;bookmark_name&quot;</span>
+<span class="go">d &lt;bookmark_name&gt; - Deletes the bookmark</span>
+<span class="go">l                 - Lists all available bookmarks</span>
+</pre></div>
+
+
+<p>We can save bookmarks using the <code>s [bookmark_name]</code> command:<br />
+<img src="/images/11-20/17_bashmarks_save.gif" alt="Create bashmark" width=562 /></p>
+<p>List all bashmarks with <code>l</code>:<br />
+<img src="/images/11-20/17_bashmarks_list.gif" alt="List bashmarks" width=562 /></p>
+<p>Navigate to project directory using <code>g [bookmark_name]</code>:<br />
+<img src="/images/11-20/17_bashmarks_jump.gif" alt="Jump to bashmark" width=562 /></p>
+<hr>
+<h2>Bashmarks</h2>
+<p>Bashmarks is a tool that increases developer productivity.</p>
+<p>Do you have an interesting terminal workflow or trick to share? Please comment below!</p>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="./tag/terminal.html"><i class="fa fa-tag"></i>terminal</a>&nbsp;
+	<a href="./tag/productivity.html"><i class="fa fa-tag"></i>productivity</a>&nbsp;
+	<a href="./tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="./terminal-tricks-bashmarks.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -302,5 +406,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
