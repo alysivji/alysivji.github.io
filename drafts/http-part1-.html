@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="Aly Sivji" />
+    <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="HTTP: Hypertext Transfer Protocol">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
+
+    <title>HTTP: Hypertext Transfer Protocol - Siv Scripts</title>
+
+   
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous">
+
+
+      <link rel="stylesheet" href="../theme/css/tango.css" />
+      <link rel="stylesheet" href="../theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="../theme/css/dataframe.css" />
+      <link rel="stylesheet" href="../theme/css/custom.css" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="../favicon.ico" />
+        <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90986575-1', '');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+   
+    <nav class="navbar navbar-default">
+      <div class="container">
+	   <div class="navbar-header">
+		<button type="button" class="navbar-toggle" 
+				data-toggle="collapse" data-target="#main-navbar-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="../" rel="home">
+          <i class="fa fa-home fa-fw fa-lg"> </i> </a>
+       </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+        <ul class="nav navbar-nav">
+              <li>
+                <a href="../pages/about.html">About</a>
+              </li>
+              <li>
+                <a href="../pages/talks.html">Talks</a>
+              </li>
+            <li class="divider"></li>
+            <li class="">
+              <a href="../archives.html">Archives</a>
+            </li>
+          <li class="divider"></li>
+            <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+                   type="application/atom+xml" rel="alternate">
+                <i class="fa fa-rss fa-fw fa-lg"></i> </a></li>
+        </ul> <!-- /nav -->
+      </div> <!-- /navbar-collapse -->
+	  </div> <!-- /container -->
+    </nav> <!-- /navbar -->
+
+	<div class="jumbotron" id="overview">
+	  <div class="container">
+		<h1><a href="../">Siv Scripts</a></h1>
+		<p class="lead">Solving Problems Using Code</p>
+	  </div>
+	</div>
+
+    <div class="container" id="main-container">
+      <div class="row">
+        <div class="col-md-9" id="content">
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Fri 23 June 2017
+</abbr> <h1>
+  <a href="../drafts/http-part1-.html" rel="bookmark"
+     title="Permalink to HTTP: Hypertext Transfer Protocol">
+    HTTP: Hypertext Transfer Protocol
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="../category/drafts.html">
+      Drafts</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>The startup I work for is releasing a new product to hit the consumer market through more direct channels. Instead of adding functionality to support to this new LOB in our monolith web application, I'm working with a Senior Engineer to design a microservices-based architecture modelled on our current backend system.</p>
+<p>We plan on having a bunch of REST API endpoints in containers that our DevOps team will orchestrate using Kubernetes. The current plan is to use Python3 and <a href="https://falconframework.org/">Falcon</a>; we are open to using Go (or <a href="https://pypy.org/">PyPy</a>) on a container-by-container basis if performance becomes a problem.</p>
+<p>Very exciting! But I do feel like I'm a bit over my head.</p>
+<p>We all know <a href="https://en.wikipedia.org/wiki/Impostor_syndrome">imposer syndrome</a> is part of being a developer. The only way to fight it is to fake it until you make it. I know it's a cliche, but it's a cliche for a reason.</p>
+<p>Learn as much as you can every single day. Work on projects that stretch your abilities. Share what you know with others to cement your knowledge. You may never lose that feeling of being an phony, but at least you'll be in a better position than before.</p>
+<p>In my new series called <a href="/category/book-reports.html"><em>Book Report</em></a>, I will research a topic and present my findings in a semi-detailed blog post. Think end-result of a research spike.</p>
+<p>This is the first in multi-post arc exploring the Hypertext Transfer Protocol, more commonly known as HTTP.</p>
+<hr>
+<p>Need to copy in from spike. Summarize</p>
+<h1><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP">HTTP: Hypertext Transfer Protocol</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Application_layer">Application layer</a> protocol for transmitting hypermedia document</li>
+<li>
+<p>Application layer =&gt; abstraction layer containing communication protocols and interface methods</p>
+</li>
+<li>
+<p>Follows <a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model">client-server model</a></p>
+<ul>
+<li>client opens a connection to make a request</li>
+<li>waits until it recieves a response</li>
+</ul>
+</li>
+<li>
+<p>HTTP is <a href="https://en.wikipedia.org/wiki/Stateless_protocol">stateless</a></p>
+<ul>
+<li>no information about the communication that occured is retained by either sender or reciver</li>
+<li>Pros: No need to keep track of what happened, lost connections are not a problem</li>
+<li>Cons: Sending extra information in each request that needs to be interpreted by the server</li>
+</ul>
+</li>
+</ul>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview">An Overview of HTTP</a></h2>
+<ul>
+<li>Basic idea:<ul>
+<li>a web document is made up of many different sub-documents</li>
+<li>when a web browser goes to a page, it starts to fetch all the resources needed</li>
+<li>once all the information is downloaded, the web browser can render the document as described</li>
+</ul>
+</li>
+</ul>
+<p><strong>requests</strong> - messages sent by the client
+<strong>response</strong> - messages sent by the server as an answer</p>
+<ul>
+<li>Workflow:<ul>
+<li><em>user-agent</em> sends a <u>request</u></li>
+<li>server processes request, sends back a <u>response</u></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>To present a Web page, the browser sends an original request to fetch the HTML document from the page. It then parses this file, fetching additional requests corresponding to execution scripts, layout information (CSS) to display, and sub-resources contained within the page (usually images and videos). The Web browser then mixes these resources to present to the user a complete document, the Web page. Scripts executed by the browser can fetch more resources in later phases and the browser updates the Web page accordingly.</p>
+</blockquote>
+<ul>
+<li>
+<p>To the client, the server looks like a single machine. It "may actually be a collection of servers, sharing the load (load balancing) or a complex piece of software interrogating other computers (like cache, a DB server, e-commerce servers, …), totally or partially generating the document on demand."</p>
+<ul>
+<li>Abstration is cool!</li>
+</ul>
+</li>
+<li>
+<p>Proxies relay the HTTP messages between the client and server. Proxies can perform several functions such as:</p>
+<ul>
+<li>caching (the cache can be public or private, like the browser cache)</li>
+<li>filtering (like an antivirus scan, parental controls, …)</li>
+<li>load balancing (to allow multiple servers to serve the different requests)</li>
+<li>authentication (to control access to different resources)</li>
+<li>logging (allowing the storage of historical information)</li>
+</ul>
+</li>
+<li>
+<p>Note: Proxies must not alter requests methods, but they have the ability to change some headers. <a href="https://stackoverflow.com/questions/10369679/do-http-proxy-servers-modify-request-packets">More info</a>.</p>
+</li>
+</ul>
+<blockquote>
+<p>HTTP is stateless: there is no link between two requests being successively carried out on the same connection. This immediately has the prospect of being problematic for users attempting to interact with certain pages coherently, for example, using e-commerce shopping baskets. But while the core of HTTP itself is stateless, HTTP cookies allow the use of stateful sessions. Using header extensibility, HTTP Cookies are added to the workflow, allowing session creation on each HTTP request to share the same context, or the same state.</p>
+</blockquote>
+<h3>HTTP Messages</h3>
+<h4>Request</h4>
+<blockquote>
+<p>Requests consists of the following elements:
+<em> An HTTP method, usually a verb like GET, POST or a noun like OPTIONS or HEAD that defines the operation the client wants to perform. Typically, a client wants to fetch a resource (using GET) or post the value of an HTML form (using POST), though more operations may be needed in other cases.
+</em> The path of the resource to fetch; the URL of the resource stripped from elements that are obvious from the context, for example without the protocol (http://), the domain (here developer.mozilla.org), or the TCP port (here 80).
+<em> The version of the HTTP protocol.
+</em> Optional headers that convey additional information for the servers.
+* Or a body, for some methods like POST, similar to those in responses, which contain the resource sent.</p>
+</blockquote>
+<p>Example Request</p>
+<div class="highlight"><pre><span></span>GET / HTTP/1.1
+Host: developer.mozilla.org
+Accept-Language: fr
+</pre></div>
+
+
+<h4>Response</h4>
+<blockquote>
+<p>Responses consist of the following elements:
+<em> The version of the HTTP protocol they follow.
+</em> A status code, indicating if the request has been successful, or not, and why.
+<em> A status message, a non-authoritative short description of the status code.
+</em> HTTP headers, like those for requests.
+* Optionally, a body containing the fetched resource.</p>
+</blockquote>
+<p>Example Response</p>
+<div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Date: Sat, 09 Oct 2010 14:28:02 GMT
+Server: Apache
+Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
+ETag: &quot;51142bc1-7449-479b075b2891b&quot;
+Accept-Ranges: bytes
+Content-Length: 29769
+Content-Type: text/html
+
+&lt;!DOCTYPE html... (here comes the 29769 bytes of the requested web page)
+</pre></div>
+
+
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching">HTTP caching</a></h2>
+<blockquote>
+<p>Caching is a technique that stores a copy of a given resource and serves it back when requested. When a web cache has a requested resource in its store, it intercepts the request and returns its copy instead of re-downloading from the originating server. This achieves several goals: it eases the load of the server that doesn’t need to serve all clients itself, and it improves performance by being closer to the client, i.e., it takes less time to transmit the resource back. For a web site, it is a major component in achieving high performance. On the other side, it has to be configured properly as not all resources stay identical forever: it is important to cache a resource only until it changes, not longer.</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control"><code>Cache-control</code></a> is used in both requests and responses to specify directives (i.e. what can cache, for how long) for caching in both requests and responses</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304">304</a> (Not Modified) is what is sent when a cache wants to know if the requested resource is still "fresh"</p>
+</li>
+</ul>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">HTTP Cookies</a></h2>
+<blockquote>
+<p>An HTTP cookie (web cookie, browser cookie) is a small piece of data that a server sends to the user's web browser. The browser may store it and send it back with the next request to the same server. Typically, it's used to tell if two requests came from the same browser — keeping a user logged-in, for example. It remembers stateful information for the stateless HTTP protocol.</p>
+<p>Cookies are mainly used for three purposes:
+<em> <strong>Session management</strong> - Logins, shopping carts, game scores, or anything else the server should remember
+</em> <strong>Personalization</strong> - User preferences, themes, and other settings
+* <strong>Tracking</strong> - Recording and analyzing user behavior</p>
+</blockquote>
+<ul>
+<li>
+<p>Cookies used to be used for storing client data, but now the recommended practice is to use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">Web Storage API</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB API</a></p>
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+<li>
+<p>HttpOnly cookie attribute can help to mitigate cross-site scripting attacks by preventing access to cookie value through JavaScript</p>
+</li>
+</ul>
+<h3>Creating Cookies</h3>
+<blockquote>
+<p>When receiving an HTTP request, a server can send a Set-Cookie header with the response. The cookie is usually stored by the browser, and then the cookie is sent with requests made to the same server inside a Cookie HTTP header. An expiration date or duration can be specified, after which the cookie is no longer sent. Additionally, restrictions to a specific domain and path can be set, limiting where the cookie is sent.</p>
+</blockquote>
+<p>Example Response</p>
+<div class="highlight"><pre><span></span>HTTP/1.0 200 OK
+Content-type: text/html
+Set-Cookie: yummy_cookie=choco
+Set-Cookie: tasty_cookie=strawberry
+
+[page content]
+</pre></div>
+
+
+<p>Subsequent Request would be of the form:</p>
+<div class="highlight"><pre><span></span>GET /sample_page.html HTTP/1.1
+Host: www.example.org
+Cookie: yummy_cookie=choco; tasty_cookie=strawberry
+</pre></div>
+
+
+<h3>Types of Cookies</h3>
+<p><strong>Session cookie</strong> - deleted when the client shuts down
+<strong>Permanent cookie</strong> - can set <code>Expires</code> or <code>Max-Age</code> to have it persist when client closes
+<strong>Secure and HTTPOnly cookies</strong> - only sent to the server with an encyrpted request over HTTPS</p>
+<p><strong><a href="https://en.wikipedia.org/wiki/Zombie_cookie">Zombie cookie</a></strong> - HTTP cookie that is recreated after deletion</p>
+<h3>Scope of cookies</h3>
+<blockquote>
+<p>The <code>Domain</code> and <code>Path</code> directives define the scope of the cookie: what URLs the cookies should be sent to.</p>
+</blockquote>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin Resource Sharing (CORS)</a></h2>
+<blockquote>
+<p>Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to let a user agent gain permission to access selected resources from a server on a different origin (domain) than the site currently in use. A user agent makes a cross-origin HTTP request when it requests a resource from a different domain, protocol, or port than the one from which the current document originated.</p>
+<p>An example of a cross-origin request: A HTML page served from http://domain-a.com makes an <img> src request for http://domain-b.com/image.jpg. Many pages on the web today load resources like CSS stylesheets, images, and scripts from separate domains, such as content delivery networks (CDNs).</p>
+</blockquote>
+<ul>
+<li>TODO: Read more as needed</li>
+</ul>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP">Evolution of HTTP</a></h2>
+<p>Great read.</p>
+<h2><a href="https://wiki.mozilla.org/Security/Guidelines/Web_Security">Security Guidelines</a></h2>
+<p>Lots of tips.</p>
+<p>TODO: work as you launch a website</p>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages">HTTP Messages</a></h2>
+<blockquote>
+<p>HTTP messages are how data is exchanged between a server and a client. There are two types of messages: <em>requests</em> sent by the client to trigger an action on the server, and <em>responses</em>, the answer from the server.</p>
+</blockquote>
+<ul>
+<li>Messages are text encoded in ASCII</li>
+</ul>
+<blockquote>
+<p>HTTP requests, and responses, share similar structure and are composed of:
+1. A start-line describing the requests to be implemented, or its status of whether successful or a failure. This start-line is always a single line.
+1. An optional set of HTTP headers specifying the request, or describing the body included in the message.
+1. A blank line indicating all meta-information for the request have been sent.
+1. An optional body containing data associated with the request (like content of an HTML form), or the document associated with a response. The presence of the body and its size is specified by the start-line and HTTP headers.</p>
+</blockquote>
+<h3>HTTP Request</h3>
+<blockquote>
+<p>HTTP requests are messages sent by the client to initiate an action on the server.</p>
+</blockquote>
+<h4>Start line</h4>
+<p>Contains three elements:
+1. <strong>HTTP method</strong> - verb or noun that describes the action to be performed
+2. <strong>Request target</strong> - URL or absolute path of resource
+3. <strong>HTTP version</strong> - defines structure for rest of the reamining message and indicates the expected version to use for response</p>
+<h4>Headers</h4>
+<p><code>Header: value</code></p>
+<p>Different types of headers:
+<em> <strong>General headers</strong> - apply to message as whole
+</em> <strong>Request headers</strong> - give request context or conditionally restrict it
+* <strong>Entity headers</strong> - applies to the body of teh request (i.e. Content-Type)</p>
+<h4>Body</h4>
+<p>Not all requests have a body, but if we need to send data to the serve this is where it goes</p>
+<p>Two types:
+1. <strong>Single-resource bodies</strong> - Single file defined by two headers (<code>Content-Type</code> and <code>Content-Length</code>)
+1. <strong>Multiple-resource bodies</strong> - Multiparty body each containing different kind of information, associated with HTML Forms.</p>
+<h3>HTTP Responses</h3>
+<h4>Status line</h4>
+<p>Contains:
+1.  <strong>Protocol version</strong>
+1. <strong>Status code</strong> - indiciation success or failure of request
+1. <strong>Status text</strong> - Brief textual description of status code</p>
+<h4>Headers</h4>
+<p><code>Header: value</code></p>
+<p>Can be divided into several groups:
+<em> <strong>General headers</strong> - apply to whole message
+</em> <strong>Response headers</strong> - give additional information about server
+* <strong>Entity headers</strong> - apply to the body of the request</p>
+<h4>Body</h4>
+<p>Broadly divided into three categories:
+1. <strong>Single resource bodies of known length</strong> - Defined by two headers (<code>Content-Type</code> and <code>Content-Length</code>)
+2. <strong>Single resource bodies of unknown length</strong> - Encoded with chunks (<code>Transfer-Encoding:chunked</code>)
+3. <strong>Multiple resource bodies</strong> - Consist of a multipart body each with different inforation</p>
+<h3>HTTP/2 Frames</h3>
+<ul>
+<li>HTTP/2 introduces an extra step into the workflow, it divides the HTTP/1.x messages into frames which are then streamed.</li>
+<li>Works when both browser and server have HTTP2 enabled.</li>
+</ul>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Session">A Typical HTTP Session</a></h2>
+<blockquote>
+<p>Client-server sessions consist of three phases:
+1. The client establishes a TCP connection
+1. The client sends its request, and waits for the answer.
+1. The server processes the request, sending back its answer, providing a status code and appropriate data.</p>
+<p>As of HTTP/1.1, the connection is no longer closed after completing the third phase, and the client is now granted a further request: this means the second and third phases can now be performed any number of times.</p>
+</blockquote>
+<h3>Establishing a Connection</h3>
+<ul>
+<li>Client establishes a connection by initating a connection in the underlying transport layer</li>
+</ul>
+<h3>Sending a client request</h3>
+<p>The user-agent can send the request consisting of text directives, separated by  CRLF (carriage return, followed by line feed), divided into three blocks:
+1. First line contains request method and parameters (absolute path, HTTP protocol version)
+1. Subsequent lines contain HTTP header
+1. Optional data block</p>
+<h3>Server response</h3>
+<p>The web server processes the request and returns a reponse consisting of text directives, separated by  CRLF (carriage return, followed by line feed), divided into three blocks:
+1. Status line consisting of an acknowledgement of HTTP protocol, followed by a status request, and its meaning
+1. Subsequent lines contain HTTP header
+1. Optional data block</p>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Connection_management_in_HTTP_1.x">Connection Management in HTTP/1.x</a></h2>
+<p><img src="https://mdn.mozillademos.org/files/13727/HTTP1_x_Connections.png" /></p>
+<h3>Short-lived connections</h3>
+<ul>
+<li>Each HTTP request is completed in its own connection so a TCP handshake needs to occur before each request</li>
+<li>Very slow since handshake process takes time</li>
+</ul>
+<h3>Persistent connections (keep-alive connection)</h3>
+<ul>
+<li>TCP connection adapts to its load and becomes more efficient with sustained (aka warm) connections</li>
+<li>Persistent connections remain open for a short period of time and can be reused for several requests<ul>
+<li>Idle connections are closed after some time</li>
+</ul>
+</li>
+<li>Drawbacks is that server resources are consumed and under heavy load, <a href="https://developer.mozilla.org/en-US/docs/Glossary/DoS_attack">DoS attacks</a> can be conducted</li>
+</ul>
+<h3>HTTP Pipelining</h3>
+<p>Note: Not active by default in modern browsers</p>
+<ul>
+<li>Process of sending successive reqeusts over the same persistent connection without waiting for an answer</li>
+<li>Only idempotent methods (i.e. methods that don't change state of server when sent over and over again) such as <code>GET</code>, <code>HEAD</code>, <code>PUT</code>, and <code>DELETE</code></li>
+</ul>
+<h3>Domain Sharding</h3>
+<p>Deprecated, use HTTP/2 instead.</p>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers">HTTP Headers</a></h2>
+<blockquote>
+<p>HTTP headers allow the client and the server to pass additional information with the request or the response.</p>
+</blockquote>
+<h4>Types of Headers</h4>
+<p>By context:</p>
+<ul>
+<li><strong>General header</strong> - Headers applying to both requests and responses but with no relation to the data eventually transmitted in the body.</li>
+<li><strong>Request header</strong> - Headers containing more information about the resource to be fetched or about the client itself.</li>
+<li><strong>Response header</strong> - Headers with additional information about the response, like its location or about the server itself (name and version etc.).</li>
+<li><strong>Entity header</strong> - Headers containing more information about the body of the entity, like its content length or its MIME-type.</li>
+</ul>
+<p>How proxies handle them:</p>
+<ul>
+<li><strong>End-to-end headers</strong> - These headers must be transmitted to the final recipient of the message; that is, the server for a request or the client for a response. Intermediate proxies must retransmit end-to-end headers unmodified and caches must store them.</li>
+<li><strong>Hop-by-hop headers</strong> - These headers are meaningful only for a single transport-level connection and must not be retransmitted by proxies or cached</li>
+</ul>
+<p><code>header: value</code></p>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">HTTP Requests Methods</a></h2>
+<h3>GET</h3>
+<p>The GET method requests a representation of the specified resource. Requests using GET should only retrieve data.</p>
+<h3>HEAD</h3>
+<p>The HEAD method asks for a response identical to that of a GET request, but without the response body.</p>
+<h3>POST</h3>
+<p>The POST method is used to submit an entity to the specified resource, often causing a change in state or side effects on the server</p>
+<h3>PUT</h3>
+<p>The PUT method replaces all current representations of the target resource with the request payload.</p>
+<h3>DELETE</h3>
+<p>The DELETE method deletes the specified resource.</p>
+<h3>CONNECT</h3>
+<p>The CONNECT method establishes a tunnel to the server identified by the target resource.</p>
+<h3>OPTIONS</h3>
+<p>The OPTIONS method is used to describe the communication options for the target resource.</p>
+<h3>TRACE</h3>
+<p>The TRACE method performs a message loop-back test along the path to the target resource.</p>
+<h3>PATCH</h3>
+<p>The PATCH method is used to apply partial modifications to a resource.</p>
+<h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP Response Status Codes</a></h2>
+<p>100 - Information Responses</p>
+<p>200 - Successful Responses</p>
+<p>300 - Redirection Messages</p>
+<p>400 - Client error reponses</p>
+<p>500 - Server error responses</p>
+<h3>Additional Resources</h3>
+<ul>
+<li><a href="https://httpstatuses.com/">HTTP Status Codes</a></li>
+</ul>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/web-development.html"><i class="fa fa-tag"></i>web-development</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/http-part1-.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
+        </div><!-- /content -->
+
+        <div class="col-md-3 sidebar-nav" id="sidebar">
+
+<div class="row">
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-comment fa-fw fa-lg"></i> Social</h4>
+<ul class="list-unstyled social-links">
+    <li><a href="http://linkedin.com/in/alysivji/" target="_blank">
+	  <i class="fa fa-linkedin-square fa-fw fa-lg" title="LinkedIn"></i>
+		LinkedIn
+	</a></li>
+    <li><a href="http://github.com/alysivji" target="_blank">
+	  <i class="fa fa-github-square fa-fw fa-lg" title="GitHub"></i>
+		GitHub
+	</a></li>
+    <li><a href="https://twitter.com/CaiusSivjus" target="_blank">
+	  <i class="fa fa-twitter-square fa-fw fa-lg" title="Twitter"></i>
+		Twitter
+	</a></li>
+</ul>
+</div>
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
+<ul class="list-unstyled category-links">
+  <li><a href="../category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
+  <li><a href="../category/quick-hits.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Quick Hits</a></li>
+  <li><a href="../category/thoughts.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
+  <li><a href="../category/tutorials.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
+</ul>
+</div>
+
+</div> <!-- /row -->
+
+<h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
+<p class="tag-cloud">
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+</p>
+<h4><i class="fa fa-rss fa-fw fa-lg"></i> Feeds</h4>
+<ul class="list-unstyled">
+    <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+		   type="application/atom+xml" rel="alternate">
+		<i class="fa fa-rss-square fa-fw fa-lg"></i> Atom Feed</a></li>
+</ul>
+
+<hr />
+
+        </div><!--/sidebar -->
+      </div><!--/row-->
+    </div><!--/.container /#main-container -->
+
+    <footer id="site-footer">
+ 
+      <address id="site-colophon">
+        <p class="text-center text-muted">
+        Site built using <a href="http://getpelican.com/" target="_blank">Pelican</a>
+        &nbsp;&bull;&nbsp; Theme based on
+        <a href="http://www.voidynullness.net/page/voidy-bootstrap-pelican-theme/"
+           target="_blank">VoidyBootstrap</a> by 
+        <a href="http://www.robertiwancz.com/"
+           target="_blank">RKI</a>  
+        </p>
+      </address><!-- /colophon  -->
+    </footer>
+
+<!-- DISQUS script for displaying comment count -->
+<script type="text/javascript">
+    var disqus_shortname = 'siv-scripts';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- javascript -->
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
+</html>

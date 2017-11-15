@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Creating Test Cases">
+    <meta name="twitter:title" content="Testing Posts">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content="..">
 
-    <title>Creating Test Cases - Siv Scripts</title>
+    <title>Testing Posts - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,11 +101,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 23 June 2017
+  Fri 03 November 2017
 </abbr> <h1>
-  <a href="../drafts/creating-test-cases.html" rel="bookmark"
-     title="Permalink to Creating Test Cases">
-    Creating Test Cases
+  <a href="../drafts/testing-201-testing-with-mock-objects.html" rel="bookmark"
+     title="Permalink to Testing Posts">
+    Testing Posts
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -117,25 +117,262 @@
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>How to make sure we test all lines of code?</p>
-<p>basics of testing</p>
-<p>http://www.cs.toronto.edu/~sme/CSC302/2008S/notes/18-Testing2.pdf</p>
-<p>Structured Basis Testing
-    * This makes sure we go down every single branch</p>
-<div class="highlight"><pre><span></span>copy rule. start at 1, for each for, if, etc add 1
-</pre></div>
-
-
-<p>Data Flow Testing
-    * look at useage patterns of data</p>
-<p>What does this do that hypothesis doesn't do? Look into hypothesis.</p>
-<blockquote>
-<p>A good way to develop test cases is to start with structured basis testing, which gives you some if not all of the defined-used data flows. Then add the cases you still need to have a complete set of defined-used data-flow test cases.</p>
-<p>Code Complete, pg 511</p>
-</blockquote>
+	<hr>
+<ol>
+<li>
+<p>Testing 101: An Introduction</p>
+<ul>
+<li>
+<p>Intro Blurb</p>
+<ul>
+<li>I've been interested in testing since I read about it earlier this year. There was something about adding structure to programming that appealed to my need for having structure.</li>
+<li>It took me a few days to weeks to research and try out different techniques until I was able to get a grasp on what is going on</li>
+<li>There are a lot of good sources out there. Lots of advice, sometimes conflicting. This post is my way of trying to sort out my thoughts about testing as I apply it to a project in which I start writing unit tests around a microservices framework I am building for a practice side project</li>
+<li>first of a series of posts on testing and tests</li>
+</ul>
+</li>
+<li>
+<p>high level overview of why tests are important and why we should always test our code</p>
+<ul>
+<li>mostly we test so we can sleep at night (have picture of me / emoji sleeping in talk)</li>
+<li><a href="http://jasonpolites.github.io/tao-of-testing/ch1-1.1.html">A Case for Testing</a><ul>
+<li>Bugs will happen, you can bank on it, only the severity of their impact will vary.</li>
+<li>Bug incidents can increase dramatically as new features are added</li>
+<li>Bug fix times can increase dramatically as new features are added</li>
+<li>Software testing is NOT designed to make sure code works when it’s written but rather to ensure future changes do not break existing code.</li>
+<li>A well run, tightly managed testing regime leads to more stable, reusable code.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>brief description of the different types of testing</p>
+<ul>
+<li>unit testing<ul>
+<li>focus of first post</li>
+<li>book: <a href="http://blog.jayfields.com/2014/05/working-effectively-with-unit-tests.html">working effectively with unit test</a></li>
+</ul>
+</li>
+<li>integration testing<ul>
+<li>how to do this?</li>
+</ul>
+</li>
+<li>functional testing / system testing<ul>
+<li>pyresttest</li>
+<li>selenium</li>
+</ul>
+</li>
+<li>manual testing / acceptance / UAT / whatever else is in tao of testing</li>
+<li><a href="TODO: link to talk about it, okken podcast to refute">testing pyramid</a></li>
+<li>from <a href="http://jasonpolites.github.io/tao-of-testing/index-1.1.html">The Tao of Testing</a><ul>
+<li>unit test - Test a single public method or function</li>
+<li>black box test - test provides data and expects certain results without knowing how those results are derived</li>
+<li>integration test - many parts of the system are tested at once, tests a complete end-to-end lifecycle of an application or a portion versus testing selected components independently</li>
+<li>manual test - test completed by human</li>
+<li>load/scale test - impose stress on application by simulating heavy load conditions / highly concurrent load conditions</li>
+<li>infrastructure test - testing infrastructure underlying software</li>
+<li>QA test - like manual tests</li>
+<li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>talk about TDD</p>
+<ul>
+<li>test first</li>
+<li>test last</li>
+<li>test driven</li>
+<li>dogma of both the TDD fanatics and anti-TDD heretics<ul>
+<li>back in 2014, DHH of Rails fame <a href="https://www.youtube.com/watch?v=9LfmrkyP81M">criticized the ideas behind TDD and software engineer</a> at RailsConf</li>
+<li><a href="https://martinfowler.com/articles/is-tdd-dead/">Discussion with DHH, Fowler, and Kent Beck</a></li>
+<li>kent beck on software engineer radio 167 or something. minute 22 is when the TDD talk starts</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>My thoughts</p>
+<ul>
+<li>
+<p>I don't really have a horse in the race so I'm gonna test using common sense and figure out my own style as I advance in my career as a Software Engineer. Right now I think testing is awesome. I believe in TDD, as in test while you are developing. It can be first or right after. It's mostly to save you time later on.</p>
+</li>
+<li>
+<p>For now I have to test a microservice REST API and need to be pragmatic (?) about how I do things. In the next few posts, I will explore the subject of testing in more detail in the context of the above project</p>
+</li>
+<li>
+<p>also i use a dynamically typed language (Python) which makes it a lot easier to monkeypatch. I feel like i dont have to deal with a lot of the formality of other languages</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Sources</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=yACtdj1_IxE">testing best practices for data science</a></li>
+<li>brian okken on talk python to me #45</li>
+<li><a href="http://jasonpolites.github.io/tao-of-testing">The Tao of Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Random Thoughts</p>
+<ol>
+<li>I don't like absolutes, but if you don't test your code you are not a developer. You are a hacker. Once you start testing, you are on your way to becoming a craftsman. learning how to test is starting a journey from "hacker to craftsman"</li>
+<li>DHH talking about how TDD is a cult and that programming best practices are just pseudoscience. I don't agree because being methodical about how you do things helps makes things easier in the long run. This isn't to say that you can't hack stuff together to solve problems. If all you care about is solving problems, you can do that. But there is also a reason that monliths needs to be made into microservices. It becomes a mess. You worry a lot about if things are going to break upon refactoring. I think test driven doesn't really mean test first. It means test first or test closely after. He argues about dependency injection. I mean, if your language doesn't support monkeypatching... you need to inject dependencies (but we'll come back to this in later post). Thinks unit tests are broken b/c we need system tests instead. I mean, can't we have both. Unit tests to ensure that we don't regress and system tests to ensure we meet what we are supposed to do. double loop TDD is the way forward. Functional testing! But he ends it well. Not sure if I agree with everything, but I do like his pragmatic approach to testing</li>
+</ol>
+</li>
+</ol>
+<hr>
+<ol>
+<li>
+<p>Testing 201: Testing with Test Doubles</p>
+<ul>
+<li>
+<p>Intro</p>
+<ul>
+<li>In the last post I gave a 20,000 foot overview of testing (cover main points).</li>
+<li>I also allude to the TDD holy war between TDD fantatics vs TDD naysayers who preach about common sense testing. TODO: Make this sound better.</li>
+<li>In this post, we're going to look into test doubles (mocks and stubs). We'll be using the unittest.mock library to create and use mocks and stubs in the context of testing a REST API</li>
+</ul>
+</li>
+<li>
+<p>What is test double?</p>
+<ul>
+<li>different kinds</li>
+<li>why they are important</li>
+</ul>
+</li>
+<li>
+<p><code>unittest.mock</code></p>
+<ul>
+<li>Walk thru library show how to use</li>
+<li>Jupyter Notebook format (check out standard library by example to see how they do it). Also add diagrams.<ul>
+<li>talk about what a mock is and then explore it a bit with jupyter</li>
+<li>talk about monkeypatching external dependencies and then do it with the <code>mock.path()</code> context manager<ul>
+<li>simple example with something to show it works</li>
+<li>io.open with <a href="https://docs.python.org/3.6/library/unittest.mock.html#mock-open">mock open</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Show how to use mocks and stubs in the context of a test and how you start thinking when you do it this way (stackoverflow post about mocks vs stubs was good). Do both</p>
+<ul>
+<li><a href="http://wiki.c2.com/?ArrangeActAssert">Arrange, Act, Assert</a> vs record and replay.</li>
+<li>Mock external dependencies and simulate their behavior (i.e. what their attributes are, what they return) and then analyze how they were used</li>
+<li>configure mocks with the state you need and then do what you want. check if what you expected occured</li>
+<li>we assume the class we are using works properly, so we want to issolate it and just check that it was called properly. THIS IS THE POINT</li>
+</ul>
+</li>
+<li>
+<p>Testing requests. Show how we do both mocks and stubs to get both things</p>
+<ul>
+<li>it doen't make sense to stub out requests vs mock it</li>
+<li>stub out your classes, but 3rd party classes might be easier to mock<ul>
+<li>is this true?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>More Dogma about Mocks vs Stubs. I showed you want I know, again, no horse in this fight. But here is what's out there and what people think about</p>
+<ul>
+<li><a href="https://martinfowler.com/articles/mocksArentStubs.html">This is an inner TDD war (TDD vs BDD)</a><ul>
+<li>different kinds of TDD. London / Outside in vs Detroit / Classic. anti-TDD </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Sources</p>
+<ul>
+<li><a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">Test Doubles - Fakes, Mocks, and Stubs.</a></li>
+<li><a href="https://www.one-tab.com/page/XOD5OHbGQg-FKMGNbOGFdg">YouTube links</a></li>
+<li><a href="https://www.one-tab.com/page/QYG82-CkSqGs7ndDT6seJQ">Blog Links</a></li>
+<li><a href="https://www.one-tab.com/page/VYzEco9qTuezwXMbmtJRNQ">More blog links</a></li>
+<li><a href="https://www.youtube.com/watch?v=hvPYuqzTPIk">Another YouTube link</a></li>
+<li><a href="https://www.youtube.com/watch?v=d3_LdLzWSXQ">Part 1</a></li>
+<li><a href="https://www.youtube.com/watch?v=ADIcwu2GeEU">Part 2</a></li>
+<li><a href="https://www.youtube.com/watch?v=HbJZu2qcC-s">Ravi Chandra: Fake it till you make it</a></li>
+<li><a href="https://www.youtube.com/watch?v=Xu5EhKVZdV8">Stop Mocking, Start Testing</a><ul>
+<li>not as anti mock as you'd think.</li>
+<li>for dependency inject, always pass in. never construct in a method</li>
+<li>mock objects tell you what you want to hear<ul>
+<li>if something is changed, we'll figure it out as we figure it out</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol>
+<li>
+<p>Testing Sidebar: Mockito vs unittest.mock</p>
+<ul>
+<li>
+<p>Does mockito work with how I think? it may be java, but it's also readable... which wins out? I think readability wins out</p>
+</li>
+<li>
+<p>Resources</p>
+<ul>
+<li><a href="http://jasonpolites.github.io/tao-of-testing/intro-1.1.html">Tao of Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol>
+<li>
+<p>Testing 202: Dependency Injection</p>
+<ul>
+<li>have a link tto the Angular jingle from code school</li>
+<li><a href="http://jasonpolites.github.io/tao-of-testing/intro-1.1.html">Tao of Testing</a></li>
+<li><a href="https://www.youtube.com/watch?v=wEhu57pih5w">The Clean Code Talks -- Unit Testing</a><ul>
+<li>new operator is static makes your code static</li>
+</ul>
+</li>
+<li><a href="http://mauveweb.co.uk/posts/2014/09/every-mock-patch-is-a-little-smell.html">monkeypatching is a code smell</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol>
+<li>Integration Testing of Rest API<ul>
+<li>What does this mean? talk to Chris.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol>
+<li>Testing 203: Functional Testing<ul>
+<li>Functional testing for the web with selenium</li>
+<li>need to read harry's book before i write this</li>
+<li>read Obey the Testing Goat before I do this</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol>
+<li>Testing Aside: Testing for Data Science<ul>
+<li>Eric Ma</li>
+<li>engarde</li>
+<li>testing data pipelines</li>
+</ul>
+</li>
+</ol>
   </div>
   
 <div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/testing.html"><i class="fa fa-tag"></i>testing</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -149,7 +386,7 @@
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="../drafts/creating-test-cases.html" 
+        data-href="../drafts/testing-201-testing-with-mock-objects.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
