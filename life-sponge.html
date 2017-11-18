@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Terminal Tricks: Directory Bookmarks">
+    <meta name="twitter:title" content="Soaking it in">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>Terminal Tricks: Directory Bookmarks - Siv Scripts</title>
+    <title>Soaking it in - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,74 +101,43 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sat 07 October 2017
+  Sat 18 November 2017
 </abbr> <h1>
-  <a href="./terminal-tricks-bashmarks.html" rel="bookmark"
-     title="Permalink to Terminal Tricks: Directory Bookmarks">
-    Terminal Tricks: Directory Bookmarks
+  <a href="./life-sponge.html" rel="bookmark"
+     title="Permalink to Soaking it in">
+    Soaking it in
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="./category/quick-hits.html">
-      Quick Hits</a>
+    <a href="./category/thoughts.html">
+      Thoughts</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>Even though my development folders are well organized, I still have to feel my way around the filesystem when I'm looking for a project directory. It's like trying to find a lightswitch in a dark room: a <code>cd</code> here, an <code>ls</code> there, maybe a <code>find</code> when I'm stuck.</p>
-<p>I always get to where I want to go, but not without some frustration along the way. Plus, all the seconds spent navigating directories starts to add up.</p>
-<p><strong><em>Wait a minute. I use bookmarks in my browser, so why am I not using them in my shell?</em></strong></p>
-<p>A quick Google search led me to <a href="https://github.com/huyng/bashmarks">Bashmarks</a>. Absolute game changer. I can move around the filesystem with ease.</p>
-<p>Feel a bit like Dr. Who.<br />
-<img src="/images/11-20/17_tardis_meme.jpg" alt="Teleport like a boss" /></p>
-<p>In this <a href="/category/quick-hits.html">Quick Hit</a>, we will explore Bashmarks, walk through the installation process, and get a feel of the most commonly used commands.</p>
-<hr>
-<h2>Bashmarks</h2>
-<blockquote>
-<p><a href="https://github.com/huyng/bashmarks">Bashmarks is a [bash] shell script that allows you to save and jump to commonly used directories</a></p>
+	<blockquote>
+<p><em>Truly wonderful the mind of a child is</em></p>
 </blockquote>
-<p>It supports tab completion (!!!) and has a very simple interface with only 5 commands to memorize.</p>
-<p>Use another shell? Not a problem. There are ports of bashmarks for <a href="https://github.com/techwizrd/fishmarks">fish</a> and <a href="https://github.com/jocelynmallon/zshmarks">zsh</a>.</p>
-<h3>Installation</h3>
-<p>Download the files into a temporary directory and install using <a href="https://www.gnu.org/software/make/manual/make.html">GNU make</a>:</p>
-<div class="highlight"><pre><span></span><span class="go">mkdir temp &amp;&amp; cd temp</span>
-<span class="go">git clone git://github.com/huyng/bashmarks.git</span>
-<span class="go">cd bashmarks</span>
-<span class="go">make install</span>
-<span class="go">echo &quot;source ~/.local/bin/bashmarks.sh&quot; &gt;&gt; ~/.bash_profile</span>
-<span class="go">source ~/.bash_profile</span>
-</pre></div>
-
-
-<p>And we're good to go!</p>
-<h3>Commands</h3>
-<div class="highlight"><pre><span></span><span class="go">s &lt;bookmark_name&gt; - Saves the current directory as &quot;bookmark_name&quot;</span>
-<span class="go">g &lt;bookmark_name&gt; - Goes (cd) to the directory associated with &quot;bookmark_name&quot;</span>
-<span class="go">p &lt;bookmark_name&gt; - Prints the directory associated with &quot;bookmark_name&quot;</span>
-<span class="go">d &lt;bookmark_name&gt; - Deletes the bookmark</span>
-<span class="go">l                 - Lists all available bookmarks</span>
-</pre></div>
-
-
-<p>We can save bookmarks using the <code>s [bookmark_name]</code> command:<br />
-<img src="/images/11-20/17_bashmarks_save.gif" alt="Create bashmark" width=562 /></p>
-<p>List all bashmarks with <code>l</code>:<br />
-<img src="/images/11-20/17_bashmarks_list.gif" alt="List bashmarks" width=562 /></p>
-<p>Navigate to project directory using <code>g [bookmark_name]</code>:<br />
-<img src="/images/11-20/17_bashmarks_jump.gif" alt="Jump to bashmark" width=562 /></p>
-<hr>
-<h2>Conclusion</h2>
-<p>Bashmarks is a tool that increases developer productivity.</p>
-<p>Do you have an interesting terminal workflow or trick to share? Please comment below!</p>
+<p>It was an action packed week at work: we migrated our infrastructure to the Google Cloud Platform and into Kubernetes. Pods, nodes, deployments. <em>Oh my!</em></p>
+<p>Not that I helped much with the migration; I'm new and still learning the ropes.</p>
+<p>I know it's a tech cliché, but there is <strong>so much</strong> to learn! Feels like something new is coming out every single day.</p>
+<p>Just finished <a href="https://twitter.com/nigelpoulton">Nigel Poulton</a>'s <a href="https://www.pluralsight.com/courses/getting-started-kubernetes">Getting Started with Kubernetes</a> course on PluralSight. Great introduction to the topic, I highly recommend it! Also planning on digging into <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes the Hard Way</a> the day after I hand in my final paper in early-December.</p>
+<p>So that I have an interesting use case, I've spent some time thinking of side project ideas. Nothing complex, but enough moving pieces to help me understand the basics of Google Cloud. Need to build something beyond the limit of my current abilities, it's the only way to grow.</p>
+<p>Speaking of which. I've started building out a <a href="https://falconframework.org/">Falcon</a>-based backend as a fun little practice project. Being fairly new to the web development game, the project is coming along slowly. Fortunately, one of the Senior Engineers at work has been helping me out by conducting informal code reviews to make sure I'm on the right track. What. A. Guy. I can't describe how great it is to have somebody to bounce my ideas off of and to help me solidify my understanding.</p>
+<p>Lots of reading on my own time so I have "intelligent" questions to ask. I think this is key.</p>
+<p>Making an effort and showing others that you are willing to put in the work required to learn complex concepts makes a huge difference in how you are perceived. Having the right attitude indicates you are worth investing time in. If people see that you care, they will start to care and become invested in your learning. Pretty soon you'll have a network of folks smarter than you who are willing to impart the occasional wisdom your way.</p>
+<p>This does not have to be an <a href="https://www.urbandictionary.com/define.php?term=IRL">IRL</a> mentor-mentee relationship, it could be somebody you reach out to online. People want to be surrounded by other passionate individuals who are interested in the same things they are.</p>
+<p>When I look back at my interview process, it was my enthusiasm (and knowledge of healthcare) that got me the job. I wasn't hired for my web development experience, it was about everything else I brought to the table.</p>
+<p>Stating that, there is an unspoken agreement between my employer and myself that I will have to figure out how to do my job and how to do it well.</p>
+<p>I'm doing my part. It's what's expected of me.</p>
+<p>Also because <a href="https://www.youtube.com/watch?v=-B3tsUgBRbE">service guarantees citizenship</a>.</p>
   </div>
   
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="./tag/terminal.html"><i class="fa fa-tag"></i>terminal</a>&nbsp;
-	<a href="./tag/productivity.html"><i class="fa fa-tag"></i>productivity</a>&nbsp;
-	<a href="./tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
+	<a href="./tag/cest-la-vie.html"><i class="fa fa-tag"></i>c'est-la-vie</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -182,7 +151,7 @@
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./terminal-tricks-bashmarks.html" 
+        data-href="./life-sponge.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
