@@ -1,5 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-11-18T17:30:00-06:00</updated><entry><title>Soaking it in</title><link href="http://alysivji.github.io/life-sponge.html" rel="alternate"></link><published>2017-11-18T17:30:00-06:00</published><updated>2017-11-18T17:30:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-11-18:/life-sponge.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-11-19T14:22:00-06:00</updated><entry><title>HTTP: Hypertext Transfer Protocol</title><link href="http://alysivji.github.io/http-part1-the-protocol.html" rel="alternate"></link><published>2017-11-19T14:22:00-06:00</published><updated>2017-11-19T14:22:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-11-19:/http-part1-the-protocol.html</id><summary type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
+&lt;p&gt;We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
+&lt;p&gt;We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current plan is to use Python3 and &lt;a href="https://falconframework.org/"&gt;Falcon&lt;/a&gt;; we are open to using Go (or &lt;a href="https://pypy.org/"&gt;PyPy&lt;/a&gt;) on a container-by-container basis if performance becomes an issue.&lt;/p&gt;
+&lt;p&gt;Very exciting! But I do feel like I'm a bit over my head.&lt;/p&gt;
+&lt;p&gt;We all know &lt;a href="https://en.wikipedia.org/wiki/Impostor_syndrome"&gt;imposter syndrome&lt;/a&gt; is part of being a developer. The only way to fight it is to fake it until you make it.&lt;/p&gt;
+&lt;p&gt;Learn as much as you can every single day. Get out of your comfort zone by working on challenging projects. Share what you know with others to cement your knowledge. You may never lose that feeling of being a phony, but at least you'll be in a better position than before.&lt;/p&gt;
+&lt;p&gt;In my new series called &lt;a href="/category/deep-dives.html"&gt;&lt;em&gt;Deep Dives&lt;/em&gt;&lt;/a&gt;, I will research a topic and present my findings in a semi-detailed blog post; think end-result of a research spike.&lt;/p&gt;
+&lt;p&gt;This is the first in a multi-post arc exploring the Hypertext Transfer Protocol, more commonly known as HTTP. I'll start with a brief introduction into the protocol and cover topics like HTTP headers, verbs, and status codes in subsequent posts.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;HTTP is an application layer protocol for transmitting hypermedia documents. It follows the &lt;a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model"&gt;client-server&lt;/a&gt; model of communication where a client opens a connection to make a request and waits until it receives a response.&lt;/p&gt;
+&lt;p&gt;HTTP is &lt;a href="https://en.wikipedia.org/wiki/Stateless_protocol"&gt;stateless&lt;/a&gt; which means that neither the client nor the server retains information about the messages that were sent / received. If we want to provide context for communication, we need to include additional information each time a request is made. HTTP cookies allow for stateful sessions.&lt;/p&gt;
+&lt;p&gt;When a web browser goes to a document, it triggers a bunch of requests to fetch all the sub-documents contained in the main resource. Once all the information is downloaded, the browser can render the initial document as described.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Workflow:&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;user-agent&lt;/em&gt; sends a &lt;strong&gt;request&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;server processes request, sends back a &lt;strong&gt;response&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The client only sees server endpoints; all the information about the underlying implementation (load balancer, cache, DB, schema, etc) should be abstracted away behind the endpoint.&lt;/p&gt;
+&lt;p&gt;There are also proxies which relay HTTP messages between the client and server, these proxies must not alter request methods, but they do have the &lt;a href="https://stackoverflow.com/questions/10369679/do-http-proxy-servers-modify-request-packets"&gt;ability to change some headers&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;HTTP Messages&lt;/h3&gt;
+&lt;h4&gt;Request&lt;/h4&gt;
+&lt;p&gt;Consist of:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP Method (&lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET"&gt;GET&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD"&gt;HEAD&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST"&gt;POST&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT"&gt;PUT&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE"&gt;DELETE&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT"&gt;CONNECT&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS"&gt;OPTIONS&lt;/a&gt;, &lt;a href="http://www.cgisecurity.com/questions/httptrace.shtml"&gt;TRACE&lt;/a&gt;, &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH"&gt;PATCH&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Path of resource to fetch&lt;/li&gt;
+&lt;li&gt;Version of HTTP protocol&lt;/li&gt;
+&lt;li&gt;Optional headers to provide the server with additional information&lt;ul&gt;
+&lt;li&gt;format: &lt;code&gt;Header: value&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;General headers&lt;/strong&gt; - apply to message as whole&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Request headers&lt;/strong&gt; - give request context or conditionally restrict it&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Entity headers&lt;/strong&gt; - applies to the body of the request (i.e. &lt;code&gt;Content-Type&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Optional body which contains resource&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Single-resource bodies&lt;/strong&gt; - Single file defined by two headers (&lt;code&gt;Content-Type&lt;/code&gt; and &lt;code&gt;Content-Length&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multiple-resource bodies&lt;/strong&gt; - Multiparty body each containing different kind of information, associated with HTML Forms.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Example Request:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET / HTTP/1.1
+Host: alysivji.com
+Accept-Language: en
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Response&lt;/h4&gt;
+&lt;p&gt;Consists of:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Version of HTTP protocol&lt;/li&gt;
+&lt;li&gt;Status code and message&lt;/li&gt;
+&lt;li&gt;Headers&lt;ul&gt;
+&lt;li&gt;format: &lt;code&gt;Header: value&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;General headers&lt;/strong&gt; - apply to whole message&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Response headers&lt;/strong&gt; - give additional information about server&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Entity headers&lt;/strong&gt; - apply to the body of the request&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Optional body containing fetched resources&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Single resource bodies of known length&lt;/strong&gt; - Defined by two headers (&lt;code&gt;Content-Type&lt;/code&gt; and &lt;code&gt;Content-Length&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Single resource bodies of unknown length&lt;/strong&gt; - Encoded with chunks (&lt;code&gt;Transfer-Encoding:chunked&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multiple resource bodies&lt;/strong&gt; - Consist of a multipart body each with different information&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Example Response:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;HTTP/1.1 200 OK
+Last-Modified: Sun, 19 Nov 2017 00:00:55 GMT
+Content-Type: text/json
+
+{
+    &amp;quot;key&amp;quot;: &amp;quot;value&amp;quot;,
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies"&gt;HTTP Cookies&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Cookies are &lt;code&gt;(key, value)&lt;/code&gt; pairs that store session state. They are initially sent from the server to the user's browser where they are stored. The browser then sends the cookie back with all subsequent requests.&lt;/p&gt;
+&lt;p&gt;Cookies are used for three purposes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Session management&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Personalization&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tracking&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Creating Cookies&lt;/h4&gt;
+&lt;p&gt;A server can send a &lt;code&gt;Set-Cookie&lt;/code&gt; header with a response&lt;/p&gt;
+&lt;h4&gt;Types of Cookies&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Session cookie&lt;/strong&gt; - deleted when the client shuts down&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Permanent cookie&lt;/strong&gt; - can set &lt;code&gt;Expires&lt;/code&gt; or &lt;code&gt;Max-Age&lt;/code&gt; to have it persist when client closes&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Secure and HTTPOnly cookies&lt;/strong&gt; - only sent to the server with an encrypted request over HTTPS&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://en.wikipedia.org/wiki/Zombie_cookie"&gt;Zombie cookie&lt;/a&gt;&lt;/strong&gt; - HTTP cookie that is recreated after deletion&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Scope of cookies&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Domain and Path directives define scope of cookie and where it can be sent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"&gt;Cross-Origin Resource Sharing (CORS)&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Excerpt:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to let a user agent gain permission to access selected resources from a server on a different origin (domain) than the site currently in use. A user agent makes a cross-origin HTTP request when it requests a resource from a different domain, protocol, or port than the one from which the current document originated.&lt;/p&gt;
+&lt;p&gt;An example of a cross-origin request: A HTML page served from http://domain-a.com makes an &lt;img&gt; src request for http://domain-b.com/image.jpg. Many pages on the web today load resources like CSS stylesheets, images, and scripts from separate domains, such as content delivery networks (CDNs).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;HTTP/2 Frames&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP/2 introduces an extra step into the workflow, it divides the HTTP/1.x messages into frames which are then streamed.&lt;/li&gt;
+&lt;li&gt;Works when both browser and server have HTTP2 enabled.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Additional Resources&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP"&gt;HTTP: Hypertext Transfer Protocol&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="web-development"></category></entry><entry><title>Soaking it in</title><link href="http://alysivji.github.io/life-sponge.html" rel="alternate"></link><published>2017-11-18T17:30:00-06:00</published><updated>2017-11-18T17:30:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-11-18:/life-sponge.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;Truly wonderful the mind of a child is&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;It was an action packed week at work: we migrated our infrastructure to the Google Cloud Platform and into Kubernetes. Pods, nodes, deployments. &lt;em&gt;Oh my!&lt;/em&gt;&lt;/p&gt;

@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="MHI 408-DL: System Acquisition and Lifecycle">
+    <meta name="twitter:title" content="HTTP: Hypertext Transfer Protocol">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>MHI 408-DL: System Acquisition and Lifecycle - Siv Scripts</title>
+    <title>HTTP: Hypertext Transfer Protocol - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,62 +101,140 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 25 August 2017
+  Sun 19 November 2017
 </abbr> <h1>
-  <a href="./review-mhi408-system-acquisition-and-lifecycle.html" rel="bookmark"
-     title="Permalink to MHI 408-DL: System Acquisition and Lifecycle">
-    MHI 408-DL: System Acquisition and Lifecycle
+  <a href="./http-part1-the-protocol.html" rel="bookmark"
+     title="Permalink to HTTP: Hypertext Transfer Protocol">
+    HTTP: Hypertext Transfer Protocol
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="./category/thoughts.html">
-      Thoughts</a>
+    <a href="./category/deep-dives.html">
+      Deep Dives</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>As part of my degree requirements, I enrolled in <a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;term=4710">Information System Acquisition and Lifecycle</a> with Dr. Ray Robinson (TA: Eric Abbott) for the Summer 2017 quarter.</p>
-<p>The course name didn't have me expecting much. I thought I'd put off learning the material until the absolute last moment, procrastating with Python side projects along the way. But that wasn't the case. <strong>At all.</strong></p>
-<p>Somehow, through sheer will (and outstanding course design), Dr. Robinson created a class that has been the most engaging and applicable experience of my grad school career.</p>
+	<p>The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.</p>
+<p>We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current plan is to use Python3 and <a href="https://falconframework.org/">Falcon</a>; we are open to using Go (or <a href="https://pypy.org/">PyPy</a>) on a container-by-container basis if performance becomes an issue.</p>
+<p>Very exciting! But I do feel like I'm a bit over my head.</p>
+<p>We all know <a href="https://en.wikipedia.org/wiki/Impostor_syndrome">imposter syndrome</a> is part of being a developer. The only way to fight it is to fake it until you make it.</p>
+<p>Learn as much as you can every single day. Get out of your comfort zone by working on challenging projects. Share what you know with others to cement your knowledge. You may never lose that feeling of being a phony, but at least you'll be in a better position than before.</p>
+<p>In my new series called <a href="/category/deep-dives.html"><em>Deep Dives</em></a>, I will research a topic and present my findings in a semi-detailed blog post; think end-result of a research spike.</p>
+<p>This is the first in a multi-post arc exploring the Hypertext Transfer Protocol, more commonly known as HTTP. I'll start with a brief introduction into the protocol and cover topics like HTTP headers, verbs, and status codes in subsequent posts.</p>
 <hr>
-<h2>Course Description</h2>
-<p><strong>MHI 408</strong>:</p>
+<p>HTTP is an application layer protocol for transmitting hypermedia documents. It follows the <a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model">client-server</a> model of communication where a client opens a connection to make a request and waits until it receives a response.</p>
+<p>HTTP is <a href="https://en.wikipedia.org/wiki/Stateless_protocol">stateless</a> which means that neither the client nor the server retains information about the messages that were sent / received. If we want to provide context for communication, we need to include additional information each time a request is made. HTTP cookies allow for stateful sessions.</p>
+<p>When a web browser goes to a document, it triggers a bunch of requests to fetch all the sub-documents contained in the main resource. Once all the information is downloaded, the browser can render the initial document as described.</p>
+<ul>
+<li>Workflow:<ul>
+<li><em>user-agent</em> sends a <strong>request</strong></li>
+<li>server processes request, sends back a <strong>response</strong></li>
+</ul>
+</li>
+</ul>
+<p>The client only sees server endpoints; all the information about the underlying implementation (load balancer, cache, DB, schema, etc) should be abstracted away behind the endpoint.</p>
+<p>There are also proxies which relay HTTP messages between the client and server, these proxies must not alter request methods, but they do have the <a href="https://stackoverflow.com/questions/10369679/do-http-proxy-servers-modify-request-packets">ability to change some headers</a>.</p>
+<h3>HTTP Messages</h3>
+<h4>Request</h4>
+<p>Consist of:</p>
+<ul>
+<li>HTTP Method (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET">GET</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD">HEAD</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST">POST</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT">PUT</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE">DELETE</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT">CONNECT</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS">OPTIONS</a>, <a href="http://www.cgisecurity.com/questions/httptrace.shtml">TRACE</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH">PATCH</a>)</li>
+<li>Path of resource to fetch</li>
+<li>Version of HTTP protocol</li>
+<li>Optional headers to provide the server with additional information<ul>
+<li>format: <code>Header: value</code></li>
+<li><strong>General headers</strong> - apply to message as whole</li>
+<li><strong>Request headers</strong> - give request context or conditionally restrict it</li>
+<li><strong>Entity headers</strong> - applies to the body of the request (i.e. <code>Content-Type</code>)</li>
+</ul>
+</li>
+<li>Optional body which contains resource<ol>
+<li><strong>Single-resource bodies</strong> - Single file defined by two headers (<code>Content-Type</code> and <code>Content-Length</code>)</li>
+<li><strong>Multiple-resource bodies</strong> - Multiparty body each containing different kind of information, associated with HTML Forms.</li>
+</ol>
+</li>
+</ul>
+<p>Example Request:</p>
+<div class="highlight"><pre><span></span>GET / HTTP/1.1
+Host: alysivji.com
+Accept-Language: en
+</pre></div>
+
+
+<h4>Response</h4>
+<p>Consists of:</p>
+<ul>
+<li>Version of HTTP protocol</li>
+<li>Status code and message</li>
+<li>Headers<ul>
+<li>format: <code>Header: value</code></li>
+<li><strong>General headers</strong> - apply to whole message</li>
+<li><strong>Response headers</strong> - give additional information about server</li>
+<li><strong>Entity headers</strong> - apply to the body of the request</li>
+</ul>
+</li>
+<li>Optional body containing fetched resources<ol>
+<li><strong>Single resource bodies of known length</strong> - Defined by two headers (<code>Content-Type</code> and <code>Content-Length</code>)</li>
+<li><strong>Single resource bodies of unknown length</strong> - Encoded with chunks (<code>Transfer-Encoding:chunked</code>)</li>
+<li><strong>Multiple resource bodies</strong> - Consist of a multipart body each with different information</li>
+</ol>
+</li>
+</ul>
+<p>Example Response:</p>
+<div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Last-Modified: Sun, 19 Nov 2017 00:00:55 GMT
+Content-Type: text/json
+
+{
+    &quot;key&quot;: &quot;value&quot;,
+}
+</pre></div>
+
+
+<h3><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">HTTP Cookies</a></h3>
+<p>Cookies are <code>(key, value)</code> pairs that store session state. They are initially sent from the server to the user's browser where they are stored. The browser then sends the cookie back with all subsequent requests.</p>
+<p>Cookies are used for three purposes:</p>
+<ul>
+<li><strong>Session management</strong></li>
+<li><strong>Personalization</strong></li>
+<li><strong>Tracking</strong></li>
+</ul>
+<h4>Creating Cookies</h4>
+<p>A server can send a <code>Set-Cookie</code> header with a response</p>
+<h4>Types of Cookies</h4>
+<ul>
+<li><strong>Session cookie</strong> - deleted when the client shuts down</li>
+<li><strong>Permanent cookie</strong> - can set <code>Expires</code> or <code>Max-Age</code> to have it persist when client closes</li>
+<li><strong>Secure and HTTPOnly cookies</strong> - only sent to the server with an encrypted request over HTTPS</li>
+<li><strong><a href="https://en.wikipedia.org/wiki/Zombie_cookie">Zombie cookie</a></strong> - HTTP cookie that is recreated after deletion</li>
+</ul>
+<h4>Scope of cookies</h4>
+<ul>
+<li>Domain and Path directives define scope of cookie and where it can be sent</li>
+</ul>
+<h3><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin Resource Sharing (CORS)</a></h3>
+<p>Excerpt:</p>
 <blockquote>
-<p><a href="http://sps.northwestern.edu/program-areas/graduate/health-informatics/program-courses.php?course_id=4367&amp;term=4710">A practical course on acquiring and assessing new medical technology, either as a vendor who needs to know how to meet the expectations of customers and their acquisition requirements or as a customer/practitioner who must know how to validate technology selections and implementations. Topics include cost analysis and justification, economic models, capital purchase, leasing strategies, the application service provider or risk-sharing model, purchase agreements and contracts, writing a RFP, analyzing a RFP response, and industry business trends.</a></p>
+<p>Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to let a user agent gain permission to access selected resources from a server on a different origin (domain) than the site currently in use. A user agent makes a cross-origin HTTP request when it requests a resource from a different domain, protocol, or port than the one from which the current document originated.</p>
+<p>An example of a cross-origin request: A HTML page served from http://domain-a.com makes an <img> src request for http://domain-b.com/image.jpg. Many pages on the web today load resources like CSS stylesheets, images, and scripts from separate domains, such as content delivery networks (CDNs).</p>
 </blockquote>
-<hr>
-<h2>Workload</h2>
-<p>There are weekly readings and "lectures". Lectures are mostly PowerPoint slides you can go over at your convenience. Not a lot of formal instruction. You would think the tuition I pay would bring more to the table, but it didn't take away from the course.</p>
-<p>All of Northwestern's MHI classes have discussion boards where students interact and learn in a collabrative environment. This quarter's discussion topics ranged from sharing experiences of being on an acquisition team to debating the merits of different open source licenses. This was right around the time <a href="https://www.reddit.com/r/programming/comments/6nnxir/apache_foundation_bans_use_of_facebook_bsdpatents/">Apache banned the use of BSD+patent libraries</a>; I had a lot of fun researching and ranting about React.</p>
-<p>The first two weeks of class were hectic with two assignments due right away. Week 2's assignment was long (18-20 hours) and there wasn't much direction from the professor. The topic was to write a Statement of Work and it felt like a consulting engagement. Client expects something at the end of the weekend, you're not quite sure what. Make your best effort to get them what they expect. Seemed to work well enough.</p>
-<p>Courseload lightened up over the next few weeks as we were place into groups for the remaining assignments. Group work is group work. My group was great, so no compliants from me.</p>
-<p>The course built up to a mock negotiation held in the final week of the quarter. Students played the part of either vendor or customer, and negotiated the acquisition of an EHR for a 30 office physician group. This was a lot of fun and helped to reinforce the main themes of the course. <em>Anytown Community Physicians, you may be gone, but you are not forgetten</em></p>
-<hr>
-<h2>Assigned Books</h2>
-<h3><a href="https://www.amazon.com/Getting-Past-Negotiating-Difficult-Situations/dp/0553371312">Getting Past No</a></h3>
-<p>Like every great business book, it is just common sense written down. In <em>Getting Past No</em>, Ury explores the art of joint problem solving. One of the most practical books I've read;  kept thinking of ways that I should play situations to get what I want at work. This book will be on my shelf for years to come.</p>
-<h3><a href="https://www.amazon.com/Software-Agreements-Line-2nd-ed/dp/0314294678">Software Agreements Line by Line</a></h3>
-<p>Dry. Don't think there are too many books in this space. Does the job.</p>
-<h3>Rando Journal Articles</h3>
-<p>No real standout.</p>
-<hr>
-<h2>Instructors</h2>
-<p>Ray is Awesome. Eric is great.</p>
-<p>They made sure to incorporate the latest and greatest in HealthIT throughout the class. Eric gave a presentation on Blockchain and its Applications in Healthcare. Definitely something I need to explore in the coming months.</p>
-<hr>
-<h2>Final Thoughts</h2>
-<p>Lots of practical knowledge in this course. How to work on an acquisition team, write an RFP, evaluate proposals, negotiate a contract, etc.</p>
-<p>I gave it 6/6 on <a href="http://www.northwestern.edu/ctec/">CTEC</a>.</p>
-<hr>
-<p>Related terms: Masters in Medical Informatics, MMI, Masters in Healthcare Informatics, MHI, Northwestern, Healthcare Information Technology, HealthIT, HIT</p>
+<h3>HTTP/2 Frames</h3>
+<ul>
+<li>HTTP/2 introduces an extra step into the workflow, it divides the HTTP/1.x messages into frames which are then streamed.</li>
+<li>Works when both browser and server have HTTP2 enabled.</li>
+</ul>
+<h3>Additional Resources</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP">HTTP: Hypertext Transfer Protocol</a></li>
+</ul>
   </div>
   
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="./tag/review.html"><i class="fa fa-tag"></i>review</a>&nbsp;
-	<a href="./tag/grad-school.html"><i class="fa fa-tag"></i>grad-school</a>&nbsp;
+	<a href="./tag/web-development.html"><i class="fa fa-tag"></i>web-development</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -170,7 +248,7 @@
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./review-mhi408-system-acquisition-and-lifecycle.html" 
+        data-href="./http-part1-the-protocol.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
