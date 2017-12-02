@@ -4,9 +4,9 @@
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;A few months ago, I was floored when I discovered I could use &lt;a href="/quick-hit-immutable-dict-keys.html"&gt;tuples (and namedtuples) as Python dictionary keys&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I was floored when I discovered I could use &lt;a href="/quick-hit-immutable-dict-keys.html"&gt;tuples (and namedtuples) as Python dictionary keys&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Turns out this is not totally correct.&lt;/p&gt;
-&lt;p&gt;This week I started reading &lt;a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008"&gt;&lt;em&gt;Fluent Python&lt;/em&gt;&lt;/a&gt; and learned that tuples are not always immutable. For instance, they can contain list elements...&lt;/p&gt;
+&lt;p&gt;Started reading &lt;a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008"&gt;&lt;em&gt;Fluent Python&lt;/em&gt;&lt;/a&gt; and learned that tuples are not always immutable. For instance, they can contain list elements...&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -988,9 +988,9 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;A few months ago, I was floored when I discovered I could use &lt;a href="/quick-hit-immutable-dict-keys.html"&gt;tuples (and namedtuples) as Python dictionary keys&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I was floored when I discovered I could use &lt;a href="/quick-hit-immutable-dict-keys.html"&gt;tuples (and namedtuples) as Python dictionary keys&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Turns out this is not totally correct.&lt;/p&gt;
-&lt;p&gt;This week I started reading &lt;a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008"&gt;&lt;em&gt;Fluent Python&lt;/em&gt;&lt;/a&gt; and learned that tuples are not always immutable. For instance, they can contain list elements...&lt;/p&gt;
+&lt;p&gt;Started reading &lt;a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008"&gt;&lt;em&gt;Fluent Python&lt;/em&gt;&lt;/a&gt; and learned that tuples are not always immutable. For instance, they can contain list elements...&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1000,10 +1000,8 @@ h6:hover .anchor-link {
 &lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[1]:&lt;/div&gt;
 &lt;div class="inner_cell"&gt;
     &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create a regular dictionary&lt;/span&gt;
-&lt;span class="n"&gt;my_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
-&lt;span class="n"&gt;my_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
-&lt;span class="n"&gt;my_dict&lt;/span&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;my_tuple&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my_tuple&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1022,6 +1020,51 @@ h6:hover .anchor-link {
 
 
 &lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;tuple&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Let's try using &lt;code&gt;my_tuple&lt;/code&gt; as a dictionary key.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[2]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# First we&amp;#39;ll create a dictionary and insert a (key, value) pair&lt;/span&gt;
+&lt;span class="n"&gt;my_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="n"&gt;my_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;my_dict&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;
+
+&lt;div class="prompt output_prompt"&gt;Out[2]:&lt;/div&gt;
+
+
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
 &lt;pre&gt;{&amp;#39;test&amp;#39;: &amp;#39;foo&amp;#39;}&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -1033,10 +1076,10 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell rendered"&gt;
 &lt;div class="input"&gt;
-&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[2]:&lt;/div&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[3]:&lt;/div&gt;
 &lt;div class="inner_cell"&gt;
     &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Ensure that we cannot use a list element in the dictionary&lt;/span&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Let&amp;#39;s make sure that we cannot use a list element in the dictionary&lt;/span&gt;
 &lt;span class="n"&gt;my_dict&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1057,8 +1100,8 @@ h6:hover .anchor-link {
 &lt;pre&gt;
 &lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
 &lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;                                 Traceback (most recent call last)
-&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-2-74da36d8fda5&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
-&lt;span class="ansi-green-intense-fg ansi-bold"&gt;      1&lt;/span&gt; &lt;span class="ansi-red-fg"&gt;# Ensure that we cannot use a list element in the dictionary&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-3-48c007026868&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-intense-fg ansi-bold"&gt;      1&lt;/span&gt; &lt;span class="ansi-red-fg"&gt;# Let&amp;#39;s make sure that we cannot use a list element in the dictionary&lt;/span&gt;
 &lt;span class="ansi-green-fg"&gt;----&amp;gt; 2&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;my_dict&lt;span class="ansi-blue-fg"&gt;[&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;[&lt;/span&gt;&lt;span class="ansi-cyan-fg"&gt;1&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;,&lt;/span&gt; &lt;span class="ansi-cyan-fg"&gt;2&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;]&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;]&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;=&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
 
 &lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;: unhashable type: &amp;#39;list&amp;#39;&lt;/pre&gt;
@@ -1071,44 +1114,11 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="cell border-box-sizing code_cell rendered"&gt;
 &lt;div class="input"&gt;
-&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[3]:&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-    &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;my_dict&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class="output_wrapper"&gt;
-&lt;div class="output"&gt;
-
-
-&lt;div class="output_area"&gt;
-
-&lt;div class="prompt output_prompt"&gt;Out[3]:&lt;/div&gt;
-
-
-
-
-&lt;div class="output_text output_subarea output_execute_result"&gt;
-&lt;pre&gt;{&amp;#39;test&amp;#39;: &amp;#39;foo&amp;#39;}&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing code_cell rendered"&gt;
-&lt;div class="input"&gt;
 &lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[4]:&lt;/div&gt;
 &lt;div class="inner_cell"&gt;
     &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;my_tuple&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my_tuple&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Dictionary has not changed&lt;/span&gt;
+&lt;span class="n"&gt;my_dict&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1127,7 +1137,7 @@ h6:hover .anchor-link {
 
 
 &lt;div class="output_text output_subarea output_execute_result"&gt;
-&lt;pre&gt;tuple&lt;/pre&gt;
+&lt;pre&gt;{&amp;#39;test&amp;#39;: &amp;#39;foo&amp;#39;}&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;/div&gt;
@@ -1141,7 +1151,8 @@ h6:hover .anchor-link {
 &lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[5]:&lt;/div&gt;
 &lt;div class="inner_cell"&gt;
     &lt;div class="input_area"&gt;
-&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;my_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my_tuple&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Let&amp;#39;s try inserting a tuple containing a list, as a key&lt;/span&gt;
+&lt;span class="n"&gt;my_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my_tuple&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1161,8 +1172,9 @@ h6:hover .anchor-link {
 &lt;pre&gt;
 &lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
 &lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;                                 Traceback (most recent call last)
-&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-5-96bcaef67a1a&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
-&lt;span class="ansi-green-fg"&gt;----&amp;gt; 1&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;my_dict&lt;span class="ansi-blue-fg"&gt;[&lt;/span&gt;my_tuple&lt;span class="ansi-blue-fg"&gt;]&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;=&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-5-5c6167bc5fe6&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-intense-fg ansi-bold"&gt;      1&lt;/span&gt; &lt;span class="ansi-red-fg"&gt;# Let&amp;#39;s try inserting a tuple, which contains a list, as a key&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;----&amp;gt; 2&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;my_dict&lt;span class="ansi-blue-fg"&gt;[&lt;/span&gt;my_tuple&lt;span class="ansi-blue-fg"&gt;]&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;=&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
 
 &lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;: unhashable type: &amp;#39;list&amp;#39;&lt;/pre&gt;
 &lt;/div&gt;
@@ -1176,7 +1188,7 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;The same is &lt;code&gt;True&lt;/code&gt; for namedtuples.&lt;/p&gt;
+&lt;p&gt;This should be true for &lt;code&gt;namedtuples&lt;/code&gt; as well.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1223,6 +1235,39 @@ h6:hover .anchor-link {
 &lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[7]:&lt;/div&gt;
 &lt;div class="inner_cell"&gt;
     &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my_item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;tuple&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;
+
+&lt;div class="prompt output_prompt"&gt;Out[7]:&lt;/div&gt;
+
+
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;True&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[8]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
 &lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;my_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my_item&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1243,7 +1288,7 @@ h6:hover .anchor-link {
 &lt;pre&gt;
 &lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
 &lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;                                 Traceback (most recent call last)
-&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-7-a4dfa91fcd88&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-8-a4dfa91fcd88&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
 &lt;span class="ansi-green-fg"&gt;----&amp;gt; 1&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;my_dict&lt;span class="ansi-blue-fg"&gt;[&lt;/span&gt;my_item&lt;span class="ansi-blue-fg"&gt;]&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;=&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;
 
 &lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;: unhashable type: &amp;#39;list&amp;#39;&lt;/pre&gt;
@@ -1258,9 +1303,10 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;So what's going on?&lt;/p&gt;
-&lt;p&gt;Python dictionaries leverage hash tables. When we use a key that contains an unhashable type, i.e. a list, the underlying hash map cannot guarantee the key will hash into the same bucket. Therefore, dictionary keys must be hashable vs just being immutable.&lt;/p&gt;
-&lt;p&gt;Special shoutout to &lt;a href="https://twitter.com/ramalhoorg"&gt;Luciano Ramalho&lt;/a&gt; for writing &lt;em&gt;Fluent Python&lt;/em&gt;. I'm only three chapters in and this kind of thinking is starting to feel intuitive.&lt;/p&gt;
+&lt;p&gt;What's going on?&lt;/p&gt;
+&lt;p&gt;Python dictionaries leverage hash tables. When we use a key that contains an unhashable type, i.e. a list, the underlying hash map cannot guarantee the key will map to the same bucket every single time. If we can't hash our key, we can't use it in our dictionary.&lt;/p&gt;
+&lt;p&gt;Therefore, Python dictionaries require hashable dict keys. Having immutable keys is not enough.&lt;/p&gt;
+&lt;p&gt;Shoutout to &lt;a href="https://twitter.com/ramalhoorg"&gt;Luciano Ramalho&lt;/a&gt; for writing &lt;em&gt;Fluent Python&lt;/em&gt;. Only three chapters in and this kind of thinking is becoming second nature.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -6942,6 +6988,17 @@ Namespaces are one honking great idea -- let&amp;#39;s do more of those!
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;Stay Pythonic!&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Updates"&gt;Updates&lt;a class="anchor-link" href="#Updates"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;12/02/2017&lt;/strong&gt;: &lt;a href="/quick-hit-hashable-dict-keys.html"&gt;Dictionary keys neeed to be hashable&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
