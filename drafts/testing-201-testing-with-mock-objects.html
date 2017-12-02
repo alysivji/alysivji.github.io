@@ -120,119 +120,6 @@
 	<hr>
 <ol>
 <li>
-<p>Testing 101: An Introduction</p>
-<ul>
-<li>
-<p>https://www.youtube.com/watch?v=jmsk1QZQEvQ</p>
-</li>
-<li>
-<p>Intro Blurb</p>
-<ul>
-<li>I've been interested in testing since I read about it earlier this year. There was something about adding structure to programming that appealed to my need for having structure.</li>
-<li>It took me a few days to weeks to research and try out different techniques until I was able to get a grasp on what is going on</li>
-<li>There are a lot of good sources out there. Lots of advice, sometimes conflicting. This post is my way of trying to sort out my thoughts about testing as I apply it to a project in which I start writing unit tests around a microservices framework I am building for a practice side project</li>
-<li>first of a series of posts on testing and tests</li>
-</ul>
-</li>
-<li>
-<p>high level overview of why tests are important and why we should always test our code</p>
-<ul>
-<li>mostly we test so we can sleep at night (have picture of me / emoji sleeping in talk)</li>
-<li><a href="http://jasonpolites.github.io/tao-of-testing/ch1-1.1.html">A Case for Testing</a><ul>
-<li>Bugs will happen, you can bank on it, only the severity of their impact will vary.</li>
-<li>Bug incidents can increase dramatically as new features are added</li>
-<li>Bug fix times can increase dramatically as new features are added</li>
-<li>Software testing is NOT designed to make sure code works when it’s written but rather to ensure future changes do not break existing code.</li>
-<li>A well run, tightly managed testing regime leads to more stable, reusable code.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>brief description of the different types of testing</p>
-<ul>
-<li>unit testing<ul>
-<li>focus of first post</li>
-<li>book: <a href="http://blog.jayfields.com/2014/05/working-effectively-with-unit-tests.html">working effectively with unit test</a></li>
-</ul>
-</li>
-<li>integration testing<ul>
-<li>how to do this?</li>
-</ul>
-</li>
-<li>functional testing / system testing<ul>
-<li>pyresttest</li>
-<li>selenium</li>
-</ul>
-</li>
-<li>manual testing / acceptance / UAT / whatever else is in tao of testing</li>
-<li><a href="TODO: link to talk about it, okken podcast to refute">testing pyramid</a></li>
-<li>from <a href="http://jasonpolites.github.io/tao-of-testing/index-1.1.html">The Tao of Testing</a><ul>
-<li>unit test - Test a single public method or function</li>
-<li>black box test - test provides data and expects certain results without knowing how those results are derived</li>
-<li>integration test - many parts of the system are tested at once, tests a complete end-to-end lifecycle of an application or a portion versus testing selected components independently</li>
-<li>manual test - test completed by human</li>
-<li>load/scale test - impose stress on application by simulating heavy load conditions / highly concurrent load conditions</li>
-<li>infrastructure test - testing infrastructure underlying software</li>
-<li>QA test - like manual tests</li>
-<li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>talk about TDD</p>
-<ul>
-<li>test first</li>
-<li>test last</li>
-<li>test driven</li>
-<li>dogma of both the TDD fanatics and anti-TDD heretics<ul>
-<li>back in 2014, DHH of Rails fame <a href="https://www.youtube.com/watch?v=9LfmrkyP81M">criticized the ideas behind TDD and software engineer</a> at RailsConf</li>
-<li><a href="https://martinfowler.com/articles/is-tdd-dead/">Discussion with DHH, Fowler, and Kent Beck</a></li>
-<li>kent beck on software engineer radio 167 or something. minute 22 is when the TDD talk starts</li>
-<li>gerard meszaros on xunit test patterns, around 730 in is when the fun time starts</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>My thoughts</p>
-<ul>
-<li>
-<p>I don't really have a horse in the race so I'm gonna test using common sense and figure out my own style as I advance in my career as a Software Engineer. Right now I think testing is awesome. I believe in TDD, as in test while you are developing. It can be first or right after. It's mostly to save you time later on.</p>
-</li>
-<li>
-<p>For now I have to test a microservice REST API and need to be pragmatic (?) about how I do things. In the next few posts, I will explore the subject of testing in more detail in the context of the above project</p>
-</li>
-<li>
-<p>also i use a dynamically typed language (Python) which makes it a lot easier to monkeypatch. I feel like i dont have to deal with a lot of the formality of other languages</p>
-</li>
-<li>
-<p>basically my philsophy of testing is to be pragmatic. test what is required. err on the side of testing to much. and test driven development means that testing is driving the development of your architecture, i.e. you are thinking about tests as you write code. it isn't really about testing first or testing last. it's about testing being a part of your thought process.</p>
-</li>
-</ul>
-</li>
-<li>
-<p>Sources</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=yACtdj1_IxE">testing best practices for data science</a></li>
-<li>brian okken on talk python to me #45</li>
-<li><a href="http://jasonpolites.github.io/tao-of-testing">The Tao of Testing</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Random Thoughts</p>
-<ol>
-<li>I don't like absolutes, but if you don't test your code you are not a developer. You are a hacker. Once you start testing, you are on your way to becoming a craftsman. learning how to test is starting a journey from "hacker to craftsman"</li>
-<li>DHH talking about how TDD is a cult and that programming best practices are just pseudoscience. I don't agree because being methodical about how you do things helps makes things easier in the long run. This isn't to say that you can't hack stuff together to solve problems. If all you care about is solving problems, you can do that. But there is also a reason that monliths needs to be made into microservices. It becomes a mess. You worry a lot about if things are going to break upon refactoring. I think test driven doesn't really mean test first. It means test first or test closely after. He argues about dependency injection. I mean, if your language doesn't support monkeypatching... you need to inject dependencies (but we'll come back to this in later post). Thinks unit tests are broken b/c we need system tests instead. I mean, can't we have both. Unit tests to ensure that we don't regress and system tests to ensure we meet what we are supposed to do. double loop TDD is the way forward. Functional testing! But he ends it well. Not sure if I agree with everything, but I do like his pragmatic approach to testing</li>
-</ol>
-</li>
-</ol>
-<hr>
-<ol>
-<li>
 <p>Testing 201: Testing with Test Doubles</p>
 <ul>
 <li>
@@ -458,10 +345,58 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-4">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
     <span class="tag-3">
       <a href="../tag/cest-la-vie.html">
           <i class="fa fa-tag"></i>
         c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
       </a>
     </span>
     <span class="tag-4">
@@ -471,21 +406,39 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+      <a href="../tag/mongodb.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-2">
       <a href="../tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
         exploring-pypi
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
       </a>
     </span>
     <span class="tag-2">
@@ -501,39 +454,9 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/workflow.html">
-          <i class="fa fa-tag"></i>
-        workflow
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="../tag/terminal.html">
           <i class="fa fa-tag"></i>
         terminal
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-development.html">
-          <i class="fa fa-tag"></i>
-        web-development
       </a>
     </span>
     <span class="tag-4">
@@ -542,52 +465,16 @@
         book
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
     <span class="tag-1">
       <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
         how-to
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
+    <span class="tag-2">
+      <a href="../tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        gis
+        pythonic
       </a>
     </span>
 </p>

@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Tuples (and namedtuples) as Python Dictionary Keys">
+    <meta name="twitter:title" content="Python Dictionaries Require Hashable Keys">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>Tuples (and namedtuples) as Python Dictionary Keys - Siv Scripts</title>
+    <title>Python Dictionaries Require Hashable Keys - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,11 +101,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 28 April 2017
+  Fri 01 December 2017
 </abbr> <h1>
-  <a href="./quick-hit-immutable-dict-keys.html" rel="bookmark"
-     title="Permalink to Tuples (and namedtuples) as Python Dictionary Keys">
-    Tuples (and namedtuples) as Python Dictionary Keys
+  <a href="./quick-hit-hashable-dict-keys.html" rel="bookmark"
+     title="Permalink to Python Dictionaries Require Hashable Keys">
+    Python Dictionaries Require Hashable Keys
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -1093,8 +1093,9 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Was reading the Python design FAQs and saw that <a href="https://docs.python.org/3/faq/design.html#why-are-there-separate-tuple-and-list-data-types">immutable elements can be used as dictionary keys</a>.</p>
-<p>Wait a minute.... tuples are immutable, can they be used as dictionary keys? YES!</p>
+<p>A few months ago, I was floored when I discovered I could use <a href="/quick-hit-immutable-dict-keys.html">tuples (and namedtuples) as Python dictionary keys</a>.</p>
+<p>Turns out this is not totally correct.</p>
+<p>This week I started reading <a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008"><em>Fluent Python</em></a> and learned that tuples are not always immutable. For instance, they can contain list elements...</p>
 
 </div>
 </div>
@@ -1104,8 +1105,9 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">my_dict</span><span class="p">[(</span><span class="s1">&#39;Aly&#39;</span><span class="p">,</span> <span class="s1">&#39;Sivji&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create a regular dictionary</span>
+<span class="n">my_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">my_dict</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
 <span class="n">my_dict</span>
 </pre></div>
 
@@ -1125,7 +1127,7 @@ h6:hover .anchor-link {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;Aly&#39;, &#39;Sivji&#39;): True}</pre>
+<pre>{&#39;test&#39;: &#39;foo&#39;}</pre>
 </div>
 
 </div>
@@ -1133,70 +1135,14 @@ h6:hover .anchor-link {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>What about namedtuples? YES! namedtuples are also immutable.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
-
-<span class="n">Person</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Person&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">])</span>
-<span class="n">me</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
-<span class="n">my_dict</span><span class="p">[</span><span class="n">me</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">my_dict</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[2]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;Aly&#39;, &#39;Sivji&#39;): True, Person(first_name=&#39;Bob&#39;, last_name=&#39;Smith&#39;): True}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Any immutable datatype can be used as a dictionary key!</p>
-<p>My data structures can get even flatter!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Ensure that we cannot use a list element in the dictionary</span>
+<span class="n">my_dict</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
 </pre></div>
 
 </div>
@@ -1212,29 +1158,118 @@ h6:hover .anchor-link {
 <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The Zen of Python, by Tim Peters
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-74da36d8fda5&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># Ensure that we cannot use a list element in the dictionary</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>my_dict<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;foo&#39;</span>
 
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren&#39;t special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you&#39;re Dutch.
-Now is better than never.
-Although never is often better than *right* now.
-If the implementation is hard to explain, it&#39;s a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let&#39;s do more of those!
-</pre>
+<span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;test&#39;: &#39;foo&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">my_tuple</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tuple</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="p">[</span><span class="n">my_tuple</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-5-96bcaef67a1a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>my_dict<span class="ansi-blue-fg">[</span>my_tuple<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;bar&#39;</span>
+
+<span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;</pre>
 </div>
 </div>
 
@@ -1246,7 +1281,91 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Stay Pythonic!</p>
+<p>The same is <code>True</code> for namedtuples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+
+<span class="n">TestTuple</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;TestTuple&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">,</span> <span class="s1">&#39;field3&#39;</span><span class="p">])</span>
+<span class="n">my_item</span> <span class="o">=</span> <span class="n">TestTuple</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">my_item</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>__main__.TestTuple</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span><span class="p">[</span><span class="n">my_item</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-7-a4dfa91fcd88&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>my_dict<span class="ansi-blue-fg">[</span>my_item<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;bar&#39;</span>
+
+<span class="ansi-red-fg">TypeError</span>: unhashable type: &#39;list&#39;</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So what's going on?</p>
+<p>Python dictionaries leverage hash tables. When we use a key that contains an unhashable type, i.e. a list, the underlying hash map cannot guarantee the key will hash into the same bucket. Therefore, dictionary keys must be hashable vs just being immutable.</p>
+<p>Special shoutout to <a href="https://twitter.com/ramalhoorg">Luciano Ramalho</a> for writing <em>Fluent Python</em>. I'm only three chapters in and this kind of thinking is starting to feel intuitive.</p>
 
 </div>
 </div>
@@ -1303,7 +1422,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./quick-hit-immutable-dict-keys.html" 
+        data-href="./quick-hit-hashable-dict-keys.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
