@@ -4,11 +4,17 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Posts tagged with c'est-la-vie" />
+    <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Everything You Need to Know About Logging (in Python)">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
 
-    <title>Tag:c'est-la-vie - Siv Scripts</title>
+    <title>Everything You Need to Know About Logging (in Python) - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -92,74 +98,101 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-    <li><a href="../" title="Home" rel="home">
-		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-    <li>Tags </li>
-    <li class="active">c'est-la-vie</li>
-</ol>
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Sat 18 November 2017
+  Fri 22 December 2017
 </abbr> <h1>
-  <a href="../life-sponge.html" rel="bookmark"
-     title="Permalink to Soaking it in">
-    Soaking it in
+  <a href="../drafts/ultimate-guide-to-logging-in-python.html" rel="bookmark"
+     title="Permalink to Everything You Need to Know About Logging (in Python)">
+    Everything You Need to Know About Logging (in Python)
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
+    <a href="../category/drafts.html">
+      Drafts</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p><em>Truly wonderful the mind of a child is</em></p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>A developer's work is never done. Even after you ship your code, you are still responsible for its behavior.</p>
+<p>When an error occurs or the program crashes, we need to undestand what happened and why it happened.</p>
+<p>We need to track variables, exceptions, stack traces, etc to diagnose the underlying issue so we can fix it and write regression tests around it to prevent it from occuring again. This is why we log.</p>
+<p>Logging helps us gain insight into the innerworkings of our program. 99.9% of the time we won't have to dig through our logs, but the 0.1% of time we will be glad that we follow best practices by tracking exactly what occurs.</p>
+<p>In this post, I will something about logging with practical tips and code demonstrations to help understand what is going on. [TODO]</p>
+<p>While my focus will be on Python, the topic is broad enough to be applied to other languages. / I will discuss enough best practiceso tmake it useful for others as well.</p>
+<hr>
+<h2>Python Logging Basics</h2>
+<p><a href="https://www.python.org/dev/peps/pep-0282/">PEP 282</a> introduced the <a href="https://docs.python.org/3/library/logging.html"><code>logging</code></a> module to the <a href="https://docs.python.org/3/library/">Python Standard Library</a>.</p>
+<p>Overview of the Python Standard Library Logging Module</p>
+<p>Different classes in the logging librayr and how they interact
+    * use diagrams
+    * flow chart</p>
+<p>Set up like a sigleton</p>
+<p>getLogger('blah')
+gets the logger</p>
+<p><code>logger = getLogger(name)</code> returns logger with name, or creates one if none exists. then we use <code>logger.blah</code> to capture what we do</p>
+<p><code>getBasicConfig()</code> is meant for one off scripts.
+then you can just do <code>logging.blah</code></p>
+<p>if a large application, where do we initilize the first logger and can we just use getLogger('name') in dependencies. Figure this out. Might move logging to main class and then just dependencies.</p>
+<p>Does it make sense to move the initial logger configuration to the <strong>init</strong>.py library</p>
+<h2>Aside</h2>
+<p>What is standard out vs standard error. Learn your unix kids!</p>
+<h2>What do we log</h2>
+<p>From the <a href="https://docs.python.org/3/howto/logging.html#logging-basic-tutorial">basic logging tutorial</a>:</p>
+<blockquote>
+<p>Logging is a means of tracking events that happen when some software runs. The software’s developer adds logging calls to their code to indicate that certain events have occurred. An event is described by a descriptive message which can optionally contain variable data (i.e. data that is potentially different for each occurrence of the event). Events also have an importance which the developer ascribes to the event; the importance can also be called the level or severity</p>
 </blockquote>
-<p>It was an action packed week at work: we migrated our infrastructure to the Google Cloud Platform and into Kubernetes. Pods, nodes, deployments. <em>Oh my!</em></p>
-<p>Not that I helped much with the migration; I'm new and still learning the ropes.</p>
-<p>I know …</p>
-		<p class="content-emphasis"><a href="../life-sponge.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Sat 04 November 2017
-</abbr> <h1>
-  <a href="../life-detour.html" rel="bookmark"
-     title="Permalink to First Month as a Professional Developer">
-    First Month as a Professional Developer
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p><em>The best laid schemes o' mice an' men</em><br />
-<em>Gang aft agley</em></p>
-</blockquote>
-<p>I started a new job as a Mathematician / Software Engineer at a Chicago-based healthcare startup in October. It's my first <em>proper</em> development job and I could not be more excited.</p>
-<p>I get paid to write code. It's pretty awesome …</p>
-		<p class="content-emphasis"><a href="../life-detour.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
+<p>http://vasir.net/blog/development/how-logging-made-me-a-better-developer</p>
+<p>Very basic, look for other sources
+https://dev.to/imthedeveloper/logging-how-do-you-decide-on-your-app-log-levels-and-outputs-8d0</p>
+<p>Talk to Chris about this too</p>
+<h2>Resources</h2>
+<ul>
+<li><a href="https://pypi.python.org/pypi/logging_tree">logging-tree</a></li>
+</ul>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="../tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
 
-<nav class="index-pager">
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
 
-</nav> <!-- /index-pager -->
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/ultimate-guide-to-logging-in-python.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -383,5 +416,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
