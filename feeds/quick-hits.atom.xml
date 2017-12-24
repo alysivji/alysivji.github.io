@@ -5,7 +5,7 @@
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;In Python, functions &lt;a href="https://docs.python.org/3/reference/datamodel.html"&gt;are objects&lt;/a&gt;. This means we can return them from other functions.&lt;/p&gt;
-&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, we will use this property of functions to mock out an external API with test data that can be used to check our internal application logic.&lt;/p&gt;
+&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, we will use this property of functions to mock out an external API with fake data that can be used to test our internal application logic.&lt;/p&gt;
 &lt;p&gt;Note: I previously used Python functions to simulate the &lt;a href="/quick-hit-dictionary-dispatch.html"&gt;behavior of a case statement&lt;/a&gt;</summary><content type="html">&lt;style type="text/css"&gt;/*!
 *
 * IPython notebook
@@ -983,7 +983,7 @@ h6:hover .anchor-link {
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;In Python, functions &lt;a href="https://docs.python.org/3/reference/datamodel.html"&gt;are objects&lt;/a&gt;. This means we can return them from other functions.&lt;/p&gt;
-&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, we will use this property of functions to mock out an external API with test data that can be used to check our internal application logic.&lt;/p&gt;
+&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, we will use this property of functions to mock out an external API with fake data that can be used to test our internal application logic.&lt;/p&gt;
 &lt;p&gt;Note: I previously used Python functions to simulate the &lt;a href="/quick-hit-dictionary-dispatch.html"&gt;behavior of a case statement&lt;/a&gt;.&lt;/p&gt;
 
 &lt;/div&gt;
@@ -1353,7 +1353,7 @@ h6:hover .anchor-link {
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;🙌🙌🙌&lt;/p&gt;
+&lt;p&gt;🙌 🙌 🙌&lt;/p&gt;
 &lt;p&gt;We can use this pattern to add tests to programs which use &lt;a href="https://github.com/requests/requests"&gt;requests&lt;/a&gt; to pull data from an external API.&lt;/p&gt;
 
 &lt;/div&gt;
