@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Tuples (and namedtuples) as Python Dictionary Keys">
+    <meta name="twitter:title" content="Python Testing: Mocking Functions based on Input Arguments">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>Tuples (and namedtuples) as Python Dictionary Keys - Siv Scripts</title>
+    <title>Python Testing: Mocking Functions based on Input Arguments - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,11 +101,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 28 April 2017
+  Sun 24 December 2017
 </abbr> <h1>
-  <a href="./quick-hit-immutable-dict-keys.html" rel="bookmark"
-     title="Permalink to Tuples (and namedtuples) as Python Dictionary Keys">
-    Tuples (and namedtuples) as Python Dictionary Keys
+  <a href="./mocking-functions-inputs-args.html" rel="bookmark"
+     title="Permalink to Python Testing: Mocking Functions based on Input Arguments">
+    Python Testing: Mocking Functions based on Input Arguments
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -1093,8 +1093,49 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Was reading the Python design FAQs and saw that <a href="https://docs.python.org/3/faq/design.html#why-are-there-separate-tuple-and-list-data-types">immutable elements can be used as dictionary keys</a>.</p>
-<p>Wait a minute.... tuples are immutable, can they be used as dictionary keys? YES!</p>
+<p>In Python, functions <a href="https://docs.python.org/3/reference/datamodel.html">are objects</a>. This means we can return them from other functions.</p>
+<p>In this <a href="/category/quick-hits.html">Quick Hit</a>, we will use this property of functions to mock out an external API with test data that can be used to check our internal application logic.</p>
+<p>Note: I previously used Python functions to simulate the <a href="/quick-hit-dictionary-dispatch.html">behavior of a case statement</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Imagine we have an external API we can use to download activity tracking data.</p>
+<p>This API, a simple wrapper around requests, has two endpoints: <code>/user/</code> and <code>/activity/</code>. Both take the parameter <code>{'user': user_id}</code>.</p>
+<p>We want to write a program that will produce a motivational message that tells the user how many miles they ran. This is fairly straightforward:</p>
+<div class="highlight"><pre><span></span><span class="c1"># calc_stats.py</span>
+
+<span class="kn">import</span> <span class="nn">fitness_api</span>
+
+
+<span class="k">def</span> <span class="nf">motivation_message</span><span class="p">(</span><span class="n">person_id</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">fitness_api</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/user/&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">person_id</span><span class="p">})</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+
+    <span class="n">activities</span> <span class="o">=</span> <span class="n">fitness_api</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/activity/&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">person_id</span><span class="p">})</span>
+    <span class="n">total_distance</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">activity</span> <span class="ow">in</span> <span class="n">activities</span><span class="p">:</span>
+        <span class="n">total_distance</span> <span class="o">+=</span> <span class="n">activity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;{name} has run {total_distance} miles&#39;</span>
+</pre></div>
+<p>How can we test this code? It has an external dependency on <code>fitness_api</code>.</p>
+<p>We'll follow <a href="https://en.wikipedia.org/wiki/Mock_object">standing testing procedure</a> and <a href="https://docs.python.org/3/library/unittest.mock.html">mock</a> the external API with test data. We can now compare the <strong>result</strong> of the function with what we <strong>expect</strong> our function to return.</p>
+<p>Wait a minute, <code>fitness_api.get()</code> returns different values based on input parameters. This makes things a bit more complicated. How can we write a mock that returns different values?</p>
+<p>We'll answer this question by exploring functions in a bit more depth:</p>
 
 </div>
 </div>
@@ -1104,56 +1145,22 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">my_dict</span><span class="p">[(</span><span class="s1">&#39;Aly&#39;</span><span class="p">,</span> <span class="s1">&#39;Sivji&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">my_dict</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Let&#39;s create a function that takes every argument</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[1]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;Aly&#39;, &#39;Sivji&#39;): True}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>What about namedtuples? YES! namedtuples are also immutable.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
-
-<span class="n">Person</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Person&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">])</span>
-<span class="n">me</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
-<span class="n">my_dict</span><span class="p">[</span><span class="n">me</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">my_dict</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">foo</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1172,7 +1179,7 @@ h6:hover .anchor-link {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;Aly&#39;, &#39;Sivji&#39;): True, Person(first_name=&#39;Bob&#39;, last_name=&#39;Smith&#39;): True}</pre>
+<pre>((&#39;a&#39;, &#39;b&#39;), {})</pre>
 </div>
 
 </div>
@@ -1180,23 +1187,13 @@ h6:hover .anchor-link {
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Any immutable datatype can be used as a dictionary key!</p>
-<p>My data structures can get even flatter!</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">this</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">foo</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1209,33 +1206,187 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The Zen of Python, by Tim Peters
 
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren&#39;t special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you&#39;re Dutch.
-Now is better than never.
-Although never is often better than *right* now.
-If the implementation is hard to explain, it&#39;s a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let&#39;s do more of those!
-</pre>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((&#39;a&#39;,), {&#39;b&#39;: 2, &#39;c&#39;: &#39;test&#39;})</pre>
 </div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create a mock to return this function. Let&#39;s see what happens</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="k">import</span> <span class="n">MagicMock</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_mock</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="n">foo</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_mock</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;MagicMock name=&#39;main&#39; id=&#39;4408396264&#39;&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">func_from_mock</span> <span class="o">=</span> <span class="n">my_mock</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">func_from_mock</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;function __main__.foo&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">func_from_mock</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((5, 5), {})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">func_from_mock</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((5, 8), {&#39;param&#39;: 5})</pre>
+</div>
+
 </div>
 
 </div>
@@ -1246,7 +1397,45 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Stay Pythonic!</p>
+<p>This is great! We can read positional and keyword arguments inside of our function.</p>
+<p>Lets create a function that returns test data given input arguments. We'll wrap this function in our mock which we then use to replace the external API. This technique is referred to as <a href="https://en.wikipedia.org/wiki/Monkey_patch">monkeypatching</a>.</p>
+<p>Aren't dynamic languages great?!</p>
+<div class="highlight"><pre><span></span><span class="c1"># test_calc_stats.py</span>
+
+<span class="kn">import</span> <span class="nn">calc_stats</span>
+
+<span class="n">user_data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Aly&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;alysivji@gmail.com&#39;</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">activity_data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">65</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;morning jog&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="mf">3.1</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">66</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;lunch break&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="mf">1.2</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">67</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;weekend long run&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="mf">6.2</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">68</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;night run&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="mf">2.5</span> <span class="p">},</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;user&#39;</span> <span class="ow">in</span> <span class="n">endpoint</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">user_data</span>
+    <span class="k">elif</span> <span class="s1">&#39;activity&#39;</span> <span class="ow">in</span> <span class="n">endpoint</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">activity_data</span>
+
+
+<span class="k">def</span> <span class="nf">test_motivation_message</span><span class="p">(</span><span class="n">mocker</span><span class="p">):</span>
+    <span class="c1"># Arrange</span>
+    <span class="n">mock_api</span> <span class="o">=</span> <span class="n">mocker</span><span class="o">.</span><span class="n">MagicMock</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;api&#39;</span><span class="p">)</span>
+    <span class="n">mock_api</span><span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="n">load_data</span>
+    <span class="n">mocker</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;calc_stats.fitness_api&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">mock_api</span><span class="p">)</span>
+
+    <span class="c1"># Act</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">calc_stats</span><span class="o">.</span><span class="n">motivation_message</span><span class="p">(</span><span class="s1">&#39;alysivji@gmail.com&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Assert</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">f</span><span class="s1">&#39;Aly has run {3.1 + 1.2 + 6.2 + 2.5} miles&#39;</span>
+</pre></div>
+<p>Note: I'm using <a href="https://docs.pytest.org/en/latest/">pytest</a> with the <a href="https://pypi.python.org/pypi/pytest-mock">pytest-mock</a> extension.</p>
 
 </div>
 </div>
@@ -1255,9 +1444,28 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Updates">Updates<a class="anchor-link" href="#Updates">&#182;</a></h2><ul>
-<li><strong>12/02/2017</strong>: <a href="/quick-hit-hashable-dict-keys.html">Dictionary keys neeed to be hashable</a>.</li>
-</ul>
+<p>Running our tests:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> pytest
+<span class="go">================================= test session starts ==================================</span>
+<span class="go">platform darwin -- Python 3.6.2, pytest-3.3.1, py-1.5.2, pluggy-0.6.0</span>
+<span class="go">rootdir: /Users/alysivji/Documents/siv-dev/projects/blog-notebooks/quick-hits, inifile:</span>
+<span class="go">plugins: mock-1.6.3, cov-2.5.1</span>
+<span class="go">collected 1 item</span>
+
+<span class="go">test_calc_stats.py .                                                             [100%]</span>
+
+<span class="go">=============================== 1 passed in 0.01 seconds ===============================</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>🙌🙌🙌</p>
+<p>We can use this pattern to add tests to programs which use <a href="https://github.com/requests/requests">requests</a> to pull data from an external API.</p>
 
 </div>
 </div>
@@ -1301,6 +1509,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
 	<a href="./tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
 	<a href="./tag/pythonic.html"><i class="fa fa-tag"></i>pythonic</a>&nbsp;
+	<a href="./tag/testing.html"><i class="fa fa-tag"></i>testing</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -1314,7 +1523,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./quick-hit-immutable-dict-keys.html" 
+        data-href="./mocking-functions-inputs-args.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
