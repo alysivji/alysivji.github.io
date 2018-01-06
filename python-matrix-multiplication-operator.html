@@ -8,13 +8,13 @@
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta name="twitter:card" content="summary"> 
-    <meta name="twitter:title" content="Increasing namedtuple Readability with Type Hints">
+    <meta name="twitter:title" content="@ Python&#39;s Matrix Multiplication Operator">
     <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
 
-    <title>Increasing namedtuple Readability with Type Hints - Siv Scripts</title>
+    <title>@ Python&#39;s Matrix Multiplication Operator - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -101,11 +101,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Mon 01 January 2018
+  Fri 05 January 2018
 </abbr> <h1>
-  <a href="./namedtuple-type-hints.html" rel="bookmark"
-     title="Permalink to Increasing namedtuple Readability with Type Hints">
-    Increasing namedtuple Readability with Type Hints
+  <a href="./python-matrix-multiplication-operator.html" rel="bookmark"
+     title="Permalink to @ Python&#39;s Matrix Multiplication Operator">
+    <code>@</code> Python's Matrix Multiplication Operator
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -1093,48 +1093,10 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information">Dynamic typing</a> refers to programs checking variable types at runtime versus compile time. By not having to define the variable type as we write code, we can work faster and take advantage of <a href="https://en.wikipedia.org/wiki/Duck_typing">duck typing</a>.</p>
-<p>On the other hand, we do miss out on some benefits that types bring. Similiar to how the principles of test-driven development force us to write smaller, more testable functions, thinking about types improves software design by making us cognizant of the values our variables hold as well as the values our functions can return.</p>
-<p>Fortunately for Python programmers, <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> added optional type hints to the language. Type hints will not be enforced by the interpreter, but rather used by static code analyzers to enable features such as linting and code introspection.</p>
-<p>Optional type hints allow us to use all the dynamic capabilities of Python with the ability to be as formal as the situation requires.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Over the past few weeks I've been working my way through the <a href="http://adventofcode.com/2017">Advent of Code</a> problem set. Having a lot of fun using parts of the <a href="https://docs.python.org/3.6/library/index.html">Python Standard Library</a> I never get to use at work.</p>
-<p>This includes the <a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a> module. I only started using it a couple of weeks ago, but it has definitely improved how I approach problem solving.</p>
-<p>Instead of blindly attacking each puzzle with a <a href="http://wiki.c2.com/?GodMethod">"God Method"</a>, I break the problem down into components that I can piece together into a working program.</p>
-<p>Type hints allow me to express my thinking more concretely. This is best demonstrated with an example:</p>
-<p>Brain: <em>This function should take a string, parse it with some regex, and return a list</em></p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typings</span> <span class="kn">import</span> <span class="n">List</span>
-
-<span class="k">def</span> <span class="nf">parse_instructions</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]:</span>
-    <span class="n">instructions</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">INSTRUCTION_REGEX</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-
-        <span class="p">(</span><span class="n">register</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">conditional_register</span><span class="p">,</span>
-         <span class="n">conditional_op</span><span class="p">,</span> <span class="n">conditional_amount</span><span class="p">)</span> <span class="o">=</span> <span class="n">parts</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
-
-        <span class="n">result</span> <span class="o">=</span> <span class="n">Instruction</span><span class="p">(</span><span class="n">register</span><span class="p">,</span>
-                             <span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;inc&#39;</span> <span class="k">else</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
-                             <span class="nb">int</span><span class="p">(</span><span class="n">amount</span><span class="p">),</span>
-                             <span class="n">conditional_register</span><span class="p">,</span>
-                             <span class="n">conditional_op</span><span class="p">,</span>
-                             <span class="nb">int</span><span class="p">(</span><span class="n">conditional_amount</span><span class="p">))</span>
-        <span class="n">instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">instructions</span>
-</pre></div>
-<p>With Type Hints, we can explicitly see the function takes in a <code>string</code> and returns a <code>list</code> of <code>Instruction</code> objects.</p>
-<p>Sure this information is also in the function and we can figure out what it does as we read each line, but self-documenting code increases readability with minimal work.</p>
-<p>One of my favourite features of the <code>typings</code> module is <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typings.NamedTuple</code></a>, a typed version of the <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple"><code>collections.namedtuple</code></a> container type.</p>
-<p>In this post we will explore how we can use the typed form of namedtuples to make code more readable. As code is read a lot more than it is written, every little bit of improvement <a href="https://www.python.org/dev/peps/pep-0020/">counts</a>!</p>
+<p>2017 will forever be etched in our memories as the year <a href="https://www.kdnuggets.com/2017/08/python-overtakes-r-leader-analytics-data-science.html">Python overtook R to become the leading language</a> for Data Science. There are many factors that play into this: Python's simple syntax, the fantastic <a href="http://numfocus.wpengine.com/open-source-projects/">PyData ecosystem</a>, and of course buy-in from Python's <a href="https://en.wikipedia.org/wiki/Benevolent_dictator_for_life">BDFL</a>.</p>
+<p><a href="https://www.python.org/dev/peps/pep-0465/">PEP 465</a> introduced the <code>@</code> infix operator that is designated to be used for matrix multiplication. The acceptance and implementation of this proposal in Python 3.5 was a signal to the scientific community that Python is taking its role as a numerical computation language very seriously.</p>
+<p>I was a Computational Mathematics major in college so matrices are very near and dear to my heart. Shoutout to <a href="https://cs.uwaterloo.ca/~jorchard">Professor Jeff Orchard</a> for having us implement matrix algorithms in C++. His <a href="http://www.ucalendar.uwaterloo.ca/1718/COURSE/course-CS.html#CS475">Numerical Linear Algebra course</a> was the best class I've ever taken.</p>
+<p>In this post, we will explore the <code>@</code> operator.</p>
 
 </div>
 </div>
@@ -1144,8 +1106,7 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># &quot;regular&quot; namedtuples</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
 </div>
@@ -1158,12 +1119,32 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s create an Employee object</span>
-<span class="n">Employee</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Employee&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;name age title department job_description&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="s1">&#39;3 1; 8 2&#39;</span><span class="p">)</span>
+<span class="n">A</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[3, 1],
+        [8, 2]])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1173,16 +1154,32 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bob</span> <span class="o">=</span> <span class="n">Employee</span><span class="p">(</span><span class="s1">&#39;Bob Smith&#39;</span><span class="p">,</span> 
-               <span class="mi">35</span><span class="p">,</span> 
-               <span class="s1">&#39;Senior Software Engineer&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;Technology&#39;</span><span class="p">,</span>
-               <span class="p">[</span><span class="s1">&#39;mentor junior developers&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;fix production issues&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;understand deployment pipeline&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="s1">&#39;6 1; 7 9&#39;</span><span class="p">)</span>
+<span class="n">B</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[6, 1],
+        [7, 9]])</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1192,7 +1189,7 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bob</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">@</span> <span class="n">B</span>
 </pre></div>
 
 </div>
@@ -1211,7 +1208,8 @@ h6:hover .anchor-link {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Employee(name=&#39;Bob Smith&#39;, age=35, title=&#39;Senior Software Engineer&#39;, department=&#39;Technology&#39;, job_description=[&#39;mentor junior developers&#39;, &#39;fix production issues&#39;, &#39;understand deployment pipeline&#39;])</pre>
+<pre>matrix([[25, 12],
+        [62, 26]])</pre>
 </div>
 
 </div>
@@ -1219,15 +1217,23 @@ h6:hover .anchor-link {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's confirm this works</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">name</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># element at the top left. i.e. (1, 1) aka (0, 0) in python</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -1240,14 +1246,15 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Bob Smith
-&lt;class &#39;str&#39;&gt;
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>25</pre>
 </div>
+
 </div>
 
 </div>
@@ -1259,9 +1266,8 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">age</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># element at the top right. i.e. (1, 2) aka (0, 1) in python</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -1274,14 +1280,15 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>35
-&lt;class &#39;int&#39;&gt;
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>12</pre>
 </div>
+
 </div>
 
 </div>
@@ -1293,9 +1300,8 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">title</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># element at the bottom left. i.e. (2, 1) aka (1, 0) in python</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -1308,14 +1314,15 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Senior Software Engineer
-&lt;class &#39;str&#39;&gt;
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>62</pre>
 </div>
+
 </div>
 
 </div>
@@ -1327,9 +1334,8 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">department</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># element at the top right. i.e. (2, 2) aka (1, 1) in python</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -1342,14 +1348,15 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[8]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Technology
-&lt;class &#39;str&#39;&gt;
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>26</pre>
 </div>
+
 </div>
 
 </div>
@@ -1361,9 +1368,10 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">job_description</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s put it in matrix form</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+                    <span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]])</span>
+<span class="n">result</span>
 </pre></div>
 
 </div>
@@ -1376,39 +1384,28 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[9]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;mentor junior developers&#39;, &#39;fix production issues&#39;, &#39;understand deployment pipeline&#39;]
-&lt;class &#39;list&#39;&gt;
-</pre>
-</div>
-</div>
 
-</div>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[25, 12],
+        [62, 26]])</pre>
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>namedtuples are a great language feature as they allow our code to be more explicit about which field(s) we are working with.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-<span class="c1">## versus</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">bob</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">@</span> <span class="n">B</span> <span class="o">==</span> <span class="n">result</span>
 </pre></div>
 
 </div>
@@ -1421,307 +1418,14 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Bob Smith
-Bob Smith
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using the <code>typing</code> module, we can be even more explicit about our data structures.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EmployeeImproved</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">department</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">job_description</span><span class="p">:</span> <span class="n">List</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">emma</span> <span class="o">=</span> <span class="n">EmployeeImproved</span><span class="p">(</span><span class="s1">&#39;Emma Johnson&#39;</span><span class="p">,</span>
-                        <span class="mi">28</span><span class="p">,</span>
-                        <span class="s1">&#39;Front-end Developer&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Technology&#39;</span><span class="p">,</span>
-                        <span class="p">[</span><span class="s1">&#39;build React components&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;test front-end using Selenium&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;mentor junior developers&#39;</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">emma</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[10]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>EmployeeImproved(name=&#39;Emma Johnson&#39;, age=28, title=&#39;Front-end Developer&#39;, department=&#39;Technology&#39;, job_description=[&#39;build React components&#39;, &#39;test front-end using Selenium&#39;, &#39;mentor junior developers&#39;])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">name</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Emma Johnson
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">age</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>28
-&lt;class &#39;int&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">title</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Front-end Developer
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">department</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Technology
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">job_description</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;build React components&#39;, &#39;test front-end using Selenium&#39;, &#39;mentor junior developers&#39;]
-&lt;class &#39;list&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">emma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[20]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;Emma Johnson&#39;</pre>
+<pre>matrix([[ True,  True],
+        [ True,  True]], dtype=bool)</pre>
 </div>
 
 </div>
@@ -1734,8 +1438,22 @@ Bob Smith
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Personally I find the typed version of <code>Employee</code> to be an improvement over the untyped version.</p>
-<p>I'm not saying we should all start using types or run our code thru <a href="http://mypy.readthedocs.io/en/latest/">Mypy</a>, but it's good to be aware of language features that can help reduce complexity and increase readability.</p>
+<p>Looks good!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types">Python Data Model</a> specifies that the <code>@</code> operator invokes <code>__matmul__</code> and <code>__rmatmul__</code>.</p>
+<p>We can overload <code>@</code> by defining custom behavior for each of the special methods above, but this would result in our API not being Pythonic.</p>
+<blockquote><p>To build Pythonic objects, observe how real Python objects behave.</p>
+<ul>
+<li>Luciano Ramalho, Author of <a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008"><em>Fluent Python</em></a></li>
+</ul>
+</blockquote>
 
 </div>
 </div>
@@ -1778,6 +1496,7 @@ Bob Smith
 <span class="label label-default">Tags</span>
 	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
 	<a href="./tag/pythonic.html"><i class="fa fa-tag"></i>pythonic</a>&nbsp;
+	<a href="./tag/math.html"><i class="fa fa-tag"></i>math</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -1791,7 +1510,7 @@ Bob Smith
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./namedtuple-type-hints.html" 
+        data-href="./python-matrix-multiplication-operator.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
