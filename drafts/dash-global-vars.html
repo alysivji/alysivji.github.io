@@ -4,14 +4,28 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Posts tagged with productivity" />
+    <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Siv Scripts"/>
-        <meta property="og:url" content=".."/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Managing Global State in Dash"/>
+    <meta property="og:url" content="../drafts/dash-global-vars.html"/>
+      <meta property="article:section" content="Drafts"/>
+        <meta property="article:tag" content="vim"/>
+        <meta property="article:tag" content="productivity"/>
+        <meta property="article:tag" content="workflow"/>
+        <meta property="og:image"
+              content="../images/main/siv.jpeg"/>
+    <meta name="twitter:card" content="summary"> 
+    <meta name="twitter:title" content="Managing Global State in Dash">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
+        <meta property="twitter:image"
+              content="../images/main/siv.jpeg"/>
 
-    <title>Tag:productivity - Siv Scripts</title>
+    <title>Managing Global State in Dash - Siv Scripts</title>
 
    
         <link rel="stylesheet"
@@ -95,92 +109,94 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-    <li><a href="../" title="Home" rel="home">
-		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-    <li>Tags </li>
-    <li class="active">productivity</li>
-</ol>
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Sat 07 October 2017
+  Mon 20 November 2017
 </abbr> <h1>
-  <a href="../terminal-tricks-bashmarks.html" rel="bookmark"
-     title="Permalink to Terminal Tricks: Directory Bookmarks">
-    Terminal Tricks: Directory Bookmarks
+  <a href="../drafts/dash-global-vars.html" rel="bookmark"
+     title="Permalink to Managing Global State in Dash">
+    Managing Global State in Dash
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/quick-hits.html">
-      Quick Hits</a>
+    <a href="../category/drafts.html">
+      Drafts</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<p>Even though my development folders are well organized, I still have to feel my way around the filesystem when I'm looking for a project directory. It's like trying to find a lightswitch in a dark room: a <code>cd</code> here, an <code>ls</code> there, maybe a <code>find</code> when I'm stuck.</p>
-<p>I always …</p>
-		<p class="content-emphasis"><a href="../terminal-tricks-bashmarks.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Fri 22 September 2017
-</abbr> <h1>
-  <a href="../review-code-complete.html" rel="bookmark"
-     title="Permalink to Code Complete">
-    Code Complete
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<p>2017 is the year I became deliberate about my approach to programming. Like most newbie developers, I hacked together spaghetti code around chunks of answers I found on StackOverflow <em>(Praise Be)</em>.</p>
-<p>I didn't care how I solved the problem, only that it was solved enough to cross off my todo …</p>
-		<p class="content-emphasis"><a href="../review-code-complete.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Mon 28 August 2017
-</abbr> <h1>
-  <a href="../setting-up-pyenv-virtualenvwrapper.html" rel="bookmark"
-     title="Permalink to Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper">
-    Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/tutorials.html">
-      Tutorials</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<p>I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything <em>just worked</em>. Would this be the <code>pip install</code> that ended it all?</p>
-<p>Enter virtual environments.</p>
-<p>A <strong>virtual …</strong></p>
-		<p class="content-emphasis"><a href="../setting-up-pyenv-virtualenvwrapper.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<ul>
+<li>if we have a very simple dashboard that only one person looks at, we can do global. it's not a problem</li>
+</ul>
+<p>https://plot.ly/dash/getting-started-part-2</p>
+<blockquote>
+<p>The callback does not modify the original data, it just creates copies of the dataframe by filtered through pandas filters. This is important: your callbacks should never mutate variables outside of their scope. If your callbacks modify global state, then one user's session might affect the next user's session and when the app is deployed on multiple processes or threads, those modifications will not be shared across sessions.</p>
+</blockquote>
+<ul>
+<li>
+<p>if we have multiple people using the dashboard, we need to do it another way</p>
+</li>
+<li>
+<p>store global variable in component
+https://community.plot.ly/t/global-variable-updated-by-and-interval-componant/6395</p>
+</li>
+<li>
+<p>Chris Parmer
+https://community.plot.ly/t/refresh-input-data/5436/5</p>
+<blockquote>
+<p>It is not safe to use global variables in dash. Instead, I recommend storing the df inside a hidden div inside the layout and using that hidden div as its own Input in the remaining callback functions.
+For more information, see:</p>
+</blockquote>
+</li>
+</ul>
+<p>Using a hidden div: https://github.com/plotly/dash/issues/49#issuecomment-31151128646
+Why global variables aren’t safe: App not resetting with page refresh</p>
+<p>https://community.plot.ly/t/updating-server-side-app-data-on-a-schedule/6612/2</p>
+<p>https://plot.ly/dash/sharing-data-between-callbacks</p>
+  </div>
+  
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/vim.html"><i class="fa fa-tag"></i>vim</a>&nbsp;
+	<a href="../tag/productivity.html"><i class="fa fa-tag"></i>productivity</a>&nbsp;
+	<a href="../tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
 
-<nav class="index-pager">
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
 
-</nav> <!-- /index-pager -->
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/dash-global-vars.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -416,5 +432,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
