@@ -1,4 +1,4 @@
-p {
-    margin: 0px;
-    padding: 0px;
- }
+.content-body p {
+    margin-bottom: 0em;
+    padding-bottom: 0em;
+}
