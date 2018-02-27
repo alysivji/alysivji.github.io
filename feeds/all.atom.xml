@@ -38,24 +38,24 @@
 version: &amp;#39;3&amp;#39;
 
 services:
-db:
+  db:
     image: mysql:5.7
     environment:
-    MYSQL_ROOT_PASSWORD: my_secret_pw_shh
-    MYSQL_DATABASE: test_db
-    MYSQL_USER: devuser
-    MYSQL_PASSWORD: devpass
+      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
     ports:
-    - &amp;quot;9906:3306&amp;quot;
-web:
+      - &amp;quot;9906:3306&amp;quot;
+  web:
     image: php:7.2.2-apache
     container_name: php_web
     depends_on:
-    - db
+      - db
     volumes:
-    - ./php/:/var/www/html/
+      - ./php/:/var/www/html/
     ports:
-    - &amp;quot;8100:80&amp;quot;
+      - &amp;quot;8100:80&amp;quot;
     stdin_open: true
     tty: true
 &lt;/pre&gt;&lt;/div&gt;
