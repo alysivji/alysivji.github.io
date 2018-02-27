@@ -1,5 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-02-25T11:45:00-06:00</updated><entry><title>Sending Emails using Python 3.6+</title><link href="http://alysivji.github.io/sending-emails-from-python.html" rel="alternate"></link><published>2018-02-25T11:45:00-06:00</published><updated>2018-02-25T11:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-02-25:/sending-emails-from-python.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://docs.python.org/3/whatsnew/3.6.html"&gt;Python 3.6 feature&lt;/a&gt; that has flown under the radar is the revamped &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt; package.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-02-26T17:30:00-06:00</updated><entry><title>Containerizing PHP + MySQL using Docker Compose</title><link href="http://alysivji.github.io/php-mysql-docker-containers.html" rel="alternate"></link><published>2018-02-26T17:30:00-06:00</published><updated>2018-02-26T17:30:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-02-26:/php-mysql-docker-containers.html</id><summary type="html">&lt;p&gt;Being a Software Engineer isn't just about being effective in a specific programming language, it's about being able to solve any given problem using the tools at hand.&lt;/p&gt;
+&lt;p&gt;This week at work I have to extend the functionality of a WordPress plug-in so it can fit into our microservices-based backend …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Being a Software Engineer isn't just about being effective in a specific programming language, it's about being able to solve any given problem using the tools at hand.&lt;/p&gt;
+&lt;p&gt;This week at work I have to extend the functionality of a WordPress plug-in so it can fit into our microservices-based backend architecture. This means learning enough PHP to write some production-grade code.&lt;/p&gt;
+&lt;p&gt;I don't want to install PHP on my local machine so this is the perfect use case for &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt;! In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, I will describe how to create a containerized PHP + MySQL development environment using Docker Compose.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)"&gt;LAMP Stack&lt;/a&gt; is back!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Instructions&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;We'll start by creating a folder for this project: &lt;code&gt;mkdir lamp-stack &amp;amp;&amp;amp; cd lamp-stack&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create another subdirectory, &lt;code&gt;/php&lt;/code&gt; which contains the following &lt;code&gt;index.php&lt;/code&gt; file:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;&amp;lt;!-- ./php/index.php --&amp;gt;&lt;/span&gt;
+
+&lt;span class="x"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &amp;lt;head&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;        &amp;lt;title&amp;gt;Hello World&amp;lt;/title&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &amp;lt;/head&amp;gt;&lt;/span&gt;
+
+&lt;span class="x"&gt;    &amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;        &lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+            &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello, World!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="x"&gt;    &amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class="x"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Populate &lt;code&gt;docker-compose.yml&lt;/code&gt; with the following configuration:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# ./docker-compose.yml
+
+version: &amp;#39;3&amp;#39;
+
+services:
+db:
+    image: mysql:5.7
+    environment:
+    MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+    MYSQL_DATABASE: test_db
+    MYSQL_USER: devuser
+    MYSQL_PASSWORD: devpass
+    ports:
+    - &amp;quot;9906:3306&amp;quot;
+web:
+    image: php:7.2.2-apache
+    container_name: php_web
+    depends_on:
+    - db
+    volumes:
+    - ./php/:/var/www/html/
+    ports:
+    - &amp;quot;8100:80&amp;quot;
+    stdin_open: true
+    tty: true
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Our directory structure should look as follows:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; tree
+&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── docker-compose.yml&lt;/span&gt;
+&lt;span class="go"&gt;└── php&lt;/span&gt;
+&lt;span class="go"&gt;    └── index.php&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Execute &lt;code&gt;docker-compose up -d&lt;/code&gt; in the terminal and load &lt;a href="http://localhost:8100/"&gt;http://localhost:8100/&lt;/a&gt; in your browser.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Time to learn some &lt;a href="https://www.w3schools.com/php/default.asp"&gt;P&lt;/a&gt;&lt;a href="https://www.tutorialspoint.com/php/index.htm"&gt;H&lt;/a&gt;&lt;a href="http://php.net/manual/en/tutorial.php"&gt;P&lt;/a&gt;!&lt;/p&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;We use &lt;a href="https://docs.docker.com/config/containers/container-networking/"&gt;port-forwarding&lt;/a&gt; to connect to the inside of containers from our local machine.&lt;ul&gt;
+&lt;li&gt;webserver: &lt;code&gt;http://localhost:8100&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;db: &lt;code&gt;mysql://devuser:devpasslocalhost:9906/test_db&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Our local directory, &lt;code&gt;./php&lt;/code&gt;, is &lt;a href="https://docs.docker.com/storage/volumes/"&gt;mounted&lt;/a&gt; inside of the webserver container as &lt;code&gt;/var/www/html/&lt;/code&gt;&lt;ul&gt;
+&lt;li&gt;The files within in our local folder will be served when we access the website inside of the container&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content><category term="docker"></category><category term="php"></category></entry><entry><title>Sending Emails using Python 3.6+</title><link href="http://alysivji.github.io/sending-emails-from-python.html" rel="alternate"></link><published>2018-02-25T11:45:00-06:00</published><updated>2018-02-25T11:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-02-25:/sending-emails-from-python.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://docs.python.org/3/whatsnew/3.6.html"&gt;Python 3.6 feature&lt;/a&gt; that has flown under the radar is the revamped &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt; package.&lt;/p&gt;
 &lt;p&gt;In this post we will explore &lt;code&gt;email&lt;/code&gt; and walk through an example of creating and sending an email using the Python Standard Library.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Exploring &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;

@@ -4,27 +4,28 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="Leverage the power of Docker Compose to create a local development environment for PHP + MySQL." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="MHI 407-DL: Legal, Ethical, Social Issues in Health IT"/>
-    <meta property="og:url" content="../drafts/review-mhi407-legal-ethical-social-issues-in-health-information-technology.html"/>
-      <meta property="article:section" content="Drafts"/>
-        <meta property="article:tag" content="review"/>
-        <meta property="article:tag" content="grad-school"/>
-        <meta property="og:image"
-              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+    <meta property="og:title" content="Containerizing PHP + MySQL using Docker Compose"/>
+    <meta property="og:url" content="./php-mysql-docker-containers.html"/>
+      <meta property="og:description" content="Leverage the power of Docker Compose to create a local development environment for PHP + MySQL."/>
+      <meta property="article:section" content="Quick Hits"/>
+        <meta property="article:tag" content="docker"/>
+        <meta property="article:tag" content="php"/>
+      <meta property="og:image"
+            content="https://alysivji.github.io/images/21-30/29_header.png"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="MHI 407-DL: Legal, Ethical, Social Issues in Health IT">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Containerizing PHP + MySQL using Docker Compose">
+    <meta name="twitter:description" content="Leverage the power of Docker Compose to create a local development environment for PHP + MySQL.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
-    <meta name="twitter:domain" content="..">
-        <meta property="twitter:image"
-              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+    <meta name="twitter:domain" content=".">
+      <meta property="twitter:image"
+            content="https://alysivji.github.io/images/21-30/29_header.png"/>
 
-    <title>MHI 407-DL: Legal, Ethical, Social Issues in Health IT - Siv Scripts</title>
+    <title>Containerizing PHP + MySQL using Docker Compose - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -36,17 +37,17 @@
             crossorigin="anonymous">
 
 
-      <link rel="stylesheet" href="../theme/css/tango.css" />
-      <link rel="stylesheet" href="../theme/css/voidybootstrap.css" />
-      <link rel="stylesheet" href="../theme/css/dataframe.css" />
-      <link rel="stylesheet" href="../theme/css/custom.css" />
+      <link rel="stylesheet" href="./theme/css/tango.css" />
+      <link rel="stylesheet" href="./theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="./theme/css/dataframe.css" />
+      <link rel="stylesheet" href="./theme/css/custom.css" />
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
 
-    <link rel="shortcut icon" href="../favicon.ico" />
+    <link rel="shortcut icon" href="./favicon.ico" />
         <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -71,21 +72,21 @@
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="../" rel="home">
+		<a class="navbar-brand" href="./" rel="home">
           <i class="fa fa-home fa-fw fa-lg"> </i> </a>
        </div>
 
       <div class="collapse navbar-collapse" id="main-navbar-collapse">
         <ul class="nav navbar-nav">
               <li>
-                <a href="../pages/about.html">About</a>
+                <a href="./pages/about.html">About</a>
               </li>
               <li>
-                <a href="../pages/talks.html">Talks</a>
+                <a href="./pages/talks.html">Talks</a>
               </li>
             <li class="divider"></li>
             <li class="">
-              <a href="../archives.html">Archives</a>
+              <a href="./archives.html">Archives</a>
             </li>
           <li class="divider"></li>
             <li><a href="http://alysivji.github.io/feeds/all.atom.xml"
@@ -98,7 +99,7 @@
 
 	<div class="jumbotron" id="overview">
 	  <div class="container">
-		<h1><a href="../">Siv Scripts</a></h1>
+		<h1><a href="./">Siv Scripts</a></h1>
 		<p class="lead">Solving Problems Using Code</p>
 	  </div>
 	</div>
@@ -109,57 +110,116 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sun 10 December 2017
+  Mon 26 February 2018
 </abbr> <h1>
-  <a href="../drafts/review-mhi407-legal-ethical-social-issues-in-health-information-technology.html" rel="bookmark"
-     title="Permalink to MHI 407-DL: Legal, Ethical, Social Issues in Health IT">
-    MHI 407-DL: Legal, Ethical, Social Issues in Health IT
+  <a href="./php-mysql-docker-containers.html" rel="bookmark"
+     title="Permalink to Containerizing PHP + MySQL using Docker Compose">
+    Containerizing PHP + MySQL using Docker Compose
   </a>
 </h1><div class="article-header-info">
   <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
+      Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/drafts.html">
-      Drafts</a>
+    <a href="./category/quick-hits.html">
+      Quick Hits</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>Good Papers</p>
+	<p>Being a Software Engineer isn't just about being effective in a specific programming language, it's about being able to solve any given problem using the tools at hand.</p>
+<p>This week at work I have to extend the functionality of a WordPress plug-in so it can fit into our microservices-based backend architecture. This means learning enough PHP to write some production-grade code.</p>
+<p>I don't want to install PHP on my local machine so this is the perfect use case for <a href="https://www.docker.com/">Docker</a>! In this <a href="/category/quick-hits.html">Quick Hit</a>, I will describe how to create a containerized PHP + MySQL development environment using Docker Compose.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)">LAMP Stack</a> is back!</p>
+<hr>
+<h3>Instructions</h3>
 <ul>
 <li>
-<p>Escape Fire</p>
+<p>We'll start by creating a folder for this project: <code>mkdir lamp-stack &amp;&amp; cd lamp-stack</code></p>
+</li>
+<li>
+<p>Create another subdirectory, <code>/php</code> which contains the following <code>index.php</code> file:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="x">&lt;!-- ./php/index.php --&gt;</span>
+
+<span class="x">&lt;html&gt;</span>
+<span class="x">    &lt;head&gt;</span>
+<span class="x">        &lt;title&gt;Hello World&lt;/title&gt;</span>
+<span class="x">    &lt;/head&gt;</span>
+
+<span class="x">    &lt;body&gt;</span>
+<span class="x">        </span><span class="cp">&lt;?php</span>
+            <span class="k">echo</span> <span class="s2">&quot;Hello, World!&quot;</span><span class="p">;</span>
+        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+
+
 <ul>
-<li>this is the new crossing the quality chasm or whatever the IOM thing was</li>
+<li>Populate <code>docker-compose.yml</code> with the following configuration:</li>
+</ul>
+<div class="highlight"><pre><span></span># ./docker-compose.yml
+
+version: &#39;3&#39;
+
+services:
+db:
+    image: mysql:5.7
+    environment:
+    MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+    MYSQL_DATABASE: test_db
+    MYSQL_USER: devuser
+    MYSQL_PASSWORD: devpass
+    ports:
+    - &quot;9906:3306&quot;
+web:
+    image: php:7.2.2-apache
+    container_name: php_web
+    depends_on:
+    - db
+    volumes:
+    - ./php/:/var/www/html/
+    ports:
+    - &quot;8100:80&quot;
+    stdin_open: true
+    tty: true
+</pre></div>
+
+
+<ul>
+<li>Our directory structure should look as follows:</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="gp">$</span> tree
+<span class="go">.</span>
+<span class="go">├── docker-compose.yml</span>
+<span class="go">└── php</span>
+<span class="go">    └── index.php</span>
+</pre></div>
+
+
+<ul>
+<li>Execute <code>docker-compose up -d</code> in the terminal and load <a href="http://localhost:8100/">http://localhost:8100/</a> in your browser.</li>
+</ul>
+<p>Time to learn some <a href="https://www.w3schools.com/php/default.asp">P</a><a href="https://www.tutorialspoint.com/php/index.htm">H</a><a href="http://php.net/manual/en/tutorial.php">P</a>!</p>
+<h5>Notes</h5>
+<ul>
+<li>We use <a href="https://docs.docker.com/config/containers/container-networking/">port-forwarding</a> to connect to the inside of containers from our local machine.<ul>
+<li>webserver: <code>http://localhost:8100</code></li>
+<li>db: <code>mysql://devuser:devpasslocalhost:9906/test_db</code></li>
 </ul>
 </li>
-<li>
-<p>Ezekiel Emmanuel - Ethics forum 
-https://www.youtube.com/watch?v=YQyJl5jB64s</p>
-</li>
-<li>
-<p>Dr. HIPAA
-https://www.youtube.com/watch?v=BhQa_pF1C24</p>
-</li>
-<li>
-<p><a href="https://www.youtube.com/watch?v=dJEwC4wCM70">Rishi Manchanda: Watch What Makes Us Sick? Look Upstream</a></p>
-</li>
-<li>
-<p><a href="https://www.youtube.com/watch?time_continue=2&amp;v=L3QkaS249Bc">Atul Gawande: How do we heal medicine?</a></p>
-<ul>
-<li>checklists and a change in thinking</li>
+<li>Our local directory, <code>./php</code>, is <a href="https://docs.docker.com/storage/volumes/">mounted</a> inside of the webserver container as <code>/var/www/html/</code><ul>
+<li>The files within in our local folder will be served when we access the website inside of the container</li>
 </ul>
-</li>
-<li>
-<p><a href="https://www.brookings.edu/research/the-deciders-facebook-google-and-the-future-of-privacy-and-free-speech/">Jeffrey Rosen, The Deciders: The Future of Privacy and Free Speech in the Age of Facebook and Google</a></p>
 </li>
 </ul>
   </div>
 
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="../tag/review.html"><i class="fa fa-tag"></i>review</a>&nbsp;
-	<a href="../tag/grad-school.html"><i class="fa fa-tag"></i>grad-school</a>&nbsp;
+	<a href="./tag/docker.html"><i class="fa fa-tag"></i>docker</a>&nbsp;
+	<a href="./tag/php.html"><i class="fa fa-tag"></i>php</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -173,7 +233,7 @@ https://www.youtube.com/watch?v=BhQa_pF1C24</p>
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="../drafts/review-mhi407-legal-ethical-social-issues-in-health-information-technology.html" 
+        data-href="./php-mysql-docker-containers.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
@@ -221,15 +281,15 @@ https://www.youtube.com/watch?v=BhQa_pF1C24</p>
 <div class="col-xs-6 col-md-12">
 <h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
 <ul class="list-unstyled category-links">
-  <li><a href="../category/data-analysis.html" >
+  <li><a href="./category/data-analysis.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
-  <li><a href="../category/deep-dives.html" >
+  <li><a href="./category/deep-dives.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Deep Dives</a></li>
-  <li><a href="../category/quick-hits.html" >
+  <li><a href="./category/quick-hits.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Quick Hits</a></li>
-  <li><a href="../category/thoughts.html" >
+  <li><a href="./category/thoughts.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
-  <li><a href="../category/tutorials.html" >
+  <li><a href="./category/tutorials.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
 </ul>
 </div>
@@ -239,151 +299,151 @@ https://www.youtube.com/watch?v=BhQa_pF1C24</p>
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-3">
-      <a href="../tag/flask.html">
+      <a href="./tag/flask.html">
           <i class="fa fa-tag"></i>
         flask
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/book.html">
+      <a href="./tag/book.html">
           <i class="fa fa-tag"></i>
         book
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/mongodb.html">
+      <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/testing.html">
+      <a href="./tag/testing.html">
           <i class="fa fa-tag"></i>
         testing
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/data-viz.html">
+      <a href="./tag/data-viz.html">
           <i class="fa fa-tag"></i>
         data-viz
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/workflow.html">
+      <a href="./tag/workflow.html">
           <i class="fa fa-tag"></i>
         workflow
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/productivity.html">
+      <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/pythonic.html">
+      <a href="./tag/pythonic.html">
           <i class="fa fa-tag"></i>
         pythonic
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
+      <a href="./tag/cest-la-vie.html">
           <i class="fa fa-tag"></i>
         c'est-la-vie
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/how-to.html">
+      <a href="./tag/how-to.html">
           <i class="fa fa-tag"></i>
         how-to
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/web-development.html">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
         web-development
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/python.html">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
         python
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/docker.html">
+      <a href="./tag/docker.html">
           <i class="fa fa-tag"></i>
         docker
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/math.html">
+      <a href="./tag/math.html">
           <i class="fa fa-tag"></i>
         math
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
         exploring-pypi
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/grad-school.html">
+      <a href="./tag/grad-school.html">
           <i class="fa fa-tag"></i>
         grad-school
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/terminal.html">
+      <a href="./tag/terminal.html">
           <i class="fa fa-tag"></i>
         terminal
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/gis.html">
+      <a href="./tag/gis.html">
           <i class="fa fa-tag"></i>
         gis
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pandas.html">
+      <a href="./tag/pandas.html">
           <i class="fa fa-tag"></i>
         pandas
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/vim.html">
+      <a href="./tag/vim.html">
           <i class="fa fa-tag"></i>
         vim
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/php.html">
+      <a href="./tag/php.html">
           <i class="fa fa-tag"></i>
         php
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/web-scraping.html">
+      <a href="./tag/web-scraping.html">
           <i class="fa fa-tag"></i>
         web-scraping
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+      <a href="./tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/data-science.html">
+      <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/review.html">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
         review
       </a>
