@@ -4,14 +4,29 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Posts tagged with c'est-la-vie" />
+    <meta name="description" content="Learn the principles of monkey patching and dependency injection in python testing context." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Siv Scripts"/>
-        <meta property="og:url" content=".."/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Monkey Patching versus Dependency Injection in Python"/>
+    <meta property="og:url" content="../drafts/python-monkeypatching-versus-dependency-injection.html"/>
+      <meta property="og:description" content="Learn the principles of monkey patching and dependency injection in python testing context."/>
+      <meta property="article:section" content="Tutorials"/>
+        <meta property="article:tag" content="python"/>
+        <meta property="article:tag" content="how-to"/>
+        <meta property="article:tag" content="testing"/>
+      <meta property="og:image"
+            content="https://alysivji.github.io/images/31-40/31_header.png 🙈 💉"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Monkey Patching versus Dependency Injection in Python">
+    <meta name="twitter:description" content="Learn the principles of monkey patching and dependency injection in python testing context.">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
+      <meta property="twitter:image"
+            content="https://alysivji.github.io/images/31-40/31_header.png 🙈 💉"/>
 
-    <title>Tag:c'est-la-vie - Siv Scripts</title>
+    <title>Monkey Patching versus Dependency Injection in Python - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -93,160 +108,128 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-    <li><a href="../" title="Home" rel="home">
-		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-    <li>Tags </li>
-    <li class="active">c'est-la-vie</li>
-</ol>
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Mon 30 April 2018
+  Sun 11 March 2018
 </abbr> <h1>
-  <a href="../life-trust-the-process.html" rel="bookmark"
-     title="Permalink to Trust the Process">
-    Trust the Process
+  <a href="../drafts/python-monkeypatching-versus-dependency-injection.html" rel="bookmark"
+     title="Permalink to Monkey Patching versus Dependency Injection in Python">
+    Monkey Patching versus Dependency Injection in Python
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
+    <a href="../category/tutorials.html">
+      Tutorials</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p>The journey of a thousand miles begins with a single step.</p>
-</blockquote>
-<p>Everything in life that's worth having requires effort. In tech, it also requires convicing somebody you are good enough to take a chance on.</p>
-<p>A few months ago, I pivoted from data into web development because I wanted to …</p>
-		<p class="content-emphasis"><a href="../life-trust-the-process.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Sun 31 December 2017
-</abbr> <h1>
-  <a href="../life-2017-year-in-review.html" rel="bookmark"
-     title="Permalink to 2017: Year in Review">
-    2017: Year in Review
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p><em>Here’s to the new year. May she be a damn sight better than the old one, and may we all be home before she’s over.</em></p>
-</blockquote>
-<p>End of year is the perfect time to reflect on the past and to plan for the future.</p>
-<h2>2017 Highlights</h2>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>Static vs Dynamic
+https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/</p>
+<p>Depending on your worldview, you either love the flexibility of being able to do anything you want whenever you want (which means you love the flexibility a dynamic languages brings as it allows you to prototype your ideas a lot faster and change things around at runtime) or you are curled up in the fetal position thinking of all the ways that this can introduce problems and cause failure.</p>
+<p>as software engineers, we should borrow best practices from other languages. basically everything i learned about testing was from java books.</p>
+<p>I think the real power of being a software engineer is applying best practices in all situations. For me, this means coding "following a set of principles?" of doing things the "right way"</p>
+<p>This is very evident in the way I test. As I learned how to test from Java books, I prefer testing using dependency injection versus monkeypatching. In this post I will walk through testing a function which reads a file from disk using both dependency injection and monkeypatching. Pick the one you feel most comfortable with.</p>
+<p>There are lots of Java books out there and I learned C# a few years back so the syntax feel familar.</p>
+<h2>What You Need to Follow Along</h2>
 <ul>
-<li>Became more public …</li></ul>
-		<p class="content-emphasis"><a href="../life-2017-year-in-review.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Sat 18 November 2017
-</abbr> <h1>
-  <a href="../life-sponge.html" rel="bookmark"
-     title="Permalink to Soaking it in">
-    Soaking it in
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p><em>Truly wonderful the mind of a child is</em></p>
-</blockquote>
-<p>It was an action packed week at work: we migrated our infrastructure to the Google Cloud Platform and into Kubernetes. Pods, nodes, deployments. <em>Oh my!</em></p>
-<p>Not that I helped much with the migration; I'm new and still learning the ropes.</p>
-<p>I know …</p>
-		<p class="content-emphasis"><a href="../life-sponge.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Sat 04 November 2017
-</abbr> <h1>
-  <a href="../life-detour.html" rel="bookmark"
-     title="Permalink to First Month as a Professional Developer">
-    First Month as a Professional Developer
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p><em>The best laid schemes o' mice an' men</em><br />
-<em>Gang aft agley</em></p>
-</blockquote>
-<p>I started a new job as a Mathematician / Software Engineer at a Chicago-based healthcare startup in October. It's my first <em>proper</em> development job and I could not be more excited.</p>
-<p>I get paid to write code. It's pretty awesome …</p>
-		<p class="content-emphasis"><a href="../life-detour.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
-    <article>
-<abbr class="article-header-date">
-  Mon 31 July 2017
-</abbr> <h1>
-  <a href="../getting-started-with-public-speaking.html" rel="bookmark"
-     title="Permalink to Flexing my Public Speaking Muscles">
-    Flexing my Public Speaking Muscles
-  </a>
-</h1><div class="article-header-info">
-  <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
-    in 
-    <a href="../category/thoughts.html">
-      Thoughts</a>
-    &nbsp;&nbsp;
-  </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<blockquote>
-<p>The best way to learn something is to teach someone else.</p>
-</blockquote>
-<p>With this in mind, I started creating and presenting technical talks on a variety of subjects: <a href="https://github.com/alysivji/talks/tree/master/201704-healthcare-big-data-analytics">Big Data in Healthcare</a>, <a href="https://github.com/alysivji/talks/tree/master/context-manager-intro">Python language features</a>, <a href="https://github.com/alysivji/talks/tree/master/201706-knights-tour">graph algorithms</a>, etc.</p>
-<p>Similiar to how writing about side projects on this blog helped develop my …</p>
-		<p class="content-emphasis"><a href="../getting-started-with-public-speaking.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
+<li>Python 3</li>
+<li>input file</li>
+</ul>
+<h2>Aside: Mocking</h2>
+<p>Before we start, we need to talk about mocking</p>
+<h2>Example Problem</h2>
+<p>You have a <code>csv</code> file that contains a list of salespeople and their sales for each month of the year. You want to write a Python function that takes the file as input and calculates the salesperson with the highest annual sales</p>
+<p>Let's break the problem down, we'll need two functions. One function to read in the file and create a data structure and the second function to find the individual with the largest value from the previous step.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_annual_sales</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">annual_sales</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="c1"># first row is header</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
 
-<nav class="index-pager">
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">sales</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])</span>
+            <span class="n">annual_sales</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">sales</span><span class="p">))</span>
 
-</nav> <!-- /index-pager -->
+    <span class="k">return</span> <span class="n">annual_sales</span>
+
+<span class="k">def</span> <span class="nf">find_max_sales</span><span class="p">(</span><span class="n">salespeople</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">salespeople</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">find_max_sales</span><span class="p">(</span><span class="n">calculate_annual_sales</span><span class="p">(</span><span class="s1">&#39;sales.csv&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Of course we know this function works, but let's test it out to make sure.</p>
+<p>There are 3 ways to proceed, the first way is to read in a file with known values and then check to make sure our output matches what we expect. This means that our tests have to read a file from disk (which can be slow) and that we need to package an extra file into our tests (tests are not self contained).</p>
+<p>The second way is to replace the open method with an object that returns what we tell it to. Dynamic languages such as python allow us to do this at runtime</p>
+<p>Lastly we can structure our code so that we can pass in different objects such that</p>
+<h2>Test using Sample File</h2>
+<ul>
+<li>make a directory with all this stuff listed out</li>
+</ul>
+<h2>Monkey Patching</h2>
+<ul>
+<li>why this isn't great</li>
+<li>what if we forget to set something</li>
+</ul>
+<h2>Dependency Injection</h2>
+<ul>
+<li>java style</li>
+<li>link to tao of testing</li>
+</ul>
+<h2>Conclusion</h2>
+<p>mock_open</p>
+<p>vs</p>
+<p>open</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">mock_open</span>
+</pre></div>
+  </div>
+
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="../tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+	<a href="../tag/testing.html"><i class="fa fa-tag"></i>testing</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/python-monkeypatching-versus-dependency-injection.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -486,5 +469,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>

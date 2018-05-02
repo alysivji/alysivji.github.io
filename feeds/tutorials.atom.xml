@@ -1,5 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Tutorials</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/tutorials.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-08-28T18:30:00-05:00</updated><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Tutorials</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/tutorials.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-02-25T11:45:00-06:00</updated><entry><title>Sending Emails using Python 3.6+</title><link href="http://alysivji.github.io/sending-emails-from-python.html" rel="alternate"></link><published>2018-02-25T11:45:00-06:00</published><updated>2018-02-25T11:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-02-25:/sending-emails-from-python.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://docs.python.org/3/whatsnew/3.6.html"&gt;Python 3.6 feature&lt;/a&gt; that has flown under the radar is the revamped &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt; package.&lt;/p&gt;
+&lt;p&gt;In this post we will explore &lt;code&gt;email&lt;/code&gt; and walk through an example of creating and sending an email using the Python Standard Library.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Exploring &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;email&lt;/code&gt; package is comprised of three major components …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A &lt;a href="https://docs.python.org/3/whatsnew/3.6.html"&gt;Python 3.6 feature&lt;/a&gt; that has flown under the radar is the revamped &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt; package.&lt;/p&gt;
+&lt;p&gt;In this post we will explore &lt;code&gt;email&lt;/code&gt; and walk through an example of creating and sending an email using the Python Standard Library.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Exploring &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;email&lt;/code&gt; package is comprised of three major components:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/3/library/email.message.html#email.message.EmailMessage"&gt;&lt;code&gt;email.message&lt;/code&gt;&lt;/a&gt; - Representation of an email message&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/3/library/email.parser.html"&gt;&lt;code&gt;email.parser&lt;/code&gt;&lt;/a&gt; - Used to parse email messages&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/3/library/email.generator.html"&gt;&lt;code&gt;email.generator&lt;/code&gt;&lt;/a&gt; - Used to generate &lt;a href="https://en.wikipedia.org/wiki/MIME"&gt;MIME&lt;/a&gt; documents&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To send emails we have to interact with &lt;a href="https://docs.python.org/3/library/email.message.html#email.message.EmailMessage"&gt;&lt;code&gt;email.message.EmailMessage&lt;/code&gt;&lt;/a&gt;; this class provides a high level abstraction of an email message. Everytime we want to write a new email, we create a new instance of the object:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.message&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;EmailMessage&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EmailMessage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can then modify &lt;code&gt;msg&lt;/code&gt; using a dictionary-like interface:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;alysivji@gmail.com&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;alysivji+test@gmail.com&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Test Email&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And set the email body using &lt;code&gt;.set_content()&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_content&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Email body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For HTML emails, we will need to specify &lt;code&gt;subtype=html&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_content&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;HTML email with &amp;lt;a href=&amp;quot;https://alysivji.github.io&amp;quot;&amp;gt;link&amp;lt;/a&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;subtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;h2&gt;Sending Plain Text Emails&lt;/h2&gt;
+&lt;p&gt;We can leverage &lt;a href="https://docs.python.org/3/library/smtplib.html"&gt;&lt;code&gt;smtplib&lt;/code&gt;&lt;/a&gt; to send messages programatically from Python. I used this &lt;a href="https://pybit.es/python-smtplib.html"&gt;article&lt;/a&gt; as a template to get started.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# send_email.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.headerregistry&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Address&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.message&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;EmailMessage&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Gmail details&lt;/span&gt;
+&lt;span class="n"&gt;email_address&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getenv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GMAIL_ADDRESS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;email_password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getenv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GMAIL_APPLICATION_PASSWORD&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Recipent&lt;/span&gt;
+&lt;span class="n"&gt;to_address&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;Address&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;display_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Aly Sivji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alysivji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;create_email_message&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;from_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;subject&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EmailMessage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;from_address&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;to_address&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subject&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_content&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;create_email_message&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;from_address&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;email_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;to_address&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;to_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Hello World&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Test sending the body.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;smtp.gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ehlo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;email_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;email_password&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send_message&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Email sent successfully&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Set a couple of &lt;a href="https://12factor.net/config"&gt;environment variables&lt;/a&gt; before running the script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GMAIL_ADDRESS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alysivji@gmail.com&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GMAIL_APPLICATION_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;[INSERT PASSWORD HERE]&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; python send_email.py
+&lt;span class="go"&gt;Email sent successfully&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's check our email&lt;br /&gt;
+&lt;img src="/images/21-30/28_plain_text_email.png" alt="Test Email in Inbox" width=450 /&gt;&lt;/p&gt;
+&lt;p&gt;Perfect&lt;/p&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Emails are represented using &lt;a href="https://docs.python.org/3/library/email.headerregistry.html#email.headerregistry.Address"&gt;Address&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;You will need to look up the SMTP details of your email provider, this is easily done by searching for "[Email Provider] SMTP" on Google.&lt;ul&gt;
+&lt;li&gt;Gmail: &lt;code&gt;smtp.gmail.com&lt;/code&gt; port &lt;code&gt;587&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Yahoo: &lt;code&gt;smtp.mail.yahoo.com&lt;/code&gt; port &lt;code&gt;587&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Live: &lt;code&gt;smtp.live.com&lt;/code&gt; port &lt;code&gt;25&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Two-factor Authentication complicates this process; we will need an application password to send emails. &lt;a href="https://support.google.com/accounts/answer/185833?hl=en"&gt;Setting up Application Password for a Google Account&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;We can use &lt;a href="https://docs.python.org/3/library/smtplib.html#smtplib.SMTP"&gt;&lt;code&gt;smtplib.SMTP()&lt;/code&gt;&lt;/a&gt; as a context manager. I covered context managers in a &lt;a href="/managing-resources-with-context-managers-pythonic.html"&gt;previous post&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Sending HTML Emails&lt;/h2&gt;
+&lt;p&gt;In order to send HTML emails, we need to specify the &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types"&gt;MIME type&lt;/a&gt; as &lt;code&gt;text/html&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;It is considered good practice to send a &lt;code&gt;text/plain&lt;/code&gt; version along with a &lt;code&gt;text/html&lt;/code&gt; version for the small minority of users who have disabled HTML emails. Also for our &lt;a href="https://en.wikipedia.org/wiki/Pine_(email_client)"&gt;Pine&lt;/a&gt; users, can't forget about them!&lt;/p&gt;
+&lt;p&gt;We can attach additional MIME types with the &lt;a href="https://docs.python.org/3/library/email.message.html#email.message.EmailMessage.add_alternative"&gt;&lt;code&gt;.add_alternative()&lt;/code&gt;&lt;/a&gt; function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# send_html_email.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.headerregistry&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Address&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.message&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;EmailMessage&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Gmail details&lt;/span&gt;
+&lt;span class="n"&gt;email_address&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getenv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GMAIL_ADDRESS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;email_password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getenv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;GMAIL_APPLICATION_PASSWORD&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Recipent&lt;/span&gt;
+&lt;span class="n"&gt;to_address&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;Address&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;display_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Aly Sivji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alysivji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;create_email_message&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;from_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;subject&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                         &lt;span class="n"&gt;plaintext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EmailMessage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;from_address&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;to_address&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subject&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_content&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;plaintext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_alternative&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;subtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;
+
+
+&lt;span class="n"&gt;HTML_MESSAGE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
+&lt;span class="s2"&gt;  HTML Version!&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+
+&lt;span class="s2"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
+&lt;span class="s2"&gt;  Link to &amp;lt;a href=&amp;quot;https://alysivji.github.io&amp;quot;&amp;gt;my blog&amp;lt;/a&amp;gt;!&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;create_email_message&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;from_address&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;email_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;to_address&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;to_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Hello World&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;plaintext&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Plain text version.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;HTML_MESSAGE&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;smtp.gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ehlo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;email_address&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;email_password&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;smtp_server&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send_message&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Email sent successfully&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GMAIL_ADDRESS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alysivji@gmail.com&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GMAIL_APPLICATION_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;[INSERT PASSWORD HERE]&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; python send_html_email.py
+&lt;span class="go"&gt;Email sent successfully&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img src="/images/21-30/28_html_email.png" alt="Test Email in Inbox" width=450 /&gt;&lt;/p&gt;
+&lt;p&gt;Looks good!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/3/library/email.examples.html"&gt;&lt;code&gt;email&lt;/code&gt; examples&lt;/a&gt; from the Standard Library&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="how-to"></category></entry><entry><title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</title><link href="http://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html" rel="alternate"></link><published>2017-08-28T18:30:00-05:00</published><updated>2017-08-28T18:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-08-28:/setting-up-pyenv-virtualenvwrapper.html</id><summary type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
 &lt;p&gt;A &lt;strong&gt;virtual …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything &lt;em&gt;just worked&lt;/em&gt;. Would this be the &lt;code&gt;pip install&lt;/code&gt; that ended it all?&lt;/p&gt;
 &lt;p&gt;Enter virtual environments.&lt;/p&gt;
