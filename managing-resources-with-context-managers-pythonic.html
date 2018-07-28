@@ -1968,7 +1968,7 @@ exception handled
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Creating-a-Context-Manager">Creating a Context Manager<a class="anchor-link" href="#Creating-a-Context-Manager">&#182;</a></h2><h3 id="Project-Background">Project Background<a class="anchor-link" href="#Project-Background">&#182;</a></h3><p>A blog post by <a href="https://twitter.com/jeresig">John Resig</a> on the benefits of <a href="https://johnresig.com/blog/write-code-every-day/">writing code everyday</a> inspired me to set aside a minimum of 30 minutes each day to work on side projects. I've been documenting my streak using the <a href="https://twitter.com/search?q=%23codeeveryday">#codeeveryday hashtag</a> on Twitter.</p>
 <p>After knocking out a few side projects from my todo list, I started working on a script that would analyze my #codeeveryday tweets and create a dashboard to display progress.</p>
-<p><img src="/images/1-10/8_meta_meme.jpg" alt="Meta Xzibit" width="400" /></p>
+<p><img src="/images/01-09/8_meta_meme.jpg" alt="Meta Xzibit" width="400" /></p>
 <p>In my AWS account, I have a Lambda script that downloads and store my tweets in a MongoDB instance running on MLab. I will be querying this data store to generate my dashboard, but you can use any Mongo collection you want.</p>
 <h3 id="Using-try...finally-Blocks">Using <code>try...finally</code> Blocks<a class="anchor-link" href="#Using-try...finally-Blocks">&#182;</a></h3><p>Let's take a look at <a href="https://github.com/alysivji/codeeveryday-hashtag-dashboard/blob/master/create-tweet-hashtag-dashboard.ipynb">our function</a> to query MongoDB for all tweets containing a specific hashtag using the <code>try...finally</code> pattern:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">download_tweets_by_hashtag_nonpythonic</span><span class="p">(</span><span class="n">hashtag</span><span class="p">):</span>
@@ -2198,28 +2198,28 @@ exception handled
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
-    <span class="tag-4">
-      <a href="./tag/web-development.html">
+    <span class="tag-1">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
+        python
       </a>
     </span>
     <span class="tag-2">
@@ -2229,15 +2229,21 @@ exception handled
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/workflow.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        workflow
+        exploring-pypi
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-2">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
-        python
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
       </a>
     </span>
     <span class="tag-4">
@@ -2246,10 +2252,82 @@ exception handled
         vim
       </a>
     </span>
-    <span class="tag-2">
-      <a href="./tag/exploring-pypi.html">
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -2265,87 +2343,9 @@ exception handled
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
       </a>
     </span>
 </p>

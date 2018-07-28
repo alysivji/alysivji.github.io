@@ -93,7 +93,7 @@
 
 
 &lt;p&gt;Let's check our email&lt;br /&gt;
-&lt;img src="/images/21-30/28_plain_text_email.png" alt="Test Email in Inbox" width=450 /&gt;&lt;/p&gt;
+&lt;img src="/images/20-29/28_plain_text_email.png" alt="Test Email in Inbox" width=450 /&gt;&lt;/p&gt;
 &lt;p&gt;Perfect&lt;/p&gt;
 &lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
@@ -178,7 +178,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src="/images/21-30/28_html_email.png" alt="Test Email in Inbox" width=450 /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/20-29/28_html_email.png" alt="Test Email in Inbox" width=450 /&gt;&lt;/p&gt;
 &lt;p&gt;Looks good!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4&gt;Additional Resources&lt;/h4&gt;
@@ -194,7 +194,7 @@
 &lt;p&gt;Next came &lt;a href="https://virtualenv.pypa.io/en/stable/"&gt;virtualenv&lt;/a&gt; + &lt;a href="http://virtualenvwrapper.readthedocs.io/en/latest/"&gt;virtualevnwrapper&lt;/a&gt;. Did everything I wanted, but I had to manually manage Python installations when setting up environments for different versions.&lt;/p&gt;
 &lt;p&gt;Like everyone who learns Docker, I went thru a &lt;a href="containerized-development-environments.html"&gt;containerize all the things phase&lt;/a&gt;. The non-existent battery life on my Mac told me this wasn't the most feasible solution.&lt;/p&gt;
 &lt;p&gt;Then I found pyenv...&lt;br /&gt;
-&lt;img src="/images/11-20/13_penv_just_right_meme.jpg" alt="Just Right" width=500/&gt;&lt;/p&gt;
+&lt;img src="/images/10-19/13_penv_just_right_meme.jpg" alt="Just Right" width=500/&gt;&lt;/p&gt;
 &lt;p&gt;In this post, I will describe how to install pyenv and pyenv-virtualenvwrapper. I will also walk through the steps required to setup and use a new virtual environment.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;pyenv&lt;/h2&gt;
@@ -456,7 +456,7 @@ pyenv virtualenvwrapper_lazy
 &lt;hr&gt;
 &lt;h3&gt;Dashboard Layout (View)&lt;/h3&gt;
 &lt;p&gt;Our app will look as follows:&lt;br /&gt;
-&lt;img src="/images/11-20/11_dash_app_layout.png" alt="Dash App Layout" width=500/&gt;&lt;/p&gt;
+&lt;img src="/images/10-19/11_dash_app_layout.png" alt="Dash App Layout" width=500/&gt;&lt;/p&gt;
 &lt;p&gt;Users will be able to select Division, Season, and Team via Dropdown components. Selection will trigger actions to update tables (Results + Win/Loss/Draw/Points Summary) and a graph (Points Accumulated vs Time)&lt;/p&gt;
 &lt;p&gt;We begin by translating the layout from above into Dash components (both &lt;a href="https://github.com/plotly/dash-core-components"&gt;core&lt;/a&gt; + &lt;a href="https://github.com/plotly/dash-html-components"&gt;HTML&lt;/a&gt; components will be required):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#########################&lt;/span&gt;
@@ -795,7 +795,7 @@ pyenv virtualenvwrapper_lazy
 
 
 &lt;p&gt;Open a web browser...&lt;br /&gt;
-&lt;img src="/images/11-20/11_soccer_results_dashboard.gif" alt="Soccer Results Dashboard" width=640/&gt;&lt;/p&gt;
+&lt;img src="/images/10-19/11_soccer_results_dashboard.gif" alt="Soccer Results Dashboard" width=640/&gt;&lt;/p&gt;
 &lt;p&gt;And we're good to go!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
@@ -2679,7 +2679,7 @@ exception handled
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Creating-a-Context-Manager"&gt;Creating a Context Manager&lt;a class="anchor-link" href="#Creating-a-Context-Manager"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Project-Background"&gt;Project Background&lt;a class="anchor-link" href="#Project-Background"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;A blog post by &lt;a href="https://twitter.com/jeresig"&gt;John Resig&lt;/a&gt; on the benefits of &lt;a href="https://johnresig.com/blog/write-code-every-day/"&gt;writing code everyday&lt;/a&gt; inspired me to set aside a minimum of 30 minutes each day to work on side projects. I've been documenting my streak using the &lt;a href="https://twitter.com/search?q=%23codeeveryday"&gt;#codeeveryday hashtag&lt;/a&gt; on Twitter.&lt;/p&gt;
 &lt;p&gt;After knocking out a few side projects from my todo list, I started working on a script that would analyze my #codeeveryday tweets and create a dashboard to display progress.&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/1-10/8_meta_meme.jpg" alt="Meta Xzibit" width="400" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/01-09/8_meta_meme.jpg" alt="Meta Xzibit" width="400" /&gt;&lt;/p&gt;
 &lt;p&gt;In my AWS account, I have a Lambda script that downloads and store my tweets in a MongoDB instance running on MLab. I will be querying this data store to generate my dashboard, but you can use any Mongo collection you want.&lt;/p&gt;
 &lt;h3 id="Using-try...finally-Blocks"&gt;Using &lt;code&gt;try...finally&lt;/code&gt; Blocks&lt;a class="anchor-link" href="#Using-try...finally-Blocks"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Let's take a look at &lt;a href="https://github.com/alysivji/codeeveryday-hashtag-dashboard/blob/master/create-tweet-hashtag-dashboard.ipynb"&gt;our function&lt;/a&gt; to query MongoDB for all tweets containing a specific hashtag using the &lt;code&gt;try...finally&lt;/code&gt; pattern:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;download_tweets_by_hashtag_nonpythonic&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hashtag&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -2984,7 +2984,7 @@ exception handled
 
     &lt;span class="c1"&gt;# connect to db&lt;/span&gt;
     &lt;span class="n"&gt;MONGO_URI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mlab_uri&lt;/span&gt;
-    &lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MONGO_URI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;    
+    &lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sivji-sandbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;MONGO_URI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="c1"&gt;## get the last date the webscraper was run&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date_str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;order_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;-date_str&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;limit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -3058,7 +3058,7 @@ exception handled
 &lt;p&gt;More information can be found on &lt;a href="https://www.pythonanywhere.com/"&gt;their website&lt;/a&gt; and &lt;a href="https://talkpython.fm/episodes/show/10/bringing-python-to-the-masses-with-hosting-and-devops-at-pythonanywhere"&gt;Episode 10 of the Talk Python to Me podcast&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Setting Up Environment&lt;/h3&gt;
 &lt;p&gt;After you create an account, you will need to open up a Bash console:&lt;br /&gt;
-&lt;img src="/images/1-10/5_pythonanywhere_console.png" alt="PythonAnywhere - Create Console" width=400/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/5_pythonanywhere_console.png" alt="PythonAnywhere - Create Console" width=400/&gt;&lt;/p&gt;
 &lt;h4&gt;&lt;code&gt;virtualenv&lt;/code&gt; and &lt;code&gt;pip&lt;/code&gt;&lt;/h4&gt;
 &lt;p&gt;Now we will set up a &lt;code&gt;virtualenv&lt;/code&gt; and &lt;code&gt;pip install&lt;/code&gt; required packages:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;11:06 ~ $&lt;/span&gt; mkvirtualenv scrapy36 --python&lt;span class="o"&gt;=&lt;/span&gt;/usr/bin/python3.6
@@ -3141,7 +3141,7 @@ exception handled
 
 
 &lt;p&gt;The Schedule dashboard should look as follows:&lt;br /&gt;
-&lt;img src="/images/1-10/5_python_anywhere_schedule_task.png" alt="PythonAnywhere - Scheduled Task" width=400/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/5_python_anywhere_schedule_task.png" alt="PythonAnywhere - Scheduled Task" width=400/&gt;&lt;/p&gt;
 &lt;h3&gt;Monitoring Runtime&lt;/h3&gt;
 &lt;p&gt;Let's take a look at the log to make sure everything is working:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;... additional rows omitted ...&lt;/span&gt;
@@ -3191,7 +3191,7 @@ exception handled
 
 
 &lt;p&gt;Was the email digest sent?&lt;br /&gt;
-&lt;img src="/images/1-10/5_email_digest.png" alt="PythonAnywhere - Create Console" width=400/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/5_email_digest.png" alt="PythonAnywhere - Create Console" width=400/&gt;&lt;/p&gt;
 &lt;p&gt;And we're done!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
@@ -3292,10 +3292,10 @@ exception handled
 &lt;h2&gt;Model-View-Controller&lt;/h2&gt;
 &lt;p&gt;Model–View–Controller (MVC) is an architectural pattern for implementing user interfaces. It divides an application into three interconnected parts: the Model, the View, and the Controller. Separating the "internal representations of information from the ways that information is presented to and accepted from the user" allows us to increase modularity for simultaneous development and code reuse (&lt;a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"&gt;Source&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Each of the components is defined as follows:&lt;br /&gt;
-&lt;img src="/images/1-10/4_mvc_components_description.png" alt="Description of MVC Components" width=600/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/4_mvc_components_description.png" alt="Description of MVC Components" width=600/&gt;&lt;/p&gt;
 &lt;h3&gt;Interactions Betweeen Components&lt;/h3&gt;
 &lt;p&gt;The MVC design pattern also defines interactions between components, as we can see in the following diagram &lt;a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"&gt;from Wikipedia&lt;/a&gt;:&lt;br /&gt;
-&lt;img src="/images/1-10/4_mvc_diagram.png" alt="Diagram of interactions within the MVC pattern (from Wikipedia)" width=360/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/4_mvc_diagram.png" alt="Diagram of interactions within the MVC pattern (from Wikipedia)" width=360/&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The &lt;strong&gt;model&lt;/strong&gt; stores data that is retrieved according to commands from the &lt;strong&gt;controller&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;The &lt;strong&gt;view&lt;/strong&gt; generates output for the user based on changes in the &lt;strong&gt;model&lt;/strong&gt;&lt;/li&gt;
@@ -3453,7 +3453,7 @@ exception handled
 &lt;p&gt;As we mentioned before, the view is the user interface (UI) of our web application which renders data from the model as defined by our template. If this sounds familiar, it's because it is. &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;We have already used the Jinja2 Templating Engine to generate HTML webpages&lt;/a&gt;. In this section, we will build upon our previous work and leverage the concept of &lt;a href="http://jinja.pocoo.org/docs/2.9/templates/#template-inheritance"&gt;Jinja template inheritance&lt;/a&gt; to create complex applications using an inheritance hierarchy.&lt;/p&gt;
 &lt;p&gt;Let's start off by acknowledging that as programmers, we aren't designers, but this shouldn't limit our ability to produce web app with attractive UIs. Like everything else in development, we can stand on the shoulders of giants and use templates created by those who came before us. The &lt;a href="https://html5boilerplate.com/"&gt;HTML5 Boilerplate&lt;/a&gt; is a popular front-end template we can use to kickstart our project.&lt;/p&gt;
 &lt;p&gt;Using &lt;a href="http://www.creativebloq.com/web-design/how-use-html-boilerplate-11513798"&gt;this post on how to use the HTML5 Boilerplate&lt;/a&gt; as a reference, let's get our hands dirty and create templates for our Reddit Top Posts website. Download and extract a copy of the &lt;a href="http://www.initializr.com/try"&gt;Responsive Template&lt;/a&gt; (&lt;a href="http://verekia.com/initializr/responsive-template/"&gt;docs&lt;/a&gt;) from &lt;a href="http://www.initializr.com/"&gt;initializr.com&lt;/a&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/1-10/4_download_responsive_template.png" alt="Download Reponsive Template" width=600/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/01-09/4_download_responsive_template.png" alt="Download Reponsive Template" width=600/&gt;&lt;/p&gt;
 &lt;p&gt;Since Flask looks for Jinja2 files in the &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#rendering-templates"&gt;&lt;code&gt;templates&lt;/code&gt; folder&lt;/a&gt; and javascript/css files in the &lt;a href="http://flask.pocoo.org/docs/0.12/quickstart/#static-files"&gt;&lt;code&gt;static&lt;/code&gt; folder&lt;/a&gt;, we will structure our application folder as follows:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
 &lt;span class="go"&gt;├── app.py&lt;/span&gt;
@@ -3555,7 +3555,7 @@ exception handled
 &lt;/ul&gt;
 &lt;h4&gt;Child Templates&lt;/h4&gt;
 &lt;p&gt;Each of our child templates will display a different view of our data. We will design our views as follows:&lt;br/&gt;
-&lt;img src="/images/1-10/4_templates_for_each_view.png" alt="Child Templates for Each View" width=600/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/4_templates_for_each_view.png" alt="Child Templates for Each View" width=600/&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--templates/index.html--&amp;gt;&lt;/span&gt;
 
 {% extends &amp;quot;base.html&amp;quot; %}
@@ -3649,7 +3649,7 @@ exception handled
 
 
 &lt;p&gt;We'll open the page in a browser: &lt;br /&gt;
-&lt;img src="/images/1-10/4_running_flask_app.png" alt="Child Templates for Each View" width=700/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/4_running_flask_app.png" alt="Child Templates for Each View" width=700/&gt;&lt;/p&gt;
 &lt;p&gt;Looks good!&lt;/p&gt;
 &lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
@@ -3711,7 +3711,7 @@ exception handled
 &lt;h3&gt;Overview&lt;/h3&gt;
 &lt;p&gt;"MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling" (&lt;a href="https://docs.mongodb.com/manual/introduction/"&gt;Mongo Docs&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;What does this mean?&lt;/em&gt; In comparison to a relational database which focuses on linking data across tables with keys, a document database stores all the data elements together in one location.&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/1-10/3_relational_vs_mongo_diagram.png" alt="Comparing Relational Databases to MongoDB" width=500/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/01-09/3_relational_vs_mongo_diagram.png" alt="Comparing Relational Databases to MongoDB" width=500/&gt;&lt;/p&gt;
 &lt;p&gt;There are &lt;a href="https://www.quora.com/What-is-the-use-case-to-choose-a-document-oriented-database-noSQL-over-RDBMS"&gt;many reasons to use document-oriented databases over their relational counterparts&lt;/a&gt;. As our database will be the main data source for a variety of projects, it makes sense to use Mongo and take advantage of its &lt;a href="https://www.mongodb.com/blog/post/why-schemaless"&gt;flexible schemaless structure&lt;/a&gt;: &lt;em&gt;our database can grow with the needs of our project&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Other reasons to use MongoDB:&lt;/p&gt;
 &lt;ul&gt;
@@ -3725,7 +3725,7 @@ exception handled
 &lt;p&gt;From the &lt;a href="https://docs.mongodb.com/manual/introduction/"&gt;Mongo Docs&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A record in MongoDB is a document, which is a data structure composed of field and value pairs. MongoDB documents are similar to JSON objects. The values of fields may include other documents, arrays, and arrays of documents&lt;br /&gt;
-&lt;img src="/images/1-10/3_mongodb_document_diagram.svg" alt="MongoDB record information" width=350/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/3_mongodb_document_diagram.svg" alt="MongoDB record information" width=350/&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;MongoDB stores records as BSON (&lt;a href="https://en.wikipedia.org/wiki/BSON"&gt;Binary-JSON&lt;/a&gt;) documents in collections and collections inside of databases (&lt;a href="https://docs.mongodb.com/manual/core/databases-and-collections/"&gt;additional details&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;When we send a query into Mongo, it &lt;a href="https://docs.mongodb.com/manual/indexes/"&gt;performs a collection scan&lt;/a&gt;, i.e. it scans every document in our queried collection. This means that performance will become an issue as our data scales. To alleviate this, we can create indexes (&lt;a href="https://docs.mongodb.com/manual/core/index-single/"&gt;single field&lt;/a&gt;, &lt;a href="https://docs.mongodb.com/manual/core/index-compound/"&gt;compound&lt;/a&gt;, &lt;a href="https://docs.mongodb.com/manual/core/index-multikey/"&gt;multikey&lt;/a&gt;, or &lt;a href="https://docs.mongodb.com/manual/core/index-text/"&gt;text&lt;/a&gt;) to ensure all calls to the database are quick.&lt;/p&gt;
@@ -3747,14 +3747,14 @@ exception handled
 
 &lt;h4&gt;Document Schema&lt;/h4&gt;
 &lt;p&gt;Let's use &lt;a href="https://www.mongodb.com/products/compass"&gt;MongoDB Compass&lt;/a&gt; and take a look at a sample document to understand the fields we can pull.&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/1-10/3_top_reddit_posts_mongodb-sample-document.png" alt="Sample Document" width=750/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/01-09/3_top_reddit_posts_mongodb-sample-document.png" alt="Sample Document" width=750/&gt;&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;date_str&lt;/code&gt; field is a string version of the date field. Having a &lt;code&gt;string&lt;/code&gt; type versus an &lt;code&gt;ISODate&lt;/code&gt; type will make our queries run faster.&lt;/p&gt;
 &lt;p&gt;&lt;a name="creating-mongodb-indexes"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Creating Indexes&lt;/h4&gt;
 &lt;p&gt;Following the best practices mentioned above, we should take some time to think about the &lt;a href="http://docs.mongoengine.org/guide/querying.html"&gt;queries we will need to run&lt;/a&gt;. Taking a step back, we need to consider the kinds of data we will want our website to display.&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/1-10/3_views_indexes_required.png" alt="Indexes to Support Views Required" width=600/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/01-09/3_views_indexes_required.png" alt="Indexes to Support Views Required" width=600/&gt;&lt;/p&gt;
 &lt;p&gt;Use MongoDB Compass to create the index. Should look as follows:&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/1-10/3_mongodb_indexes.png" alt="Creating an Index in MongoDB" width=450/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/01-09/3_mongodb_indexes.png" alt="Creating an Index in MongoDB" width=450/&gt;&lt;/p&gt;
 &lt;p&gt;Our database is all set up and optimized. In the next section we will explore how to get data out of Mongo and into our program.&lt;/p&gt;
 &lt;h5&gt;Note&lt;/h5&gt;
 &lt;ul&gt;
@@ -3799,7 +3799,7 @@ exception handled
 
 &lt;p&gt;Let's make sure this works by testing in the Python REPL.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; python
-&lt;span class="go"&gt;Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 13:19:00) &lt;/span&gt;
+&lt;span class="go"&gt;Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 13:19:00)&lt;/span&gt;
 &lt;span class="go"&gt;[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)] on darwin&lt;/span&gt;
 &lt;span class="go"&gt;Type &amp;quot;help&amp;quot;, &amp;quot;copyright&amp;quot;, &amp;quot;credits&amp;quot; or &amp;quot;license&amp;quot; for more information.&lt;/span&gt;
 &lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; from mongoengine.connection import connect
@@ -3877,7 +3877,7 @@ exception handled
 &lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; &lt;span class="c1"&gt;## get the last date the webscraper was run&lt;/span&gt;
 &lt;span class="go"&gt;... for post in Post.objects().fields(date_str=1).order_by(&amp;#39;-date_str&amp;#39;).limit(1):&lt;/span&gt;
 &lt;span class="go"&gt;...     day_to_pull = post.date_str&lt;/span&gt;
-&lt;span class="go"&gt;... &lt;/span&gt;
+&lt;span class="go"&gt;...&lt;/span&gt;
 &lt;span class="gp"&gt;&amp;gt;&lt;/span&gt;&amp;gt;&amp;gt; &lt;span class="c1"&gt;## pass in variables, render template, and send&lt;/span&gt;
 &lt;span class="go"&gt;... context = {&lt;/span&gt;
 &lt;span class="go"&gt;...     &amp;#39;day_to_pull&amp;#39;: day_to_pull,&lt;/span&gt;
@@ -4022,7 +4022,7 @@ exception handled
 
 
 &lt;p&gt;Did we receive an email?&lt;br /&gt;
-&lt;img src="/images/1-10/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/&gt;&lt;/p&gt;
+&lt;img src="/images/01-09/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=EvkAy4kzv54"&gt;YIPPEE!&lt;/a&gt;&lt;/p&gt;
 &lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
@@ -4124,7 +4124,7 @@ exception handled
 &lt;h2&gt;Implement Crawler&lt;/h2&gt;
 &lt;h3&gt;Items to Scrape&lt;/h3&gt;
 &lt;p&gt;Let's take a look at the &lt;a href="https://www.reddit.com/r/peloton/top/?sort=top&amp;amp;t=all"&gt;all-time list of top posts from /r/peloton&lt;/a&gt;. Below is a screenshot with the items we want to scrape highlighted.&lt;/p&gt;
-&lt;p&gt;&lt;img src="..\images\1-10\1_reddit_items_to_parse.png" alt="Reddit Top Posts -- items to scrape" width=750/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="..\images\01-09\1_reddit_items_to_parse.png" alt="Reddit Top Posts -- items to scrape" width=750/&gt;&lt;/p&gt;
 &lt;p&gt;From this we can create our item template. We include some additional pieces of information (subreddit, date) to provide context.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# items.py&lt;/span&gt;
 
@@ -4322,7 +4322,7 @@ exception handled
 
 &lt;p&gt;We see the JSON objects that were scraped.&lt;/p&gt;
 &lt;p&gt;We can confirm the data was stored in the database using &lt;a href="https://www.mongodb.com/products/compass"&gt;MongoDB Compass&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src="..\images\1-10\1_reddit_items_in_mongodb_compass.png" alt="Reddit Items in MongoDB Compass" width=750/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="..\images\01-09\1_reddit_items_in_mongodb_compass.png" alt="Reddit Items in MongoDB Compass" width=750/&gt;&lt;/p&gt;
 &lt;p&gt;Looks good!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;

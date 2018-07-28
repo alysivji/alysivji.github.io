@@ -127,91 +127,28 @@
 	<hr>
 <ol>
 <li>
-<p>Testing 201: Testing with Test Doubles</p>
-<ul>
-<li>
-<p>Intro</p>
-<ul>
-<li>In the last post I gave a 20,000 foot overview of testing (cover main points).</li>
-<li>I also allude to the TDD holy war between TDD fantatics vs TDD naysayers who preach about common sense testing. TODO: Make this sound better.</li>
-<li>In this post, we're going to look into test doubles (mocks and stubs). We'll be using the unittest.mock library to create and use mocks and stubs in the context of testing a REST API</li>
-</ul>
+<p>pytest tools and tricks plugins</p>
 </li>
 <li>
-<p>What is test double?</p>
-<ul>
-<li>different kinds</li>
-<li>why they are important</li>
-</ul>
+<p>factory fixture</p>
 </li>
-<li>
-<p><code>unittest.mock</code></p>
-<ul>
-<li>Walk thru library show how to use</li>
-<li>Jupyter Notebook format (check out standard library by example to see how they do it). Also add diagrams.<ul>
-<li>talk about what a mock is and then explore it a bit with jupyter</li>
-<li>talk about monkeypatching external dependencies and then do it with the <code>mock.path()</code> context manager<ul>
-<li>simple example with something to show it works</li>
-<li>io.open with <a href="https://docs.python.org/3.6/library/unittest.mock.html#mock-open">mock open</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Show how to use mocks and stubs in the context of a test and how you start thinking when you do it this way (stackoverflow post about mocks vs stubs was good). Do both</p>
-<ul>
-<li><a href="http://wiki.c2.com/?ArrangeActAssert">Arrange, Act, Assert</a> vs record and replay.</li>
-<li>Mock external dependencies and simulate their behavior (i.e. what their attributes are, what they return) and then analyze how they were used</li>
-<li>configure mocks with the state you need and then do what you want. check if what you expected occured</li>
-<li>we assume the class we are using works properly, so we want to issolate it and just check that it was called properly. THIS IS THE POINT</li>
-</ul>
-</li>
-<li>
-<p>Testing requests. Show how we do both mocks and stubs to get both things</p>
-<ul>
-<li>it doen't make sense to stub out requests vs mock it</li>
-<li>stub out your classes, but 3rd party classes might be easier to mock<ul>
-<li>is this true?</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>More Dogma about Mocks vs Stubs. I showed you want I know, again, no horse in this fight. But here is what's out there and what people think about</p>
-<ul>
-<li><a href="https://martinfowler.com/articles/mocksArentStubs.html">This is an inner TDD war (TDD vs BDD)</a><ul>
-<li>different kinds of TDD. London / Outside in vs Detroit / Classic. anti-TDD </li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Sources</p>
-<ul>
-<li><a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">Test Doubles - Fakes, Mocks, and Stubs.</a></li>
-<li><a href="https://www.one-tab.com/page/XOD5OHbGQg-FKMGNbOGFdg">YouTube links</a></li>
-<li><a href="https://www.one-tab.com/page/QYG82-CkSqGs7ndDT6seJQ">Blog Links</a></li>
-<li><a href="https://www.one-tab.com/page/VYzEco9qTuezwXMbmtJRNQ">More blog links</a></li>
-<li><a href="https://www.youtube.com/watch?v=hvPYuqzTPIk">Another YouTube link</a></li>
-<li><a href="https://www.youtube.com/watch?v=d3_LdLzWSXQ">Part 1</a></li>
-<li><a href="https://www.youtube.com/watch?v=ADIcwu2GeEU">Part 2</a></li>
-<li><a href="https://www.youtube.com/watch?v=HbJZu2qcC-s">Ravi Chandra: Fake it till you make it</a></li>
-<li><a href="https://www.youtube.com/watch?v=Xu5EhKVZdV8">Stop Mocking, Start Testing</a><ul>
-<li>not as anti mock as you'd think.</li>
-<li>for dependency inject, always pass in. never construct in a method</li>
-<li>mock objects tell you what you want to hear<ul>
-<li>if something is changed, we'll figure it out as we figure it out</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li>passing in arguments</li>
+<li>cools plugins</li>
+<li>pytest-cov</li>
+<li>pytest-mock</li>
+<li>jupyter notebook</li>
 </ol>
+<hr>
+<ol>
+<li>testing tools</li>
+</ol>
+<p>https://www.youtube.com/watch?v=jmsk1QZQEvQ</p>
+<p>engarde</p>
+<p>great expectations</p>
+<p>hypothesis</p>
+<p>fuzz testing</p>
+<p>mutation testing</p>
+<p>pgtap</p>
 <hr>
 <ol>
 <li>
@@ -226,21 +163,6 @@
 <li><a href="http://jasonpolites.github.io/tao-of-testing/intro-1.1.html">Tao of Testing</a></li>
 </ul>
 </li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol>
-<li>
-<p>Testing 202: Dependency Injection</p>
-<ul>
-<li>have a link tto the Angular jingle from code school</li>
-<li><a href="http://jasonpolites.github.io/tao-of-testing/intro-1.1.html">Tao of Testing</a></li>
-<li><a href="https://www.youtube.com/watch?v=wEhu57pih5w">The Clean Code Talks -- Unit Testing</a><ul>
-<li>new operator is static makes your code static</li>
-</ul>
-</li>
-<li><a href="http://mauveweb.co.uk/posts/2014/09/every-mock-patch-is-a-little-smell.html">monkeypatching is a code smell</a></li>
 </ul>
 </li>
 </ol>
@@ -352,28 +274,28 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
     <span class="tag-2">
       <a href="../tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/web-development.html">
+    <span class="tag-1">
+      <a href="../tag/python.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
+        python
       </a>
     </span>
     <span class="tag-2">
@@ -383,15 +305,21 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/workflow.html">
+      <a href="../tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        workflow
+        exploring-pypi
       </a>
     </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
+    <span class="tag-2">
+      <a href="../tag/review.html">
           <i class="fa fa-tag"></i>
-        python
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
       </a>
     </span>
     <span class="tag-4">
@@ -400,10 +328,82 @@
         vim
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -419,87 +419,9 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="../tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
       </a>
     </span>
 </p>

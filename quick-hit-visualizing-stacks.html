@@ -133,7 +133,7 @@
 <li><code>.is_empty()</code> - <code>True</code> if stack is empty, else <code>False</code></li>
 </ul>
 <p>Elements inside of a stack follow a LIFO (<strong>l</strong>ast <strong>i</strong>n, <strong>f</strong>irst <strong>o</strong>ut) order of operations. Stacks can be implemented as a <a href="http://www.geeksforgeeks.org/linked-list-set-1-introduction/">linked list</a> with a pointer to the top element.</p>
-<p>In this post, we will explore the Stack <a href="https://en.wikipedia.org/wiki/Abstract_data_type">ADT</a> using the <a href="https://github.com/parrt/lolviz">lolviz</a> package that was featured in <a href="https://pythonbytes.fm/episodes/show/41/python-concurrency-from-the-ground-up-and-caring-for-our-community">Episode 41</a> of the <a href="https://pythonbytes.fm">Python Bytes</a> podcast. </p>
+<p>In this post, we will explore the Stack <a href="https://en.wikipedia.org/wiki/Abstract_data_type">ADT</a> using the <a href="https://github.com/parrt/lolviz">lolviz</a> package that was featured in <a href="https://pythonbytes.fm/episodes/show/41/python-concurrency-from-the-ground-up-and-caring-for-our-community">Episode 41</a> of the <a href="https://pythonbytes.fm">Python Bytes</a> podcast.</p>
 <hr>
 <p>Import the <code>lolviz</code> library to visualize data structures.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lolviz</span> <span class="kn">import</span> <span class="o">*</span>
@@ -208,19 +208,19 @@
 </pre></div>
 
 
-<p><img alt="svg" src="/images/11-20/14_output_11_0.svg"></p>
+<p><img alt="svg" src="/images/10-19/14_output_11_0.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </pre></div>
 
 
-<p><img alt="svg" src="/images/11-20/14_output_12_0.svg"></p>
+<p><img alt="svg" src="/images/10-19/14_output_12_0.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </pre></div>
 
 
-<p><img alt="svg" src="/images/11-20/14_output_13_0.svg"></p>
+<p><img alt="svg" src="/images/10-19/14_output_13_0.svg"></p>
 <p>If we take a <code>.peak()</code> at the top most element, we should expect to get 3 back.</p>
 <div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">peek</span><span class="p">()</span>
 </pre></div>
@@ -244,7 +244,7 @@
 </pre></div>
 
 
-<p><img alt="svg" src="/images/11-20/14_output_18_0.svg"></p>
+<p><img alt="svg" src="/images/10-19/14_output_18_0.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
 </pre></div>
 
@@ -257,7 +257,7 @@
 </pre></div>
 
 
-<p><img alt="svg" src="/images/11-20/14_output_20_0.svg"></p>
+<p><img alt="svg" src="/images/10-19/14_output_20_0.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
 </pre></div>
 
@@ -270,7 +270,7 @@
 </pre></div>
 
 
-<p><img alt="svg" src="/images/11-20/14_output_22_0.svg"></p>
+<p><img alt="svg" src="/images/10-19/14_output_22_0.svg"></p>
 <p>The stack is now empty, we should get <code>IndexError</code> exception if we try to <code>.pop()</code>.</p>
 <div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
 </pre></div>
@@ -288,7 +288,7 @@ IndexError                                Traceback (most recent call last)
      24     def pop(self):
      25         if self.is_empty():
 ---&gt; 26             raise IndexError(&#39;pop from empty stack&#39;)
-     27 
+     27
      28         node_to_pop = self.head
 
 
@@ -388,28 +388,28 @@ IndexError: pop from empty stack
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
-    <span class="tag-4">
-      <a href="./tag/web-development.html">
+    <span class="tag-1">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
+        python
       </a>
     </span>
     <span class="tag-2">
@@ -419,15 +419,21 @@ IndexError: pop from empty stack
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/workflow.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        workflow
+        exploring-pypi
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-2">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
-        python
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
       </a>
     </span>
     <span class="tag-4">
@@ -436,10 +442,82 @@ IndexError: pop from empty stack
         vim
       </a>
     </span>
-    <span class="tag-2">
-      <a href="./tag/exploring-pypi.html">
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -455,87 +533,9 @@ IndexError: pop from empty stack
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
       </a>
     </span>
 </p>

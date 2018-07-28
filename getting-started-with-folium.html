@@ -305,7 +305,7 @@
 <hr>
 <h2>Load Divvy Activity Files and Analyze Same Station Rides</h2>
 <p>The Divvy activity files are split by quarters. We want to concatenate the result of multiple calls to pd.read_csv() so let's be Pythonic and use <a href="https://wiki.python.org/moin/Generators">generators</a>. I adapted a <a href="http://stackoverflow.com/questions/20906474/import-multiple-csv-files-into-pandas-and-concatenate-into-one-dataframe">solution I found on Stack Overflow</a>. <em>(Praise Be)</em></p>
-<div class="highlight"><pre><span></span><span class="n">divvyTripFiles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data/Divvy_Trips_2016_Q3Q4/Divvy_Trips_2016_Q3.csv&#39;</span><span class="p">,</span> 
+<div class="highlight"><pre><span></span><span class="n">divvyTripFiles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data/Divvy_Trips_2016_Q3Q4/Divvy_Trips_2016_Q3.csv&#39;</span><span class="p">,</span>
                   <span class="s1">&#39;data/Divvy_Trips_2016_Q3Q4/Divvy_Trips_2016_Q4.csv&#39;</span><span class="p">]</span>
 
 <span class="n">divvyTrips</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">divvyTripFiles</span><span class="p">)</span>
@@ -673,14 +673,14 @@ Name: trip_id, dtype: float64
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes" src="..\images\1-10\2_trip_distribution_in_mintutes.png"></p>
+<p><img alt="Trip Distribution in Minutes" src="..\images\01-09\2_trip_distribution_in_mintutes.png"></p>
 <div class="highlight"><pre><span></span><span class="c1"># distribution grouped by subscriber type</span>
 <span class="n">sameStationTrips</span><span class="p">[</span><span class="n">tripDuration</span> <span class="o">&lt;</span> <span class="n">tripDuration</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="o">.</span><span class="mi">95</span><span class="p">)]</span> \
   <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;usertype&#39;</span><span class="p">)[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\2_trip_distribution_byusertype_in_mintutes.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\01-09\2_trip_distribution_byusertype_in_mintutes.png"></p>
 <div class="highlight"><pre><span></span><span class="c1"># Divvy&#39;s charge more for rides larger than 30 minutes so lets see that</span>
 <span class="c1"># distribution of usage for less than 30</span>
 <span class="n">sameStationTrips</span><span class="p">[</span><span class="n">sameStationTrips</span><span class="p">[</span><span class="s1">&#39;tripInMinutes&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> \
@@ -689,7 +689,7 @@ Name: trip_id, dtype: float64
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\1-10\2_trip_distribution_byusertype_in_mintutes_lt30.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type" src="..\images\01-09\2_trip_distribution_byusertype_in_mintutes_lt30.png"></p>
 <p>There seems to be a lot of same station trips &lt; 3 minutes. A three minute station to station trip probably implies a mistaken bicycle checkout. Let's go ahead and exclude rides that are less than 3 minutes and see how the distribution looks.</p>
 <div class="highlight"><pre><span></span><span class="n">old_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sameStationTrips</span><span class="p">)</span>
 <span class="n">sameStationTrips</span> <span class="o">=</span> <span class="n">sameStationTrips</span><span class="p">[</span><span class="n">sameStationTrips</span><span class="o">.</span><span class="n">tripInMinutes</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">]</span>
@@ -706,7 +706,7 @@ Name: trip_id, dtype: float64
 </pre></div>
 
 
-<p><img alt="Trip Distribution in Minutes by Customer Type for Trips &gt; 3 minutes" src="..\images\1-10\2_trip_distribution_in_mintutes_gt3_lt30.png"></p>
+<p><img alt="Trip Distribution in Minutes by Customer Type for Trips &gt; 3 minutes" src="..\images\01-09\2_trip_distribution_in_mintutes_gt3_lt30.png"></p>
 <div class="highlight"><pre><span></span><span class="c1"># Acording to Folium docs, we can pass the heatmap function a (n, 3) ndarray</span>
 <span class="c1"># with weights in the column</span>
 <span class="n">sameStationCountsByStationID</span> <span class="o">=</span> <span class="n">sameStationTrips</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_station_id&#39;</span><span class="p">)[</span><span class="s1">&#39;trip_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
@@ -829,7 +829,7 @@ Name: trip_id, dtype: float64
 
 
 <p>Let's test it out:</p>
-<div class="highlight"><pre><span></span><span class="n">mapPoints</span><span class="p">(</span><span class="n">sameStationCountsDF</span><span class="p">,</span> <span class="n">plotPoints</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">drawHeatmap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">heatMapWeightsNormalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+<div class="highlight"><pre><span></span><span class="n">mapPoints</span><span class="p">(</span><span class="n">sameStationCountsDF</span><span class="p">,</span> <span class="n">plotPoints</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">drawHeatmap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">heatMapWeightsNormalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
           <span class="n">heatMapWeightsCol</span><span class="o">=</span><span class="s1">&#39;numTrips&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -849,7 +849,7 @@ Name: trip_id, dtype: float64
                                <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">sameStationCountsDF</span><span class="p">[</span><span class="s1">&#39;numTrips&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sameStationCountsDF</span><span class="p">[</span><span class="s1">&#39;trip_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">map_points</span><span class="p">(</span><span class="n">sameStationCountsDF</span><span class="p">,</span> <span class="n">plot_points</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">draw_heatmap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+<span class="n">map_points</span><span class="p">(</span><span class="n">sameStationCountsDF</span><span class="p">,</span> <span class="n">plot_points</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">draw_heatmap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
            <span class="n">heat_map_weights_normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">heat_map_weights_col</span><span class="o">=</span><span class="s1">&#39;numTrips&#39;</span><span class="p">,</span> <span class="n">heat_map_radius</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 </pre></div>
 
@@ -964,28 +964,28 @@ Name: trip_id, dtype: float64
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
-    <span class="tag-4">
-      <a href="./tag/web-development.html">
+    <span class="tag-1">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
+        python
       </a>
     </span>
     <span class="tag-2">
@@ -995,15 +995,21 @@ Name: trip_id, dtype: float64
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/workflow.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        workflow
+        exploring-pypi
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-2">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
-        python
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
       </a>
     </span>
     <span class="tag-4">
@@ -1012,10 +1018,82 @@ Name: trip_id, dtype: float64
         vim
       </a>
     </span>
-    <span class="tag-2">
-      <a href="./tag/exploring-pypi.html">
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -1031,87 +1109,9 @@ Name: trip_id, dtype: float64
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
       </a>
     </span>
 </p>

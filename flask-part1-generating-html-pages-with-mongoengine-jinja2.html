@@ -167,7 +167,7 @@
 <h3>Overview</h3>
 <p>"MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling" (<a href="https://docs.mongodb.com/manual/introduction/">Mongo Docs</a>).</p>
 <p><em>What does this mean?</em> In comparison to a relational database which focuses on linking data across tables with keys, a document database stores all the data elements together in one location.</p>
-<p><img src="/images/1-10/3_relational_vs_mongo_diagram.png" alt="Comparing Relational Databases to MongoDB" width=500/></p>
+<p><img src="/images/01-09/3_relational_vs_mongo_diagram.png" alt="Comparing Relational Databases to MongoDB" width=500/></p>
 <p>There are <a href="https://www.quora.com/What-is-the-use-case-to-choose-a-document-oriented-database-noSQL-over-RDBMS">many reasons to use document-oriented databases over their relational counterparts</a>. As our database will be the main data source for a variety of projects, it makes sense to use Mongo and take advantage of its <a href="https://www.mongodb.com/blog/post/why-schemaless">flexible schemaless structure</a>: <em>our database can grow with the needs of our project</em>.</p>
 <p>Other reasons to use MongoDB:</p>
 <ul>
@@ -181,7 +181,7 @@
 <p>From the <a href="https://docs.mongodb.com/manual/introduction/">Mongo Docs</a>:</p>
 <blockquote>
 <p>A record in MongoDB is a document, which is a data structure composed of field and value pairs. MongoDB documents are similar to JSON objects. The values of fields may include other documents, arrays, and arrays of documents<br />
-<img src="/images/1-10/3_mongodb_document_diagram.svg" alt="MongoDB record information" width=350/></p>
+<img src="/images/01-09/3_mongodb_document_diagram.svg" alt="MongoDB record information" width=350/></p>
 </blockquote>
 <p>MongoDB stores records as BSON (<a href="https://en.wikipedia.org/wiki/BSON">Binary-JSON</a>) documents in collections and collections inside of databases (<a href="https://docs.mongodb.com/manual/core/databases-and-collections/">additional details</a>).</p>
 <p>When we send a query into Mongo, it <a href="https://docs.mongodb.com/manual/indexes/">performs a collection scan</a>, i.e. it scans every document in our queried collection. This means that performance will become an issue as our data scales. To alleviate this, we can create indexes (<a href="https://docs.mongodb.com/manual/core/index-single/">single field</a>, <a href="https://docs.mongodb.com/manual/core/index-compound/">compound</a>, <a href="https://docs.mongodb.com/manual/core/index-multikey/">multikey</a>, or <a href="https://docs.mongodb.com/manual/core/index-text/">text</a>) to ensure all calls to the database are quick.</p>
@@ -203,14 +203,14 @@
 
 <h4>Document Schema</h4>
 <p>Let's use <a href="https://www.mongodb.com/products/compass">MongoDB Compass</a> and take a look at a sample document to understand the fields we can pull.</p>
-<p><img src="/images/1-10/3_top_reddit_posts_mongodb-sample-document.png" alt="Sample Document" width=750/></p>
+<p><img src="/images/01-09/3_top_reddit_posts_mongodb-sample-document.png" alt="Sample Document" width=750/></p>
 <p>The <code>date_str</code> field is a string version of the date field. Having a <code>string</code> type versus an <code>ISODate</code> type will make our queries run faster.</p>
 <p><a name="creating-mongodb-indexes"></a></p>
 <h4>Creating Indexes</h4>
 <p>Following the best practices mentioned above, we should take some time to think about the <a href="http://docs.mongoengine.org/guide/querying.html">queries we will need to run</a>. Taking a step back, we need to consider the kinds of data we will want our website to display.</p>
-<p><img src="/images/1-10/3_views_indexes_required.png" alt="Indexes to Support Views Required" width=600/></p>
+<p><img src="/images/01-09/3_views_indexes_required.png" alt="Indexes to Support Views Required" width=600/></p>
 <p>Use MongoDB Compass to create the index. Should look as follows:</p>
-<p><img src="/images/1-10/3_mongodb_indexes.png" alt="Creating an Index in MongoDB" width=450/></p>
+<p><img src="/images/01-09/3_mongodb_indexes.png" alt="Creating an Index in MongoDB" width=450/></p>
 <p>Our database is all set up and optimized. In the next section we will explore how to get data out of Mongo and into our program.</p>
 <h5>Note</h5>
 <ul>
@@ -255,7 +255,7 @@
 
 <p>Let's make sure this works by testing in the Python REPL.</p>
 <div class="highlight"><pre><span></span><span class="gp">$</span> python
-<span class="go">Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 13:19:00) </span>
+<span class="go">Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 13:19:00)</span>
 <span class="go">[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.57)] on darwin</span>
 <span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
 <span class="gp">&gt;</span>&gt;&gt; from mongoengine.connection import connect
@@ -333,7 +333,7 @@
 <span class="gp">&gt;</span>&gt;&gt; <span class="c1">## get the last date the webscraper was run</span>
 <span class="go">... for post in Post.objects().fields(date_str=1).order_by(&#39;-date_str&#39;).limit(1):</span>
 <span class="go">...     day_to_pull = post.date_str</span>
-<span class="go">... </span>
+<span class="go">...</span>
 <span class="gp">&gt;</span>&gt;&gt; <span class="c1">## pass in variables, render template, and send</span>
 <span class="go">... context = {</span>
 <span class="go">...     &#39;day_to_pull&#39;: day_to_pull,</span>
@@ -478,7 +478,7 @@
 
 
 <p>Did we receive an email?<br />
-<img src="/images/1-10/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/></p>
+<img src="/images/01-09/3_email_digest_in_inbox.png" alt="Email Digest in Inbox" width=450/></p>
 <p><a href="https://www.youtube.com/watch?v=EvkAy4kzv54">YIPPEE!</a></p>
 <h5>Notes</h5>
 <ul>
@@ -575,28 +575,28 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
-    <span class="tag-4">
-      <a href="./tag/web-development.html">
+    <span class="tag-1">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
+        python
       </a>
     </span>
     <span class="tag-2">
@@ -606,15 +606,21 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/workflow.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        workflow
+        exploring-pypi
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-2">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
-        python
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
       </a>
     </span>
     <span class="tag-4">
@@ -623,10 +629,82 @@
         vim
       </a>
     </span>
-    <span class="tag-2">
-      <a href="./tag/exploring-pypi.html">
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -642,87 +720,9 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
       </a>
     </span>
 </p>

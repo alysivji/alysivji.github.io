@@ -23,11 +23,11 @@
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/21-30/30_2_communication_pathways.png" alt="2 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 2, Paths: 1&lt;/center&gt;&lt;/th&gt;
+&lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/30-39/30_2_communication_pathways.png" alt="2 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 2, Paths: 1&lt;/center&gt;&lt;/th&gt;
 &lt;th align="center"&gt;&lt;/th&gt;
-&lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/21-30/30_5_communication_pathways.png" alt="5 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 5, Paths: 10&lt;/center&gt;&lt;/th&gt;
+&lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/30-39/30_5_communication_pathways.png" alt="5 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 5, Paths: 10&lt;/center&gt;&lt;/th&gt;
 &lt;th align="center"&gt;&lt;/th&gt;
-&lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/21-30/30_10_communication_pathways.png" alt="10 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 10, Paths: 45&lt;/center&gt;&lt;/th&gt;
+&lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/30-39/30_10_communication_pathways.png" alt="10 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 10, Paths: 45&lt;/center&gt;&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -149,7 +149,7 @@
 &lt;p&gt;The main reason I took a backend developer role was to level up my dev chops. This means many different things such as writing clean code, being able to identify and correctly apply design patterns, recognizing anti-patterns (code smells), and, of course, learning the tools of the trade.&lt;/p&gt;
 &lt;p&gt;Over the past couple of weeks, I've started transitioning away from the friendly confines of VSCode and iTerm2 into the magical world of &lt;a href="http://www.vim.org/"&gt;Vim&lt;/a&gt; and &lt;a href="https://github.com/tmux/tmux/wiki"&gt;tmux&lt;/a&gt;. Even though I'm fairly proficient with a graphical IDE, I thought it was worth investing in tools that enable me to work as fast as I think.&lt;/p&gt;
 &lt;p&gt;By switching to a terminal-only development environment, I hope to reduce the context switching that occurs everytime I reach for my mouse or trackpad. As an added bonus, I can SSH into any machine and feel at home. No more having to set up &lt;a href="https://en.wikipedia.org/wiki/Rsync"&gt;rsync&lt;/a&gt; or use &lt;a href="https://www.nano-editor.org/"&gt;nano&lt;/a&gt; as a crutch.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://www.commitstrip.com/en/2016/12/22/terminal-forever/"&gt;&lt;img src="/images/11-20/18_commit_strip_terminal_forever.jpg" alt="Commit Strip - Terminal Forever" width=650 /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.commitstrip.com/en/2016/12/22/terminal-forever/"&gt;&lt;img src="/images/10-19/18_commit_strip_terminal_forever.jpg" alt="Commit Strip - Terminal Forever" width=650 /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;How I'm Learning Vim&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;Worked my way through &lt;code&gt;$ vimtutor&lt;/code&gt;. It's a rite of passage.&lt;/li&gt;

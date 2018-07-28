@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Summarize post" />
+    <meta name="author" content="Aly Sivji" />
+    <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Testing 101: An Introduction"/>
+    <meta property="og:url" content="../drafts/testing-101-introduction-to-testing-basics.html"/>
+      <meta property="og:description" content="Summarize post"/>
+      <meta property="article:section" content="Drafts"/>
+        <meta property="article:tag" content="testing"/>
+      <meta property="og:image"
+            content="https://alysivji.github.io/images/20-29/29_header.png"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Testing 101: An Introduction">
+    <meta name="twitter:description" content="Summarize post">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="..">
+      <meta property="twitter:image"
+            content="https://alysivji.github.io/images/20-29/29_header.png"/>
+
+    <title>Testing 101: An Introduction - Siv Scripts</title>
+
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous">
+
+
+      <link rel="stylesheet" href="../theme/css/tango.css" />
+      <link rel="stylesheet" href="../theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="../theme/css/dataframe.css" />
+      <link rel="stylesheet" href="../theme/css/custom.css" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="../favicon.ico" />
+        <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90986575-1', '');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+	   <div class="navbar-header">
+		<button type="button" class="navbar-toggle"
+				data-toggle="collapse" data-target="#main-navbar-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="../" rel="home">
+          <i class="fa fa-home fa-fw fa-lg"> </i> </a>
+       </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+        <ul class="nav navbar-nav">
+              <li>
+                <a href="../pages/about.html">About</a>
+              </li>
+              <li>
+                <a href="../pages/talks.html">Talks</a>
+              </li>
+            <li class="divider"></li>
+            <li class="">
+              <a href="../archives.html">Archives</a>
+            </li>
+          <li class="divider"></li>
+            <li><a href="http://alysivji.github.io/feeds/all.atom.xml"
+                   type="application/atom+xml" rel="alternate">
+                <i class="fa fa-rss fa-fw fa-lg"></i> </a></li>
+        </ul> <!-- /nav -->
+      </div> <!-- /navbar-collapse -->
+	  </div> <!-- /container -->
+    </nav> <!-- /navbar -->
+
+	<div class="jumbotron" id="overview">
+	  <div class="container">
+		<h1><a href="../">Siv Scripts</a></h1>
+		<p class="lead">Solving Problems Using Code</p>
+	  </div>
+	</div>
+
+    <div class="container" id="main-container">
+      <div class="row">
+        <div class="col-md-9" id="content">
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Sun 24 June 2018
+</abbr> <h1>
+  <a href="../drafts/testing-101-introduction-to-testing-basics.html" rel="bookmark"
+     title="Permalink to Testing 101: An Introduction">
+    Testing 101: An Introduction
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="../category/drafts.html">
+      Drafts</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>[TODO make picture... of what?</p>
+<p>professor teaching</p>
+<p>blackboard with testing 101]</p>
+<p>Programming is writing code to solve problems. Software Engineering is the practice of using a <strong>structured process</strong> to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests provide assurances that program functionality does not <a href="https://en.wikipedia.org/wiki/Regression_testing">regress</a>.</p>
+<p>Over the past year, I've spent a lot of time thinking about testing strategies and best practices that can help ensure correctness and allow for future modification. Specifically thought about <em>what</em> to test, <em>how</em> to test, and <em>when</em> to test. Books, blogs, podcasts, YouTube videos, lectuers, discussions with friends and colleagues. Wanted to find the best way forward as I had an awesome opportunity at work.</p>
+<p>At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. Spent a full month planning before writing a single line of code. I learned a lot by pulling threads and asking questions. At every architecture meeting, I was the one asking about the best way to test what we were designing.</p>
+<p>I soon realized there was no holy grail of testing. (Emporer has no clothes moment?). Like everything else in programming, it's about <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">being pragmatic</a>. When we test we need to use tools that increase productivity and make the process so effortless that writing tests became the default way of doing things.</p>
+<p>If testing feels like a chore, programmers won't do it. This is how software quality slips. We dread going into the codebase because either there are no tests or the tests that exist are so brittle that we're forced to rewrite unit tests as we refactor code. This is not what Software Engineering is about. We want to spend more time dealing with the business logic than wrestling with our codebase.</p>
+<p>[picture of pendulum - not writing tests.... poor testing strategy with brittle tests]</p>
+<p>We need to start thinking about our testing strategy as we are architecting the system. In my opinion, this is one aspect the <a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD folks</a> have done right. Thinking about tests improves how the system is architected as we are essentially <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a> our APIs and thinking through implementations as we write code that is easy to test.</p>
+<p>This is the first in a series of posts where I am going to walk through my thoughts on testing. I'll start with the basics and then go through tools and techniques I use to write testable code.</p>
+<p>Disclaimer: My thoughts on testing are evolving as I gain more experience and exposure. I have <a href="https://blog.codinghorror.com/strong-opinions-weakly-held/">strong opinions that are weakly held</a>.</p>
+<hr>
+<h4>Table of Contents</h4>
+<!-- TOC -->
+
+<ul>
+<li><a href="#why-test">Why Test</a></li>
+<li><a href="#types-of-tests">Types of Tests</a><ul>
+<li><a href="#unit-tests">Unit Tests</a></li>
+<li><a href="#integration-tests">Integration Tests</a></li>
+<li><a href="#functional--system-tests">Functional / System Tests</a></li>
+<li><a href="#other-types-of-tests">Other Types of Tests</a></li>
+</ul>
+</li>
+<li><a href="#testing-pyramid">Testing Pyramid</a><ul>
+<li><a href="#testing-column">Testing Column</a></li>
+</ul>
+</li>
+<li><a href="#testing-terminology">Testing Terminology</a></li>
+<li><a href="#what-to-test">What to Test</a></li>
+<li><a href="#when-to-test">When to Test</a></li>
+<li><a href="#testing-patterns">Testing Patterns</a></li>
+<li><a href="#testing-framework">Testing Framework</a></li>
+</ul>
+<!-- /TOC -->
+
+<hr>
+<h2>Why Test</h2>
+<p>This was hinted at in the introduction, but it's best to spell it out.</p>
+<p>When we write code, we need to run it to ensure that it is doing what we expect it to. It's a contract we write with our code, given this you return this.</p>
+<p>There are many ways to execute code, we can: open a REPL, run a function in the terminal, refresh a webpage, etc. This feedback loop of entering inputs and comparing it to what we expect it is what testing is all about</p>
+<p>[ipcture of feedback loop. person changing code, refershing page, seeing result]</p>
+<p>As we write more code, our program becomes complex as modules, classes, and functions become intertwined. Testing our program becomes a challenge as we have to deal with lots of moving pieces.</p>
+<p>[picture of complex feedback loop]</p>
+<p>If our code change brings an unexpected result, we have to spend time tracing the issue to find the source of the bug. The feedback loop doesn't help us narrow the scope of the problem, we only know that an error has occurred somewhere.</p>
+<p>This does not take into account all the various test inputs we need to go over to ensure everything works as before. Can't just test the happy path, we also need to test the exception / error path.</p>
+<p>This is why we, as developers, write automated tests. Tests allow us go into the codebase, change it as required, and not have to worry about breaking pre-existing functionality.</p>
+<p>[benefits of automated testing from code complete pg 528-529 real 566]</p>
+<p>This does not even mention side-effect of tests influencing better software construction practices. Untestable god functions can be broken into logical units as we use concepts like dependency injection to increase code modualrity and readability.</p>
+<p>Lastly, we need to be cognizant of the fact that tests do not show the asbsence of errors. We are only guaranteeing that our program works in the ways we specify. If there is an input in the sample space we have not included, it might work, but it might also not work. This means that our tests will need to evolve as our codebase evolves.</p>
+<h2>Types of Tests</h2>
+<p>There are two main categories of testing: blackbox testing and whitebox testing.</p>
+<p><strong>Blackbox Testing</strong> refers to testing techniques in which the tester cannot see the inner workings of the item being tested.</p>
+<p><strong>Whitebox Testing</strong> is the technique in which the tester can see the inner workings of the item being tested. As developers, we wrote the code inside the box so we can test it more thoroughly. There is still a need for blackbox testing as developers testing means blindspots could exist in the tests.</p>
+<p>There are many types of tests, which are grouped by what is being tested.</p>
+<h3>Unit Tests</h3>
+<ul>
+<li>
+<p>unit test - Test a single public method or function</p>
+</li>
+<li>
+<p>definition</p>
+</li>
+<li>whitebox testing</li>
+<li>what's the size of a unit? we'll come back to this later</li>
+</ul>
+<p>give examples</p>
+<p>Regardless of your integration or system-testing strategy, you should test each unit thoroughly before you combine it with any others. If you’re writing several routines, you should test them one at a time. Routines aren’t really any easier to test individually, but they’re much easier to debug.</p>
+<h3>Integration Tests</h3>
+<ul>
+<li>
+<p>integration test - many parts of the system are tested at once, tests a complete end-to-end lifecycle of an application or a portion versus testing selected components independently</p>
+</li>
+<li>
+<p>definition</p>
+</li>
+<li>whitebox or blackbox</li>
+<li>different definition of integration. in microservices, it's integrating services whereas we consider each service with its own database component to be a unit</li>
+<li>how to do this?</li>
+</ul>
+<p>give examples</p>
+<h3>Functional / System Tests</h3>
+<ul>
+<li>definition</li>
+<li>more blackbox than whitebox, but definitely developers can do this</li>
+<li>going thru the UI might be a bit slow, so maybe we should have a subcutenaeous layer
+give examples</li>
+</ul>
+<h3>Other Types of Tests</h3>
+<p>We covered the 3 main kinds of developer testing, but there are definitely other types of testing</p>
+<ul>
+<li>manual test - test completed by human</li>
+<li>load/scale test - impose stress on application by simulating heavy load conditions / highly concurrent load conditions</li>
+<li>infrastructure test - testing infrastructure underlying software</li>
+<li>QA test - like manual tests</li>
+<li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
+<li>acceptance test (http://softwaretestingfundamentals.com/acceptance-testing/)</li>
+<li>smoke test, just try something to see if it works. will give off smoke if it does not</li>
+</ul>
+<h2>Testing Pyramid</h2>
+<p>https://martinfowler.com/bliki/TestPyramid.html</p>
+<p>A guide to structuring tests.</p>
+<p>The above 3 test types make up the testing pyramid. it's a guideline on how you should structure your tests. There are also other schools of thought, i.e. testing column, that might be a better way to think.</p>
+<p>Basic idea is that you should have enough tests at each level to make you comfortable with the level of testing in your system. Getting a little ahead of ourselves. Maybe come back to this in a later post.</p>
+<h3>Testing Column</h3>
+<p>episode 45 of talk python to me. as we'll see later. unit tests mean we have to mock a lot of things out. is this really the best way to proceed?</p>
+<h2>Testing Terminology</h2>
+<blockquote>
+<p>I love testing, but I hate writing tests.</p>
+</blockquote>
+<ul>
+<li>
+<p>SUT</p>
+</li>
+<li>
+<p>other testing terms, (state verficiation, other types of testing)</p>
+</li>
+</ul>
+<h2>What to Test</h2>
+<p>this is the art, what exactly do we want to test to ensure that everything is working as expected.</p>
+<p>here is where i expect people to be pragmatic. Want to test business logic</p>
+<p>you need to understand</p>
+<p>don't check implementation. sometimes it feels like that's what mocks are doing.</p>
+<p>thing that checks if something is working by mocking out the database</p>
+<p>why not also check if it's working with the database.</p>
+<p>the real thing we care about is the end result. if something isn't working. we're gonna have to change unit tests and integration tests. this is where we need to start thinking more about what a unit actually</p>
+<p>in microservices, a unit could be  aservice</p>
+<h2>When to Test</h2>
+<p>[writing tests something something something butterfly....] is this tdd?</p>
+<p>lot of words out there.</p>
+<p>make it sort of sound like a religion. don't like that. testing should be pragmatic. make it easier to understand instead of complicating it with all this jargon.</p>
+<ul>
+<li>
+<p>talk about TDD</p>
+<ul>
+<li>test first</li>
+<li>test last</li>
+<li>test driven</li>
+<li>dogma of both the TDD fanatics and anti-TDD heretics<ul>
+<li>back in 2014, DHH of Rails fame <a href="https://www.youtube.com/watch?v=9LfmrkyP81M">criticized the ideas behind TDD and software engineer</a> at RailsConf</li>
+<li><a href="https://martinfowler.com/articles/is-tdd-dead/">Discussion with DHH, Fowler, and Kent Beck</a></li>
+<li>kent beck on software engineer radio 167 or something. minute 22 is when the TDD talk starts</li>
+<li>gerard meszaros on xunit test patterns, around 730 in is when the fun time starts</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>tests as documentation? I dunno how much I believe about that. Sure that's not true everywhere. I learned a lot by reading pandas and requests tests.</p>
+</li>
+</ul>
+<h2>Testing Patterns</h2>
+<p>Here we'll go over how to test as well as different metrics we can use to blah blah blah</p>
+<p>more from code complete here</p>
+<p>Arange, Act, Assert</p>
+<p>Given When Then</p>
+<p>[Go thru a few examples in pytest... look at how eric ma did this in his video
+* <a href="https://www.youtube.com/watch?v=yACtdj1_IxE">testing best practices for data science</a>
+]</p>
+<p>pg 513 boundary analysis</p>
+<p>always test boundaries. off by one error joke. https://martinfowler.com/bliki/TwoHardThings.html</p>
+<ul>
+<li>Test Coverage</li>
+</ul>
+<h2>Testing Framework</h2>
+<p>Short section on my choice of testing framework. You saw me use py.test which is my favourite framework. Talk about why</p>
+<p>Principles behind it and why I like it versus unittest</p>
+<p>won't be teaching how to use it, but will be using it to do things. excellent documentation and brian's book is awesome too. maybe a short post on how to use pytest b/c i need it for my talk. figure out how to introduce it in the talk</p>
+<p>might come back to this in a later post</p>
+<p>how i use pytest. very high level. maybe come back to
+<em> talk about factory functions with links to other things
+</em> parameterized functions (quick hit on that)
+* go thru brian's book and make sure we cover a lot of things</p>
+  </div>
+
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="../tag/testing.html"><i class="fa fa-tag"></i>testing</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="../drafts/testing-101-introduction-to-testing-basics.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
+        </div><!-- /content -->
+
+        <div class="col-md-3 sidebar-nav" id="sidebar">
+
+<div class="row">
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-comment fa-fw fa-lg"></i> Social</h4>
+<ul class="list-unstyled social-links">
+    <li><a href="http://linkedin.com/in/alysivji/" target="_blank">
+	  <i class="fa fa-linkedin-square fa-fw fa-lg" title="LinkedIn"></i>
+		LinkedIn
+	</a></li>
+    <li><a href="http://github.com/alysivji" target="_blank">
+	  <i class="fa fa-github-square fa-fw fa-lg" title="GitHub"></i>
+		GitHub
+	</a></li>
+    <li><a href="https://twitter.com/CaiusSivjus" target="_blank">
+	  <i class="fa fa-twitter-square fa-fw fa-lg" title="Twitter"></i>
+		Twitter
+	</a></li>
+</ul>
+</div>
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
+<ul class="list-unstyled category-links">
+  <li><a href="../category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
+  <li><a href="../category/deep-dives.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Deep Dives</a></li>
+  <li><a href="../category/quick-hits.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Quick Hits</a></li>
+  <li><a href="../category/thoughts.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
+  <li><a href="../category/tutorials.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
+</ul>
+</div>
+
+</div> <!-- /row -->
+
+<h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
+<p class="tag-cloud">
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+</p>
+<h4><i class="fa fa-rss fa-fw fa-lg"></i> Feeds</h4>
+<ul class="list-unstyled">
+    <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+		   type="application/atom+xml" rel="alternate">
+		<i class="fa fa-rss-square fa-fw fa-lg"></i> Atom Feed</a></li>
+</ul>
+
+<hr />
+
+        </div><!--/sidebar -->
+      </div><!--/row-->
+    </div><!--/.container /#main-container -->
+
+    <footer id="site-footer">
+      <address id="site-colophon">
+        <p class="text-center text-muted">
+        Site built using <a href="http://getpelican.com/" target="_blank">Pelican</a>
+        &nbsp;&bull;&nbsp; Theme based on
+        <a href="http://www.voidynullness.net/page/voidy-bootstrap-pelican-theme/"
+           target="_blank">VoidyBootstrap</a> by
+        <a href="http://www.robertiwancz.com/"
+           target="_blank">RKI</a>
+        </p>
+      </address><!-- /colophon  -->
+    </footer>
+
+<!-- DISQUS script for displaying comment count -->
+<script type="text/javascript">
+    var disqus_shortname = 'siv-scripts';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
+</html>

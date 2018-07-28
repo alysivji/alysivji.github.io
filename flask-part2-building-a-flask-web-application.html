@@ -214,10 +214,10 @@
 <h2>Model-View-Controller</h2>
 <p>Model–View–Controller (MVC) is an architectural pattern for implementing user interfaces. It divides an application into three interconnected parts: the Model, the View, and the Controller. Separating the "internal representations of information from the ways that information is presented to and accepted from the user" allows us to increase modularity for simultaneous development and code reuse (<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Source</a>).</p>
 <p>Each of the components is defined as follows:<br />
-<img src="/images/1-10/4_mvc_components_description.png" alt="Description of MVC Components" width=600/></p>
+<img src="/images/01-09/4_mvc_components_description.png" alt="Description of MVC Components" width=600/></p>
 <h3>Interactions Betweeen Components</h3>
 <p>The MVC design pattern also defines interactions between components, as we can see in the following diagram <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">from Wikipedia</a>:<br />
-<img src="/images/1-10/4_mvc_diagram.png" alt="Diagram of interactions within the MVC pattern (from Wikipedia)" width=360/></p>
+<img src="/images/01-09/4_mvc_diagram.png" alt="Diagram of interactions within the MVC pattern (from Wikipedia)" width=360/></p>
 <ul>
 <li>The <strong>model</strong> stores data that is retrieved according to commands from the <strong>controller</strong></li>
 <li>The <strong>view</strong> generates output for the user based on changes in the <strong>model</strong></li>
@@ -375,7 +375,7 @@
 <p>As we mentioned before, the view is the user interface (UI) of our web application which renders data from the model as defined by our template. If this sounds familiar, it's because it is. <a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html">We have already used the Jinja2 Templating Engine to generate HTML webpages</a>. In this section, we will build upon our previous work and leverage the concept of <a href="http://jinja.pocoo.org/docs/2.9/templates/#template-inheritance">Jinja template inheritance</a> to create complex applications using an inheritance hierarchy.</p>
 <p>Let's start off by acknowledging that as programmers, we aren't designers, but this shouldn't limit our ability to produce web app with attractive UIs. Like everything else in development, we can stand on the shoulders of giants and use templates created by those who came before us. The <a href="https://html5boilerplate.com/">HTML5 Boilerplate</a> is a popular front-end template we can use to kickstart our project.</p>
 <p>Using <a href="http://www.creativebloq.com/web-design/how-use-html-boilerplate-11513798">this post on how to use the HTML5 Boilerplate</a> as a reference, let's get our hands dirty and create templates for our Reddit Top Posts website. Download and extract a copy of the <a href="http://www.initializr.com/try">Responsive Template</a> (<a href="http://verekia.com/initializr/responsive-template/">docs</a>) from <a href="http://www.initializr.com/">initializr.com</a>:</p>
-<p><img src="/images/1-10/4_download_responsive_template.png" alt="Download Reponsive Template" width=600/></p>
+<p><img src="/images/01-09/4_download_responsive_template.png" alt="Download Reponsive Template" width=600/></p>
 <p>Since Flask looks for Jinja2 files in the <a href="http://flask.pocoo.org/docs/0.12/quickstart/#rendering-templates"><code>templates</code> folder</a> and javascript/css files in the <a href="http://flask.pocoo.org/docs/0.12/quickstart/#static-files"><code>static</code> folder</a>, we will structure our application folder as follows:</p>
 <div class="highlight"><pre><span></span><span class="go">.</span>
 <span class="go">├── app.py</span>
@@ -477,7 +477,7 @@
 </ul>
 <h4>Child Templates</h4>
 <p>Each of our child templates will display a different view of our data. We will design our views as follows:<br/>
-<img src="/images/1-10/4_templates_for_each_view.png" alt="Child Templates for Each View" width=600/></p>
+<img src="/images/01-09/4_templates_for_each_view.png" alt="Child Templates for Each View" width=600/></p>
 <div class="highlight"><pre><span></span><span class="c">&lt;!--templates/index.html--&gt;</span>
 
 {% extends &quot;base.html&quot; %}
@@ -571,7 +571,7 @@
 
 
 <p>We'll open the page in a browser: <br />
-<img src="/images/1-10/4_running_flask_app.png" alt="Child Templates for Each View" width=700/></p>
+<img src="/images/01-09/4_running_flask_app.png" alt="Child Templates for Each View" width=700/></p>
 <p>Looks good!</p>
 <h5>Notes</h5>
 <ul>
@@ -670,28 +670,28 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
     <span class="tag-2">
       <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
-    <span class="tag-4">
-      <a href="./tag/web-development.html">
+    <span class="tag-1">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
+        python
       </a>
     </span>
     <span class="tag-2">
@@ -701,15 +701,21 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/workflow.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        workflow
+        exploring-pypi
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-2">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
-        python
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
       </a>
     </span>
     <span class="tag-4">
@@ -718,10 +724,82 @@
         vim
       </a>
     </span>
-    <span class="tag-2">
-      <a href="./tag/exploring-pypi.html">
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -737,87 +815,9 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
       </a>
     </span>
 </p>
