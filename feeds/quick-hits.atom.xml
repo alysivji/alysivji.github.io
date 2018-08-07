@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-07-28T14:45:00-05:00</updated><entry><title>Lock Your Mock</title><link href="http://alysivji.github.io/lock-your-mock.html" rel="alternate"></link><published>2018-07-28T14:45:00-05:00</published><updated>2018-07-28T14:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-07-28:/lock-your-mock.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-08-07T16:55:00-05:00</updated><entry><title>Elasticsearch + Kibana using Docker Compose</title><link href="http://alysivji.github.io/elasticsearch-kibana-with-docker-compose.html" rel="alternate"></link><published>2018-08-07T16:55:00-05:00</published><updated>2018-08-07T16:55:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-08-07:/elasticsearch-kibana-with-docker-compose.html</id><summary type="html">&lt;p&gt;Earlier this week, I went through the fantastic PyCon 2018 tutorial, &lt;a href="https://www.youtube.com/watch?v=6_P_h2bDwYs"&gt;Building a Search Engine with Python + Elasticsearch&lt;/a&gt;. This required me to have a local installation of Elasticsearch and Kibana.&lt;/p&gt;
+&lt;p&gt;Local installation? Time to spin up Docker, more specifically, Docker Compose.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/30-39/33_header.jpg" alt="Oprah meme: YOU GET A CONTAINERIZED DEVELOPMENT ENVIRONMENT! EVERYONE GETS A CONTAINERIZED DEVELOPMENT ENVIRONMENT!"/&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://docs.docker.com/compose/"&gt;Docker-Compose&lt;/a&gt; is a tool that allows us to define …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Earlier this week, I went through the fantastic PyCon 2018 tutorial, &lt;a href="https://www.youtube.com/watch?v=6_P_h2bDwYs"&gt;Building a Search Engine with Python + Elasticsearch&lt;/a&gt;. This required me to have a local installation of Elasticsearch and Kibana.&lt;/p&gt;
+&lt;p&gt;Local installation? Time to spin up Docker, more specifically, Docker Compose.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/30-39/33_header.jpg" alt="Oprah meme: YOU GET A CONTAINERIZED DEVELOPMENT ENVIRONMENT! EVERYONE GETS A CONTAINERIZED DEVELOPMENT ENVIRONMENT!"/&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://docs.docker.com/compose/"&gt;Docker-Compose&lt;/a&gt; is a tool that allows us to define and run multi-container Docker applications. Over the past year, I've used Docker-Compose everytime I need to add another process to my development workflow.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python project? &lt;a href="https://alysivji.github.io/setting-up-pyenv-virtualenvwrapper.html"&gt;Create a new virtual environment&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Python + &lt;em&gt;anything else&lt;/em&gt;? Docker-Compose is my workhorse.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, I will describe how to create a containerized installation Elasticsearch + Kibana.&lt;/p&gt;
+&lt;p&gt;[Note: I gave &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;detailed introduction to the Docker ecosystem&lt;/a&gt; at a &lt;a href="http://www.chipy.org/"&gt;Chicago Python&lt;/a&gt; meetup back in October 2017].&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Instructions&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Populate &lt;code&gt;docker-compose.yml&lt;/code&gt; with the following configuration:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# ./docker-compose.yml
+
+version: &amp;#39;3&amp;#39;
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - &amp;quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&amp;quot;
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - &amp;quot;9200:9200&amp;quot;
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.2
+    ports:
+      - &amp;quot;5601:5601&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Execute &lt;code&gt;docker-compose up -d&lt;/code&gt; in the terminal&lt;ul&gt;
+&lt;li&gt;Elasticsearch is available at &lt;a href="http://localhost:9200/"&gt;http://localhost:8100/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Kibana UI is up at &lt;a href="http://localhost:5601/"&gt;http://localhost:5601/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content><category term="docker"></category><category term="elasticsearch"></category></entry><entry><title>Lock Your Mock</title><link href="http://alysivji.github.io/lock-your-mock.html" rel="alternate"></link><published>2018-07-28T14:45:00-05:00</published><updated>2018-07-28T14:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-07-28:/lock-your-mock.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
@@ -1719,6 +1767,7 @@ h6:hover .anchor-link {
 &lt;p&gt;This week at work I have to extend the functionality of a WordPress plug-in so it can fit into our microservices-based backend architecture. This means learning enough PHP to write some production-grade code.&lt;/p&gt;
 &lt;p&gt;I don't want to install PHP on my local machine so this is the perfect use case for &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt;! In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, I will describe how to create a containerized PHP + MySQL development environment using Docker Compose.&lt;/p&gt;
 &lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)"&gt;LAMP Stack&lt;/a&gt; is back!&lt;/p&gt;
+&lt;p&gt;[Update: I gave a &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;detailed introduction to the Docker ecosystem&lt;/a&gt; at a &lt;a href="http://www.chipy.org/"&gt;Chicago Python&lt;/a&gt; meetup back in October 2017].&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Instructions&lt;/h3&gt;
 &lt;ul&gt;
@@ -1795,7 +1844,7 @@ services:
 &lt;ul&gt;
 &lt;li&gt;We use &lt;a href="https://docs.docker.com/config/containers/container-networking/"&gt;port-forwarding&lt;/a&gt; to connect to the inside of containers from our local machine.&lt;ul&gt;
 &lt;li&gt;webserver: &lt;code&gt;http://localhost:8100&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;db: &lt;code&gt;mysql://devuser:devpasslocalhost:9906/test_db&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;db: &lt;code&gt;mysql://devuser:devpass@localhost:9906/test_db&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Our local directory, &lt;code&gt;./php&lt;/code&gt;, is &lt;a href="https://docs.docker.com/storage/volumes/"&gt;mounted&lt;/a&gt; inside of the webserver container as &lt;code&gt;/var/www/html/&lt;/code&gt;&lt;ul&gt;
