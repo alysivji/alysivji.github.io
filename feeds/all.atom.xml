@@ -11,7 +11,7 @@
 &lt;li&gt;Python + &lt;em&gt;anything else&lt;/em&gt;? Docker-Compose is my workhorse.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, I will describe how to create a containerized installation Elasticsearch + Kibana.&lt;/p&gt;
-&lt;p&gt;[Note: I gave &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;detailed introduction to the Docker ecosystem&lt;/a&gt; at a &lt;a href="http://www.chipy.org/"&gt;Chicago Python&lt;/a&gt; meetup back in October 2017].&lt;/p&gt;
+&lt;p&gt;[Note: I gave a &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;detailed introduction to the Docker ecosystem&lt;/a&gt; at a &lt;a href="http://www.chipy.org/"&gt;Chicago Python&lt;/a&gt; meetup back in October 2017].&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Instructions&lt;/h3&gt;
 &lt;ul&gt;
@@ -1837,7 +1837,7 @@ h6:hover .anchor-link {
 &lt;p&gt;This week at work I have to extend the functionality of a WordPress plug-in so it can fit into our microservices-based backend architecture. This means learning enough PHP to write some production-grade code.&lt;/p&gt;
 &lt;p&gt;I don't want to install PHP on my local machine so this is the perfect use case for &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt;! In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, I will describe how to create a containerized PHP + MySQL development environment using Docker Compose.&lt;/p&gt;
 &lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)"&gt;LAMP Stack&lt;/a&gt; is back!&lt;/p&gt;
-&lt;p&gt;[Update: I gave a &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;detailed introduction to the Docker ecosystem&lt;/a&gt; at a &lt;a href="http://www.chipy.org/"&gt;Chicago Python&lt;/a&gt; meetup back in October 2017].&lt;/p&gt;
+&lt;p&gt;[2018-08-10 Update: I gave a &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;detailed introduction to the Docker ecosystem&lt;/a&gt; at a &lt;a href="http://www.chipy.org/"&gt;Chicago Python&lt;/a&gt; meetup back in October 2017].&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Instructions&lt;/h3&gt;
 &lt;ul&gt;
