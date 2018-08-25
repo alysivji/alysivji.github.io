@@ -4,27 +4,27 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="Pythonic way of sorting objects by multiple attributes." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Increasing namedtuple Readability with Type Hints"/>
-    <meta property="og:url" content="./namedtuple-type-hints.html"/>
+    <meta property="og:title" content="Sorting by Multiple Fields in Python"/>
+    <meta property="og:url" content="./python-sorting-multiple-attributes.html"/>
+      <meta property="og:description" content="Pythonic way of sorting objects by multiple attributes."/>
       <meta property="article:section" content="Quick Hits"/>
         <meta property="article:tag" content="python"/>
-        <meta property="article:tag" content="pythonic"/>
         <meta property="og:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Increasing namedtuple Readability with Type Hints">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Sorting by Multiple Fields in Python">
+    <meta name="twitter:description" content="Pythonic way of sorting objects by multiple attributes.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
         <meta property="twitter:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>Increasing namedtuple Readability with Type Hints - Siv Scripts</title>
+    <title>Sorting by Multiple Fields in Python - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -109,11 +109,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Mon 01 January 2018
+  Sat 25 August 2018
 </abbr> <h1>
-  <a href="./namedtuple-type-hints.html" rel="bookmark"
-     title="Permalink to Increasing namedtuple Readability with Type Hints">
-    Increasing namedtuple Readability with Type Hints
+  <a href="./python-sorting-multiple-attributes.html" rel="bookmark"
+     title="Permalink to Sorting by Multiple Fields in Python">
+    Sorting by Multiple Fields in Python
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -1101,48 +1101,9 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://en.wikipedia.org/wiki/Type_system#Dynamic_type_checking_and_runtime_type_information">Dynamic typing</a> refers to programs checking variable types at runtime versus compile time. By not having to define the variable type as we write code, we can work faster and take advantage of <a href="https://en.wikipedia.org/wiki/Duck_typing">duck typing</a>.</p>
-<p>On the other hand, we do miss out on some benefits that types bring. Similiar to how the principles of test-driven development force us to write smaller, more testable functions, thinking about types improves software design by making us cognizant of the values our variables hold as well as the values our functions can return.</p>
-<p>Fortunately for Python programmers, <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> added optional type hints to the language. Type hints will not be enforced by the interpreter, but rather used by static code analyzers to enable features such as linting and code introspection.</p>
-<p>Optional type hints allow us to use all the dynamic capabilities of Python with the ability to be as formal as the situation requires.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Over the past few weeks I've been working my way through the <a href="http://adventofcode.com/2017">Advent of Code</a> problem set. Having a lot of fun using parts of the <a href="https://docs.python.org/3.6/library/index.html">Python Standard Library</a> I never get to use at work.</p>
-<p>This includes the <a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a> module. I only started using it a couple of weeks ago, but it has definitely improved how I approach problem solving.</p>
-<p>Instead of blindly attacking each puzzle with a <a href="http://wiki.c2.com/?GodMethod">"God Method"</a>, I break the problem down into components that I can piece together into a working program.</p>
-<p>Type hints allow me to express my thinking more concretely. This is best demonstrated with an example:</p>
-<p>Brain: <em>This function should take a string, parse it with some regex, and return a list</em></p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typings</span> <span class="kn">import</span> <span class="n">List</span>
-
-<span class="k">def</span> <span class="nf">parse_instructions</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]:</span>
-    <span class="n">instructions</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">INSTRUCTION_REGEX</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-
-        <span class="p">(</span><span class="n">register</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">conditional_register</span><span class="p">,</span>
-         <span class="n">conditional_op</span><span class="p">,</span> <span class="n">conditional_amount</span><span class="p">)</span> <span class="o">=</span> <span class="n">parts</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
-
-        <span class="n">result</span> <span class="o">=</span> <span class="n">Instruction</span><span class="p">(</span><span class="n">register</span><span class="p">,</span>
-                             <span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;inc&#39;</span> <span class="k">else</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
-                             <span class="nb">int</span><span class="p">(</span><span class="n">amount</span><span class="p">),</span>
-                             <span class="n">conditional_register</span><span class="p">,</span>
-                             <span class="n">conditional_op</span><span class="p">,</span>
-                             <span class="nb">int</span><span class="p">(</span><span class="n">conditional_amount</span><span class="p">))</span>
-        <span class="n">instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">instructions</span>
-</pre></div>
-<p>With Type Hints, we can explicitly see the function takes in a <code>string</code> and returns a <code>list</code> of <code>Instruction</code> objects.</p>
-<p>Sure this information is also in the function and we can figure out what it does as we read each line, but self-documenting code increases readability with minimal work.</p>
-<p>One of my favourite features of the <code>typings</code> module is <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typings.NamedTuple</code></a>, a typed version of the <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple"><code>collections.namedtuple</code></a> container type.</p>
-<p>In this post we will explore how we can use the typed form of namedtuples to make code more readable. As code is read a lot more than it is written, every little bit of improvement <a href="https://www.python.org/dev/peps/pep-0020/">counts</a>!</p>
+<p>A couple of weeks ago, I stumbled across the <a href="https://docs.python.org/3/howto/sorting.html#sortinghowto">Python Sorting HOW TO</a>. Learned that Python can sort objects by multiple attributes using <a href="https://docs.python.org/3/library/operator.html#operator.attrgetter"><code>operator.attrgetter</code></a> and <a href="https://docs.python.org/3/library/operator.html#operator.itemgetter"><code>operator.itemgetter</code></a>.</p>
+<p>In this <a href="/category/quick-hits.html">Quick Hit</a>, I will show the Pythonic way of sorting objects by multiple attributes.</p>
+<p>Note: This example is leveraging <a href="https://docs.python.org/3/whatsnew/3.7.html#what-s-new-in-python-3-7">Python 3.7 dataclasses</a> for convenience. Objects can be of any type.</p>
 
 </div>
 </div>
@@ -1152,8 +1113,13 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># &quot;regular&quot; namedtuples</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="k">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">faker</span> <span class="k">import</span> <span class="n">Faker</span>
+<span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -1166,12 +1132,30 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s create an Employee object</span>
-<span class="n">Employee</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Employee&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;name age title department job_description&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>sys.version_info(major=3, minor=7, micro=0, releaselevel=&#39;final&#39;, serial=0)</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1181,13 +1165,21 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bob</span> <span class="o">=</span> <span class="n">Employee</span><span class="p">(</span><span class="s1">&#39;Bob Smith&#39;</span><span class="p">,</span> 
-               <span class="mi">35</span><span class="p">,</span> 
-               <span class="s1">&#39;Senior Software Engineer&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;Technology&#39;</span><span class="p">,</span>
-               <span class="p">[</span><span class="s1">&#39;mentor junior developers&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;fix production issues&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;understand deployment pipeline&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create employees to sort</span>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Employee</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    
+
+<span class="n">employees</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="n">fake</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+    <span class="n">_title</span> <span class="o">=</span> <span class="n">fake</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="s2">&quot;job&quot;</span><span class="p">)[</span><span class="s2">&quot;job&quot;</span><span class="p">]</span>
+    <span class="n">_age</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
+    <span class="n">employee</span> <span class="o">=</span> <span class="n">Employee</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">_name</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_title</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="n">_age</span><span class="p">)</span>
+    <span class="n">employees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">employee</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1200,7 +1192,7 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bob</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">employees</span>
 </pre></div>
 
 </div>
@@ -1219,7 +1211,16 @@ h6:hover .anchor-link {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Employee(name=&#39;Bob Smith&#39;, age=35, title=&#39;Senior Software Engineer&#39;, department=&#39;Technology&#39;, job_description=[&#39;mentor junior developers&#39;, &#39;fix production issues&#39;, &#39;understand deployment pipeline&#39;])</pre>
+<pre>[Employee(name=&#39;Eduardo Thomas&#39;, age=23, title=&#39;Engineer, broadcasting (operations)&#39;),
+ Employee(name=&#39;Valerie Lopez&#39;, age=27, title=&#39;Multimedia programmer&#39;),
+ Employee(name=&#39;Mrs. Stephanie Taylor&#39;, age=20, title=&#39;Engineer, building services&#39;),
+ Employee(name=&#39;Sandra Saunders&#39;, age=30, title=&#39;Fast food restaurant manager&#39;),
+ Employee(name=&#39;Victor Flores&#39;, age=30, title=&#39;Records manager&#39;),
+ Employee(name=&#39;Maria Richardson&#39;, age=47, title=&#39;Tour manager&#39;),
+ Employee(name=&#39;Jordan Romero&#39;, age=23, title=&#39;Production manager&#39;),
+ Employee(name=&#39;Jordan Carter&#39;, age=30, title=&#39;Tax adviser&#39;),
+ Employee(name=&#39;Katie Black&#39;, age=24, title=&#39;IT sales professional&#39;),
+ Employee(name=&#39;Maria Henderson&#39;, age=18, title=&#39;Contracting civil engineer&#39;)]</pre>
 </div>
 
 </div>
@@ -1233,9 +1234,7 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">name</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">employees</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1248,14 +1247,24 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Bob Smith
-&lt;class &#39;str&#39;&gt;
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[Employee(name=&#39;Eduardo Thomas&#39;, age=23, title=&#39;Engineer, broadcasting (operations)&#39;),
+ Employee(name=&#39;Jordan Carter&#39;, age=30, title=&#39;Tax adviser&#39;),
+ Employee(name=&#39;Jordan Romero&#39;, age=23, title=&#39;Production manager&#39;),
+ Employee(name=&#39;Katie Black&#39;, age=24, title=&#39;IT sales professional&#39;),
+ Employee(name=&#39;Maria Henderson&#39;, age=18, title=&#39;Contracting civil engineer&#39;),
+ Employee(name=&#39;Maria Richardson&#39;, age=47, title=&#39;Tour manager&#39;),
+ Employee(name=&#39;Mrs. Stephanie Taylor&#39;, age=20, title=&#39;Engineer, building services&#39;),
+ Employee(name=&#39;Sandra Saunders&#39;, age=30, title=&#39;Fast food restaurant manager&#39;),
+ Employee(name=&#39;Valerie Lopez&#39;, age=27, title=&#39;Multimedia programmer&#39;),
+ Employee(name=&#39;Victor Flores&#39;, age=30, title=&#39;Records manager&#39;)]</pre>
 </div>
+
 </div>
 
 </div>
@@ -1267,9 +1276,7 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">age</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">employees</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1282,14 +1289,24 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>35
-&lt;class &#39;int&#39;&gt;
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[Employee(name=&#39;Maria Henderson&#39;, age=18, title=&#39;Contracting civil engineer&#39;),
+ Employee(name=&#39;Mrs. Stephanie Taylor&#39;, age=20, title=&#39;Engineer, building services&#39;),
+ Employee(name=&#39;Eduardo Thomas&#39;, age=23, title=&#39;Engineer, broadcasting (operations)&#39;),
+ Employee(name=&#39;Jordan Romero&#39;, age=23, title=&#39;Production manager&#39;),
+ Employee(name=&#39;Katie Black&#39;, age=24, title=&#39;IT sales professional&#39;),
+ Employee(name=&#39;Valerie Lopez&#39;, age=27, title=&#39;Multimedia programmer&#39;),
+ Employee(name=&#39;Sandra Saunders&#39;, age=30, title=&#39;Fast food restaurant manager&#39;),
+ Employee(name=&#39;Victor Flores&#39;, age=30, title=&#39;Records manager&#39;),
+ Employee(name=&#39;Jordan Carter&#39;, age=30, title=&#39;Tax adviser&#39;),
+ Employee(name=&#39;Maria Richardson&#39;, age=47, title=&#39;Tour manager&#39;)]</pre>
 </div>
+
 </div>
 
 </div>
@@ -1301,9 +1318,7 @@ h6:hover .anchor-link {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">title</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">employees</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1316,420 +1331,22 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Senior Software Engineer
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">department</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Technology
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">job_description</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;mentor junior developers&#39;, &#39;fix production issues&#39;, &#39;understand deployment pipeline&#39;]
-&lt;class &#39;list&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>namedtuples are a great language feature as they allow our code to be more explicit about which field(s) we are working with.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-<span class="c1">## versus</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">bob</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Bob Smith
-Bob Smith
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using the <code>typing</code> module, we can be even more explicit about our data structures.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EmployeeImproved</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">department</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">job_description</span><span class="p">:</span> <span class="n">List</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">emma</span> <span class="o">=</span> <span class="n">EmployeeImproved</span><span class="p">(</span><span class="s1">&#39;Emma Johnson&#39;</span><span class="p">,</span>
-                        <span class="mi">28</span><span class="p">,</span>
-                        <span class="s1">&#39;Front-end Developer&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Technology&#39;</span><span class="p">,</span>
-                        <span class="p">[</span><span class="s1">&#39;build React components&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;test front-end using Selenium&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;mentor junior developers&#39;</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">emma</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>EmployeeImproved(name=&#39;Emma Johnson&#39;, age=28, title=&#39;Front-end Developer&#39;, department=&#39;Technology&#39;, job_description=[&#39;build React components&#39;, &#39;test front-end using Selenium&#39;, &#39;mentor junior developers&#39;])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">name</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Emma Johnson
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">age</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>28
-&lt;class &#39;int&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">title</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Front-end Developer
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">department</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Technology
-&lt;class &#39;str&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">attribute_to_examine</span> <span class="o">=</span> <span class="n">emma</span><span class="o">.</span><span class="n">job_description</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">attribute_to_examine</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;build React components&#39;, &#39;test front-end using Selenium&#39;, &#39;mentor junior developers&#39;]
-&lt;class &#39;list&#39;&gt;
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">emma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[20]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;Emma Johnson&#39;</pre>
+<pre>[Employee(name=&#39;Maria Henderson&#39;, age=18, title=&#39;Contracting civil engineer&#39;),
+ Employee(name=&#39;Mrs. Stephanie Taylor&#39;, age=20, title=&#39;Engineer, building services&#39;),
+ Employee(name=&#39;Eduardo Thomas&#39;, age=23, title=&#39;Engineer, broadcasting (operations)&#39;),
+ Employee(name=&#39;Jordan Romero&#39;, age=23, title=&#39;Production manager&#39;),
+ Employee(name=&#39;Katie Black&#39;, age=24, title=&#39;IT sales professional&#39;),
+ Employee(name=&#39;Valerie Lopez&#39;, age=27, title=&#39;Multimedia programmer&#39;),
+ Employee(name=&#39;Jordan Carter&#39;, age=30, title=&#39;Tax adviser&#39;),
+ Employee(name=&#39;Sandra Saunders&#39;, age=30, title=&#39;Fast food restaurant manager&#39;),
+ Employee(name=&#39;Victor Flores&#39;, age=30, title=&#39;Records manager&#39;),
+ Employee(name=&#39;Maria Richardson&#39;, age=47, title=&#39;Tour manager&#39;)]</pre>
 </div>
 
 </div>
@@ -1742,8 +1359,7 @@ Bob Smith
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Personally I find the typed version of <code>Employee</code> to be an improvement over the untyped version.</p>
-<p>I'm not saying we should all start using types or run our code thru <a href="http://mypy.readthedocs.io/en/latest/">Mypy</a>, but it's good to be aware of language features that can help reduce complexity and increase readability.</p>
+<p>Notice the employees are sorted <strong>by age</strong> and <strong>by name</strong>.</p>
 
 </div>
 </div>
@@ -1785,7 +1401,6 @@ Bob Smith
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
 	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
-	<a href="./tag/pythonic.html"><i class="fa fa-tag"></i>pythonic</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -1799,7 +1414,7 @@ Bob Smith
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./namedtuple-type-hints.html" 
+        data-href="./python-sorting-multiple-attributes.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
