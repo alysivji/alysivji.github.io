@@ -130,10 +130,11 @@
 <p>blackboard with testing 101]</p>
 <p>Programming is writing code to solve problems. Software Engineering is the practice of using a <strong>structured process</strong> to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests provide assurances that program functionality does not <a href="https://en.wikipedia.org/wiki/Regression_testing">regress</a>.</p>
 <p>Over the past year, I've spent a lot of time thinking about testing strategies and best practices that can help ensure correctness and allow for future modification. Specifically thought about <em>what</em> to test, <em>how</em> to test, and <em>when</em> to test. Books, blogs, podcasts, YouTube videos, lectuers, discussions with friends and colleagues. Wanted to find the best way forward as I had an awesome opportunity at work.</p>
-<p>At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. Spent a full month planning before writing a single line of code. I learned a lot by pulling threads and asking questions. At every architecture meeting, I was the one thinking about how we were going to test the system we were designing.</p>
-<p>I soon realized there was no holy grail of testing. (Emporer has no clothes moment?). Like everything else in programming, it's about <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">being pragmatic</a>. Pragmatic in <em>what</em> we test, <em>how</em> we test, and <em>when</em> we test. We should use tools that increase productivity and make the process so effortless that writing tests became the default way of doing things.</p>
-<p>If testing feels like a chore, programmers won't do it. This is how software quality slips. We dread going into the codebase because either there are no tests or the tests that exist are so brittle that we're forced to rewrite unit tests as we refactor code. This is not what Software Engineering is about. Our tests should not hamper our ability to make changes to our codebase. We need to be spending time dealing with the business logic, not wrestling with our codebase.</p>
-<p>[picture of pendulum - not writing tests.... poor testing strategy with brittle tests]</p>
+<p>At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. Our Director of Engineering gave us a full month to plan out the project before letting us write a single line of production code. This time was instramental in project success as we had time to try a few ideas before finalizing our system design. I learned a lot by pulling threads and asking questions. At every architecture meeting, I was the one thinking about how we were going to test the system we were designing.</p>
+<p>I soon realized there was no holy grail of testing. Like everything else in programming, it's about <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">being pragmatic</a>. Pragmatic in <em>what</em> we test, <em>how</em> we test, and <em>when</em> we test. We should use tools that increase productivity and make the process so effortless that writing tests became the default way of doing things.</p>
+<p>If testing feels like a chore, programmers won't do it. This is how software quality slips. We dread going into the codebase because either there are no tests or the tests that exist are so brittle that we're forced to rewrite unit tests as we refactor code. This is not what Software Engineering is about. Tests should not hamper our ability to make changes to the codebase. We should be spending time writing business logic, not wrestling with tests.</p>
+<p>[picture of pendulum - not writing tests.... poor testing strategy with brittle tests]
+[spectrum?]</p>
 <p>We need to start thinking about our testing strategy as we are architecting the system. In my opinion, this is one aspect the <a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD folks</a> have done right. Thinking about tests improves how the system is architected as we are essentially <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a> our APIs and thinking through implementations as we write code that is easy to test.</p>
 <p>This is the first in a series of posts where I am going to walk through my thoughts on testing. I'll start with the basics and then go through tools and techniques I use to write testable code.</p>
 <p>Disclaimer: My thoughts on testing are evolving as I gain more experience and exposure. I have <a href="https://blog.codinghorror.com/strong-opinions-weakly-held/">strong opinions that are weakly held</a>.</p>
@@ -145,23 +146,25 @@
 <li><a href="#what-is-testing">What is Testing</a></li>
 <li><a href="#why-test">Why Test</a></li>
 <li><a href="#black-box-vs-white-box">Black Box vs White Box</a></li>
-<li><a href="#manual-tests-versus-automated-tests">Manual Tests versus Automated Tests</a></li>
-<li><a href="#types-of-tests">Types of Tests</a><ul>
+<li><a href="#testing-pyramid">Testing Pyramid</a><ul>
 <li><a href="#unit-tests">Unit Tests</a></li>
 <li><a href="#integration-tests">Integration Tests</a></li>
 <li><a href="#functional--system-tests">Functional / System Tests</a></li>
+</ul>
+</li>
+<li><a href="#testing-terminology">Testing Terminology</a><ul>
 <li><a href="#other-types-of-tests">Other Types of Tests</a></li>
 </ul>
 </li>
-<li><a href="#testing-pyramid">Testing Pyramid</a><ul>
-<li><a href="#testing-column">Testing Column</a></li>
-</ul>
-</li>
-<li><a href="#testing-terminology">Testing Terminology</a></li>
 <li><a href="#what-to-test">What to Test</a></li>
 <li><a href="#when-to-test">When to Test</a></li>
 <li><a href="#testing-patterns">Testing Patterns</a></li>
 <li><a href="#testing-framework">Testing Framework</a></li>
+<li><a href="#robust-tests-miscellaneous">Robust Tests (Miscellaneous)</a><ul>
+<li><a href="#testing-column">Testing Column</a></li>
+</ul>
+</li>
+<li><a href="#resources">Resources</a></li>
 </ul>
 <!-- /TOC -->
 
@@ -169,48 +172,52 @@
 <h2>What is Testing</h2>
 <p>To understand what a test is, we need to start with a diagram and some definitions.</p>
 <p><img src="/images/30-39/system_under_test.jpg" alt="Diagram of a system under test" /></p>
-<p>A System Under Test (SUT) is the entity that is currently being tested. This could be a line of code, a method, or an entire program.</p>
-<p>Testing refers to the process of entering inputs into our system under test and validating outputs against our acceptance criteria. If output is okay, our test passes. If output is not okay, our test fails and we have to debug. Hopefully the test failure left enough breadcrumbs for us to find out where to look.</p>
+<p>A <strong>System Under Test (SUT)</strong> is the entity that is currently being tested. This could be a line of code, a method, or an entire program.</p>
+<p><strong>Testing</strong> refers to the process of entering inputs into our system under test and validating outputs against our acceptance criteria. If output is okay, our test passes. If output is not okay, our test fails and we have to debug. Hopefully the test failure left enough breadcrumbs for us to find out where to look.</p>
 <hr>
 <h2>Why Test</h2>
-<p>Test provides a feedback mechanism that informs us if our program is working as intended. If we change the code and tests pass, we known our program works in the ways our test expects. If tests fail, we need to understand why so we can make modifications to fix as required.</p>
-<p><img src="/images/30-39/feedback_loop.jpg" alt="Tests provide a feedback mechanism" /></p>
-<p>TODO: move this somewhere
-We can test many different ways. The simplest form is manual testing where we try things out in the REPL or by refreshing a webpage. While this type of testing works for small projects, it becomes unmanageable as our application increases in complexity. We will come back to this in a bit.</p>
-<p>Tests help us ensure that the code we write is doing what we expect it to. It's a contract we write with our code; if we enter a value into our code, we expect a specfic result to come back.</p>
-<p>This was hinted at in the introduction, but it's best to spell it out. When we write code, we need to run it to ensure that it is doing what we expect it to. It's a contract we write with our code, given a value a specific result is expected.</p>
-<p>There are many ways to execute code, we can: open a REPL, run a function in the terminal, refresh a webpage, etc. This feedback loop of entering inputs and comparing it to what we expect it is what testing is all about</p>
-<p>[ipcture of feedback loop. person changing code, refershing page, seeing result]</p>
-<p>As we write more code, our program becomes complex as modules, classes, and functions become intertwined. Testing our program becomes a challenge as we have to deal with lots of moving pieces.</p>
-<p>[picture of complex feedback loop]</p>
-<p>If our code change brings an unexpected result, we have to spend time tracing the issue to find the source of the bug. The feedback loop doesn't help us narrow the scope of the problem, we only know that an error has occurred somewhere.</p>
-<p>This does not take into account all the various test inputs we need to go over to ensure everything works as before. Can't just test the happy path, we also need to test the exception / error path.</p>
-<p>This is why we, as developers, write automated tests. Tests allow us go into the codebase, change it as required, and not have to worry about breaking pre-existing functionality.</p>
-<p>[benefits of automated testing from code complete pg 528-529 real 566]</p>
-<p>This does not even mention side-effect of tests influencing better software construction practices. Untestable god functions can be broken into logical units as we use concepts like dependency injection to increase code modualrity and readability.</p>
-<p>Lastly, we need to be cognizant of the fact that tests do not show the asbsence of errors. We are only guaranteeing that our program works in the ways we specify. If there is an input in the sample space we have not included, it might work, but it might also not work. This means that our tests will need to evolve as our codebase evolves.</p>
+<p>This was hinted at in the introduction, but it's best to be explicit. When we write code, we need to run it to ensure that it is doing what we expect it to. It's a contract we write with our code, given a value, we expect a certain result to be returned.</p>
+<p>Test provides a feedback mechanism that informs us if our program is working as intended. If we change the code and tests pass, we know our program works the way our test expects. If tests fail, we need to understand why they failed so we can make modify our code, as required.</p>
+<p><img src="/images/30-39/feedback_loop.jpg" width=400 alt="Tests provide a feedback mechanism" /></p>
+<p>We can run our code for testing purposes many different ways. The simpest way is manually where we try run a command in the REPL or refresh a webpage to make sure that our program does what it is supposed to. While this type of testing is fine for small projects, it becomes unmanageable for any project with modicum of complexity.</p>
+<p>Any program that does anything of interest requires interaction amongst functions, classes, and modules. This creates dependency between components and could result in a situation where changing one line of code breaks functionality somewhere unexpected.</p>
+<p>This means we have to test our entire application every time we modify our code. Doing this manually is not very scalable, so we automate the process by codifying our testing logic so it can be run on-demand.</p>
 <hr>
 <h2>Black Box vs White Box</h2>
 <p>Tests can be broadly classified into two broad categories: black box testing and white box testing.</p>
 <p><strong>Black Box Testing</strong> refers to testing techniques in which the tester cannot see the inner workings of the item being tested.</p>
-<p><img src="/images/30-39/black_box_testing.jpg" alt="Picture showing input and output going into a blackbox" /></p>
-<p><strong>White Box Testing</strong> is the technique in which the tester can see the inner workings of the item being tested. As developers, we wrote the code inside the box so we can test it more thoroughly. There is still a need for blackbox testing as developers testing means blindspots could exist in the tests.</p>
-<p><img src="/images/30-39/white_box_testing.jpg" alt="Picture showing input and output going into a transparent box where we can see how information flows" /></p>
+<p><img src="/images/30-39/black_box_testing.jpg" width=400 alt="Picture showing input and output going into a blackbox" /></p>
+<p><strong>White Box Testing</strong> is the technique in which the tester can see the inner workings of the item being tested.</p>
+<p><img src="/images/30-39/white_box_testing.jpg" width=400 alt="Picture showing input and output going into a transparent box where we can see how information flows" /></p>
+<p>As developers, we perform whitebox testing. We wrote the code inside of the box so we can test it more thoroughly. This is not to say that there is no need for blackbox testing, we should still have somebody check things at a higher level as proxmity to the code could result in blindspots.</p>
 <hr>
-<h2>Manual Tests versus Automated Tests</h2>
-<p>a barrier to changing code as testing grows exponentially with program compelxity. As we will soon see, automating our test suite affords us the luxury of being able to modify our codebase and ensure that we do not break pre-existing functionality.</p>
-<h2>Types of Tests</h2>
-<p>There are many types of tests, which are grouped by what is being tested.</p>
+<!-- HERE -->
+
+<h2>Testing Pyramid</h2>
+<p>The testing pyramid is one of the blah blah blah.</p>
+<p><img src="/images/30-39/testing_pyramid.png" width=400 alt="Picture showing automated testing pyramid" /></p>
+<p>https://martinfowler.com/bliki/TestPyramid.html
+https://automationpanda.com/2018/08/01/the-testing-pyramid/</p>
+<p>A guide to structuring tests.</p>
+<p>The above 3 test types make up the testing pyramid. it's a guideline on how you should structure your tests. There are also other schools of thought, i.e. testing column, that might be a better way to think.</p>
+<p>Basic idea is that you should have enough tests at each level to make you comfortable with the level of testing in your system. Getting a little ahead of ourselves. Maybe come back to this in a later post.</p>
+<hr>
+<ul>
+<li>https://www.youtube.com/watch?v=jmsk1QZQEvQ</li>
+<li>property based testing</li>
+<li>fuzz testing</li>
+<li>stress testing</li>
+<li>mutation testing</li>
+</ul>
+<hr>
 <h3>Unit Tests</h3>
 <ul>
-<li>
-<p>unit test - Test a single public method or function</p>
-</li>
-<li>
-<p>definition</p>
-</li>
+<li>unit test - Test a single public method or function</li>
+<li>definition</li>
 <li>whitebox testing</li>
 <li>what's the size of a unit? we'll come back to this later</li>
+<li>scope of what is tested</li>
+<li>if test fails, where to look... how much do we know?</li>
 </ul>
 <p>give examples</p>
 <p>Regardless of your integration or system-testing strategy, you should test each unit thoroughly before you combine it with any others. If you’re writing several routines, you should test them one at a time. Routines aren’t really any easier to test individually, but they’re much easier to debug.</p>
@@ -234,24 +241,6 @@ We can test many different ways. The simplest form is manual testing where we tr
 <li>going thru the UI might be a bit slow, so maybe we should have a subcutenaeous layer
 give examples</li>
 </ul>
-<h3>Other Types of Tests</h3>
-<p>We covered the 3 main kinds of developer testing, but there are definitely other types of testing</p>
-<ul>
-<li>manual test - test completed by human</li>
-<li>load/scale test - impose stress on application by simulating heavy load conditions / highly concurrent load conditions</li>
-<li>infrastructure test - testing infrastructure underlying software</li>
-<li>QA test - like manual tests</li>
-<li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
-<li>acceptance test (http://softwaretestingfundamentals.com/acceptance-testing/)</li>
-<li>smoke test, just try something to see if it works. will give off smoke if it does not</li>
-</ul>
-<h2>Testing Pyramid</h2>
-<p>https://martinfowler.com/bliki/TestPyramid.html</p>
-<p>A guide to structuring tests.</p>
-<p>The above 3 test types make up the testing pyramid. it's a guideline on how you should structure your tests. There are also other schools of thought, i.e. testing column, that might be a better way to think.</p>
-<p>Basic idea is that you should have enough tests at each level to make you comfortable with the level of testing in your system. Getting a little ahead of ourselves. Maybe come back to this in a later post.</p>
-<h3>Testing Column</h3>
-<p>episode 45 of talk python to me. as we'll see later. unit tests mean we have to mock a lot of things out. is this really the best way to proceed?</p>
 <h2>Testing Terminology</h2>
 <blockquote>
 <p>I love testing, but I hate writing tests.</p>
@@ -263,6 +252,17 @@ give examples</li>
 <li>
 <p>other testing terms, (state verficiation, other types of testing)</p>
 </li>
+</ul>
+<h3>Other Types of Tests</h3>
+<p>We covered the 3 main kinds of developer testing, but there are definitely other types of testing</p>
+<ul>
+<li>manual test - test completed by human</li>
+<li>load/scale test - impose stress on application by simulating heavy load conditions / highly concurrent load conditions</li>
+<li>infrastructure test - testing infrastructure underlying software</li>
+<li>QA test - like manual tests</li>
+<li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
+<li>acceptance test (http://softwaretestingfundamentals.com/acceptance-testing/)</li>
+<li>smoke test, just try something to see if it works. will give off smoke if it does not</li>
 </ul>
 <h2>What to Test</h2>
 <p>this is the art, what exactly do we want to test to ensure that everything is working as expected.</p>
@@ -319,6 +319,20 @@ give examples</li>
 <em> talk about factory functions with links to other things
 </em> parameterized functions (quick hit on that)
 * go thru brian's book and make sure we cover a lot of things</p>
+<hr>
+<h2>Robust Tests (Miscellaneous)</h2>
+<p>result, we have to spend time tracing the issue to find the source of the bug. The feedback loop doesn't help us narrow the scope of the problem, we only know that an error has occurred somewhere.</p>
+<p>This does not take into account all the various test inputs we need to go over to ensure everything works as before. Can't just test the happy path, we also need to test the exception / error path.</p>
+<p>This does not even mention side-effect of tests influencing better software construction practices. Untestable god functions can be broken into logical units as we use concepts like dependency injection to increase code modualrity and readability.</p>
+<p>Lastly, we need to be cognizant of the fact that tests do not show the asbsence of errors. We are only guaranteeing that our program works in the ways we specify. If there is an input in the sample space we have not included, it might work, but it might also not work. This means that our tests will need to evolve as our codebase evolves.</p>
+<h3>Testing Column</h3>
+<p>episode 45 of talk python to me. as we'll see later. unit tests mean we have to mock a lot of things out. is this really the best way to proceed?</p>
+<h2>Resources</h2>
+<ul>
+<li>Google Testing Blog: <a href="https://testing.googleblog.com/2015/04/just-say-no-to-more-end-to-end-tests.html">Just Say No to More End-to-End Tests</a></li>
+<li>Testing Column podcast</li>
+<li>Test and Code podcast</li>
+</ul>
   </div>
 
 <div class="article-tag-list">
@@ -408,16 +422,16 @@ give examples</li>
         book
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/workflow.html">
+    <span class="tag-1">
+      <a href="../tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        workflow
+        pythonic
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
           <i class="fa fa-tag"></i>
-        elasticsearch
+        data-science
       </a>
     </span>
     <span class="tag-2">
@@ -426,70 +440,10 @@ give examples</li>
         testing
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
     <span class="tag-3">
       <a href="../tag/grad-school.html">
           <i class="fa fa-tag"></i>
         grad-school
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
       </a>
     </span>
     <span class="tag-2">
@@ -502,42 +456,6 @@ give examples</li>
       <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
         how-to
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-development.html">
-          <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
       </a>
     </span>
     <span class="tag-3">
@@ -553,9 +471,111 @@ give examples</li>
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/data-science.html">
+      <a href="../tag/workflow.html">
           <i class="fa fa-tag"></i>
-        data-science
+        workflow
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/elasticsearch.html">
+          <i class="fa fa-tag"></i>
+        elasticsearch
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
       </a>
     </span>
 </p>

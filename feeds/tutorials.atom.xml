@@ -3265,6 +3265,7 @@ exception handled
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Flask&lt;/h2&gt;
+&lt;p&gt;&lt;a name="flask-overview"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;In the &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;previous post&lt;/a&gt;, we briefly mentioned that Flask is the best Python web framework for our use case. What does this mean? In this section, we will introduce Flask and discuss the features that make it so popular.&lt;/p&gt;
 &lt;p&gt;As the name implies, the &lt;a href="http://flask.pocoo.org/"&gt;Flask microframework&lt;/a&gt; is a lightweight web framework that we can extend to get the functionality we require.&lt;/p&gt;
 &lt;p&gt;From the &lt;a href="http://flask.pocoo.org/docs/0.12/foreword/"&gt;documentation&lt;/a&gt;:&lt;/p&gt;

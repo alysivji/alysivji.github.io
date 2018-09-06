@@ -1,5 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-08-25T15:00:00-05:00</updated><entry><title>Sorting by Multiple Fields in Python</title><link href="http://alysivji.github.io/python-sorting-multiple-attributes.html" rel="alternate"></link><published>2018-08-25T15:00:00-05:00</published><updated>2018-08-25T15:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-08-25:/python-sorting-multiple-attributes.html</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-09-06T16:45:00-05:00</updated><entry><title>Implementing a Plugin Architecture in a Python Application</title><link href="http://alysivji.github.io/simple-plugin-system.html" rel="alternate"></link><published>2018-09-06T16:45:00-05:00</published><updated>2018-09-06T16:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-06:/simple-plugin-system.html</id><summary type="html">&lt;p&gt;In July, I released my &lt;a href="https://github.com/alysivji/falcon-apispec"&gt;first open source project&lt;/a&gt;. It's an &lt;a href="https://github.com/marshmallow-code/apispec"&gt;apispec&lt;/a&gt; plugin that generates &lt;a href="https://swagger.io/docs/specification/about/"&gt;OpenAPI Specification&lt;/a&gt; (aka Swagger docs) for &lt;a href="https://github.com/falconry/falcon"&gt;Falcon web applications&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Apispec's design made it easy to extend core functionality for a specific use case. I extended the &lt;code&gt;apispec.BasePlugin&lt;/code&gt; class, overrode a couple of methods, and …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In July, I released my &lt;a href="https://github.com/alysivji/falcon-apispec"&gt;first open source project&lt;/a&gt;. It's an &lt;a href="https://github.com/marshmallow-code/apispec"&gt;apispec&lt;/a&gt; plugin that generates &lt;a href="https://swagger.io/docs/specification/about/"&gt;OpenAPI Specification&lt;/a&gt; (aka Swagger docs) for &lt;a href="https://github.com/falconry/falcon"&gt;Falcon web applications&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Apispec's design made it easy to extend core functionality for a specific use case. I extended the &lt;code&gt;apispec.BasePlugin&lt;/code&gt; class, overrode a couple of methods, and I was done. Had to dig into apispec internals to figure out how things were wired together, but it was easy to build upon what was already there&lt;/p&gt;
+&lt;p&gt;This got me thinking about how to implement a plugin system in one of my own applications. Creating a plugin architecture? It sounded hard. An &lt;em&gt;advanced&lt;/em&gt; computer science concept, if you will.&lt;/p&gt;
+&lt;p&gt;I mulled over a few different implementations based on software I had previously used. I realized this wasn't a difficult problem. Like everything else in programming, once we deconstruct the problem into smaller chunks, we can reason about implementation details clearly.&lt;/p&gt;
+&lt;p&gt;We assume things are more difficult than they appear. This is especially true for problems we have not seen before. Take a step back. Breathe. Break the problem down into smaller pieces. You got this.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/30-39/35_you_got_this.jpg" width=400 alt="Motivational You Got This poster with dog" /&gt;&lt;/p&gt;
+&lt;p&gt;In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;, we will walk through the implementation of a simple plugin system.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Background&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A plugin is a software component that adds a specific feature to an existing computer program. When a program supports plug-ins, it enables customization (&lt;a href="https://en.wikipedia.org/wiki/Plug-in_(computing)"&gt;Wikipedia&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;There are many benefits to building apps with a plugin framework:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3rd party developers can create and extend upon your app&lt;/li&gt;
+&lt;li&gt;new features are easier to developer&lt;/li&gt;
+&lt;li&gt;your application becomes smaller and easier to understand&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Sample Application Flow&lt;/h3&gt;
+&lt;p&gt;We have a program that starts, does a few things, and exits.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/30-39/35_program-workflow.png" width=400 alt="Program Flow" /&gt;&lt;/p&gt;
+&lt;h3&gt;Plugin Architecture Workflow&lt;/h3&gt;
+&lt;p&gt;We refactored our Business Logic into a Plugin Framework that can run registered plugins. The plugins will need to meet the specifications defined by our framework in order to run.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/30-39/35_program-workflow-plugin-system.png" width=400 alt="Program flow with Plugin" /&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Toy Example&lt;/h2&gt;
+&lt;p&gt;Let's implement a toy example where we have a plugin framework to print to the console. Our project will have the following structure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── internal.py  # internal business logic&lt;/span&gt;
+&lt;span class="go"&gt;├── external.py  # contains user-created plugins&lt;/span&gt;
+&lt;span class="go"&gt;└── main.py      # initialize and run application&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Internal&lt;/h3&gt;
+&lt;p&gt;This module contains the application class and an internal plugin.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# internal.py&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;InternalPrinter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Internal business logic&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Internal Hello&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyApplication&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;First attempt at a plugin system&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plugins&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;()):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;internal_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;InternalPrinter&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_plugins&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plugins&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Starting program&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;79&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;modules_to_execute&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;internal_modules&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_plugins&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;modules_to_execute&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;module&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;-&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;79&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Program done&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;External&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# external.py&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;HelloWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Hello World&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AlohaWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Aloha World&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Main&lt;/h3&gt;
+&lt;p&gt;In this module, we run instances of our application with the external plugins we want to enable.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# main.py&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;internal&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MyApplication&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;external&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HelloWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;AlohaWorldPrinter&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# Run with one plugin&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MyApplication&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;plugins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;HelloWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;()])&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Run with another plugin&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MyApplication&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;plugins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;AlohaWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;()])&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Run with both plugins&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MyApplication&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;plugins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;HelloWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;AlohaWorldPrinter&lt;/span&gt;&lt;span class="p"&gt;()])&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Discussion&lt;/h3&gt;
+&lt;p&gt;The Application's plugin framework works for both internal and external plugins. We define internal plugins in the application code. External plugins are initialized and passed into the application at runtime.&lt;/p&gt;
+&lt;p&gt;Each plugin inherits from the base Python object and has a &lt;code&gt;process()&lt;/code&gt; method. Nothing complex, want to keep this example as simple as possible.&lt;/p&gt;
+&lt;p&gt;We can run our plugins by calling the application's &lt;code&gt;run()&lt;/code&gt; method. This method loops over all the plugins and calls each instance's &lt;code&gt;process()&lt;/code&gt; function. As we see from the output above, the plugins are executed in the same order as the list.&lt;/p&gt;
+&lt;h3&gt;Running Toy Application&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; python main.py
+&lt;span class="go"&gt;Starting program&lt;/span&gt;
+&lt;span class="go"&gt;-------------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="go"&gt;Internal Hello&lt;/span&gt;
+&lt;span class="go"&gt;Hello World&lt;/span&gt;
+&lt;span class="go"&gt;-------------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="go"&gt;Program done&lt;/span&gt;
+
+&lt;span class="go"&gt;Starting program&lt;/span&gt;
+&lt;span class="go"&gt;-------------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="go"&gt;Internal Hello&lt;/span&gt;
+&lt;span class="go"&gt;Aloha World&lt;/span&gt;
+&lt;span class="go"&gt;-------------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="go"&gt;Program done&lt;/span&gt;
+
+&lt;span class="go"&gt;Starting program&lt;/span&gt;
+&lt;span class="go"&gt;-------------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="go"&gt;Internal Hello&lt;/span&gt;
+&lt;span class="go"&gt;Hello World&lt;/span&gt;
+&lt;span class="go"&gt;Aloha World&lt;/span&gt;
+&lt;span class="go"&gt;-------------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="go"&gt;Program done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Real World Example&lt;/h3&gt;
+&lt;p&gt;This pattern can be used in conjunction with the &lt;a href="https://en.wikipedia.org/wiki/Adapter_pattern"&gt;Adapter pattern&lt;/a&gt; to simplify application development.&lt;/p&gt;
+&lt;p&gt;Let's say we have a large number of external clients we want to interface with. Each API is different, but the tasks we need to perform for each client are the same.&lt;/p&gt;
+&lt;p&gt;One possible implementation of this is to write an adapter around each of the client APIs, resulting in a common interface. Next, we can leverage the plugin framework to solve our business problem, and then we can use plugins to make it work for all of our clients.&lt;/p&gt;
+&lt;p&gt;This is a very high level description of the solution. I leave implementation as an exercise to the reader.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://martyalchin.com/2008/jan/10/simple-plugin-framework/"&gt;A Simple Plugin Framework&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Plugin libraries&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/pytest-dev/pluggy/"&gt;pluggy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/tibonihoo/yapsy"&gt;yapsy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/ironfroggy/straight.plugin"&gt;straight.plugin&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category><category term="software-engineering"></category></entry><entry><title>Sorting by Multiple Fields in Python</title><link href="http://alysivji.github.io/python-sorting-multiple-attributes.html" rel="alternate"></link><published>2018-08-25T15:00:00-05:00</published><updated>2018-08-25T15:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-08-25:/python-sorting-multiple-attributes.html</id><summary type="html">
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
@@ -24721,6 +24868,7 @@ West Ham was 18th for 27 days
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Flask&lt;/h2&gt;
+&lt;p&gt;&lt;a name="flask-overview"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;In the &lt;a href="https://alysivji.github.io/flask-part1-generating-html-pages-with-mongoengine-jinja2.html"&gt;previous post&lt;/a&gt;, we briefly mentioned that Flask is the best Python web framework for our use case. What does this mean? In this section, we will introduce Flask and discuss the features that make it so popular.&lt;/p&gt;
 &lt;p&gt;As the name implies, the &lt;a href="http://flask.pocoo.org/"&gt;Flask microframework&lt;/a&gt; is a lightweight web framework that we can extend to get the functionality we require.&lt;/p&gt;
 &lt;p&gt;From the &lt;a href="http://flask.pocoo.org/docs/0.12/foreword/"&gt;documentation&lt;/a&gt;:&lt;/p&gt;
