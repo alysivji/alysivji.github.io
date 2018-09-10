@@ -146,10 +146,10 @@
 <li><a href="#what-is-testing">What is Testing</a></li>
 <li><a href="#why-test">Why Test</a></li>
 <li><a href="#black-box-vs-white-box">Black Box vs White Box</a></li>
-<li><a href="#testing-pyramid">Testing Pyramid</a><ul>
+<li><a href="#test-pyramid">Test Pyramid</a><ul>
 <li><a href="#unit-tests">Unit Tests</a></li>
 <li><a href="#integration-tests">Integration Tests</a></li>
-<li><a href="#functional--system-tests">Functional / System Tests</a></li>
+<li><a href="#end-to-end">End-to-End</a></li>
 </ul>
 </li>
 <li><a href="#testing-terminology">Testing Terminology</a><ul>
@@ -191,27 +191,13 @@
 <p><img src="/images/30-39/white_box_testing.jpg" width=400 alt="Picture showing input and output going into a transparent box where we can see how information flows" /></p>
 <p>As developers, we perform whitebox testing. We wrote the code inside of the box so we can test it more thoroughly. This is not to say that there is no need for blackbox testing, we should still have somebody check things at a higher level as proximity to the code could result in blindspots.</p>
 <hr>
+<h2>Test Pyramid</h2>
+<p>The Automated Test Pyramid provides guidance on how to structure our testing strategy. It says we should write a lot of low-level unit tests (cheap, fast) vs a small amount of high-level functional tests (expensive, slow).</p>
+<p><img src="/images/30-39/testing_pyramid.png" width=400 alt="Picture showing automated testing pyramid" /></p>
+<p>The Pyramid is not a hard and fast rule, but it provides a good place to start. Write as many tests at each level that allow you to have comfort with the functionality of your system. While it's a good idea to have a general testing strategy in mind, it's best to iterate towards something that works for your project. Nobody starts off with an optimal testing strategy; our code base is always a work in progress.</p>
+<h3>Unit Tests</h3>
 <!-- HERE -->
 
-<h2>Testing Pyramid</h2>
-<p>This is the automated testing pyramid.
-The testing pyramid is one of the blah blah blah.f</p>
-<p><img src="/images/30-39/testing_pyramid.png" width=400 alt="Picture showing automated testing pyramid" /></p>
-<p>https://martinfowler.com/bliki/TestPyramid.html
-https://automationpanda.com/2018/08/01/the-testing-pyramid/</p>
-<p>A guide to structuring tests.</p>
-<p>The above 3 test types make up the testing pyramid. it's a guideline on how you should structure your tests. There are also other schools of thought, i.e. testing column, that might be a better way to think.</p>
-<p>Basic idea is that you should have enough tests at each level to make you comfortable with the level of testing in your system. Getting a little ahead of ourselves. Maybe come back to this in a later post.</p>
-<hr>
-<ul>
-<li>https://www.youtube.com/watch?v=jmsk1QZQEvQ</li>
-<li>property based testing</li>
-<li>fuzz testing</li>
-<li>stress testing</li>
-<li>mutation testing</li>
-</ul>
-<hr>
-<h3>Unit Tests</h3>
 <ul>
 <li>unit test - Test a single public method or function</li>
 <li>definition</li>
@@ -235,9 +221,10 @@ https://automationpanda.com/2018/08/01/the-testing-pyramid/</p>
 <li>how to do this?</li>
 </ul>
 <p>give examples</p>
-<h3>Functional / System Tests</h3>
+<h3>End-to-End</h3>
 <ul>
 <li>definition</li>
+<li>system tests</li>
 <li>more blackbox than whitebox, but definitely developers can do this</li>
 <li>going thru the UI might be a bit slow, so maybe we should have a subcutenaeous layer
 give examples</li>
@@ -248,7 +235,7 @@ give examples</li>
 </blockquote>
 <ul>
 <li>
-<p>SUT</p>
+<p>SUT (from above, at each level, our SUT is different)</p>
 </li>
 <li>
 <p>other testing terms, (state verficiation, other types of testing)</p>
@@ -263,7 +250,16 @@ give examples</li>
 <li>QA test - like manual tests</li>
 <li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
 <li>acceptance test (http://softwaretestingfundamentals.com/acceptance-testing/)</li>
-<li>smoke test, just try something to see if it works. will give off smoke if it does not</li>
+<li>
+<p>smoke test, just try something to see if it works. will give off smoke if it does not</p>
+</li>
+<li>
+<p>https://www.youtube.com/watch?v=jmsk1QZQEvQ</p>
+</li>
+<li>property based testing</li>
+<li>fuzz testing</li>
+<li>stress testing</li>
+<li>mutation testing</li>
 </ul>
 <h2>What to Test</h2>
 <p>this is the art, what exactly do we want to test to ensure that everything is working as expected.</p>
@@ -417,58 +413,10 @@ give examples</li>
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/workflow.html">
-          <i class="fa fa-tag"></i>
-        workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
     <span class="tag-3">
       <a href="../tag/software-engineering.html">
           <i class="fa fa-tag"></i>
         software-engineering
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
       </a>
     </span>
     <span class="tag-2">
@@ -478,9 +426,21 @@ give examples</li>
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/flask.html">
+      <a href="../tag/grad-school.html">
           <i class="fa fa-tag"></i>
-        flask
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
       </a>
     </span>
     <span class="tag-1">
@@ -489,28 +449,46 @@ give examples</li>
         python
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
     <span class="tag-2">
       <a href="../tag/testing.html">
           <i class="fa fa-tag"></i>
         testing
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
+    <span class="tag-2">
+      <a href="../tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        elasticsearch
+        pythonic
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/productivity.html">
+      <a href="../tag/review.html">
           <i class="fa fa-tag"></i>
-        productivity
+        review
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
       </a>
     </span>
     <span class="tag-2">
@@ -520,15 +498,15 @@ give examples</li>
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-4">
       <a href="../tag/web-development.html">
           <i class="fa fa-tag"></i>
         web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
       </a>
     </span>
     <span class="tag-2">
@@ -544,39 +522,57 @@ give examples</li>
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/review.html">
+      <a href="../tag/productivity.html">
           <i class="fa fa-tag"></i>
-        review
+        productivity
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
+        how-to
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/grad-school.html">
+      <a href="../tag/book.html">
           <i class="fa fa-tag"></i>
-        grad-school
+        book
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/gis.html">
+      <a href="../tag/vim.html">
           <i class="fa fa-tag"></i>
-        gis
+        vim
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/math.html">
+      <a href="../tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
-        math
+        elasticsearch
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
       </a>
     </span>
 </p>
