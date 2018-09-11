@@ -1,5 +1,5 @@
 .content-body p {
     margin-bottom: 0em;
     padding-bottom: 0em;
-    font-size: 14px
+    font-size: 14px !important;
 }
