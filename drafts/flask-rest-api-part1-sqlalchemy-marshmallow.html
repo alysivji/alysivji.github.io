@@ -137,14 +137,14 @@
 </ul>
 </blockquote>
 <hr>
-<p>Over the past couple of weeks, I've been reading <a href="https://www.amazon.com/Philosophy-Software-Design-John-Ousterhout/dp/1732102201">A Philosophy of Software Design</a> by John Ousterhout. This book shows the reader how to decompose complex software systems into small components that can be implemented independently. Each chapter illustrates a design principle and goes into detail on how it improves overall system design. Hint: it's <strong>all</strong> about <em>reducing complexity</em>. Software Design is hard and this book fills in a much needed knowledge gap.</p>
+<p>I just finished reading <a href="https://www.amazon.com/Philosophy-Software-Design-John-Ousterhout/dp/1732102201">A Philosophy of Software Design</a> by John Ousterhout. I learned how to decompose complex software systems into small components that can be implemented independently. Each chapter illustrates a design principle and goes into detail on how it improves overall system design. Hint: it's <strong>all</strong> about <em>reducing complexity</em>. Software Design is difficult and this book fills in a much needed knowledge gap.</p>
 <p>Chapter 10 describes how to "Define Errors Out of Existence":</p>
 <blockquote>
 <p>If a system processes a series of requests, it's useful to define an exception that aborts the current request, cleans up the system's state, and continues with the next request. The exception is caught in a single place near the top of the system's request-handling loop. This exception can be thrown at any point in the processing of a request to abort the request. ... Exception aggregation works best if an exception propagates several levels up the stack before it is handled; this allows more exceptions from more methods to be handled in the same place.</p>
 </blockquote>
-<p>Been using Flask quite extensively over the past few months; love most things about the famework, but I found error handling a bit clunky. I didn't know what I wanted until I read the above passage. I Googled "flask HTTP exception" and found the <a href="http://flask.pocoo.org/docs/1.0/patterns/apierrors/">API Exception pattern</a>.</p>
+<p>Been using Flask quite extensively over the past few months; love most things about the framework, but I found error handling a bit clunky. I didn't know what I wanted until I read the above passage, at which point I Googled "flask HTTP exception" and found the <a href="http://flask.pocoo.org/docs/1.0/patterns/apierrors/">API Exception pattern</a>.</p>
 <p>Of course it's built-in! This is why we should read documentation. Can't use best practices if you don't know what they are. I'll take this a step further: if you import a library, you are responsible for its behaviour; you need to read (or, at least, skim) the source code of all your dependencies. It's what <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">Pragmatic Programmers</a> do.</p>
-<p>In this post, we will walkthorugh how to build a REST API using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy</a>, and <a href="https://marshmallow.readthedocs.io/en/latest/">Marshmallow</a>. We'll also leverage the API Exception pattern to consolidate error handling logic and reduce boilerplate code.</p>
+<p>In this post, we will build a REST API using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy</a>, and <a href="https://marshmallow.readthedocs.io/en/latest/">Marshmallow</a>. We'll also leverage the API Exception pattern to consolidate error handling logic and reduce boilerplate code.</p>
 <hr>
 <h2>What You Need to Follow Along</h2>
 <h3>Development Tools (Stack)</h3>
@@ -198,7 +198,7 @@ http://web.cerritos.edu/dwhitney/SitePages/CIS201/LectureNotesOnTalonNet/Chapter
 <h3>Marshmallow</h3>
 <p>serialization
 deserialization</p>
-<p>it's great becuase you can do validation</p>
+<p>it's great because you can do validation</p>
 <p>Can combine using <a href="https://github.com/marshmallow-code/marshmallow-sqlalchemy">marshmallow-sqlalchemy</a> to reduce the amount of code required. I haven't used it myself, butgood to nkow a solution exists if I find the code too boilerplate.</p>
 <h3>Project Structure</h3>
 <p>Talk about how we used flask and how things are set up. <a href="http://flask.pocoo.org/docs/1.0/views/">Pluggable views</a></p>
@@ -222,6 +222,7 @@ deserialization</p>
 <p>todo</p>
 <p>Show example with code. Name a commit for the blog</p>
 <p>So i wrote a helper function that abstracts it away. All the logic is isolated so now we can just load our schema and it'll work properly and if not, it'll be handled by some other system.</p>
+<p><a href="https://www.youtube.com/watch?v=IZmlkoOO8Mg">System Testing with Pytest, Docker, and Flask</a></p>
   </div>
 
 <div class="article-tag-list">
@@ -309,9 +310,9 @@ deserialization</p>
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-2">
-      <a href="../tag/data-viz.html">
+      <a href="../tag/terminal.html">
           <i class="fa fa-tag"></i>
-        data-viz
+        terminal
       </a>
     </span>
     <span class="tag-1">
@@ -320,16 +321,16 @@ deserialization</p>
         python
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+    <span class="tag-4">
+      <a href="../tag/vim.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
+        vim
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pythonic.html">
+      <a href="../tag/data-viz.html">
           <i class="fa fa-tag"></i>
-        pythonic
+        data-viz
       </a>
     </span>
     <span class="tag-3">
@@ -338,118 +339,16 @@ deserialization</p>
         flask
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/workflow.html">
-          <i class="fa fa-tag"></i>
-        workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
     <span class="tag-1">
       <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
         how-to
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        web-scraping
+        exploring-pypi
       </a>
     </span>
     <span class="tag-4">
@@ -464,10 +363,112 @@ deserialization</p>
         gis
       </a>
     </span>
+    <span class="tag-3">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
     <span class="tag-4">
       <a href="../tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
         elasticsearch
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
       </a>
     </span>
 </p>

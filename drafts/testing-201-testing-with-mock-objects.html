@@ -10,7 +10,7 @@
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Testing Posts"/>
     <meta property="og:url" content="../drafts/testing-201-testing-with-mock-objects.html"/>
-      <meta property="article:section" content="Drafts"/>
+      <meta property="article:section" content="_drafts"/>
         <meta property="article:tag" content="testing"/>
         <meta property="og:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
@@ -118,8 +118,8 @@
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/drafts.html">
-      Drafts</a>
+    <a href="../category/_drafts.html">
+      _drafts</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
@@ -191,6 +191,70 @@
 </ul>
 </li>
 </ol>
+<hr>
+<ol>
+<li>Properties based tests</li>
+</ol>
+<hr>
+<ul>
+<li>https://www.youtube.com/watch?v=jmsk1QZQEvQ</li>
+<li>property based testing
+    <a href="http://www.se-radio.net/2018/05/se-radio-episode-322-bill-venners-on-property-based-tests/">se radio 332</a>
+    our testing is incomplete (code complete pg 505), we only test a small subset of cases... let's do it randomly</li>
+<li>fuzz testing</li>
+<li>stress testing</li>
+<li>mutation testing</li>
+</ul>
+<hr>
+<h3>Testing Column</h3>
+<p>episode 45 of talk python to me. as we'll see later. unit tests mean we have to mock a lot of things out. is this really the best way to proceed?</p>
+<hr>
+<h2>Robust Tests (Miscellaneous / My Opinions) Random thoughts i have about testing</h2>
+<p>i love testing, but i hate writing tests</p>
+<p>do things in the best possible way. people smarter than you ahve solved the problem in a beter way than you possibly can. use what they did. learn from mistakes. this is something that people dont focus enough attention on.</p>
+<p>result, we have to spend time tracing the issue to find the source of the bug. The feedback loop doesn't help us narrow the scope of the problem, we only know that an error has occurred somewhere.</p>
+<p>This does not take into account all the various test inputs we need to go over to ensure everything works as before. Can't just test the happy path, we also need to test the exception / error path.</p>
+<p>This does not even mention side-effect of tests influencing better software construction practices. Untestable god functions can be broken into logical units as we use concepts like dependency injection to increase code modualrity and readability.</p>
+<p>Lastly, we need to be cognizant of the fact that tests do not show the asbsence of errors. We are only guaranteeing that our program works in the ways we specify. If there is an input in the sample space we have not included, it might work, but it might also not work. This means that our tests will need to evolve as our codebase evolves.</p>
+<ul>
+<li>
+<p>tests as documentation? I dunno how much I believe about that. Sure that's not true everywhere. I learned a lot by reading pandas and requests tests.</p>
+</li>
+<li>
+<p>basically my philosophy of testing is to be pragmatic. test what is required. err on the side of testing to much. and test driven development means that testing is driving the development of your architecture, i.e. you are thinking about tests as you write code. it isn't really about testing first or testing last. it's about testing being a part of your thought process.</p>
+</li>
+<li>
+<p>write more integration tests. if you are mocking out your database, you probably need a better development environment.</p>
+</li>
+<li>
+<p>your tests are production code so make sure blah blah blah</p>
+</li>
+</ul>
+<p>here is where i expect people to be pragmatic. Want to test business logic</p>
+<p>don't check implementation. sometimes it feels like that's what mocks are doing.</p>
+<p>thing that checks if something is working by mocking out the database</p>
+<p>why not also check if it's working with the database.
+the real thing we care about is the end result. if something isn't working. we're gonna have to change unit tests and integration tests. this is where we need to start thinking more about what a unit actually</p>
+<p>in microservices, a unit could be  aservice</p>
+<p>you need to understand</p>
+<hr>
+<h3>Other Types of Tests</h3>
+<p>There is a lot more to testing than just the Test Pyramid. Other types of testing include:</p>
+<ul>
+<li>manual test - test completed by human</li>
+<li>load/scale test - impose stress on application by simulating heavy load conditions / highly concurrent load conditions</li>
+<li>infrastructure test - testing infrastructure underlying software</li>
+<li>UAT (user acceptance testing) - human test assess implementation of software to see if it meets specifications</li>
+<li>acceptance test (http://softwaretestingfundamentals.com/acceptance-testing/)</li>
+<li>smoke test, just try something to see if it works. will give off smoke if it does not</li>
+</ul>
+<hr>
+<h2>Next</h2>
+<hr>
+<h3>Regression Testing</h3>
+<p>walk thru an example with an open source project</p>
+<hr>
+<p>Testing 201: testing with test coubles</p>
   </div>
 
 <div class="article-tag-list">
@@ -275,9 +339,9 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-2">
-      <a href="../tag/data-viz.html">
+      <a href="../tag/terminal.html">
           <i class="fa fa-tag"></i>
-        data-viz
+        terminal
       </a>
     </span>
     <span class="tag-1">
@@ -286,16 +350,16 @@
         python
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+    <span class="tag-4">
+      <a href="../tag/vim.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
+        vim
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pythonic.html">
+      <a href="../tag/data-viz.html">
           <i class="fa fa-tag"></i>
-        pythonic
+        data-viz
       </a>
     </span>
     <span class="tag-3">
@@ -304,118 +368,16 @@
         flask
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/workflow.html">
-          <i class="fa fa-tag"></i>
-        workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
     <span class="tag-1">
       <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
         how-to
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        web-scraping
+        exploring-pypi
       </a>
     </span>
     <span class="tag-4">
@@ -430,10 +392,112 @@
         gis
       </a>
     </span>
+    <span class="tag-3">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
     <span class="tag-4">
       <a href="../tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
         elasticsearch
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
       </a>
     </span>
 </p>

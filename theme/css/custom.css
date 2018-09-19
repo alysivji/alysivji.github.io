@@ -1,5 +1,23 @@
-.content-body p {
-    margin-bottom: 0em;
-    padding-bottom: 0em;
-    font-size: 14px !important;
+/* increase font size */
+#content {
+  font-size: 16px
+}
+
+/* decrease space between bullets and paragraph */
+#content p + ul {
+  margin-top: -24px;
+}
+
+/* space out code blocks */
+#content p + .highlight {
+  margin-top: -12px;
+}
+
+#content .highlight {
+  margin-bottom: 24px;
+}
+
+/* align pictures */
+.aligncenter {
+  text-align: center;
 }
