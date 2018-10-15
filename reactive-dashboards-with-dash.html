@@ -133,7 +133,7 @@
 <ul>
 <li>Explore Plotly's new Dash library</li>
 <li>Discuss how to structure Dash apps using MVC</li>
-<li>Build interactive dashboard to display historical soocer results</li>
+<li>Build interactive dashboard to display historical soccer results</li>
 </ul>
 </blockquote>
 <hr>
@@ -142,7 +142,7 @@
 <p>When I found <a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503">Dash</a> a couple of months ago, I was blown away.</p>
 <p>With Dash, we can create interactive, web-based dashboards with <strong>pure Python</strong>. All the front-end work, all that dreaded JavaScript, that's not our problem anymore.</p>
 <p>How easy is Dash to use? In around an hour and with &lt;100 lines of code, I created a <a href="https://github.com/alysivji/talks/blob/master/data-science-workflows-using-docker-containers/workflow3-data-driven-app/plot_timeseries.py">dashboard to display live streaming data</a> for my <a href="https://www.youtube.com/watch?v=oO8n3y23b6M">Data Science Workflows using Docker Containers</a> talk.</p>
-<p>Dash is a powerful library that simplifies the development of data-driven applications. Dash enables Data Scentists to become <a href="http://www.laurencegellert.com/2012/08/what-is-a-full-stack-developer/">Full Stack Developers</a>.</p>
+<p>Dash is a powerful library that simplifies the development of data-driven applications. Dash enables Data Scientists to become <a href="http://www.laurencegellert.com/2012/08/what-is-a-full-stack-developer/">Full Stack Developers</a>.</p>
 <p>In this post we will explore Dash, discuss how the Model-View-Controller pattern can be used to structure Dash applications, and build a dashboard to display historical soccer results.</p>
 <hr>
 <h2>Dash Overview</h2>
@@ -160,7 +160,7 @@
 <ul>
 <li><strong>Data Manipulation</strong> - Perform operations to read / transform data for display</li>
 <li><strong>Dashboard Layout</strong> - Visually render data into output representation</li>
-<li><strong>Interaction Between Components</strong> - Convert user input to commmands for data manipulation + render</li>
+<li><strong>Interaction Between Components</strong> - Convert user input to commands for data manipulation + render</li>
 </ul>
 <p>Good god, <a href="https://www.theatlantic.com/entertainment/archive/2013/09/good-god-s-jim-ross-music-career-retrospective/311189/">that's the <strike>Undertaker's</strike></a> Model-View-Controller (MVC) Pattern's music! (Note: I covered MVC in a <a href="/flask-part2-building-a-flask-web-application.html#model-view-controller">previous post</a>)</p>
 <p>When designing a Dash application, we should stucture our code into three sections:</p>
@@ -172,8 +172,8 @@
 <p>I created the <a href="https://gist.github.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb">following template</a> to help us get started:
 <script src="https://gist.github.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb.js"></script></p>
 <hr>
-<h2>Historical Matchup Dashboard</h2>
-<p>In this section, we will create a full-featured Dash application that can be used to view historicial soccer data.</p>
+<h2>Historical Match-up Dashboard</h2>
+<p>In this section, we will create a full-featured Dash application that can be used to view historical soccer data.</p>
 <p>We will use the following process to create / modify Dash applications:</p>
 <ol>
 <li><strong>Create/Update Layout</strong> - Figure out where components will be placed</li>
@@ -305,7 +305,7 @@
 <ul>
 <li>We used HTML <code>&lt;DIV&gt;</code> elements and the <a href="https://codepen.io/chriddyp/pen/bWLwgP">Dash Style Guide</a> to design the layout</li>
 <li>Tables can be rendered two different ways: <a href="https://community.plot.ly/t/display-tables-in-dash/4707/13">Native HTML or Plotly Table</a></li>
-<li>We just wireframed components in this section, data will be populated via Model and Controller</li>
+<li>We just wire-framed components in this section, data will be populated via Model and Controller</li>
 </ul>
 <hr>
 <h3>Interaction Between Components (Controller)</h3>
@@ -405,7 +405,7 @@
 </pre></div>
 
 
-<h5>Notes:</h5>
+<h5>Notes</h5>
 <ul>
 <li>Each <code>app.callback()</code> decorator can be bound to a single Output <code>(component, property)</code> pair<ul>
 <li>We will need to create additional functions to change multiple Output components</li>
@@ -646,12 +646,6 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="./tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
@@ -663,58 +657,16 @@
         productivity
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
+    <span class="tag-4">
+      <a href="./tag/vim.html">
           <i class="fa fa-tag"></i>
-        python
+        vim
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/web-development.html">
+      <a href="./tag/mac.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/elasticsearch.html">
-          <i class="fa fa-tag"></i>
-        elasticsearch
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
+        mac
       </a>
     </span>
     <span class="tag-2">
@@ -724,45 +676,27 @@
       </a>
     </span>
     <span class="tag-3">
-      <a href="./tag/web-scraping.html">
+      <a href="./tag/software-engineering.html">
           <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
+        software-engineering
       </a>
     </span>
     <span class="tag-2">
-      <a href="./tag/pandas.html">
+      <a href="./tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        pandas
+        pythonic
       </a>
     </span>
     <span class="tag-4">
-      <a href="./tag/php.html">
+      <a href="./tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="./tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
+        elasticsearch
       </a>
     </span>
     <span class="tag-3">
-      <a href="./tag/grad-school.html">
+      <a href="./tag/book.html">
           <i class="fa fa-tag"></i>
-        grad-school
+        book
       </a>
     </span>
     <span class="tag-2">
@@ -772,27 +706,33 @@
       </a>
     </span>
     <span class="tag-2">
+      <a href="./tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
       <a href="./tag/workflow.html">
           <i class="fa fa-tag"></i>
         workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
       </a>
     </span>
     <span class="tag-3">
@@ -802,9 +742,75 @@
       </a>
     </span>
     <span class="tag-3">
-      <a href="./tag/book.html">
+      <a href="./tag/grad-school.html">
           <i class="fa fa-tag"></i>
-        book
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
       </a>
     </span>
 </p>

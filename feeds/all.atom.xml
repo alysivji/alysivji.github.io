@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-09-07T16:15:00-05:00</updated><entry><title>Finding Common Security Issues in Python Code with Bandit</title><link href="http://alysivji.github.io/find-security-issues-in-python.html" rel="alternate"></link><published>2018-09-07T16:15:00-05:00</published><updated>2018-09-07T16:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-07:/find-security-issues-in-python.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-10-14T22:00:00-05:00</updated><entry><title>Downgrade Guide for macOS / OS X</title><link href="http://alysivji.github.io/downgrade-macos.html" rel="alternate"></link><published>2018-10-14T22:00:00-05:00</published><updated>2018-10-14T22:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-10-14:/downgrade-macos.html</id><summary type="html">&lt;p&gt;I started a new job in October and bought a 2018 MacBook Pro to celebrate. Purchased the 13" Touchbar with (mostly) maxed out components: 2.7GHz i7, 16GB RAM, and 1TB SSD. It's a huge step up from my late-2013 model; &lt;a href="https://en.wikipedia.org/wiki/Moore's_law"&gt;~6x according to Moore's Law&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As soon as I …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I started a new job in October and bought a 2018 MacBook Pro to celebrate. Purchased the 13" Touchbar with (mostly) maxed out components: 2.7GHz i7, 16GB RAM, and 1TB SSD. It's a huge step up from my late-2013 model; &lt;a href="https://en.wikipedia.org/wiki/Moore's_law"&gt;~6x according to Moore's Law&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As soon as I opened the box, I upgrade from High Sierra to Mojave. That was my big mistake. I lost a week of productivity setting up the machine and then troubleshooting battery issues: my week-old MacBook was constantly working with the fan on. I was only able to squeeze 2-3 hours of battery for each full charge; well below the 10 hours promised in Apple marketing, which we all know is 5-8 hours in developer time.&lt;/p&gt;
+&lt;p&gt;Was the problem Mojave? Was it my battery? Posts on Apple Forums and Reddit pointed the finger at Mojave, but I couldn't confirm because Apple makes it hard to downgrade the OS. I waved the white flag and set up a Genius Bar appointment. While backing up my data, I found an article on the Apple Support site titled: &lt;a href="https://support.apple.com/en-us/HT208969"&gt;How to upgrade to macOS High Sierra&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A better title would be: "How to downgrade to macOS High Sierra". I followed the instructions and a few hours later all my problems were gone. &lt;em&gt;Hallelujah!&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Guides&lt;/h3&gt;
+&lt;p&gt;These guides are hidden on the Apple Support Site and you have to read the fine print before it all makes sense:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;macOS High Sierra won't install on top of a later version of macOS, but you can erase your disk first or install on another disk.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Downgrade to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://support.apple.com/macos/mojave"&gt;macOS 10.14: Mojave&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://support.apple.com/en-us/HT208969"&gt;macOS 10.13: High Sierra&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://support.apple.com/en-us/HT208202"&gt;macOS 10.12: Sierra&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://support.apple.com/en-us/HT206886"&gt;OS X 10.11: El Capitan&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I recommend reading the guide for the OS you want to downgrade before proceeding to the next section. Basic idea: format your OS partition and download the OS your Mac came with (or the closest version available).&lt;/p&gt;
+&lt;h3&gt;Steps&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Back up files to another machine, an external hard drive, or a separate partition. I used &lt;a href="https://download.samba.org/pub/rsync/rsync.html"&gt;&lt;code&gt;rsync&lt;/code&gt;&lt;/a&gt; to transfer files to my old MBP before staring the process&lt;/li&gt;
+&lt;li&gt;Start machine while holding down &lt;code&gt;Command (⌘)-R&lt;/code&gt; to enter &lt;a href="https://support.apple.com/en-us/HT201314"&gt;Recovery Mode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use Disk Utility to erase your current partition&lt;/li&gt;
+&lt;li&gt;Shut down the machine&lt;/li&gt;
+&lt;li&gt;Boot machine while hold down &lt;code&gt;Shift-Option-Command (⌘)-R&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The last step will have you enter in WiFi credentials that will be used to download the version of macOS / OS X that came pre-installed, or the closest version still available.&lt;/p&gt;
+&lt;p&gt;Hope this helps others who are looking to downgrade the OS on their Mac.&lt;/p&gt;
+&lt;h3&gt;Mojave Review&lt;/h3&gt;
+&lt;p&gt;This leads me to my review of macOS Mojave.&lt;/p&gt;
+&lt;p&gt;I like it. I like it a lot. &lt;a href="https://www.macworld.com/article/3283342/os-x/article.html"&gt;Dark Mode&lt;/a&gt; is the best mode. Shockingly, I am not a fan of how Mojave drains my battery.; it's a bit of a deal breaker.&lt;/p&gt;
+&lt;p&gt;Gonna see how the Mojave patch will fix things before I decide to upgrade. This time I won't forget to backup via Time Machine, it's just the smart thing to do.&lt;/p&gt;
+&lt;p&gt;Learned my lesson by being Apple's guinea pig and upgrading without a patch release. Never again.&lt;/p&gt;</content><category term="review"></category><category term="how-to"></category><category term="mac"></category></entry><entry><title>Finding Common Security Issues in Python Code with Bandit</title><link href="http://alysivji.github.io/find-security-issues-in-python.html" rel="alternate"></link><published>2018-09-07T16:15:00-05:00</published><updated>2018-09-07T16:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-07:/find-security-issues-in-python.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
 &lt;p&gt;I ran Bandit on a few of my repositories and found I was using &lt;code&gt;md5&lt;/code&gt; to hash passwords …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
 &lt;p&gt;I ran Bandit on a few of my repositories and found I was using &lt;code&gt;md5&lt;/code&gt; to hash passwords in one of my side projects. It was a hack with a &lt;code&gt;TODO fix&lt;/code&gt; comment, but I had forgotten about it. Thanks to Bandit, I have changed my password hashing algorithm to &lt;code&gt;bcrypt2&lt;/code&gt;. Also learned about &lt;a href="https://passlib.readthedocs.io/en/stable/lib/passlib.hash.bcrypt.html"&gt;PassLib&lt;/a&gt; as I was researching &lt;a href="https://crackstation.net/hashing-security.htm"&gt;how to salt and hash passwords&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Rackspace blog has a post on &lt;a href="https://developer.rackspace.com/blog/getting-started-with-bandit/"&gt;Getting Started with Bandit&lt;/a&gt; that I recommend checking out.&lt;/p&gt;</content><category term="python"></category><category term="software-engineering"></category><category term="exploring-pypi"></category></entry><entry><title>Implementing a Plugin Architecture in a Python Application</title><link href="http://alysivji.github.io/simple-plugin-system.html" rel="alternate"></link><published>2018-09-06T16:45:00-05:00</published><updated>2018-09-06T16:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-06:/simple-plugin-system.html</id><summary type="html">&lt;p&gt;In July, I released my &lt;a href="https://github.com/alysivji/falcon-apispec"&gt;first open source project&lt;/a&gt;. It's an &lt;a href="https://github.com/marshmallow-code/apispec"&gt;apispec&lt;/a&gt; plugin that generates &lt;a href="https://swagger.io/docs/specification/about/"&gt;OpenAPI Specification&lt;/a&gt; (aka Swagger docs) for &lt;a href="https://github.com/falconry/falcon"&gt;Falcon web applications&lt;/a&gt;.&lt;/p&gt;
@@ -3192,11 +3224,11 @@ h6:hover .anchor-link {
 </content><category term="python"></category><category term="testing"></category></entry><entry><title>Trust the Process</title><link href="http://alysivji.github.io/life-trust-the-process.html" rel="alternate"></link><published>2018-04-30T21:30:00-05:00</published><updated>2018-04-30T21:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-04-30:/life-trust-the-process.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;The journey of a thousand miles begins with a single step.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Everything in life that's worth having requires effort. In tech, it also requires convicing somebody you are good enough to take a chance on.&lt;/p&gt;
+&lt;p&gt;Everything in life that's worth having requires effort. In tech, it also requires convincing somebody you are good enough to take a chance on.&lt;/p&gt;
 &lt;p&gt;A few months ago, I pivoted from data into web development because I wanted to …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
 &lt;p&gt;The journey of a thousand miles begins with a single step.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Everything in life that's worth having requires effort. In tech, it also requires convicing somebody you are good enough to take a chance on.&lt;/p&gt;
+&lt;p&gt;Everything in life that's worth having requires effort. In tech, it also requires convincing somebody you are good enough to take a chance on.&lt;/p&gt;
 &lt;p&gt;A few months ago, I pivoted from data into web development because I wanted to level up my software engineering skills and I found a company that was willing to help grow my career. I worked closely with a Senior Software Engineer building out a new microservices-based backend that would be replacing our Django monolith.&lt;/p&gt;
 &lt;p&gt;Instead of augmenting work with side projects and classes to round myself out, I threw everything I had into this project. I felt that creating a production system using software engineering best practices was the best move for my career. This proved to be prophetic as startup life offers few guarantees.&lt;/p&gt;
 &lt;p&gt;I got laid off in mid-March and had no choice but to scramble to find a new job. Fortunately all the work I did paid off.&lt;/p&gt;
@@ -3220,15 +3252,7 @@ h6:hover .anchor-link {
 &lt;th align="center"&gt;&lt;center&gt;&lt;img src="/images/30-39/30_10_communication_pathways.png" alt="10 Communication Pathways" width=200 /&gt;&lt;br /&gt;Team Size: 10, Paths: 45&lt;/center&gt;&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+&lt;tbody&gt;&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p&gt;It is no surprise that the most frequently cited cause of project failure is “team politics” [2]. This catch-all bucket includes items such as “communication problems, staffing problems, disenchantment with boss or with client, and lack of motivation” [2]. Even though working in technology means that we have to make decisions and adapt in an ever-changing environment, the major problems we face “are not so much technological as sociological in nature” [2].&lt;/p&gt;
@@ -15007,15 +15031,15 @@ Content-Type: text/json
 &lt;p&gt;I get paid to write code. It's pretty awesome.&lt;/p&gt;
 &lt;p&gt;Had always thought I would work in data, maybe transition into a data engineer role. But here we are. I'm working on a team of ~10 developers building a &lt;a href="https://www.healthit.gov/policy-researchers-implementers/clinical-decision-support-cds"&gt;clinical decision support&lt;/a&gt; web application.&lt;/p&gt;
 &lt;p&gt;Guess this change isn't entirely out of left field; I had started to dig deeper into software engineering best practices over the past few months. Became fascinated by the different methodologies and frameworks that facilitate the production of good code. As a self-taught developer, I desired formality. There's only so much I could absorb by reading about other people's experiences and working on open source projects after work.&lt;/p&gt;
-&lt;p&gt;I needed to get my hands dirty and get some real world practice writing code as part of a team. Thought it would be good to experience the process-based workflow of a structured Agile/Scrum development environment; to understand the pain of working (&lt;a href="https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052"&gt;effectively&lt;/a&gt;) with legacy code; and to have no choice but to write tests for the code I ship. And, preferrably, have those &lt;a href="https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530"&gt;tests be written first&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;It's only been a month, but I think I made the right decision. In one of my first commits, I made a change and took time to refactor code to increase readability ala &lt;a href="/review-code-complete.html"&gt;Code Complete&lt;/a&gt;. Got a shoutout during code review. That felt awesome! Software Craftsmanship FTW!&lt;/p&gt;
+&lt;p&gt;I needed to get my hands dirty and get some real world practice writing code as part of a team. Thought it would be good to experience the process-based workflow of a structured Agile/Scrum development environment; to understand the pain of working (&lt;a href="https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052"&gt;effectively&lt;/a&gt;) with legacy code; and to have no choice but to write tests for the code I ship. And, preferably, have those &lt;a href="https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530"&gt;tests be written first&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It's only been a month, but I think I made the right decision. In one of my first commits, I made a change and took time to refactor code to increase readability ala &lt;a href="/review-code-complete.html"&gt;Code Complete&lt;/a&gt;. Got a shout-out during code review. That felt awesome! Software Craftsmanship FTW!&lt;/p&gt;
 &lt;p&gt;I will say that I find myself constantly studying after work and on weekends so that I'm not &lt;em&gt;completely&lt;/em&gt; useless, but I wouldn't want it any other way. Coding at the edge of my abilities will increase my skills exponentially.&lt;/p&gt;
 &lt;p&gt;While I eventually plan on going back to data, let's hold off thinking about when. Right now I'm enjoying life and want to stay on &lt;a href="http://knowyourmeme.com/memes/mr-bones-wild-ride"&gt;Mr. Bones' Wild Ride&lt;/a&gt;.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Mastering Development Tools&lt;/h3&gt;
 &lt;p&gt;The main reason I took a backend developer role was to level up my dev chops. This means many different things such as writing clean code, being able to identify and correctly apply design patterns, recognizing anti-patterns (code smells), and, of course, learning the tools of the trade.&lt;/p&gt;
 &lt;p&gt;Over the past couple of weeks, I've started transitioning away from the friendly confines of VSCode and iTerm2 into the magical world of &lt;a href="http://www.vim.org/"&gt;Vim&lt;/a&gt; and &lt;a href="https://github.com/tmux/tmux/wiki"&gt;tmux&lt;/a&gt;. Even though I'm fairly proficient with a graphical IDE, I thought it was worth investing in tools that enable me to work as fast as I think.&lt;/p&gt;
-&lt;p&gt;By switching to a terminal-only development environment, I hope to reduce the context switching that occurs everytime I reach for my mouse or trackpad. As an added bonus, I can SSH into any machine and feel at home. No more having to set up &lt;a href="https://en.wikipedia.org/wiki/Rsync"&gt;rsync&lt;/a&gt; or use &lt;a href="https://www.nano-editor.org/"&gt;nano&lt;/a&gt; as a crutch.&lt;/p&gt;
+&lt;p&gt;By switching to a terminal-only development environment, I hope to reduce the context switching that occurs every time I reach for my mouse or trackpad. As an added bonus, I can SSH into any machine and feel at home. No more having to set up &lt;a href="https://en.wikipedia.org/wiki/Rsync"&gt;rsync&lt;/a&gt; or use &lt;a href="https://www.nano-editor.org/"&gt;nano&lt;/a&gt; as a crutch.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.commitstrip.com/en/2016/12/22/terminal-forever/"&gt;&lt;img src="/images/10-19/18_commit_strip_terminal_forever.jpg" alt="Commit Strip - Terminal Forever" width=650 /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;How I'm Learning Vim&lt;/h4&gt;
 &lt;ol&gt;
@@ -16877,7 +16901,7 @@ pyenv virtualenvwrapper_lazy
 &lt;ul&gt;
 &lt;li&gt;Explore Plotly's new Dash library&lt;/li&gt;
 &lt;li&gt;Discuss how to structure Dash apps using MVC&lt;/li&gt;
-&lt;li&gt;Build interactive dashboard to display historical soocer results&lt;/li&gt;
+&lt;li&gt;Build interactive dashboard to display historical soccer results&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
@@ -16886,7 +16910,7 @@ pyenv virtualenvwrapper_lazy
 &lt;ul&gt;
 &lt;li&gt;Explore Plotly's new Dash library&lt;/li&gt;
 &lt;li&gt;Discuss how to structure Dash apps using MVC&lt;/li&gt;
-&lt;li&gt;Build interactive dashboard to display historical soocer results&lt;/li&gt;
+&lt;li&gt;Build interactive dashboard to display historical soccer results&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
@@ -16895,7 +16919,7 @@ pyenv virtualenvwrapper_lazy
 &lt;p&gt;When I found &lt;a href="https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503"&gt;Dash&lt;/a&gt; a couple of months ago, I was blown away.&lt;/p&gt;
 &lt;p&gt;With Dash, we can create interactive, web-based dashboards with &lt;strong&gt;pure Python&lt;/strong&gt;. All the front-end work, all that dreaded JavaScript, that's not our problem anymore.&lt;/p&gt;
 &lt;p&gt;How easy is Dash to use? In around an hour and with &amp;lt;100 lines of code, I created a &lt;a href="https://github.com/alysivji/talks/blob/master/data-science-workflows-using-docker-containers/workflow3-data-driven-app/plot_timeseries.py"&gt;dashboard to display live streaming data&lt;/a&gt; for my &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;Data Science Workflows using Docker Containers&lt;/a&gt; talk.&lt;/p&gt;
-&lt;p&gt;Dash is a powerful library that simplifies the development of data-driven applications. Dash enables Data Scentists to become &lt;a href="http://www.laurencegellert.com/2012/08/what-is-a-full-stack-developer/"&gt;Full Stack Developers&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Dash is a powerful library that simplifies the development of data-driven applications. Dash enables Data Scientists to become &lt;a href="http://www.laurencegellert.com/2012/08/what-is-a-full-stack-developer/"&gt;Full Stack Developers&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In this post we will explore Dash, discuss how the Model-View-Controller pattern can be used to structure Dash applications, and build a dashboard to display historical soccer results.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Dash Overview&lt;/h2&gt;
@@ -16913,7 +16937,7 @@ pyenv virtualenvwrapper_lazy
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Data Manipulation&lt;/strong&gt; - Perform operations to read / transform data for display&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Dashboard Layout&lt;/strong&gt; - Visually render data into output representation&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Interaction Between Components&lt;/strong&gt; - Convert user input to commmands for data manipulation + render&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Interaction Between Components&lt;/strong&gt; - Convert user input to commands for data manipulation + render&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Good god, &lt;a href="https://www.theatlantic.com/entertainment/archive/2013/09/good-god-s-jim-ross-music-career-retrospective/311189/"&gt;that's the &lt;strike&gt;Undertaker's&lt;/strike&gt;&lt;/a&gt; Model-View-Controller (MVC) Pattern's music! (Note: I covered MVC in a &lt;a href="/flask-part2-building-a-flask-web-application.html#model-view-controller"&gt;previous post&lt;/a&gt;)&lt;/p&gt;
 &lt;p&gt;When designing a Dash application, we should stucture our code into three sections:&lt;/p&gt;
@@ -16925,8 +16949,8 @@ pyenv virtualenvwrapper_lazy
 &lt;p&gt;I created the &lt;a href="https://gist.github.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb"&gt;following template&lt;/a&gt; to help us get started:
 &lt;script src="https://gist.github.com/alysivji/e85a04f3a9d84f6ce98c56f05858ecfb.js"&gt;&lt;/script&gt;&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;Historical Matchup Dashboard&lt;/h2&gt;
-&lt;p&gt;In this section, we will create a full-featured Dash application that can be used to view historicial soccer data.&lt;/p&gt;
+&lt;h2&gt;Historical Match-up Dashboard&lt;/h2&gt;
+&lt;p&gt;In this section, we will create a full-featured Dash application that can be used to view historical soccer data.&lt;/p&gt;
 &lt;p&gt;We will use the following process to create / modify Dash applications:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Create/Update Layout&lt;/strong&gt; - Figure out where components will be placed&lt;/li&gt;
@@ -17058,7 +17082,7 @@ pyenv virtualenvwrapper_lazy
 &lt;ul&gt;
 &lt;li&gt;We used HTML &lt;code&gt;&amp;lt;DIV&amp;gt;&lt;/code&gt; elements and the &lt;a href="https://codepen.io/chriddyp/pen/bWLwgP"&gt;Dash Style Guide&lt;/a&gt; to design the layout&lt;/li&gt;
 &lt;li&gt;Tables can be rendered two different ways: &lt;a href="https://community.plot.ly/t/display-tables-in-dash/4707/13"&gt;Native HTML or Plotly Table&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;We just wireframed components in this section, data will be populated via Model and Controller&lt;/li&gt;
+&lt;li&gt;We just wire-framed components in this section, data will be populated via Model and Controller&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h3&gt;Interaction Between Components (Controller)&lt;/h3&gt;
@@ -17158,7 +17182,7 @@ pyenv virtualenvwrapper_lazy
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h5&gt;Notes:&lt;/h5&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;Each &lt;code&gt;app.callback()&lt;/code&gt; decorator can be bound to a single Output &lt;code&gt;(component, property)&lt;/code&gt; pair&lt;ul&gt;
 &lt;li&gt;We will need to create additional functions to change multiple Output components&lt;/li&gt;

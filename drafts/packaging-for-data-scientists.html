@@ -110,7 +110,7 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sat 01 September 2018
+  Fri 21 September 2018
 </abbr> <h1>
   <a href="../drafts/packaging-for-data-scientists.html" rel="bookmark"
      title="Permalink to Python Packaging for Data Scientists">
@@ -130,70 +130,81 @@
 <h4>Summary</h4>
 <ul>
 <li>Basics of Python Packaging</li>
+<li>blah</li>
 </ul>
 </blockquote>
-<p>benefits of packaging. there are a lot of nuances i won't cover since it won't affect the 80% case. for advanced usage, read the docs.
-creating a package
-    * these are all the fields i included
-    * not quite sure what a bare minimum is, you can experiment with that. i just keep adding more and more since being explicit and having more information is better than doing the bare minimum
-uploading to pypi
-installing from github
-editable mode
-links to read more</p>
-<hr>
-<h4>TODO</h4>
-<ul>
-<li>come up with basic a reuseable pandas script that can be refactored</li>
-</ul>
-<hr>
 <p>This will be about how we can create tools (helper functions) and make them accessible so we can hack together code in a better way.</p>
 <p>spending 30 minutes to learn something that will make your workflow go smoothly. I'll give you some links to things you can dig into.</p>
 <p>my helper function library..... have dependencies
 , how does that work for wheel?</p>
 <ul>
-<li>Pragmatic Programmer... get to know your tools (Chapter 3)
-Building a Data Science toolbox (series)</li>
+<li>
+<p>Pragmatic Programmer... get to know your tools (Chapter 3)</p>
+</li>
+<li>
+<p><a href="https://packaging.python.org">Python Packaging</a></p>
+</li>
+<li><a href="https://www.python.org/dev/peps/pep-0427/">asdf</a></li>
 </ul>
-<p><a href="https://packaging.python.org">Python Packaging</a>
-https://www.python.org/dev/peps/pep-0427/</p>
-<h2>Main things from PyCon Open Space</h2>
+<hr>
+<h2>What is a python package</h2>
+<p>high level overview</p>
+<h3>What does it allow us to do</h3>
+<h3>What is the benefit of creating our own custom package</h3>
+<h4>test your work</h4>
+<h4>share work across team</h4>
+<h4>stop rewriting code</h4>
+<h4>add reproducibility to your workflow as a data scientist</h4>
+<hr>
+<h2>Example Project</h2>
 <ul>
-<li>setup.py
-    if this changes, we have to reinstall our package</li>
+<li>come up with basic a reuseable pandas script that can be refactored</li>
 </ul>
+<h3>Background</h3>
+<h3>How I solved it</h3>
+<h3>Wait a minute, I do this a lot</h3>
+<h3>how to generalize</h3>
+<h3>writing tests</h3>
+<h3>Project Structure</h3>
+<p>creating a package
+- these are all the fields i included
+- not quite sure what a bare minimum is, you can experiment with that. i just keep adding more and more since being explicit and having more information is better than doing the bare minimum</p>
+<h4>Folders</h4>
+<h4>setup.py</h4>
+<p>if this changes, we have to reinstall our package</p>
 <div class="highlight"><pre><span></span><span class="c1"># setup.py</span>
 
 <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span><span class="p">,</span> <span class="n">findpackages</span>
 </pre></div>
 
 
-<ul>
-<li><a href="https://packaging.python.org/distributing/#working-in-development-mode">editable mode</a></li>
-</ul>
+<h4>Installing from local Folder</h4>
+<hr>
+<h2>Deploying package</h2>
+<h3>editable mode</h3>
+<p><a href="https://packaging.python.org/distributing/#working-in-development-mode">editable mode</a></p>
 <div class="highlight"><pre><span></span><span class="gp">$</span> pip install -e .
 <span class="go">output here</span>
 </pre></div>
 
 
 <ul>
-<li>
-<p>creates a symbolic link to the folder you are working in so you can edit your package and have the latest version be imported in</p>
-</li>
-<li>
-<p>we can make it into a wheel to pass to others</p>
-</li>
-<li>
-<p>for client installs</p>
-</li>
-<li>
-<p>can upload into PyPI using twine</p>
-</li>
-<li>
-<p>pip isntall into new environment</p>
-</li>
+<li>creates a symbolic link to the folder you are working in so you can edit your package and have the latest version be imported in</li>
 </ul>
-<div class="highlight"><pre><span></span><span class="go">pip install -r requirements.txt</span>
-</pre></div>
+<h4>wheel</h4>
+<ul>
+<li>we can make it into a wheel to pass to others</li>
+<li>for client installs</li>
+</ul>
+<h3>installing from github</h3>
+<p>there are a lot of nuances i won't cover since it won't affect the 80% case. for advanced usage, read the docs.
+uploading to pypi</p>
+<h3>Deploying to PyPI</h3>
+<ul>
+<li>can upload into PyPI using twine</li>
+</ul>
+<hr>
+<h2>Resources</h2>
   </div>
 
 <div class="article-tag-list">
@@ -280,12 +291,6 @@ https://www.python.org/dev/peps/pep-0427/</p>
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-2">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="../tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
@@ -297,58 +302,16 @@ https://www.python.org/dev/peps/pep-0427/</p>
         productivity
       </a>
     </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
+    <span class="tag-4">
+      <a href="../tag/vim.html">
           <i class="fa fa-tag"></i>
-        python
+        vim
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/web-development.html">
+      <a href="../tag/mac.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
-          <i class="fa fa-tag"></i>
-        elasticsearch
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
+        mac
       </a>
     </span>
     <span class="tag-2">
@@ -358,45 +321,27 @@ https://www.python.org/dev/peps/pep-0427/</p>
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/web-scraping.html">
+      <a href="../tag/software-engineering.html">
           <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
+        software-engineering
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pandas.html">
+      <a href="../tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        pandas
+        pythonic
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/php.html">
+      <a href="../tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
+        elasticsearch
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/grad-school.html">
+      <a href="../tag/book.html">
           <i class="fa fa-tag"></i>
-        grad-school
+        book
       </a>
     </span>
     <span class="tag-2">
@@ -406,27 +351,33 @@ https://www.python.org/dev/peps/pep-0427/</p>
       </a>
     </span>
     <span class="tag-2">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
       <a href="../tag/workflow.html">
           <i class="fa fa-tag"></i>
         workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
       </a>
     </span>
     <span class="tag-3">
@@ -436,9 +387,75 @@ https://www.python.org/dev/peps/pep-0427/</p>
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/book.html">
+      <a href="../tag/grad-school.html">
           <i class="fa fa-tag"></i>
-        book
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
       </a>
     </span>
 </p>

@@ -4,14 +4,29 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Archive of Posts" />
+    <meta name="description" content="Step-by-step instructions on how to downgrade macOS to a previous version." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Siv Scripts"/>
-        <meta property="og:url" content="."/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Downgrade Guide for macOS / OS X"/>
+    <meta property="og:url" content="./downgrade-macos.html"/>
+      <meta property="og:description" content="Step-by-step instructions on how to downgrade macOS to a previous version."/>
+      <meta property="article:section" content="Tutorials"/>
+        <meta property="article:tag" content="review"/>
+        <meta property="article:tag" content="how-to"/>
+        <meta property="article:tag" content="mac"/>
+        <meta property="og:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Downgrade Guide for macOS / OS X">
+    <meta name="twitter:description" content="Step-by-step instructions on how to downgrade macOS to a previous version.">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content=".">
+        <meta property="twitter:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>Archives - Siv Scripts</title>
+    <title>Downgrade Guide for macOS / OS X - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -71,7 +86,7 @@
                 <a href="./pages/talks.html">Talks</a>
               </li>
             <li class="divider"></li>
-            <li class="active">
+            <li class="">
               <a href="./archives.html">Archives</a>
             </li>
           <li class="divider"></li>
@@ -93,76 +108,98 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-  <li><a href="./" title="Home">
-	  <i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-  <li class="active">Archives</li>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Sun 14 October 2018
+</abbr> <h1>
+  <a href="./downgrade-macos.html" rel="bookmark"
+     title="Permalink to Downgrade Guide for macOS / OS X">
+    Downgrade Guide for macOS / OS X
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="./category/tutorials.html">
+      Tutorials</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>I started a new job in October and bought a 2018 MacBook Pro to celebrate. Purchased the 13" Touchbar with (mostly) maxed out components: 2.7GHz i7, 16GB RAM, and 1TB SSD. It's a huge step up from my late-2013 model; <a href="https://en.wikipedia.org/wiki/Moore's_law">~6x according to Moore's Law</a>.</p>
+<p>As soon as I opened the box, I upgrade from High Sierra to Mojave. That was my big mistake. I lost a week of productivity setting up the machine and then troubleshooting battery issues: my week-old MacBook was constantly working with the fan on. I was only able to squeeze 2-3 hours of battery for each full charge; well below the 10 hours promised in Apple marketing, which we all know is 5-8 hours in developer time.</p>
+<p>Was the problem Mojave? Was it my battery? Posts on Apple Forums and Reddit pointed the finger at Mojave, but I couldn't confirm because Apple makes it hard to downgrade the OS. I waved the white flag and set up a Genius Bar appointment. While backing up my data, I found an article on the Apple Support site titled: <a href="https://support.apple.com/en-us/HT208969">How to upgrade to macOS High Sierra</a>.</p>
+<p>A better title would be: "How to downgrade to macOS High Sierra". I followed the instructions and a few hours later all my problems were gone. <em>Hallelujah!</em></p>
+<h3>Guides</h3>
+<p>These guides are hidden on the Apple Support Site and you have to read the fine print before it all makes sense:</p>
+<blockquote>
+<p>macOS High Sierra won't install on top of a later version of macOS, but you can erase your disk first or install on another disk.</p>
+</blockquote>
+<p>Downgrade to:</p>
+<ul>
+<li><a href="https://support.apple.com/macos/mojave">macOS 10.14: Mojave</a></li>
+<li><a href="https://support.apple.com/en-us/HT208969">macOS 10.13: High Sierra</a></li>
+<li><a href="https://support.apple.com/en-us/HT208202">macOS 10.12: Sierra</a></li>
+<li><a href="https://support.apple.com/en-us/HT206886">OS X 10.11: El Capitan</a></li>
+</ul>
+<p>I recommend reading the guide for the OS you want to downgrade before proceeding to the next section. Basic idea: format your OS partition and download the OS your Mac came with (or the closest version available).</p>
+<h3>Steps</h3>
+<ol>
+<li>Back up files to another machine, an external hard drive, or a separate partition. I used <a href="https://download.samba.org/pub/rsync/rsync.html"><code>rsync</code></a> to transfer files to my old MBP before staring the process</li>
+<li>Start machine while holding down <code>Command (⌘)-R</code> to enter <a href="https://support.apple.com/en-us/HT201314">Recovery Mode</a></li>
+<li>Use Disk Utility to erase your current partition</li>
+<li>Shut down the machine</li>
+<li>Boot machine while hold down <code>Shift-Option-Command (⌘)-R</code></li>
 </ol>
-<h1>Archives</h1>
-<div id="archives-body">
-  <h2>2018</h2>
-  <dl>
-    <h3>October</h3>
-    <dd><a href='./downgrade-macos.html'>Downgrade Guide for macOS / OS X</a></dd>
-    <h3>September</h3>
-    <dd><a href='./find-security-issues-in-python.html'>Finding Common Security Issues in Python Code with Bandit</a></dd>
-    <dd><a href='./simple-plugin-system.html'>Implementing a Plugin Architecture in a Python Application</a></dd>
-    <h3>August</h3>
-    <dd><a href='./python-sorting-multiple-attributes.html'>Sorting by Multiple Fields in Python</a></dd>
-    <dd><a href='./elasticsearch-kibana-with-docker-compose.html'>Elasticsearch + Kibana using Docker Compose</a></dd>
-    <h3>July</h3>
-    <dd><a href='./lock-your-mock.html'>Lock Your Mock</a></dd>
-    <h3>April</h3>
-    <dd><a href='./life-trust-the-process.html'>Trust the Process</a></dd>
-    <h3>March</h3>
-    <dd><a href='./review-peopleware.html'>People-centric Organizations</a></dd>
-    <h3>February</h3>
-    <dd><a href='./php-mysql-docker-containers.html'>PHP + MySQL using Docker Compose</a></dd>
-    <dd><a href='./sending-emails-from-python.html'>Sending Emails using Python 3.6+</a></dd>
-    <h3>January</h3>
-    <dd><a href='./python-matrix-multiplication-operator.html'><code>@</code> Python's Matrix Multiplication Operator</a></dd>
-    <dd><a href='./pytest-fixures-with-function-arguments.html'>Adding Function Arguments to pytest Fixtures</a></dd>
-    <dd><a href='./namedtuple-type-hints.html'>Increasing namedtuple Readability with Type Hints</a></dd>
-  </dl>
-  <h2>2017</h2>
-  <dl>
-    <h3>December</h3>
-    <dd><a href='./life-2017-year-in-review.html'>2017: Year in Review</a></dd>
-    <dd><a href='./mocking-functions-inputs-args.html'>Python Testing: Mocking Functions based on Input Arguments</a></dd>
-    <dd><a href='./importing-mongo-documents-into-pandas-dataframes.html'>Fastest Way to Load Data from MongoDB into Pandas</a></dd>
-    <dd><a href='./quick-hit-hashable-dict-keys.html'>Python Dictionaries Require Hashable Keys</a></dd>
-    <h3>November</h3>
-    <dd><a href='./http-part1-the-protocol.html'>HTTP: Hypertext Transfer Protocol</a></dd>
-    <dd><a href='./life-sponge.html'>Soaking it in</a></dd>
-    <dd><a href='./life-detour.html'>First Month as a Professional Developer</a></dd>
-    <h3>October</h3>
-    <dd><a href='./terminal-tricks-bashmarks.html'>Terminal Tricks: Directory Bookmarks</a></dd>
-    <h3>September</h3>
-    <dd><a href='./quick-hit-dictionary-dispatch.html'>Dictionary Dispatch</a></dd>
-    <dd><a href='./review-code-complete.html'>Code Complete</a></dd>
-    <dd><a href='./quick-hit-visualizing-stacks.html'>Visualizing Stacks</a></dd>
-    <h3>August</h3>
-    <dd><a href='./setting-up-pyenv-virtualenvwrapper.html'>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper</a></dd>
-    <dd><a href='./review-mhi408-system-acquisition-and-lifecycle.html'>MHI 408-DL: System Acquisition and Lifecycle</a></dd>
-    <dd><a href='./reactive-dashboards-with-dash.html'>Interactive, Web-Based Dashboards in Python</a></dd>
-    <h3>July</h3>
-    <dd><a href='./getting-started-with-public-speaking.html'>Flexing my Public Speaking Muscles</a></dd>
-    <h3>June</h3>
-    <dd><a href='./containerized-development-environments.html'>Coding in Containers: 30 Day Challenge</a></dd>
-    <h3>May</h3>
-    <dd><a href='./managing-resources-with-context-managers-pythonic.html'>A Gentle Introduction to Context Managers: The Pythonic Way of Managing Resources</a></dd>
-    <h3>April</h3>
-    <dd><a href='./quick-hit-immutable-dict-keys.html'>Tuples (and namedtuples) as Python Dictionary Keys</a></dd>
-    <dd><a href='./pl-analysis-part1-finding-longest-consecutive-position-streak.html'>Premier League Analysis: Holding Steady in the League Table</a></dd>
-    <dd><a href='./scrapy-part2-running-scrapy-on-pythonanywhere.html'>Scheduling Web Scrapers on the PythonAnywhere Cloud (Scrapy Part 2)</a></dd>
-    <dd><a href='./flask-part2-building-a-flask-web-application.html'>Building a Flask Web Application (Flask Part 2)</a></dd>
-    <dd><a href='./flask-part1-generating-html-pages-with-mongoengine-jinja2.html'>Generating HTML Pages from MongoDB with MongoEngine and Jinja2 (Flask Part 1)</a></dd>
-    <h3>March</h3>
-    <dd><a href='./getting-started-with-folium.html'>Visualizing Geospatial Data in Python Using Folium</a></dd>
-    <h3>February</h3>
-    <dd><a href='./mongodb-pipelines-in-scrapy.html'>Scraping Websites into MongoDB using Scrapy Pipelines</a></dd>
-  </dl>
-</div> <!-- /#archives-body -->
+<p>The last step will have you enter in WiFi credentials that will be used to download the version of macOS / OS X that came pre-installed, or the closest version still available.</p>
+<p>Hope this helps others who are looking to downgrade the OS on their Mac.</p>
+<h3>Mojave Review</h3>
+<p>This leads me to my review of macOS Mojave.</p>
+<p>I like it. I like it a lot. <a href="https://www.macworld.com/article/3283342/os-x/article.html">Dark Mode</a> is the best mode. Shockingly, I am not a fan of how Mojave drains my battery.; it's a bit of a deal breaker.</p>
+<p>Gonna see how the Mojave patch will fix things before I decide to upgrade. This time I won't forget to backup via Time Machine, it's just the smart thing to do.</p>
+<p>Learned my lesson by being Apple's guinea pig and upgrading without a patch release. Never again.</p>
+  </div>
+
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="./tag/review.html"><i class="fa fa-tag"></i>review</a>&nbsp;
+	<a href="./tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+	<a href="./tag/mac.html"><i class="fa fa-tag"></i>mac</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="./downgrade-macos.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -420,5 +457,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>

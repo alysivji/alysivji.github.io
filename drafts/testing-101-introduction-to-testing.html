@@ -4,27 +4,26 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Summarize post" />
+    <meta name="description" content="" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Testing 101: Introduction to Testing"/>
     <meta property="og:url" content="../drafts/testing-101-introduction-to-testing.html"/>
-      <meta property="og:description" content="Summarize post"/>
       <meta property="article:section" content="Deep Dives"/>
         <meta property="article:tag" content="art-of-developer-testing"/>
         <meta property="article:tag" content="testing"/>
         <meta property="article:tag" content="python"/>
-      <meta property="og:image"
-            content="https://alysivji.github.io/images/20-29/29_header.png"/>
+        <meta property="og:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Testing 101: Introduction to Testing">
-    <meta name="twitter:description" content="Summarize post">
+    <meta name="twitter:description" content="">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content="..">
-      <meta property="twitter:image"
-            content="https://alysivji.github.io/images/20-29/29_header.png"/>
+        <meta property="twitter:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
     <title>Testing 101: Introduction to Testing - Siv Scripts</title>
 
@@ -127,7 +126,12 @@
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>[Testing 101 pic -- blackboard or something other theme]</p>
+	<!-- Description: Summarize post -->
+
+<!-- social_image: 20-29/29_header.png -->
+
+<p>Status: Draft</p>
+<p>[Testing 101 pic -- blackboard or something other theme]</p>
 <p>Programming is writing code to solve problems. Software Engineering is the practice of using a <strong>structured process</strong> to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests provide assurances that program functionality does not <a href="https://en.wikipedia.org/wiki/Regression_testing">regress</a>.</p>
 <p>Over the past year, I've spent a lot of time thinking about testing strategies and best practices that can help ensure correctness and allow for us to modify our program without working about breaking existing functionality. Specifically, I've thought about <strong>what</strong> to test, <strong>how</strong> to test, and <strong>when</strong> to test. Read a lot of books, blog posts; watched countless videos on Youtube; listened to podcasts; had discussions with friends and colleagues. I wanted to learn everything I could because I had an awesome opportunity at work.</p>
 <p>At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. Our Director of Engineering gave us a full month to plan out the project before allowing us to write a single line of production code. This time was instrumental in project success as we were able to try few ideas before finalizing our system design.</p>
@@ -135,7 +139,7 @@
 <p>I soon realized there was no holy grail of testing. Like everything else in programming, it's about <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">being pragmatic</a>. Pragmatic in <strong>what</strong> we test, <strong>how</strong> we test, and <strong>when</strong> we test. We should use tools that increase productivity and make the process so effortless that writing tests becomes the default way of doing things.</p>
 <p>If testing feels like a chore, programmers won't do it. This is how software quality slips. We dread going into the codebase because either there are no tests or the tests that exist are so brittle that we're forced to rewrite tests as we write code. This is not what Software Engineering is about. Tests should not hamper our ability to make changes to the codebase. We should be spending our time writing business logic, not wrestling with tests.</p>
 <p>[gauge with no tests at one extreme / brittle tests at other extreme]</p>
-<p>We need to think about our testing strategy as we are architect the system. This is one aspect the <a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD folks</a> have done right. Thinking about tests improves system design as we are <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a> our APIs and thinking through implementations as we write code that is easy to test.</p>
+<p>We need to think about our testing strategy as we are architect the system. This is one aspect the <a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD folks</a> got right. Thinking about tests improves system design as we are <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a> our APIs and thinking through implementations as we write code that is easy to test.</p>
 <p>This is the first in a series of posts where I am going to walk through my thoughts on testing. I'll start with the basics and then go through tools and techniques I use to write testable code.</p>
 <hr>
 <h4>Table of Contents</h4>
@@ -164,20 +168,22 @@
   <p></p>
 </p>
 
-<p>While a passing test <a href="http://wiki.c2.com/?TestsCantProveTheAbsenceOfBugs">cannot prove the absence a bugs</a>, they do inform us that our code is working in the manner described by the test.</p>
+<p>While a passing tests <a href="http://wiki.c2.com/?TestsCantProveTheAbsenceOfBugs">cannot prove the absence bugs</a>, they do inform us that our code is working in the manner described (defined?) by the test.</p>
 <p>In contrast, a failing test indicates that something is not right. We need to understand why our test failed so we can modify code and/or tests, as required.</p>
 <h3>Properties of Tests</h3>
 <h4>1. Fast</h4>
 <p>Tests give us confidence that our code is working as intended. A slower feedback loop hampers development as it takes us longer to find out if our change was correct. If our workflow is hampered by slow tests, we won't be running tests as often. This will lead to problems down the line</p>
+<p><a name="what-is-testing-deterministic"></a></p>
 <h4>2. Deterministic</h4>
 <p>Tests should be <a href="https://en.wikipedia.org/wiki/Deterministic_system">deterministic</a>, i.e. the same input will always result in the same output. If tests are non-deterministic, we have to find a way to account for random behavior in our tests.</p>
 <p>While there is definitely non-deterministic code in production, think Machine Learning and Artificial Intelligence, we should try to make all our non-probabilistic code as deterministic as possible.</p>
+<p><a name="what-is-testing-automated"></a></p>
 <h4>3. Automated</h4>
 <p>We can run our tests many different ways. The simplest way is manually where we try run a command in the <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> or refresh a webpage to make sure that our program does what it is supposed to. While manual testing is fine for small projects, it becomes unmanageable for as our project grows in complexity.</p>
 <p>[Chart human time vs computer time to run something]</p>
 <p>By automating our test suite, we can quickly verify our program works on-demand.</p>
 <h3>Formal Definition</h3>
-<p>Let's go over some definitions so we can have a common vocabulary for this post.</p>
+<p>Let's go over some definitions so we have a common vocabulary going forward.</p>
 <p class="aligncenter">
   <img src="/images/30-39/system_under_test.jpg" alt="Diagram of a system under test" />
 </p>
@@ -199,10 +205,9 @@
 <p>Tests give us have confidence in our code. By running our tests after we modify our code, we can confirm our changes did not break existing functionality as defined by our tests.</p>
 <p>In contrast, modifying a code base without tests is a challenge. There is no way of knowing if things are working as intended. We are programming by the seat of our pants, quite a risky proposition.</p>
 <h4>Identify Bugs Early</h4>
-<p>Bugs cost money. How much depends on when you find them as the fix gets more expensive the further you are in the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC).</p>
-<p>Both Code Complete (Chapter 22) and <a href="http://blog.celerity.com/the-true-cost-of-a-software-bug">True Cost of a Software Bug</a> dig into this issue in additional depth.</p>
+<p>Bugs cost money. How much depends on when you find them as the fix gets more expensive the further you are in the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC). <a href="http://blog.celerity.com/the-true-cost-of-a-software-bug">True Cost of a Software Bug</a> dig into this issue in additional depth.</p>
 <h4>Write Better Code</h4>
-<p>This one is a bit controversial, but I think tests result in better code.</p>
+<p>This one is a bit controversial, but I think writing code with tests in mind results in better code.</p>
 <p>A thorough test suite shows that the developer has actually thought about the problem in some depth. Writing tests forces you to use your own API, which will hopefully result in better interface design.</p>
 <p>All projects have time pressure and it's quite easy to get into the habit of taking shortcuts that increase coupling between modules leading to complex interdependencies. We have to be cognizant of that we are not solving problems by writing <a href="https://en.wikipedia.org/wiki/Spaghetti_code">spaghetti code</a>. Knowing we have to test our code forces us to write modular code.</p>
 <p>Once you write writing testable code by using patterns like <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a>, you'll see that things make more sense when you add structure to your process.</p>
@@ -220,7 +225,7 @@
   <img src="/images/30-39/white_box_testing.jpg" width=400 alt="Picture showing input and output going into a transparent box where we can see how information flows" />
 </p>
 
-<p>As developers, we perform white box testing. We wrote the code inside of the box and are able to test it thoroughly. This is not to say that there is no need for black box testing, we should still have somebody check things at a higher level as proximity to the code could result in blind spots.</p>
+<p>As developers, we perform white box testing. We wrote the code inside of the box and are able to test it thoroughly. This is not to say that there is no need for black box testing, we should still have somebody check things at a higher level as proximity to the code could result in testing blind spots.</p>
 <hr>
 <p><a name="test-pyramid"></a></p>
 <h2>Test Pyramid</h2>
@@ -232,11 +237,11 @@
 <p>The Pyramid is not a hard and fast rule, but it provides a good place to start thinking about a testing strategy.</p>
 <p>A good rule of thumb is: write as many tests at each level as you need to have confidence in your system. We should be writing tests as we write code, iterating towards a testing strategy that works for us.</p>
 <h3>Unit Tests</h3>
-<p>Unit tests are low-level tests that focus on testing of a specific part of our system. They are cheap to write and fast to run. Test failures should provide enough contextual information to pinpoint the source of the error. These tests are typically written by developers (white box), during the Implementation Phase of the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC).</p>
-<p>Unit tests should be independent and isolated; interacting with external components increase both the scope of our tests and time it takes for tests to run. As we will see in a future post, replacing dependencies with <a href="https://martinfowler.com/bliki/TestDouble.html">test doubles</a> results in deterministic tests that run a lot faster.</p>
+<p>Unit tests are low-level tests that focus on testing a specific part of our system. They are cheap to write and fast to run. Test failures should provide enough contextual information to pinpoint the source of the error. These tests are typically written by developers during the Implementation phase of the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC).</p>
+<p>Unit tests should be independent and isolated; interacting with external components increases both the scope of our tests and the time it takes for tests to run. As we will see in a future post, replacing dependencies with <a href="https://martinfowler.com/bliki/TestDouble.html">test doubles</a> results in deterministic tests that are quick to run.</p>
 <p>How big should our unit test be? Like everything else in programming, it depends on what you are trying to do. We should start thinking in terms of a <a href="https://www.agileconnection.com/article/3-keys-mastering-test-driven-development">unit of behavior</a>.</p>
-<p>The Test Pyramid recommends having a lot of unit tests in our test suite. These tests give us confidence that our program is working as expected. Writing new coding or modifying existing code might require us to rewrite some of our tests. This is standard practice, our test suite grows with our code base.</p>
-<p>We need to be cognizant of our test suite growing in complexity. Remember, <strong>code that tests our production code is also production code</strong>. Take the time to refactor your tests to ensure they are efficient and effective.</p>
+<p>The Test Pyramid recommends having a lot of unit tests in our test suite. These tests give us confidence that our program works as expected. Writing new coding or modifying existing code might require us to rewrite some of our tests. This is standard practice, our test suite grows with our code base.</p>
+<p>Try to be cognizant of our test suite growing in complexity. Remember, <strong>code that tests our production code is also production code</strong>. Take the time to refactor your tests to ensure they are efficient and effective.</p>
 <h4>Unit Test Example</h4>
 <p>Suppose we have the following function that takes a list of words and returns the most common word and the number of occurrences of that word.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_top_word</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
@@ -260,9 +265,9 @@
 <h3>Integration Tests</h3>
 <p>Every complex application has internal and external components working together to do something interesting. In contrast to units tests which focus on individual components, integration tests combine various parts of the system and test them together as a group. Integration testing can also refer to testing at service boundaries of our application, i.e. when it needs go out to the database, file system, or external API.</p>
 <p>These tests are typically written by developers, but they don't have to be. By definition, integration tests are larger in scope and take longer to run than unit tests. This means that test failures require some investigation, we know that one of the components in our test is not working, but the failure's exact location cannot be known. This is in contrast to unit tests which are smaller in scope and indicate exactly where things have failed.</p>
-<p>We should try to run integration tests in a production-like environment; this minimizes the chance that tests fail due to differences in server configuration.</p>
+<p>We should try to run integration tests in a production-like environment; this minimizes the chance that tests fail due to differences in configuration.</p>
 <h4>Integration Test Example</h4>
-<p>Suppose we have the following function that takes in a URL and a tuple of (word, occurrences). Our function creates a records and saves it to the database:</p>
+<p>Suppose we have the following function that takes in a URL and a tuple of <code>(word, occurrences)</code>. Our function creates a records and saves it to the database:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">save_to_db</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">top_word</span><span class="p">):</span>
     <span class="n">record</span> <span class="o">=</span> <span class="n">TopWord</span><span class="p">()</span>
     <span class="n">record</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
@@ -348,7 +353,7 @@
 </table>
 <h4>Resources</h4>
 <ul>
-<li>Martin Folwer Wiki: <a href="https://martinfowler.com/bliki/TestPyramid.html">TestPyramid</a> | <a href="https://martinfowler.com/bliki/UnitTest.html">UnitTest</a> | <a href="https://martinfowler.com/bliki/ComponentTest.html">IntegrationTest</a> | <a href="https://martinfowler.com/bliki/BroadStackTest.html">EndToEndTest</a></li>
+<li>Martin Fowler Wiki: <a href="https://martinfowler.com/bliki/TestPyramid.html">TestPyramid</a> | <a href="https://martinfowler.com/bliki/UnitTest.html">UnitTest</a> | <a href="https://martinfowler.com/bliki/ComponentTest.html">IntegrationTest</a> | <a href="https://martinfowler.com/bliki/BroadStackTest.html">EndToEndTest</a></li>
 <li>Google Testing Blog: <a href="https://testing.googleblog.com/2015/04/just-say-no-to-more-end-to-end-tests.html">Just Say No to More End-to-End Tests</a></li>
 <li>Automation Panda: <a href="https://automationpanda.com/2018/08/01/the-testing-pyramid/">The Testing Pyramid</a></li>
 </ul>
@@ -363,6 +368,7 @@
 <li>tearing down SUT and putting the environment back into the state we found it in</li>
 </ul>
 <p>There are a couple of styles of test representation which make this pattern explicit: Given-When-Then and Arrange-Act-Assert.</p>
+<p>(they are both the same; different terminology to look at the same problem)</p>
 <h3>Given-When-Then (GWT)</h3>
 <p>GWT provides a useful abstraction for separating the different phases of our test:</p>
 <ul>
@@ -390,7 +396,7 @@
 <ul>
 <li><strong>Arrange</strong> all necessary pre-conditions</li>
 <li><strong>Act</strong> on the SUT</li>
-<li><strong>Assert</strong> that the expected results have occurred</li>
+<li><strong>Assert</strong> that our post-conditions are met</li>
 </ul>
 <h4>Arrange-Act-Assert Example</h4>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_find_top_word</span><span class="p">():</span>
@@ -467,7 +473,7 @@
 <h4>Error Guessing</h4>
 <p>Past experience can provides us insights into parts of our code base that can lead to errors. Keeping a record of errors you've made before can improve the likelihood that you will not make that error again in the future.</p>
 <h4>Recap</h4>
-<p>Figuring out what to test and doing it efficiently is what I mean when I say <em>Art of Developer Testing</em>. The only way to get better at testing is by writing tests, coming up come up better testing strategies, and learning about different testing techniques. Just like in software development, the more you know about testing, the better you will become at it.</p>
+<p>Figuring out what to test and doing it efficiently is what I mean when I say <em>Art of Developer Testing</em>. The only way to get better at testing is by writing tests, coming up come up better testing strategies, and learning about different testing techniques. Just like in software development, the more you know about something, the better you will become at it.</p>
 <hr>
 <p><a name="when-to-write-tests"></a></p>
 <h2>When to Write Test</h2>
@@ -526,19 +532,6 @@
     </div>
     &nbsp;
   </div> <!-- /Social media sharing buttons -->
-  <div class="comments">
-	<h2>Comments</h2>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-				   (function() {
-						var dsq = document.createElement('script');
-						dsq.type = 'text/javascript'; dsq.async = true;
-						dsq.src = '//siv-scripts.disqus.com/embed.js';
-						(document.getElementsByTagName('head')[0] ||
-						 document.getElementsByTagName('body')[0]).appendChild(dsq);
-				  })();
-	</script>
-  </div>
 </article>
         </div><!-- /content -->
 
@@ -585,12 +578,6 @@
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-2">
-      <a href="../tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="../tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
@@ -602,58 +589,16 @@
         productivity
       </a>
     </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
+    <span class="tag-4">
+      <a href="../tag/vim.html">
           <i class="fa fa-tag"></i>
-        python
+        vim
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/web-development.html">
+      <a href="../tag/mac.html">
           <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
-          <i class="fa fa-tag"></i>
-        elasticsearch
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
+        mac
       </a>
     </span>
     <span class="tag-2">
@@ -663,45 +608,27 @@
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/web-scraping.html">
+      <a href="../tag/software-engineering.html">
           <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
+        software-engineering
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pandas.html">
+      <a href="../tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        pandas
+        pythonic
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/php.html">
+      <a href="../tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
+        elasticsearch
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/grad-school.html">
+      <a href="../tag/book.html">
           <i class="fa fa-tag"></i>
-        grad-school
+        book
       </a>
     </span>
     <span class="tag-2">
@@ -711,27 +638,33 @@
       </a>
     </span>
     <span class="tag-2">
+      <a href="../tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
       <a href="../tag/workflow.html">
           <i class="fa fa-tag"></i>
         workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
       </a>
     </span>
     <span class="tag-3">
@@ -741,9 +674,75 @@
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/book.html">
+      <a href="../tag/grad-school.html">
           <i class="fa fa-tag"></i>
-        book
+        grad-school
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
       </a>
     </span>
 </p>
