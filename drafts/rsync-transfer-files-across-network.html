@@ -4,26 +4,27 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="TODO" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Setting up Scala"/>
-    <meta property="og:url" content="../drafts/scala-setup.html"/>
-      <meta property="article:section" content="_drafts"/>
-        <meta property="article:tag" content="scala"/>
+    <meta property="og:title" content="Transfer Files with `rsync`"/>
+    <meta property="og:url" content="../drafts/rsync-transfer-files-across-network.html"/>
+      <meta property="og:description" content="TODO"/>
+      <meta property="article:section" content="Quick Hits"/>
+        <meta property="article:tag" content="how-to"/>
         <meta property="og:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Setting up Scala">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Transfer Files with `rsync`">
+    <meta name="twitter:description" content="TODO">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content="..">
         <meta property="twitter:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>Setting up Scala - Siv Scripts</title>
+    <title>Transfer Files with `rsync` - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -108,41 +109,61 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Thu 01 June 2017
+  Mon 15 October 2018
 </abbr> <h1>
-  <a href="../drafts/scala-setup.html" rel="bookmark"
-     title="Permalink to Setting up Scala">
-    Setting up Scala
+  <a href="../drafts/rsync-transfer-files-across-network.html" rel="bookmark"
+     title="Permalink to Transfer Files with `rsync`">
+    Transfer Files with `rsync`
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/_drafts.html">
-      _drafts</a>
+    <a href="../category/quick-hits.html">
+      Quick Hits</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>https://scala-lang.org/download/</p>
-<p>bash_profile environment variables
-https://scala-lang.org/download/install.html</p>
-<p>show it works</p>
-<hr>
-<p>Setting up a Jupyter installation</p>
-<p>https://github.com/jupyter-scala/jupyter-scala#jupyter-installation</p>
-<p>$  jupyter kernelspec list
-Available kernels:
-  julia-0.4        /Users/alysivji/Library/Jupyter/kernels/julia-0.4
-  scala-develop    /Users/alysivji/Library/Jupyter/kernels/scala-develop
-  python3          /Users/alysivji/.virtualenvs/code_everyday/bin/../share/jupyter/kernels/python3</p>
-<p>i changed it to 2.12.2 *show my ./jupyter-scala</p>
-<p>util.Properties.versionString</p>
+	<!-- social_image: 30-39/35_header.png -->
+
+<p>Status: Published</p>
+<p>I recently purchased a new computer and was looking for a way to transfer all my development files to it from my daily driver. Tried a USB drive, copying to the other machine via the macOS Finder but the sheer number of files (~500 000) made this an exercise in futility.</p>
+<p>Googling for a better solution led me to <a href="https://rsync.samba.org/"><code>rsync</code></a>, a highly efficient file transfer and synchronization tool. <code>rsync</code> is open source and comes pre-installed on macOS. After talking with friends, this is the utility they use. Guess I'm a bit behind the curve.</p>
+<p>TODO:
+rsync has a simple API:</p>
+<div class="highlight"><pre><span></span><span class="go">rsync [OPTION] SOURCE DESTINATION</span>
+</pre></div>
+
+
+<p>There are a ton of options and I wanted too sure what I wanted. I wanted to preserve my links as well as the datetime for each of these files. After looking thru the manu page and StackOverflow, I settled on the following:</p>
+<div class="highlight"><pre><span></span><span class="go">-v              verbose</span>
+<span class="go">-h              human-readable</span>
+<span class="go">-a              archive mode</span>
+<span class="go">-H              preserve hard links</span>
+<span class="go">-E              copy extended attributes, resource forks</span>
+<span class="go">--progress      show progress during transfer</span>
+</pre></div>
+
+
+<p>I looked through the man pages and on StackOverflow before setting in on the parameters I needed to get what I wanted to get done.</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> rsync -vhaHE --progress alysivji@MacSivProOG.local:/Users/alysivji/Documents/siv-dev /Users/alysivji/shared/siv-dev <span class="m">2</span>&gt; errors.log
+<span class="go">sent 12.02M bytes  received 21.36G bytes  6.96M bytes/sec</span>
+<span class="go">total size is 21.29G  speedup is 1.00</span>
+</pre></div>
+
+
+<p>What I learned:</p>
+<ul>
+<li>i'm a programmer. i should always look for a unix first way. somebody has had the problem i've had and designed a solution i can take advantage of</li>
+<li>ask friends. we are smarter as a group</li>
+</ul>
+<p>https://www.tecmint.com/rsync-local-remote-file-synchronization-commands/</p>
   </div>
 
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="../tag/scala.html"><i class="fa fa-tag"></i>scala</a>&nbsp;
+	<a href="../tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -156,26 +177,13 @@ Available kernels:
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="../drafts/scala-setup.html" 
+        data-href="../drafts/rsync-transfer-files-across-network.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
     </div>
     &nbsp;
   </div> <!-- /Social media sharing buttons -->
-  <div class="comments">
-	<h2>Comments</h2>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-				   (function() {
-						var dsq = document.createElement('script');
-						dsq.type = 'text/javascript'; dsq.async = true;
-						dsq.src = '//siv-scripts.disqus.com/embed.js';
-						(document.getElementsByTagName('head')[0] ||
-						 document.getElementsByTagName('body')[0]).appendChild(dsq);
-				  })();
-	</script>
-  </div>
 </article>
         </div><!-- /content -->
 

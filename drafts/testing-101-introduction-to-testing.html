@@ -4,26 +4,27 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="The first post in a series that explores what it means to write tests for our code. This introduction provides a high-level overview to various testing concepts; the goal is to build a common vocabulary for future posts." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Testing 101: Introduction to Testing"/>
     <meta property="og:url" content="../drafts/testing-101-introduction-to-testing.html"/>
+      <meta property="og:description" content="The first post in a series that explores what it means to write tests for our code. This introduction provides a high-level overview to various testing concepts; the goal is to build a common vocabulary for future posts."/>
       <meta property="article:section" content="Deep Dives"/>
         <meta property="article:tag" content="art-of-developer-testing"/>
         <meta property="article:tag" content="testing"/>
         <meta property="article:tag" content="python"/>
-        <meta property="og:image"
-              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+      <meta property="og:image"
+            content="https://alysivji.github.io/images/30-39/testing101-header.png"/>
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Testing 101: Introduction to Testing">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:description" content="The first post in a series that explores what it means to write tests for our code. This introduction provides a high-level overview to various testing concepts; the goal is to build a common vocabulary for future posts.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content="..">
-        <meta property="twitter:image"
-              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+      <meta property="twitter:image"
+            content="https://alysivji.github.io/images/30-39/testing101-header.png"/>
 
     <title>Testing 101: Introduction to Testing - Siv Scripts</title>
 
@@ -110,7 +111,7 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sun 24 June 2018
+  Sat 20 October 2018
 </abbr> <h1>
   <a href="../drafts/testing-101-introduction-to-testing.html" rel="bookmark"
      title="Permalink to Testing 101: Introduction to Testing">
@@ -126,21 +127,12 @@
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<!-- Description: Summarize post -->
-
-<!-- social_image: 20-29/29_header.png -->
-
-<p>Status: Draft</p>
-<p>[Testing 101 pic -- blackboard or something other theme]</p>
-<p>Programming is writing code to solve problems. Software Engineering is the practice of using a <strong>structured process</strong> to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests provide assurances that program functionality does not <a href="https://en.wikipedia.org/wiki/Regression_testing">regress</a>.</p>
-<p>Over the past year, I've spent a lot of time thinking about testing strategies and best practices that can help ensure correctness and allow for us to modify our program without working about breaking existing functionality. Specifically, I've thought about <strong>what</strong> to test, <strong>how</strong> to test, and <strong>when</strong> to test. Read a lot of books, blog posts; watched countless videos on Youtube; listened to podcasts; had discussions with friends and colleagues. I wanted to learn everything I could because I had an awesome opportunity at work.</p>
-<p>At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. Our Director of Engineering gave us a full month to plan out the project before allowing us to write a single line of production code. This time was instrumental in project success as we were able to try few ideas before finalizing our system design.</p>
-<p>I learned a lot by pulling threads and asking questions. At every architecture meeting, I was the one thinking about how we were going to test the system we were designing. Learning about best practices was the reason I entered this field.</p>
-<p>I soon realized there was no holy grail of testing. Like everything else in programming, it's about <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">being pragmatic</a>. Pragmatic in <strong>what</strong> we test, <strong>how</strong> we test, and <strong>when</strong> we test. We should use tools that increase productivity and make the process so effortless that writing tests becomes the default way of doing things.</p>
-<p>If testing feels like a chore, programmers won't do it. This is how software quality slips. We dread going into the codebase because either there are no tests or the tests that exist are so brittle that we're forced to rewrite tests as we write code. This is not what Software Engineering is about. Tests should not hamper our ability to make changes to the codebase. We should be spending our time writing business logic, not wrestling with tests.</p>
-<p>[gauge with no tests at one extreme / brittle tests at other extreme]</p>
-<p>We need to think about our testing strategy as we are architect the system. This is one aspect the <a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD folks</a> got right. Thinking about tests improves system design as we are <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a> our APIs and thinking through implementations as we write code that is easy to test.</p>
-<p>This is the first in a series of posts where I am going to walk through my thoughts on testing. I'll start with the basics and then go through tools and techniques I use to write testable code.</p>
+	<p>Programming is writing code to solve problems. Software Engineering is the practice of using a <strong>structured process</strong> to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do not break existing functionality.</p>
+<p>At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. I was reading <a href="https://pragprog.com/book/bopytest/python-testing-with-pytest">Python Testing with pytest</a> and convinced the Senior Engineer to let me bring <a href="http://pytest.org/">pytest</a> into our project. This was fortuitous as it forced me to take the lead in writing the initial set of tests we used as a template for all of our services.</p>
+<p>This experience reinforced the principles highlighted in <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">The Pragmatic Programmer</a>. It's about be pragmatic in <strong>what</strong> we test, <strong>how</strong> we test, and <strong>when</strong> we test; we should leverage tools and techniques that allow us to test our code as efficiently as possible. Testing needs to be easy and free of barriers; once testing feels like a chore, programmers won't do it... and this is how software quality slips.</p>
+<p>We dread going into the code because either there are no tests or the tests that exist are so brittle that we're forced to rewrite tests as we write code. This is not what Software Engineering is about. Test should enable refactoring, not hamper our ability to make changes to the codebase. We should spend our time writing business logic, not wrestling with tests.</p>
+<p>Testing is folklore in the sense that best practices and techniques are passed down from programmer to programmer while working on projects as part of a team. If you are new to the industry and are trying to grok testing, it's hard to figure out how to get started. It feels like there is a lot of conflicting advice out there, and that's because there is. Testing is opinionated, more-so than any other software engineering discipline. Folks are always arguing about what to test, how to test, and <strong>especially</strong> when to test.</p>
+<p>This is the first in a series of posts that details my thought process for how I go about adding tests to a codebase. In this post, I provide a broad introduction to the world of testing so we can have a common vocabulary for future posts.</p>
 <hr>
 <h4>Table of Contents</h4>
 <!-- TOC -->
@@ -153,7 +145,6 @@
 <li><a href="#structuring-tests">Structuring Tests</a></li>
 <li><a href="#what-to-test">What to Test</a></li>
 <li><a href="#when-to-write-test">When to Write Test</a></li>
-<li><a href="#testing-anti-patterns">Testing Anti-Patterns</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 <!-- /TOC -->
@@ -162,26 +153,24 @@
 <p><a name="what-is-testing"></a></p>
 <h2>What is Testing</h2>
 <p>When we write code, we need to run it to ensure that it is doing what we expect it to. Tests are a contract with our code: given a value, we expect a certain result to be returned.</p>
-<p>Running tests can be thought of as a feedback mechanism that informs us if our program is working as intended:</p>
+<p>Running tests can be thought of as a feedback mechanism that informs us if our program works as intended:</p>
 <p class="aligncenter">
   <img src="/images/30-39/feedback_loop.jpg" width=400 alt="Tests provide a feedback mechanism" align="top"/>
   <p></p>
 </p>
 
-<p>While a passing tests <a href="http://wiki.c2.com/?TestsCantProveTheAbsenceOfBugs">cannot prove the absence bugs</a>, they do inform us that our code is working in the manner described (defined?) by the test.</p>
-<p>In contrast, a failing test indicates that something is not right. We need to understand why our test failed so we can modify code and/or tests, as required.</p>
+<p>While passing tests <a href="http://wiki.c2.com/?TestsCantProveTheAbsenceOfBugs">cannot prove the absence bugs</a>, they do inform us that our code is working in the manner defined by the test. In contrast, a failing test indicates that something is not right. We need to understand why our test failed so we can modify code and/or tests, as required.</p>
 <h3>Properties of Tests</h3>
 <h4>1. Fast</h4>
-<p>Tests give us confidence that our code is working as intended. A slower feedback loop hampers development as it takes us longer to find out if our change was correct. If our workflow is hampered by slow tests, we won't be running tests as often. This will lead to problems down the line</p>
+<p>Tests give us confidence that our code is working as intended. A slower feedback loop hampers development as it takes us longer to find out if our change was correct. If our workflow is plagued by slow tests, we won't be running them as often. This will lead to problems down the line.</p>
 <p><a name="what-is-testing-deterministic"></a></p>
 <h4>2. Deterministic</h4>
-<p>Tests should be <a href="https://en.wikipedia.org/wiki/Deterministic_system">deterministic</a>, i.e. the same input will always result in the same output. If tests are non-deterministic, we have to find a way to account for random behavior in our tests.</p>
-<p>While there is definitely non-deterministic code in production, think Machine Learning and Artificial Intelligence, we should try to make all our non-probabilistic code as deterministic as possible.</p>
+<p>Tests should be <a href="https://en.wikipedia.org/wiki/Deterministic_system">deterministic</a>, i.e. the same input will always result in the same output. If tests are non-deterministic, we have to find a way to account for random behavior inside of our tests.</p>
+<p>While there is definitely non-deterministic code in production (i.e. Machine Learning and AI), we should try to make all our non-probabilistic code as deterministic as possible. There is no point of doing additional work unless our program requires it.</p>
 <p><a name="what-is-testing-automated"></a></p>
 <h4>3. Automated</h4>
-<p>We can run our tests many different ways. The simplest way is manually where we try run a command in the <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> or refresh a webpage to make sure that our program does what it is supposed to. While manual testing is fine for small projects, it becomes unmanageable for as our project grows in complexity.</p>
-<p>[Chart human time vs computer time to run something]</p>
-<p>By automating our test suite, we can quickly verify our program works on-demand.</p>
+<p>We can confirm our program works by running it. This could be manually running a command in the <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> or refreshing a webpage; in both cases, we are looking to see if our program does what it is supposed to. While manual testing is fine for small projects, it becomes unmanageable as our project grows in complexity.</p>
+<p>By automating our test suite, we can quickly verify our program works on-demand. Some developers even have their tests triggered to run on file save.</p>
 <h3>Formal Definition</h3>
 <p>Let's go over some definitions so we have a common vocabulary going forward.</p>
 <p class="aligncenter">
@@ -189,7 +178,8 @@
 </p>
 
 <p>A <strong>System Under Test (SUT)</strong> is the entity that is currently being tested. This could be a line of code, a method, or an entire program.</p>
-<p><strong>Acceptance Criteria</strong> refers to the check we perform that allow us to accept output from the system. (TODO something about a comparison)</p>
+<p><strong>Acceptance Criteria</strong> refers to the check we perform that allow us to accept output from the system. The specificity and range of acceptance criteria depends on what we are testing: medical device and aerospace require tests to specific as there is a lot less room for error.</p>
+<p>If Amazon makes a bad recommendation, it's not the end of the world. If Watson suggests the wrong surgery, it can be life threatening.</p>
 <p><strong>Testing</strong> refers to the process of entering Inputs into our System Under Test and validating Outputs against our Acceptance Criteria:</p>
 <ul>
 <li>If output is okay, our test passes.</li>
@@ -201,16 +191,16 @@
 <h2>Benefits of Testing</h2>
 <p>A well-thought-out testing strategy paired with thorough test cases provides the following benefits:</p>
 <h4>Modify Code with Confidence</h4>
-<p>If a program does anything of interest, it has interactions between functions, classes, and modules. This means a single line change can break our program in unexpected ways.</p>
-<p>Tests give us have confidence in our code. By running our tests after we modify our code, we can confirm our changes did not break existing functionality as defined by our tests.</p>
-<p>In contrast, modifying a code base without tests is a challenge. There is no way of knowing if things are working as intended. We are programming by the seat of our pants, quite a risky proposition.</p>
+<p>If a program does anything of interest, it has interactions between functions, classes, and modules. This means a single line change can break our program in unexpected ways. Tests give us confidence in our code. By running our tests after we modify our code, we can confirm our changes did not break existing functionality as defined by our tests.</p>
+<p>In contrast, modifying a code base without tests is a challenge. There is no way of knowing if things are working as intended. We are programming by the seat of our pants, which is quite a risky proposition.</p>
 <h4>Identify Bugs Early</h4>
-<p>Bugs cost money. How much depends on when you find them as the fix gets more expensive the further you are in the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC). <a href="http://blog.celerity.com/the-true-cost-of-a-software-bug">True Cost of a Software Bug</a> dig into this issue in additional depth.</p>
-<h4>Write Better Code</h4>
-<p>This one is a bit controversial, but I think writing code with tests in mind results in better code.</p>
-<p>A thorough test suite shows that the developer has actually thought about the problem in some depth. Writing tests forces you to use your own API, which will hopefully result in better interface design.</p>
-<p>All projects have time pressure and it's quite easy to get into the habit of taking shortcuts that increase coupling between modules leading to complex interdependencies. We have to be cognizant of that we are not solving problems by writing <a href="https://en.wikipedia.org/wiki/Spaghetti_code">spaghetti code</a>. Knowing we have to test our code forces us to write modular code.</p>
-<p>Once you write writing testable code by using patterns like <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a>, you'll see that things make more sense when you add structure to your process.</p>
+<p>Bugs cost money. How much depends on when you find them.</p>
+<p>Fixing bugs gets more expensive the further you are in the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC). <a href="http://blog.celerity.com/the-true-cost-of-a-software-bug">True Cost of a Software Bug</a> dig into this issue in additional depth.</p>
+<h4>Improve System Design</h4>
+<p>This one is a bit controversial, but I think writing code with tests in mind improves system design. A thorough test suite shows that the developer has actually thought about the problem in some depth. Writing tests <a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">forces you to use your own API</a>; this hopefully result in a better interface.</p>
+<p>All projects have time constraints and it's quite easy to get into the habit of taking shortcuts that increase coupling between modules leading to interdependencies. We have to be cognizant of solving problems with <a href="https://en.wikipedia.org/wiki/Spaghetti_code">spaghetti code</a>.</p>
+<p>Knowing we have to test our code forces us to write modular code. If something is clunky to test, there might be a better interface we can implement. Taking the time to write tests forces mindfulness upon us; we take a deep breath before looking at the problem from the perspective of a user.</p>
+<p>Once you write writing testable code by using patterns like <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a>, you'll see how adding structure makes it easier to verify our code is doing what we expect it to.</p>
 <hr>
 <p><a name="black-box-vs-white-box"></a></p>
 <h2>Black Box vs White Box</h2>
@@ -225,25 +215,26 @@
   <img src="/images/30-39/white_box_testing.jpg" width=400 alt="Picture showing input and output going into a transparent box where we can see how information flows" />
 </p>
 
-<p>As developers, we perform white box testing. We wrote the code inside of the box and are able to test it thoroughly. This is not to say that there is no need for black box testing, we should still have somebody check things at a higher level as proximity to the code could result in testing blind spots.</p>
+<p>As developers, we perform white box testing. We wrote the code inside of the box and know how to test it thoroughly. This is not to say that there is not a need for black box testing, we should still have somebody perform testing at a higher level; proximity to the code can lead to blind spots in our test.</p>
 <hr>
 <p><a name="test-pyramid"></a></p>
+<!-- HERE -->
+
 <h2>Test Pyramid</h2>
-<p>The Automated Test Pyramid provides guidance on how to structure our testing strategy. It says we should write a lot of fast and cheap unit tests and a small number of slow and expensive end-to-end tests.</p>
+<p>The Automated Test Pyramid provides guidance on how to structure our testing strategy. It says we should write lots of fast and cheap unit tests and a small number of slow and expensive end-to-end tests.</p>
 <p class="aligncenter">
   <img src="/images/30-39/test_pyramid.png" width=550 alt="Picture showing automated testing pyramid" />
 </p>
 
-<p>The Pyramid is not a hard and fast rule, but it provides a good place to start thinking about a testing strategy.</p>
-<p>A good rule of thumb is: write as many tests at each level as you need to have confidence in your system. We should be writing tests as we write code, iterating towards a testing strategy that works for us.</p>
+<p>The Test Pyramid is not a hard and fast rule, but it provides a good place to start thinking about a testing strategy. A good rule of thumb is to write as many tests at each level as you need to have confidence in your system. We should be writing tests as we write code, iterating towards a testing strategy that works for the project we are working on.</p>
 <h3>Unit Tests</h3>
 <p>Unit tests are low-level tests that focus on testing a specific part of our system. They are cheap to write and fast to run. Test failures should provide enough contextual information to pinpoint the source of the error. These tests are typically written by developers during the Implementation phase of the <a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle">Software Development Life Cycle</a> (SDLC).</p>
 <p>Unit tests should be independent and isolated; interacting with external components increases both the scope of our tests and the time it takes for tests to run. As we will see in a future post, replacing dependencies with <a href="https://martinfowler.com/bliki/TestDouble.html">test doubles</a> results in deterministic tests that are quick to run.</p>
-<p>How big should our unit test be? Like everything else in programming, it depends on what you are trying to do. We should start thinking in terms of a <a href="https://www.agileconnection.com/article/3-keys-mastering-test-driven-development">unit of behavior</a>.</p>
-<p>The Test Pyramid recommends having a lot of unit tests in our test suite. These tests give us confidence that our program works as expected. Writing new coding or modifying existing code might require us to rewrite some of our tests. This is standard practice, our test suite grows with our code base.</p>
+<p>How big should our unit test be? Like everything else in programming, it depends on what we are trying to do. Thinking in terms of a <a href="https://www.agileconnection.com/article/3-keys-mastering-test-driven-development">unit of behavior</a> allows us to write tests around logical blocks of code.</p>
+<p>The Test Pyramid recommends having a lot of unit tests in our test suite. These tests give us confidence that our program works as expected. Writing new code or modifying existing code might require us to rewrite some of our tests. This is standard practice, our test suite grows with our code base.</p>
 <p>Try to be cognizant of our test suite growing in complexity. Remember, <strong>code that tests our production code is also production code</strong>. Take the time to refactor your tests to ensure they are efficient and effective.</p>
 <h4>Unit Test Example</h4>
-<p>Suppose we have the following function that takes a list of words and returns the most common word and the number of occurrences of that word.</p>
+<p>Suppose we have the following function that takes a list of words and returns the most common word and the number of occurrences of that word:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_top_word</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
     <span class="c1"># Return most common word &amp; occurrences</span>
     <span class="n">word_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
@@ -261,10 +252,10 @@
 </pre></div>
 
 
-<p>If we ever wanted to change the implementation of <code>find_top_words</code>, we can do it without fear. Our test ensures that the functionality of <code>find_top_word</code> cannot change without causing a failure.</p>
+<p>If we ever wanted to change the implementation of <code>find_top_words</code>, we can do it without fear. Our test ensures that the functionality of <code>find_top_word</code> cannot change without causing a test failure.</p>
 <h3>Integration Tests</h3>
-<p>Every complex application has internal and external components working together to do something interesting. In contrast to units tests which focus on individual components, integration tests combine various parts of the system and test them together as a group. Integration testing can also refer to testing at service boundaries of our application, i.e. when it needs go out to the database, file system, or external API.</p>
-<p>These tests are typically written by developers, but they don't have to be. By definition, integration tests are larger in scope and take longer to run than unit tests. This means that test failures require some investigation, we know that one of the components in our test is not working, but the failure's exact location cannot be known. This is in contrast to unit tests which are smaller in scope and indicate exactly where things have failed.</p>
+<p>Every complex application has internal and external components working together to do something interesting. In contrast to units tests which focus on individual components, integration tests combine various parts of the system and test them together as a group. Integration testing can also refer to testing at service boundaries of our application, i.e. when it goes out to the database, file system, or external API.</p>
+<p>These tests are typically written by developers, but they don't have to be. By definition, integration tests are larger in scope and take longer to run than unit tests. This means that test failures require some investigation: we know that one of the components in our test is not working, but the failure's exact location needs to be found. This is in contrast to unit tests which are smaller in scope and indicate exactly where things have failed.</p>
 <p>We should try to run integration tests in a production-like environment; this minimizes the chance that tests fail due to differences in configuration.</p>
 <h4>Integration Test Example</h4>
 <p>Suppose we have the following function that takes in a URL and a tuple of <code>(word, occurrences)</code>. Our function creates a records and saves it to the database:</p>
@@ -281,7 +272,7 @@
 </pre></div>
 
 
-<p>We test this function by passing in known information into the function we want to test; the function saves information into the database. Our test code pulls the newly saved record from the database and confirms its fields match the input we passed into the function.</p>
+<p>We test this function by passing in known information into the function we want to test; the function saves information into the database. Our test code pulls the newly saved record from the database and confirms its fields matches the input we passed into the function.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_save_to_db</span><span class="p">():</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://test_url.com&quot;</span>
     <span class="n">most_common_word_details</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
@@ -297,11 +288,11 @@
 
 <p>Notice how this is the kind of testing we do manually to confirm things are working as expected. Automating this test saves us from having to repeatedly check this functionality each time we make a change to the code.</p>
 <h3>End-to-End</h3>
-<p>End-to-end tests check to see if the system meets our defined business requirements, i.e. function requirements. A common test is to trace a path through the system in the same manner a user would experience. For example, we can test a new user workflow: simulate creating an account, "clicking" the link in the activate email, logging-in for the first time, and interacting with our web application's tutorial modal pop-up.</p>
-<p>We can conduct end-to-end tests through our user interface (UI) by leveraging a browser automation tool like <a href="https://selenium-python.readthedocs.io/">Selenium</a>. This creates a dependency between our UI and our tests, which results in slow tests that are brittle. A change to the front-end requires us to change the test. This is not sustainable as either our front-end will become static or our tests will not be run.</p>
+<p>End-to-end tests check to see if the system meets our defined business requirements. A common test is to trace a path through the system in the same manner a user would experience. For example, we can test a new user workflow: simulate creating an account, "clicking" the link in the activate email, logging-in for the first time, and interacting with our web application's tutorial modal pop-up.</p>
+<p>We can conduct end-to-end tests through our user interface (UI) by leveraging a browser automation tool like <a href="https://selenium-python.readthedocs.io/">Selenium</a>. This creates a dependency between our UI and our tests, which results makes our tests brittle: a change to the front-end requires us to change tests. This is not sustainable as either our front-end will become static or our tests will not be run.</p>
 <p>A better solution is to test the subcutaneous layer, i.e. the layer just below our user interface. For a web application, this would be testing the REST API, both sending in JSON and getting JSON out.</p>
 <p>Our <a href="https://martinfowler.com/bliki/SubcutaneousTest.html">subcutaneous tests</a> are our contracts with our front-end; they can be used by our front-end developers as a specification of the REST API. Tools, like <a href="https://github.com/meqaio/swagger_meqa">swagger-meqa</a>, that are built on top of the OpenAPI Specification can help us automate this process. We could also full-featured tools like <a href="https://www.getpostman.com/">Postman</a> to test, debug, and validate our API.</p>
-<p>End-to-end tests are considered black box as we do not know not need to know anything about the implementation in order to conduct testing. This also means that test failures provide no indication of what when wrong. We would need to use logs to help us trace the error and diagnose system failure.</p>
+<p>End-to-end tests are considered black box as we do not need to know anything about the implementation in order to conduct testing. This also means that test failures provide no indication of what went wrong; we would need to use logs to help us trace the error and diagnose system failure.</p>
 <h4>End-to-End Test Example</h4>
 <p>Here we are using the Flask Test client to run subcutaneous testing on our REST API. There are a lot of things going on behind the scenes, the result we get, i.e. the HTTP status doesn't provide us any information other than if things worked the way we expected.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_end_to_end</span><span class="p">():</span>
@@ -314,43 +305,6 @@
 </pre></div>
 
 
-<h3>Test Pyramid Recap</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Unit Test</th>
-<th>Integration Test</th>
-<th>Functional Test</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>definition</td>
-<td>blah</td>
-<td>blah</td>
-<td>blah</td>
-</tr>
-<tr>
-<td>scope</td>
-<td>single thing</td>
-<td>group of things</td>
-<td>path thru system</td>
-</tr>
-<tr>
-<td>speed</td>
-<td>fast</td>
-<td>slow</td>
-<td>very slow</td>
-</tr>
-<tr>
-<td>what failure indicates</td>
-<td>which unit problem is in</td>
-<td>group of components</td>
-<td>somewhere in the system, use logging to find out</td>
-</tr>
-</tbody>
-</table>
 <h4>Resources</h4>
 <ul>
 <li>Martin Fowler Wiki: <a href="https://martinfowler.com/bliki/TestPyramid.html">TestPyramid</a> | <a href="https://martinfowler.com/bliki/UnitTest.html">UnitTest</a> | <a href="https://martinfowler.com/bliki/ComponentTest.html">IntegrationTest</a> | <a href="https://martinfowler.com/bliki/BroadStackTest.html">EndToEndTest</a></li>
@@ -360,15 +314,36 @@
 <hr>
 <p><a name="structuring-tests"></a></p>
 <h2>Structuring Tests</h2>
-<p>We should structure our tests to follow the following phases:</p>
+<p>Each test case can be separated into following phases:</p>
 <ul>
-<li>setting up the system under test (SUT) to environment required by the test case (pre-conditions)</li>
+<li>setting up the system under test (SUT) to the environment required by the test case (pre-conditions)</li>
 <li>performing the action we want to test on SUT</li>
 <li>verifying if the expected outcome occurred (post-conditions)</li>
 <li>tearing down SUT and putting the environment back into the state we found it in</li>
 </ul>
-<p>There are a couple of styles of test representation which make this pattern explicit: Given-When-Then and Arrange-Act-Assert.</p>
-<p>(they are both the same; different terminology to look at the same problem)</p>
+<p>There are two widely used frameworks for structuring tests: Arrange-Act-Assert and Given-When-Then.</p>
+<h3>Arrange-Act-Assert (AAA)</h3>
+<p>The AAA pattern is abstraction for separating the different part of our tests:</p>
+<ul>
+<li><strong>Arrange</strong> all necessary pre-conditions</li>
+<li><strong>Act</strong> on the SUT</li>
+<li><strong>Assert</strong> that our post-conditions are met</li>
+</ul>
+<h4>Arrange-Act-Assert Example</h4>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_find_top_word</span><span class="p">():</span>
+    <span class="c1"># Arrange</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;bat&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Act</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">find_top_word</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+    <span class="c1"># Assert</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+</pre></div>
+
+
+<p>The clear separation between the phases allows us to see if our test method is trying to test too many different things at once. Arrange-Act-Assert is the pattern I use when writing tests.</p>
 <h3>Given-When-Then (GWT)</h3>
 <p>GWT provides a useful abstraction for separating the different phases of our test:</p>
 <ul>
@@ -391,28 +366,6 @@
 </pre></div>
 
 
-<h3>Arrange-Act-Assert (AAA)</h3>
-<p>The AAA pattern is another abstraction for separating the different part of our tests:</p>
-<ul>
-<li><strong>Arrange</strong> all necessary pre-conditions</li>
-<li><strong>Act</strong> on the SUT</li>
-<li><strong>Assert</strong> that our post-conditions are met</li>
-</ul>
-<h4>Arrange-Act-Assert Example</h4>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_find_top_word</span><span class="p">():</span>
-    <span class="c1"># Arrange</span>
-    <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;bat&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">]</span>
-
-    <span class="c1"># Act</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">find_top_word</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
-
-    <span class="c1"># Assert</span>
-    <span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span>
-    <span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
-</pre></div>
-
-
-<p>The clear separation between the phases allows us to see if our test method is trying to test too many different things at once. This is how I write my tests.</p>
 <h4>Resources</h4>
 <ul>
 <li>Gerard Meszaros: <a href="http://xunitpatterns.com/Four%20Phase%20Test.html">Four-Phase Test</a></li>
@@ -424,12 +377,12 @@
 <hr>
 <p><a name="what-to-test"></a></p>
 <h2>What to Test</h2>
-<p>In order to prove that our program is correct, we have to test it against every conceivable combination of input values. This type of exhaustive testing is not practical so we need to employ testing strategies that allow us to select test cases where errors are most likely to error. Seasoned developers have experience balancing writing code to solve business problems versus writing tests to ensure correctness and prevent regression. Finding this balance and knowing what to test can feel more like an art than a science. Fortunately, there are a few rules of thumb we can follow to make sure our testing is thorough.</p>
-<p>This section is adapted from Code Complete Chapter 22: Developer Testing.</p>
+<p>In order to prove that our program is correct, we have to test it against every conceivable combination of input values. This type of exhaustive testing is not practical so we need to employ testing strategies that allow us to select test cases where errors are most likely to error.</p>
+<p>Seasoned developers can balance writing code to solve business problems with writing tests to ensure correctness and prevent <a href="https://en.wikipedia.org/wiki/Regression_testing">regression</a>. Finding this balance and knowing what to test can feel more like an art than a science. Fortunately, there are a few rules of thumb we can follow to make sure our testing is thorough.</p>
 <h4>Functional Requirements</h4>
 <p>We want to make sure that all relevant requirements have been implemented. Our test cases should be detailed enough to check business requirements. There is no point building something if doesn't meet the criteria you set forth.</p>
 <h4>Basis Path Testing</h4>
-<p>We have to test each statement at least once. If the statement is a conditional statement (<code>if</code> or <code>while</code>), we have to vary our testing to make sure we test all branches of the conditional. For example, if we have the following code:</p>
+<p>We have to test each statement at least once. If the statement has a conditional (<code>if</code> or <code>while</code>), we have to vary our testing to make sure we test all branches of the conditional. For example, if we have the following code:</p>
 <div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">18</span><span class="p">:</span>
     <span class="c1"># statement1</span>
 <span class="k">elif</span> <span class="mi">18</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">35</span><span class="p">:</span>
@@ -449,7 +402,7 @@
 <p>Two test cases that result in the same output are said to be equivalent. We only require one of the test cases in order to cover that class of errors.</p>
 <h4>Boundary Analysis</h4>
 <p><em>"There are 2 hard problems in Computer Science: cache invalidation, naming things, and off-by-1 errors."</em></p>
-<p>This is one of the <a href="https://martinfowler.com/bliki/TwoHardThings.html">oldest jokes in programming</a>. There is a lot of truth behind it, we often confuse if we need a <code>&lt;</code> or a <code>&lt;=</code>. This is why we should always test the boundary conditions. Given the following example:</p>
+<p>This is one of the <a href="https://martinfowler.com/bliki/TwoHardThings.html">oldest jokes in programming</a>, but there is a lot of truth behind it, we often confuse if we need a <code>&lt;</code> or a <code>&lt;=</code>. This is why we should always test the boundary conditions. Given the following example:</p>
 <div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">18</span><span class="p">:</span>
     <span class="c1"># statement1</span>
 <span class="k">else</span><span class="p">:</span>
@@ -457,7 +410,7 @@
 </pre></div>
 
 
-<p>To ensure we thoroughly test the boundary conditions of the code snippet above, we would to have test cases for <code>x=17</code>, <code>x=18</code>, and <code>x=19</code>. Be aware that writing test cases becomes a bit more complicated if our boundary has a compound conditional.</p>
+<p>To ensure we thoroughly test the boundary conditions of the code snippet above, we would to have test cases for <code>x=17</code>, <code>x=18</code>, and <code>x=19</code>. Be aware that writing test cases becomes a bit more complicated if our boundary has compound conditionals.</p>
 <p>This is a great <a href="https://medium.freecodecamp.org/a-beginners-guide-to-testing-implement-these-quick-checks-to-test-your-code-d50027ad5eed">guide on testing boundary conditions</a>.</p>
 <h4>Classes of Bad Data</h4>
 <p>This refers to any of the the following cases:</p>
@@ -469,36 +422,25 @@
 <li>Uninitialized data</li>
 </ul>
 <h4>Data Flow Testing</h4>
-<p>Focuses on tracing the control flow of the program with a focus on exploring the sequence of events related to the status of data objects. For example, we get an error if we try to access a variable that has been deleted. We can use Data Flow testing to come up with additional test cases for variables that have not be checked.</p>
+<p>Focuses on tracing the control flow of the program with a focus on exploring the sequence of events related to the status of data objects. For example, we get an error if we try to access a variable that has been deleted. We can use Data Flow testing to come up with additional test cases for variables that have not be tested by other tests.</p>
 <h4>Error Guessing</h4>
-<p>Past experience can provides us insights into parts of our code base that can lead to errors. Keeping a record of errors you've made before can improve the likelihood that you will not make that error again in the future.</p>
+<p>Past experience provides insights into parts of our code base that can lead to errors. Keeping a record of previous errors can improve the likelihood that you will not make that same error again in the future.</p>
 <h4>Recap</h4>
 <p>Figuring out what to test and doing it efficiently is what I mean when I say <em>Art of Developer Testing</em>. The only way to get better at testing is by writing tests, coming up come up better testing strategies, and learning about different testing techniques. Just like in software development, the more you know about something, the better you will become at it.</p>
 <hr>
 <p><a name="when-to-write-tests"></a></p>
 <h2>When to Write Test</h2>
-<p>While there is a lot of interesting discussion here about when to write tests (first? last? both?), I feel it takes away from the point of testing. It doesn't matter when you write tests, it's about getting into the habit of writing tests in the first place.</p>
-<p>If you are interested in this topic, I recommend the following links:</p>
+<p>While there is a lot of interesting discussion here about when to write tests (first? last? both?), I feel it takes away from the point of testing. It doesn't matter <strong>when</strong> you write tests, it just matters <strong>that</strong> you write tests.</p>
+<p>If you are interested in exploring this topic, I recommend the following links:</p>
 <ul>
 <li>RubyOnRails creator David Heinemeier Hansson (DHH) <a href="https://www.youtube.com/watch?v=9LfmrkyP81M">criticizing TDD at RailsConf 2014</a></li>
 <li><a href="https://martinfowler.com/articles/is-tdd-dead/">Is TDD Dead? discussion</a> with DHH, Martin Fowler, and Kent Beck</li>
 <li><a href="https://www.tedmyoung.com/looking-at-tdd-an-academic-survey/">TDD: A Academic Survey</a> by Ted M. Young</li>
 </ul>
 <hr>
-<p><a name="testing-anti-patterns"></a></p>
-<h2>Testing Anti-Patterns</h2>
-<!-- TODO... research -->
-
-<ul>
-<li>tests should be focused</li>
-<li>test one thing at a time, if we have multiple things that we are testing for. a test failure won't provide any additional information. we're gonna have to do the work to dig into it, so save yourself a headache and make your tests indicate where to look. this is more true for unit tests</li>
-<li>too many test cases that are the same</li>
-<li>testing happy path vs testing bad path. this is because we aren't taught about how to test properly. writing tests feels like a chore. if we have the right tools, it won't. this series of posts is trying to fix that.</li>
-</ul>
-<hr>
 <p><a name="conclusion"></a></p>
 <h2>Conclusion</h2>
-<p>Testing is complex. Understanding it will make you better at testing. In this post I outlined blah blah blah. I wanted to get all this knowledge out there so I can refer back to build upon it in future posts.</p>
+<p>In this post, we got a broad introduction to the world of testing. Now that we are all on the same page, we can explore testing in more depth in future posts in this series.</p>
 <h4>Additional Resources</h4>
 <ul>
 <li>Code Simplicity: <a href="https://www.codesimplicity.com/post/the-philosophy-of-testing/">The Philosophy of Testing</a></li>
@@ -532,6 +474,19 @@
     </div>
     &nbsp;
   </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
 </article>
         </div><!-- /content -->
 
@@ -577,16 +532,70 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
     <span class="tag-2">
       <a href="../tag/review.html">
           <i class="fa fa-tag"></i>
         review
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/elasticsearch.html">
+          <i class="fa fa-tag"></i>
+        elasticsearch
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
       </a>
     </span>
     <span class="tag-3">
@@ -601,22 +610,10 @@
         terminal
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/mac.html">
-          <i class="fa fa-tag"></i>
-        mac
-      </a>
-    </span>
     <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
+      <a href="../tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
+        pythonic
       </a>
     </span>
     <span class="tag-2">
@@ -625,94 +622,16 @@
         data-viz
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+    <span class="tag-4">
+      <a href="../tag/mac.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/workflow.html">
-          <i class="fa fa-tag"></i>
-        workflow
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
+        mac
       </a>
     </span>
     <span class="tag-3">
       <a href="../tag/book.html">
           <i class="fa fa-tag"></i>
         book
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-development.html">
-          <i class="fa fa-tag"></i>
-        web-development
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/flask.html">
-          <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
-          <i class="fa fa-tag"></i>
-        elasticsearch
       </a>
     </span>
     <span class="tag-1">
@@ -722,9 +641,21 @@
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pythonic.html">
+      <a href="../tag/workflow.html">
           <i class="fa fa-tag"></i>
-        pythonic
+        workflow
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
       </a>
     </span>
     <span class="tag-2">
@@ -733,16 +664,40 @@
         c'est-la-vie
       </a>
     </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
-        math
+        how-to
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
       </a>
     </span>
     <span class="tag-4">
       <a href="../tag/gis.html">
           <i class="fa fa-tag"></i>
         gis
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
       </a>
     </span>
 </p>
