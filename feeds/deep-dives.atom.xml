@@ -1,5 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Deep Dives</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/deep-dives.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2017-11-19T14:22:00-06:00</updated><entry><title>HTTP: Hypertext Transfer Protocol</title><link href="http://alysivji.github.io/http-part1-the-protocol.html" rel="alternate"></link><published>2017-11-19T14:22:00-06:00</published><updated>2017-11-19T14:22:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-11-19:/http-part1-the-protocol.html</id><summary type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Deep Dives</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/deep-dives.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-10-21T08:10:00-05:00</updated><entry><title>Testing 101: Introduction to Testing</title><link href="http://alysivji.github.io/testing-101-introduction-to-testing.html" rel="alternate"></link><published>2018-10-21T08:10:00-05:00</published><updated>2018-10-21T08:10:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-10-21:/testing-101-introduction-to-testing.html</id><summary type="html">&lt;p&gt;Programming is writing code to solve problems. Software Engineering is the practice of using a &lt;strong&gt;structured process&lt;/strong&gt; to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Programming is writing code to solve problems. Software Engineering is the practice of using a &lt;strong&gt;structured process&lt;/strong&gt; to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do not break existing functionality.&lt;/p&gt;
+&lt;p&gt;At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. I was reading &lt;a href="https://pragprog.com/book/bopytest/python-testing-with-pytest"&gt;Python Testing with pytest&lt;/a&gt; and convinced the Senior Engineer to let me bring &lt;a href="http://pytest.org/"&gt;pytest&lt;/a&gt; into our project. This was fortuitous as it forced me to take the lead in writing the initial set of tests we used as a template for all of our services.&lt;/p&gt;
+&lt;p&gt;This experience reinforced the principles highlighted in &lt;a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer"&gt;The Pragmatic Programmer&lt;/a&gt;. It's about being pragmatic in &lt;strong&gt;what&lt;/strong&gt; we test, &lt;strong&gt;how&lt;/strong&gt; we test, and &lt;strong&gt;when&lt;/strong&gt; we test; we should leverage tools and techniques that allow us to test our code as efficiently as possible. Testing needs to be easy and free of barriers; once testing feels like a chore, programmers won't do it... and this is how software quality slips.&lt;/p&gt;
+&lt;p&gt;We dread going into the code because either there are no tests or the tests that exist are so brittle that we're forced to rewrite tests as we write code. This is not what Software Engineering is about. Test should enable refactoring, not hamper our ability to make changes to the codebase. We should spend our time writing business logic, not wrestling with tests.&lt;/p&gt;
+&lt;p&gt;Testing is folklore in the sense that best practices and techniques are passed down from programmer to programmer while working on projects as part of a team. If you are new to the industry and are trying to grok testing, it's hard to figure out how to get started. It feels like there is a lot of conflicting advice out there, and that's because there is. Testing is opinionated, more-so than any other software engineering discipline. Folks are always arguing about what to test, how to test, and &lt;strong&gt;especially&lt;/strong&gt; when to test.&lt;/p&gt;
+&lt;p&gt;This is the first in a series of posts that details my thought process for how I go about adding tests to a codebase. In this post, I provide a broad introduction to the world of testing so we can have a common vocabulary for future posts.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Table of Contents&lt;/h4&gt;
+&lt;!-- TOC --&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#what-is-testing"&gt;What is Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#benefits-of-testing"&gt;Benefits of Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#black-box-vs-white-box"&gt;Black Box vs White Box&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#test-pyramid"&gt;Test Pyramid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#structuring-tests"&gt;Structuring Tests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-to-test"&gt;What to Test&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#when-to-write-tests"&gt;When to Write Tests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- /TOC --&gt;
+
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="what-is-testing"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;What is Testing&lt;/h2&gt;
+&lt;p&gt;When we write code, we need to run it to ensure that it is doing what we expect it to. Tests are a contract with our code: given a value, we expect a certain result to be returned.&lt;/p&gt;
+&lt;p&gt;Running tests can be thought of as a feedback mechanism that informs us if our program works as intended:&lt;/p&gt;
+&lt;p class="aligncenter"&gt;
+  &lt;img src="/images/30-39/feedback_loop.jpg" width=400 alt="Tests provide a feedback mechanism" align="top"/&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/p&gt;
+
+&lt;p&gt;While passing tests &lt;a href="http://wiki.c2.com/?TestsCantProveTheAbsenceOfBugs"&gt;cannot prove the absence bugs&lt;/a&gt;, they do inform us that our code is working in the manner defined by the test. In contrast, a failing test indicates that something is not right. We need to understand why our test failed so we can modify code and/or tests, as required.&lt;/p&gt;
+&lt;h3&gt;Properties of Tests&lt;/h3&gt;
+&lt;h4&gt;1. Fast&lt;/h4&gt;
+&lt;p&gt;Tests give us confidence that our code is working as intended. A slower feedback loop hampers development as it takes us longer to find out if our change was correct. If our workflow is plagued by slow tests, we won't be running them as often. This will lead to problems down the line.&lt;/p&gt;
+&lt;p&gt;&lt;a name="what-is-testing-deterministic"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;2. Deterministic&lt;/h4&gt;
+&lt;p&gt;Tests should be &lt;a href="https://en.wikipedia.org/wiki/Deterministic_system"&gt;deterministic&lt;/a&gt;, i.e. the same input will always result in the same output. If tests are non-deterministic, we have to find a way to account for random behavior inside of our tests.&lt;/p&gt;
+&lt;p&gt;While there is definitely non-deterministic code in production (i.e. Machine Learning and AI), we should try to make all our non-probabilistic code as deterministic as possible. There is no point of doing additional work unless our program requires it.&lt;/p&gt;
+&lt;p&gt;&lt;a name="what-is-testing-automated"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;3. Automated&lt;/h4&gt;
+&lt;p&gt;We can confirm our program works by running it. This could be manually running a command in the &lt;a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop"&gt;REPL&lt;/a&gt; or refreshing a webpage; in both cases, we are looking to see if our program does what it is supposed to do. While manual testing is fine for small projects, it becomes unmanageable as our project grows in complexity.&lt;/p&gt;
+&lt;p&gt;By automating our test suite, we can quickly verify our program works on-demand. Some developers even have their tests triggered to run on file save.&lt;/p&gt;
+&lt;h3&gt;Formal Definition&lt;/h3&gt;
+&lt;p&gt;Let's go over some definitions so we have a common vocabulary going forward.&lt;/p&gt;
+&lt;p class="aligncenter"&gt;
+  &lt;img src="/images/30-39/system_under_test.jpg" alt="Diagram of a system under test" /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;A &lt;strong&gt;System Under Test (SUT)&lt;/strong&gt; is the entity that is currently being tested. This could be a line of code, a method, or an entire program.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Acceptance Criteria&lt;/strong&gt; refers to the check we perform that allows us to accept output from the system. The specificity and range of acceptance criteria depends on what we are testing: medical device and aerospace require tests to be specific as there is a lot less room for error.&lt;/p&gt;
+&lt;p&gt;If Amazon makes a bad recommendation, it's not the end of the world. If IBM's Watson suggests the wrong surgery, it can be life threatening.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Testing&lt;/strong&gt; refers to the process of entering Inputs into our System Under Test and validating Outputs against our Acceptance Criteria:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If output is okay, our test passes.&lt;/li&gt;
+&lt;li&gt;If output is not okay, our test fails and we have to debug.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Hopefully the test failure provides enough contextual information for us to find out where to look.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="benefits-of-testing"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Benefits of Testing&lt;/h2&gt;
+&lt;p&gt;A well-thought-out testing strategy paired with thorough test cases provides the following benefits:&lt;/p&gt;
+&lt;h4&gt;Modify Code with Confidence&lt;/h4&gt;
+&lt;p&gt;If a program does anything of interest, it has interactions between functions, classes, and modules. This means a single line change can break our program in unexpected ways. Tests give us confidence in our code. By running our tests after we modify our code, we can confirm our changes did not break existing functionality as defined by our tests.&lt;/p&gt;
+&lt;p&gt;In contrast, modifying a code base without tests is a challenge. There is no way of knowing if things are working as intended. We are programming by the seat of our pants, which is quite a risky proposition.&lt;/p&gt;
+&lt;h4&gt;Identify Bugs Early&lt;/h4&gt;
+&lt;p&gt;Bugs cost money. How much depends on when you find them.&lt;/p&gt;
+&lt;p&gt;Fixing bugs gets more expensive the further you are in the &lt;a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle"&gt;Software Development Life Cycle&lt;/a&gt; (SDLC). &lt;a href="http://blog.celerity.com/the-true-cost-of-a-software-bug"&gt;True Cost of a Software Bug&lt;/a&gt; digs into this issue.&lt;/p&gt;
+&lt;h4&gt;Improve System Design&lt;/h4&gt;
+&lt;p&gt;This one is a bit controversial, but I think writing code with tests in mind improves system design. A thorough test suite shows that the developer has actually thought about the problem in some depth. Writing tests &lt;a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food"&gt;forces you to use your own API&lt;/a&gt;; this hopefully results in a better interface.&lt;/p&gt;
+&lt;p&gt;All projects have time constraints and it's quite easy to get into the habit of taking shortcuts that increase coupling between modules leading to complex interdependencies. We have to be cognizant of solving problems with &lt;a href="https://en.wikipedia.org/wiki/Spaghetti_code"&gt;spaghetti code&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Knowing we have to test our code forces us to write modular code. If something is clunky to test, there might be a better interface we can implement. Taking the time to write tests forces mindfulness upon us; we take a deep breath before looking at the problem from the perspective of a user.&lt;/p&gt;
+&lt;p&gt;Once you write testable code by using patterns like &lt;a href="https://en.wikipedia.org/wiki/Dependency_injection"&gt;dependency injection&lt;/a&gt;, you'll see how adding structure makes it easier to verify our code is doing what we expect it to.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="black-box-vs-white-box"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Black Box vs White Box&lt;/h2&gt;
+&lt;p&gt;Tests can be broadly classified into two broad categories: black box testing and white box testing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Black Box Testing&lt;/strong&gt; refers to testing techniques in which the tester cannot see the inner workings of the item being tested.&lt;/p&gt;
+&lt;p class="aligncenter"&gt;
+  &lt;img src="/images/30-39/black_box_testing.jpg" width=400 alt="Picture showing input and output going into a blackbox" /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;White Box Testing&lt;/strong&gt; is the technique in which the tester can see the inner workings of the item being tested.&lt;/p&gt;
+&lt;p class="aligncenter"&gt;
+  &lt;img src="/images/30-39/white_box_testing.jpg" width=400 alt="Picture showing input and output going into a transparent box where we can see how information flows" /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;As developers, we perform white box testing. We wrote the code inside of the box and know how to test it thoroughly. This is not to say that there is not a need for black box testing, we should still have somebody perform testing at a higher level; proximity to the code can lead to blind spots in our tests.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="test-pyramid"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- HERE --&gt;
+
+&lt;h2&gt;Test Pyramid&lt;/h2&gt;
+&lt;p&gt;The Automated Test Pyramid provides guidance on how to structure our testing strategy. It says we should write lots of fast and cheap unit tests and a small number of slow and expensive end-to-end tests.&lt;/p&gt;
+&lt;p class="aligncenter"&gt;
+  &lt;img src="/images/30-39/test_pyramid.png" width=550 alt="Picture showing automated testing pyramid" /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The Test Pyramid is not a hard and fast rule, but it provides a good place to start thinking about a testing strategy. A good rule of thumb is to write as many tests at each level as you need to have confidence in your system. We should be writing tests as we write code, iterating towards a testing strategy that works for the project we are working on.&lt;/p&gt;
+&lt;h3&gt;Unit Tests&lt;/h3&gt;
+&lt;p&gt;Unit tests are low-level tests that focus on testing a specific part of our system. They are cheap to write and fast to run. Test failures should provide enough contextual information to pinpoint the source of the error. These tests are typically written by developers during the Implementation phase of the &lt;a href="https://en.wikipedia.org/wiki/Systems_development_life_cycle"&gt;Software Development Life Cycle&lt;/a&gt; (SDLC).&lt;/p&gt;
+&lt;p&gt;Unit tests should be independent and isolated; interacting with external components increases both the scope of our tests and the time it takes for tests to run. As we will see in a future post, replacing dependencies with &lt;a href="https://martinfowler.com/bliki/TestDouble.html"&gt;test doubles&lt;/a&gt; results in deterministic tests that are quick to run.&lt;/p&gt;
+&lt;p&gt;How big should our unit test be? Like everything else in programming, it depends on what we are trying to do. Thinking in terms of a &lt;a href="https://www.agileconnection.com/article/3-keys-mastering-test-driven-development"&gt;unit of behavior&lt;/a&gt; allows us to write tests around logical blocks of code.&lt;/p&gt;
+&lt;p&gt;The Test Pyramid recommends having a lot of unit tests in our test suite. These tests give us confidence that our program works as expected. Writing new code or modifying existing code might require us to rewrite some of our tests. This is standard practice, our test suite grows with our code base.&lt;/p&gt;
+&lt;p&gt;Try to be cognizant of our test suite growing in complexity. Remember, &lt;strong&gt;code that tests our production code is also production code&lt;/strong&gt;. Take the time to refactor your tests to ensure they are efficient and effective.&lt;/p&gt;
+&lt;h4&gt;Unit Test Example&lt;/h4&gt;
+&lt;p&gt;Suppose we have the following function that takes a list of words and returns the most common word and the number of occurrences of that word:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find_top_word&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;# Return most common word &amp;amp; occurrences&lt;/span&gt;
+    &lt;span class="n"&gt;word_counter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;word_counter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can test this function by creating a list, running the &lt;code&gt;find_top_word&lt;/code&gt; function over that list and comparing the results of the function to the value we expect:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_find_top_word&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;words&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;baz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;baz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_top_word&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If we ever wanted to change the implementation of &lt;code&gt;find_top_words&lt;/code&gt;, we can do it without fear. Our test ensures that the functionality of &lt;code&gt;find_top_word&lt;/code&gt; cannot change without causing a test failure.&lt;/p&gt;
+&lt;h3&gt;Integration Tests&lt;/h3&gt;
+&lt;p&gt;Every complex application has internal and external components working together to do something interesting. In contrast to units tests which focus on individual components, integration tests combine various parts of the system and test them together as a group. Integration testing can also refer to testing at service boundaries of our application, i.e. when it goes out to the database, file system, or external API.&lt;/p&gt;
+&lt;p&gt;These tests are typically written by developers, but they don't have to be. By definition, integration tests are larger in scope and take longer to run than unit tests. This means that test failures require some investigation: we know that one of the components in our test is not working, but the failure's exact location needs to be found. This is in contrast to unit tests which are smaller in scope and indicate exactly where things have failed.&lt;/p&gt;
+&lt;p&gt;We should try to run integration tests in a production-like environment; this minimizes the chance that tests fail due to differences in configuration.&lt;/p&gt;
+&lt;h4&gt;Integration Test Example&lt;/h4&gt;
+&lt;p&gt;Suppose we have the following function that takes in a URL and a tuple of &lt;code&gt;(word, occurrences)&lt;/code&gt;. Our function creates a records and saves it to the database:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;save_to_db&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;top_word&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;record&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TopWord&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;
+    &lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;top_word&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_occurrences&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;top_word&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;record&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We test this function by passing in known information; the function should save the information we entered into the database. Our test code pulls the newly saved record from the database and confirms its fields match the input we passed in.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_save_to_db&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://test_url.com&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;most_common_word_details&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;save_to_db&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;most_common_word_details&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;inserted_record&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TopWord&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;inserted_record&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://test_url.com&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;inserted_record&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Python&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;inserted_record&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_occurrences&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice how this is the kind of testing we do manually to confirm things are working as expected. Automating this test saves us from having to repeatedly check this functionality each time we make a change to the code.&lt;/p&gt;
+&lt;h3&gt;End-to-End&lt;/h3&gt;
+&lt;p&gt;End-to-end tests check to see if the system meets our defined business requirements. A common test is to trace a path through the system in the same manner a user would experience. For example, we can test a new user workflow: simulate creating an account, "clicking" the link in the activate email, logging-in for the first time, and interacting with our web application's tutorial modal pop-up.&lt;/p&gt;
+&lt;p&gt;We can conduct end-to-end tests through our user interface (UI) by leveraging a browser automation tool like &lt;a href="https://selenium-python.readthedocs.io/"&gt;Selenium&lt;/a&gt;. This creates a dependency between our UI and our tests, which makes our tests brittle: a change to the front-end requires us to change tests. This is not sustainable as either our front-end will become static or our tests will not be run.&lt;/p&gt;
+&lt;p&gt;A better solution is to test the subcutaneous layer, i.e. the layer just below our user interface. For a web application, this would be testing the REST API, both sending in JSON and getting JSON out.&lt;/p&gt;
+&lt;p&gt;Our &lt;a href="https://martinfowler.com/bliki/SubcutaneousTest.html"&gt;subcutaneous tests&lt;/a&gt; are our contracts with our front-end; they can be used by our front-end developers as a specification of the REST API. Tools, like &lt;a href="https://github.com/meqaio/swagger_meqa"&gt;swagger-meqa&lt;/a&gt;, that are built on top of the OpenAPI Specification can help us automate this process. We could also full-featured tools like &lt;a href="https://www.getpostman.com/"&gt;Postman&lt;/a&gt; to test, debug, and validate our API.&lt;/p&gt;
+&lt;p&gt;End-to-end tests are considered black box as we do not need to know anything about the implementation in order to conduct testing. This also means that test failures provide no indication of what went wrong; we would need to use logs to help us trace the error and diagnose system failure.&lt;/p&gt;
+&lt;h4&gt;End-to-End Test Example&lt;/h4&gt;
+&lt;p&gt;Here we are using the &lt;a href="http://flask.pocoo.org/docs/1.0/api/#flask.Flask.test_client"&gt;Flask Test client&lt;/a&gt; to run subcutaneous testing on our REST API. There are a lot of things happening behind the scene and the result we get back (HTTP status code) lets us know that the test either passed or failed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_end_to_end&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test_client&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://www.python.org&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/top-word&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status_code&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;HTTPStatus&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;OK&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Martin Fowler Wiki: &lt;a href="https://martinfowler.com/bliki/TestPyramid.html"&gt;TestPyramid&lt;/a&gt; | &lt;a href="https://martinfowler.com/bliki/UnitTest.html"&gt;UnitTest&lt;/a&gt; | &lt;a href="https://martinfowler.com/bliki/ComponentTest.html"&gt;IntegrationTest&lt;/a&gt; | &lt;a href="https://martinfowler.com/bliki/BroadStackTest.html"&gt;EndToEndTest&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Google Testing Blog: &lt;a href="https://testing.googleblog.com/2015/04/just-say-no-to-more-end-to-end-tests.html"&gt;Just Say No to More End-to-End Tests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Automation Panda: &lt;a href="https://automationpanda.com/2018/08/01/the-testing-pyramid/"&gt;The Testing Pyramid&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="structuring-tests"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Structuring Tests&lt;/h2&gt;
+&lt;p&gt;Each test case can be separated into the following phases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;setting up the system under test (SUT) to the environment required by the test case (pre-conditions)&lt;/li&gt;
+&lt;li&gt;performing the action we want to test on SUT&lt;/li&gt;
+&lt;li&gt;verifying if the expected outcome occurred (post-conditions)&lt;/li&gt;
+&lt;li&gt;tearing down SUT and putting the environment back to the state we found it in&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are two widely used frameworks for structuring tests: Arrange-Act-Assert and Given-When-Then.&lt;/p&gt;
+&lt;h3&gt;Arrange-Act-Assert (AAA)&lt;/h3&gt;
+&lt;p&gt;The AAA pattern is abstraction for separating the different part of our tests:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Arrange&lt;/strong&gt; all necessary pre-conditions&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Act&lt;/strong&gt; on the SUT&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Assert&lt;/strong&gt; that our post-conditions are met&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Arrange-Act-Assert Example&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_find_top_word&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;# Arrange&lt;/span&gt;
+    &lt;span class="n"&gt;words&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;baz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;baz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Act&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_top_word&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Assert&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The clear separation between the phases allows us to see if our test method is trying to test too many different things at once. Arrange-Act-Assert is the pattern I use when writing tests.&lt;/p&gt;
+&lt;h3&gt;Given-When-Then (GWT)&lt;/h3&gt;
+&lt;p&gt;GWT provides a useful abstraction for separating the different phases of our test:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Given&lt;/strong&gt; a set of pre-conditions&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;When&lt;/strong&gt; we perform an action on the SUT&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Then&lt;/strong&gt; our post-conditions should be as follows&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GWT is widely used in &lt;a href="https://en.wikipedia.org/wiki/Behavior-driven_development"&gt;Behavior Driven Development&lt;/a&gt; (BDD).&lt;/p&gt;
+&lt;h4&gt;Given-When-Then Example&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_find_top_word&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;# Given a list of word&lt;/span&gt;
+    &lt;span class="n"&gt;words&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;baz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;baz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# When we run the function over the list&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_top_word&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Then we should see `foo` occurring 3 times&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Gerard Meszaros: &lt;a href="http://xunitpatterns.com/Four%20Phase%20Test.html"&gt;Four-Phase Test&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Martin Fowler Wiki: &lt;a href="https://martinfowler.com/bliki/GivenWhenThen.html"&gt;GivenWhenThen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;C2 Wiki: &lt;a href="http://wiki.c2.com/?ArrangeActAssert"&gt;Arrange Act Assert&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;James Cooke: &lt;a href="https://jamescooke.info/arrange-act-assert-pattern-for-python-developers.html"&gt;Arrange Act Assert Pattern for Python Developers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Automation Panda: &lt;a href="https://www.youtube.com/watch?v=EtIAbfCrsFI"&gt;Behavior-Driven Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="what-to-test"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;What to Test&lt;/h2&gt;
+&lt;p&gt;In order to prove that our program is correct, we have to test it against every conceivable combination of input values. This type of exhaustive testing is not practical so we need to employ testing strategies that allow us to select test cases where errors are most likely to error.&lt;/p&gt;
+&lt;p&gt;Seasoned developers can balance writing code to solve business problems with writing tests to ensure correctness and prevent &lt;a href="https://en.wikipedia.org/wiki/Regression_testing"&gt;regression&lt;/a&gt;. Finding this balance and knowing what to test can feel more like an art than a science. Fortunately, there are a few rules of thumb we can follow to make sure our testing is thorough.&lt;/p&gt;
+&lt;h4&gt;Functional Requirements&lt;/h4&gt;
+&lt;p&gt;We want to make sure that all relevant requirements have been implemented. Our test cases should be detailed enough to check business requirements. There is no point building something if doesn't it meet the criteria you set forth.&lt;/p&gt;
+&lt;h4&gt;Basis Path Testing&lt;/h4&gt;
+&lt;p&gt;We have to test each statement at least once. If the statement has a conditional (&lt;code&gt;if&lt;/code&gt; or &lt;code&gt;while&lt;/code&gt;), we have to vary our testing to make sure we test all branches of the conditional. For example, if we have the following code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# statement1&lt;/span&gt;
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# statement2&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# statement3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To make sure we hit all branches of the above conditional, we need to write the following tests:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;x &amp;lt; 18&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;18 &amp;lt;= x &amp;lt;= 35&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x &amp;gt; 35&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Equivalence Partitioning&lt;/h4&gt;
+&lt;p&gt;Two test cases that result in the same output are said to be equivalent. We only require one of the test cases in order to cover that class of errors.&lt;/p&gt;
+&lt;h4&gt;Boundary Analysis&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;"There are 2 hard problems in Computer Science: cache invalidation, naming things, and off-by-1 errors."&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This is one of the &lt;a href="https://martinfowler.com/bliki/TwoHardThings.html"&gt;oldest jokes in programming&lt;/a&gt;, but there is a lot of truth behind it, we often confuse if we need a &lt;code&gt;&amp;lt;&lt;/code&gt; or a &lt;code&gt;&amp;lt;=&lt;/code&gt;. This is why we should always test the boundary conditions. Given the following example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# statement1&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# statement3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To ensure we thoroughly test the boundary conditions of the code snippet above, we would to have test cases for &lt;code&gt;x=17&lt;/code&gt;, &lt;code&gt;x=18&lt;/code&gt;, and &lt;code&gt;x=19&lt;/code&gt;. Be aware that writing test cases becomes more complicated if our boundary has compound conditionals.&lt;/p&gt;
+&lt;p&gt;This is a great &lt;a href="https://medium.freecodecamp.org/a-beginners-guide-to-testing-implement-these-quick-checks-to-test-your-code-d50027ad5eed"&gt;guide on testing boundary conditions&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;Classes of Bad Data&lt;/h4&gt;
+&lt;p&gt;This refers to any of the the following cases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Too little data (or no data)&lt;/li&gt;
+&lt;li&gt;Too much data&lt;/li&gt;
+&lt;li&gt;Invalid data&lt;/li&gt;
+&lt;li&gt;Wrong size of data&lt;/li&gt;
+&lt;li&gt;Uninitialized data&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Data Flow Testing&lt;/h4&gt;
+&lt;p&gt;Focuses on tracing the control flow of the program with a focus on exploring the sequence of events related to the status of data objects. For example, we get an error if we try to access a variable that has been deleted. We can use Data Flow testing to come up with additional test cases for variables that have not be tested by other tests.&lt;/p&gt;
+&lt;h4&gt;Error Guessing&lt;/h4&gt;
+&lt;p&gt;Past experience provides insights into parts of our code base that can lead to errors. Keeping a record of previous errors can improve the likelihood that you will not make that same mistake again in the future.&lt;/p&gt;
+&lt;h4&gt;Recap&lt;/h4&gt;
+&lt;p&gt;Figuring out what to test and doing it efficiently is what I mean when I say &lt;a href="/tag/art-of-developer-testing.html"&gt;&lt;em&gt;Art of Developer Testing&lt;/em&gt;&lt;/a&gt;. The only way to get better at testing is by writing tests, coming up come up better testing strategies, and learning about different testing techniques. Just like in software development, the more you know about something, the better you will become at it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="when-to-write-tests"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;When to Write Tests&lt;/h2&gt;
+&lt;p&gt;While there is a lot of interesting discussion about when to write tests, I feel it takes away from the point of testing. It doesn't matter &lt;strong&gt;when&lt;/strong&gt; you write tests, it just matters &lt;strong&gt;that&lt;/strong&gt; you write tests.&lt;/p&gt;
+&lt;p&gt;If you are interested in exploring this topic, I recommend the following links:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RubyOnRails creator David Heinemeier Hansson (DHH) &lt;a href="https://www.youtube.com/watch?v=9LfmrkyP81M"&gt;criticizing TDD at RailsConf 2014&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://martinfowler.com/articles/is-tdd-dead/"&gt;Is TDD Dead? discussion&lt;/a&gt; with DHH, Martin Fowler, and Kent Beck&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.tedmyoung.com/looking-at-tdd-an-academic-survey/"&gt;TDD: A Academic Survey&lt;/a&gt; by Ted M. Young&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a name="conclusion"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In this post, we got a broad introduction to the world of testing. Now that we are all on the same page, we can explore testing in more depth in future posts.&lt;/p&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670"&gt;Code Complete&lt;/a&gt; Chapter 22: Developer Testing&lt;/li&gt;
+&lt;li&gt;Code Simplicity: &lt;a href="https://www.codesimplicity.com/post/the-philosophy-of-testing/"&gt;The Philosophy of Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Katy Huff: &lt;a href="https://katyhuff.github.io/python-testing/"&gt;Python Testing and Continuous Integration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://testandcode.com/"&gt;Test and Code Podcast&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="art-of-developer-testing"></category><category term="testing"></category><category term="python"></category></entry><entry><title>HTTP: Hypertext Transfer Protocol</title><link href="http://alysivji.github.io/http-part1-the-protocol.html" rel="alternate"></link><published>2017-11-19T14:22:00-06:00</published><updated>2017-11-19T14:22:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-11-19:/http-part1-the-protocol.html</id><summary type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
 &lt;p&gt;We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
 &lt;p&gt;We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current plan is to use Python3 and &lt;a href="https://falconframework.org/"&gt;Falcon&lt;/a&gt;; we are open to using Go (or &lt;a href="https://pypy.org/"&gt;PyPy&lt;/a&gt;) on a container-by-container basis if performance becomes an issue.&lt;/p&gt;
 &lt;p&gt;Very exciting! But I do feel like I'm a bit over my head.&lt;/p&gt;

@@ -4,28 +4,14 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content=" Posts tagged with art-of-developer-testing" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Managing Global State in Dash"/>
-    <meta property="og:url" content="../drafts/dash-global-vars.html"/>
-      <meta property="article:section" content="_drafts"/>
-        <meta property="article:tag" content="vim"/>
-        <meta property="article:tag" content="productivity"/>
-        <meta property="article:tag" content="workflow"/>
-        <meta property="og:image"
-              content="https://alysivji.github.io/images/main/siv.jpeg"/>
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Managing Global State in Dash">
-    <meta name="twitter:description" content="">
-    <meta name="twitter:site" content="@CaiusSivjus">
-    <meta name="twitter:creator" content="@CaiusSivjus">
-    <meta name="twitter:domain" content="..">
-        <meta property="twitter:image"
-              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="Siv Scripts"/>
+        <meta property="og:url" content=".."/>
 
-    <title>Managing Global State in Dash - Siv Scripts</title>
+    <title>Tag:art-of-developer-testing - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -107,94 +93,40 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
-  <header class="article-header">
+<ol class="breadcrumb">
+    <li><a href="../" title="Home" rel="home">
+		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
+    <li>Tags </li>
+    <li class="active">art-of-developer-testing</li>
+</ol>
+    <article>
 <abbr class="article-header-date">
-  Mon 20 November 2017
+  Sun 21 October 2018
 </abbr> <h1>
-  <a href="../drafts/dash-global-vars.html" rel="bookmark"
-     title="Permalink to Managing Global State in Dash">
-    Managing Global State in Dash
+  <a href="../testing-101-introduction-to-testing.html" rel="bookmark"
+     title="Permalink to Testing 101: Introduction to Testing">
+    Testing 101: Introduction to Testing
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/_drafts.html">
-      _drafts</a>
+    <a href="../category/deep-dives.html">
+      Deep Dives</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->  </header>
-  <div class="content-body" itemprop="text articleBody">
-	<ul>
-<li>if we have a very simple dashboard that only one person looks at, we can do global. it's not a problem</li>
-</ul>
-<p>https://plot.ly/dash/getting-started-part-2</p>
-<blockquote>
-<p>The callback does not modify the original data, it just creates copies of the dataframe by filtered through pandas filters. This is important: your callbacks should never mutate variables outside of their scope. If your callbacks modify global state, then one user's session might affect the next user's session and when the app is deployed on multiple processes or threads, those modifications will not be shared across sessions.</p>
-</blockquote>
-<ul>
-<li>
-<p>if we have multiple people using the dashboard, we need to do it another way</p>
-</li>
-<li>
-<p>store global variable in component
-https://community.plot.ly/t/global-variable-updated-by-and-interval-componant/6395</p>
-</li>
-<li>
-<p>Chris Parmer
-https://community.plot.ly/t/refresh-input-data/5436/5</p>
-<blockquote>
-<p>It is not safe to use global variables in dash. Instead, I recommend storing the df inside a hidden div inside the layout and using that hidden div as its own Input in the remaining callback functions.
-For more information, see:</p>
-</blockquote>
-</li>
-</ul>
-<p>Using a hidden div: https://github.com/plotly/dash/issues/49#issuecomment-31151128646
-Why global variables aren’t safe: App not resetting with page refresh</p>
-<p>https://community.plot.ly/t/updating-server-side-app-data-on-a-schedule/6612/2</p>
-<p>https://plot.ly/dash/sharing-data-between-callbacks</p>
-  </div>
+</div> <!-- /.article-header-info -->
+      <div class="summary">
+		<p>Programming is writing code to solve problems. Software Engineering is the practice of using a <strong>structured process</strong> to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do …</p>
+		<p class="content-emphasis"><a href="../testing-101-introduction-to-testing.html">
+			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
+		</a></p>
+      </div>    </article>
+    <hr />
 
-<div class="article-tag-list">
-<span class="label label-default">Tags</span>
-	<a href="../tag/vim.html"><i class="fa fa-tag"></i>vim</a>&nbsp;
-	<a href="../tag/productivity.html"><i class="fa fa-tag"></i>productivity</a>&nbsp;
-	<a href="../tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
-</div>  <hr />
-  <div class="well well-sm">  <!-- Social media sharing buttons -->
-    <!-- Twitter -->
-    <a href="https://twitter.com/share" class="twitter-share-button" 
-       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+<nav class="index-pager">
 
-    <!-- Google+ -->
-    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div class="g-plusone" data-size="medium"></div>&nbsp;
-
-    <!-- Facebook -->
-    <div class="fb-like" 
-        data-href="../drafts/dash-global-vars.html" 
-        data-layout="button_count" 
-        data-action="like" data-show-faces="true" 
-        data-share="true">
-    </div>
-    &nbsp;
-  </div> <!-- /Social media sharing buttons -->
-  <div class="comments">
-	<h2>Comments</h2>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-				   (function() {
-						var dsq = document.createElement('script');
-						dsq.type = 'text/javascript'; dsq.async = true;
-						dsq.src = '//siv-scripts.disqus.com/embed.js';
-						(document.getElementsByTagName('head')[0] ||
-						 document.getElementsByTagName('body')[0]).appendChild(dsq);
-				  })();
-	</script>
-  </div>
-</article>
+</nav> <!-- /index-pager -->
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -458,30 +390,5 @@ Why global variables aren’t safe: App not resetting with page refresh</p>
             crossorigin="anonymous"></script>
 
 
-<!-- Facebook -->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
-
-<!-- Twitter -->
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
-<!-- Google+ -->
-<!-- Synchronous 
-<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
--->
-<!-- Asynchronous -->
-<script type="text/javascript">
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/platform.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>  </body>
+  </body>
 </html>
