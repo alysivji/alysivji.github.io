@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-09-07T16:15:00-05:00</updated><entry><title>Finding Common Security Issues in Python Code with Bandit</title><link href="http://alysivji.github.io/find-security-issues-in-python.html" rel="alternate"></link><published>2018-09-07T16:15:00-05:00</published><updated>2018-09-07T16:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-07:/find-security-issues-in-python.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-10-20T20:00:00-05:00</updated><entry><title>Transfer Files with rsync</title><link href="http://alysivji.github.io/rsync-guide.html" rel="alternate"></link><published>2018-10-20T20:00:00-05:00</published><updated>2018-10-20T20:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-10-20:/rsync-guide.html</id><summary type="html">&lt;p&gt;I recently purchased a new computer and needed to transfer files from the old computer to the new one. Tried a USB drive, no luck. Tried copying files over the network via the macOS Finder, but the sheer number of files (~500,000) made this an exercise in futility.&lt;/p&gt;
+&lt;p&gt;Googling …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I recently purchased a new computer and needed to transfer files from the old computer to the new one. Tried a USB drive, no luck. Tried copying files over the network via the macOS Finder, but the sheer number of files (~500,000) made this an exercise in futility.&lt;/p&gt;
+&lt;p&gt;Googling for a better solution led me to &lt;a href="https://rsync.samba.org/"&gt;&lt;code&gt;rsync&lt;/code&gt;&lt;/a&gt;, a highly efficient file transfer and synchronization tool. &lt;code&gt;rsync&lt;/code&gt; is open source and comes pre-installed on macOS. After talking with friends, this is the utility they use. Probably should have asked them before trying to figure it out myself.&lt;/p&gt;
+&lt;p&gt;rsync has a simple API:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;rsync [OPTIONS] SOURCE DESTINATION&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There are a ton of options and I wasn't too sure what to select. I wanted to preserve symbolic links and last modified datetimes. After looking thru the &lt;code&gt;man&lt;/code&gt; pages and StackOverflow, I settled on the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;-v              verbose&lt;/span&gt;
+&lt;span class="go"&gt;-h              human-readable&lt;/span&gt;
+&lt;span class="go"&gt;-a              archive mode&lt;/span&gt;
+&lt;span class="go"&gt;-H              preserve hard links&lt;/span&gt;
+&lt;span class="go"&gt;-E              copy extended attributes, resource forks&lt;/span&gt;
+&lt;span class="go"&gt;--progress      show progress during transfer&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next I needed to find a way to specific a remote machine in the terminal. The syntax for this is &lt;code&gt;{username}@[machine-name]:/path/to/dir&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Putting it together with some error logging gives us the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; rsync -vhaHE --progress alysivji@MacSivProOG.local:/Users/alysivji/Documents/siv-dev /Users/alysivji/shared/siv-dev &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt; errors.log
+
+&lt;span class="go"&gt;...&lt;/span&gt;
+
+&lt;span class="go"&gt;sent 12.02M bytes  received 21.36G bytes  6.96M bytes/sec&lt;/span&gt;
+&lt;span class="go"&gt;total size is 21.29G  speedup is 1.00&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That was easy. What a great utility! &lt;a href="https://www.tecmint.com/rsync-local-remote-file-synchronization-commands/"&gt;More rsync goodness&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;I did a short &lt;a href="https://en.wikipedia.org/wiki/Retrospective#Software_development"&gt;retro&lt;/a&gt; after figuring out how to transfer files from one machine to the next:&lt;/p&gt;
+&lt;h4&gt;What went well&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Was able to transfer files from old computer to new computer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;What did not go well&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;trying to transfer files using USB and WiFi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;What to improve going forward&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;ask friends for tips and tricks before getting started&lt;/li&gt;
+&lt;li&gt;always look for a UNIX first solution. Somebody has already solved my problem, I just don't know it&lt;/li&gt;
+&lt;/ul&gt;</content><category term="how-to"></category></entry><entry><title>Finding Common Security Issues in Python Code with Bandit</title><link href="http://alysivji.github.io/find-security-issues-in-python.html" rel="alternate"></link><published>2018-09-07T16:15:00-05:00</published><updated>2018-09-07T16:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-07:/find-security-issues-in-python.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
 &lt;p&gt;I ran Bandit on a few of my repositories and found I was using &lt;code&gt;md5&lt;/code&gt; to hash passwords …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
 &lt;p&gt;I ran Bandit on a few of my repositories and found I was using &lt;code&gt;md5&lt;/code&gt; to hash passwords in one of my side projects. It was a hack with a &lt;code&gt;TODO fix&lt;/code&gt; comment, but I had forgotten about it. Thanks to Bandit, I have changed my password hashing algorithm to &lt;code&gt;bcrypt2&lt;/code&gt;. Also learned about &lt;a href="https://passlib.readthedocs.io/en/stable/lib/passlib.hash.bcrypt.html"&gt;PassLib&lt;/a&gt; as I was researching &lt;a href="https://crackstation.net/hashing-security.htm"&gt;how to salt and hash passwords&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Rackspace blog has a post on &lt;a href="https://developer.rackspace.com/blog/getting-started-with-bandit/"&gt;Getting Started with Bandit&lt;/a&gt; that I recommend checking out.&lt;/p&gt;</content><category term="python"></category><category term="software-engineering"></category><category term="exploring-pypi"></category></entry><entry><title>Implementing a Plugin Architecture in a Python Application</title><link href="http://alysivji.github.io/simple-plugin-system.html" rel="alternate"></link><published>2018-09-06T16:45:00-05:00</published><updated>2018-09-06T16:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-06:/simple-plugin-system.html</id><summary type="html">&lt;p&gt;In July, I released my &lt;a href="https://github.com/alysivji/falcon-apispec"&gt;first open source project&lt;/a&gt;. It's an &lt;a href="https://github.com/marshmallow-code/apispec"&gt;apispec&lt;/a&gt; plugin that generates &lt;a href="https://swagger.io/docs/specification/about/"&gt;OpenAPI Specification&lt;/a&gt; (aka Swagger docs) for &lt;a href="https://github.com/falconry/falcon"&gt;Falcon web applications&lt;/a&gt;.&lt;/p&gt;
