@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="How to patch objects that are imported inside of a Python function." />
+    <meta name="author" content="Aly Sivji" />
+    <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Patching Import Inside Function"/>
+    <meta property="og:url" content="./patching-import-inside-function.html"/>
+      <meta property="og:description" content="How to patch objects that are imported inside of a Python function."/>
+      <meta property="article:section" content="Quick Hits"/>
+        <meta property="article:tag" content="testing"/>
+        <meta property="article:tag" content="python"/>
+        <meta property="og:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Patching Import Inside Function">
+    <meta name="twitter:description" content="How to patch objects that are imported inside of a Python function.">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content=".">
+        <meta property="twitter:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
+
+    <title>Patching Import Inside Function - Siv Scripts</title>
+
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous">
+
+
+      <link rel="stylesheet" href="./theme/css/tango.css" />
+      <link rel="stylesheet" href="./theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="./theme/css/dataframe.css" />
+      <link rel="stylesheet" href="./theme/css/custom.css" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="./files/favicon.ico" />
+        <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90986575-1', '');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+	   <div class="navbar-header">
+		<button type="button" class="navbar-toggle"
+				data-toggle="collapse" data-target="#main-navbar-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="./" rel="home">
+          <i class="fa fa-home fa-fw fa-lg"> </i> </a>
+       </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+        <ul class="nav navbar-nav">
+              <li>
+                <a href="./pages/about.html">About</a>
+              </li>
+              <li>
+                <a href="./pages/talks.html">Talks</a>
+              </li>
+            <li class="divider"></li>
+            <li class="">
+              <a href="./archives.html">Archives</a>
+            </li>
+          <li class="divider"></li>
+            <li><a href="http://alysivji.github.io/feeds/all.atom.xml"
+                   type="application/atom+xml" rel="alternate">
+                <i class="fa fa-rss fa-fw fa-lg"></i> </a></li>
+        </ul> <!-- /nav -->
+      </div> <!-- /navbar-collapse -->
+	  </div> <!-- /container -->
+    </nav> <!-- /navbar -->
+
+	<div class="jumbotron" id="overview">
+	  <div class="container">
+		<h1><a href="./">Siv Scripts</a></h1>
+		<p class="lead">Solving Problems Using Code</p>
+	  </div>
+	</div>
+
+    <div class="container" id="main-container">
+      <div class="row">
+        <div class="col-md-9" id="content">
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Wed 21 November 2018
+</abbr> <h1>
+  <a href="./patching-import-inside-function.html" rel="bookmark"
+     title="Permalink to Patching Import Inside Function">
+    Patching Import Inside Function
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="./category/quick-hits.html">
+      Quick Hits</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.</p>
+<p>While I'm having a ton of fun building containerized data pipelines in <a href="https://airflow.apache.org">Airflow</a>, I still need to deal with the limitations of internal systems that were designed to support many different use cases. This part isn't so different from startup life; we all have to do things in a certain way because decisions that were made earlier hamper our efficiency and force us to use tools <strong>ahem</strong> <em>creatively</em>.</p>
+<p>This is okay. Working around limitations is what programming is all about. We have to design creative solutions within the constraints of our problem space.</p>
+<p>I was faced with such a problem at work this week.</p>
+<p>Given the constraints of our internal platform which I will not go into here, I had to import an object within a function so as to not pollute the module's namespace. My function looked as follows:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">upload_bytes_to_azure</span><span class="p">(</span><span class="n">bytes_blob</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">azure.storage.blob</span> <span class="kn">import</span> <span class="n">BlockBlobService</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Save to Azure Blob Storage -- start&quot;</span><span class="p">)</span>
+
+    <span class="c1"># set parameters</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">month</span><span class="p">}</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;status_{year}{month}.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">hook</span> <span class="o">=</span> <span class="n">BlockBlobService</span><span class="p">(</span><span class="n">account_name</span><span class="o">=</span><span class="n">account_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">account_key</span><span class="p">)</span>
+    <span class="n">hook</span><span class="o">.</span><span class="n">create_blob_from_bytes</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">blob</span><span class="o">=</span><span class="n">bytes_blob</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Save to Azure Blob Storage -- success&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>While the above solution worked, it presented difficulty when I tried to test it. The Python community prefers <a href="https://stackoverflow.com/questions/5626193/what-is-monkey-patching">monkey patching</a> over <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a> so this is the approach I started with.</p>
+<p>I have an import inside of a function. Where does this object exist? How do I patch inside of a function? Tried introspecting the module, the function, but was unable to access the namespace inside of the function itself.</p>
+<p>A coworker suggested monkey patching <code>sys.modules</code>.</p>
+<h2><code>sys.modules</code></h2>
+<p>What is <code>sys.modules</code>? Let's open up a REPL:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> ipython
+<span class="go">Python 3.7.0 (default, Oct 14 2018, 00:25:16)</span>
+<span class="go">Type &#39;copyright&#39;, &#39;credits&#39; or &#39;license&#39; for more information</span>
+<span class="go">IPython 7.0.1 -- An enhanced Interactive Python. Type &#39;?&#39; for help.</span>
+
+<span class="go">In [1]: import sys</span>
+
+<span class="go">In [2]: print(sys.modules)</span>
+<span class="go">{&#39;sys&#39;: &lt;module &#39;sys&#39; (built-in)&gt;, &#39;builtins&#39;: &lt;module &#39;builtins&#39; (built-in)&gt;, &#39;_frozen_importlib&#39;: &lt;module &#39;importlib._bootstrap&#39; (frozen)&gt;, &#39;_imp&#39;: &lt;module &#39;_imp&#39; (built-in)&gt;, &#39;_thread&#39;: &lt;module &#39;_thread&#39; (built-in)&gt;, &#39;_warnings&#39;: &lt;module &#39;_warnings&#39; (built-in)&gt;, &#39;_weakref&#39;: &lt;module &#39;_weakref&#39; (built-in)&gt;, &#39;zipimport&#39;: &lt;module &#39;zipimport&#39; (built-in)&gt;, &#39;_frozen_importlib_external&#39;: &lt;module &#39;importlib._bootstrap_external&#39; (frozen)&gt;, &#39;_io&#39;: &lt;module &#39;io&#39; (built-in)&gt;, &#39;marshal&#39;: &lt;module &#39;marshal&#39; (built-in)&gt;, &#39;posix&#39;: &lt;module &#39;posix&#39; (built-in)&gt;, &#39;encodings&#39;: &lt;module &#39;encodings&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/encodings/__init__.py&#39;&gt;, &#39;codecs&#39;: &lt;module &#39;codecs&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/codecs.py&#39;&gt;, &#39;_codecs&#39;: &lt;module &#39;_codecs&#39; (built-in)&gt;, &#39;encodings.aliases&#39;: &lt;module &#39;encodings.aliases&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/encodings/aliases.py&#39;&gt;, &#39;encodings.utf_8&#39;: &lt;module &#39;encodings.utf_8&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/encodings/utf_8.py&#39;&gt;, &#39;_signal&#39;: &lt;module &#39;_signal&#39; (built-in)&gt;, &#39;__main__&#39;: &lt;module &#39;__main__&#39;&gt;, &#39;encodings.latin_1&#39;: &lt;module &#39;encodings.latin_1&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/encodings/latin_1.py&#39;&gt;, &#39;io&#39;: &lt;module &#39;io&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/io.py&#39;&gt;, &#39;abc&#39;: &lt;module &#39;abc&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/abc.py&#39;&gt;, &#39;_abc&#39;: &lt;module &#39;_abc&#39; (built-in)&gt;, &#39;site&#39;: &lt;module &#39;site&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/site.py&#39;&gt;, &#39;os&#39;: &lt;module &#39;os&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/os.py&#39;&gt;, &#39;stat&#39;: &lt;module &#39;stat&#39; from &#39;/Users/alysivji/.pyenv/versions/3.7.0/lib/python3.7/stat.py&#39;&gt;, &#39;_stat&#39;: &lt;module &#39;_stat&#39; (built-in)&gt;,</span>
+
+<span class="go">... output continues ...</span>
+</pre></div>
+
+
+<p>So <code>sys.modules</code> is a python <code>dict</code> where the key is the module name and the value is the module object. When we import something into our Python runtime, we pull it from <code>sys.modules</code>. Patching the <code>sys.modules</code> dictionary with a <strong>modified dict</strong> will allow us to patch modules to make our tests deterministic.</p>
+<p>This is a handy Python trick. <em>[puts on David Beazley hat]</em> Also an interesting way to import packages that we have not installed into <code>site-packages</code>.</p>
+<h2>Patching import inside of a function</h2>
+<p>Using <a href="https://docs.python.org/3.6/library/unittest.mock.html#unittest.mock.patch.dict"><code>patch.dict</code></a>, I overwrote the <code>azure.storage.blob</code> module with a mock object that I created and defined, this is what makes the test deterministic.</p>
+<div class="highlight"><pre><span></span><span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">patched_azure</span><span class="p">(</span><span class="n">mocker</span><span class="p">):</span>
+    <span class="n">blob_service_mock</span> <span class="o">=</span> <span class="n">mocker</span><span class="o">.</span><span class="n">MagicMock</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;blob_service_mock&quot;</span><span class="p">)</span>
+    <span class="n">create_blob_mock</span> <span class="o">=</span> <span class="n">blob_service_mock</span><span class="o">.</span><span class="n">create_blob_from_bytes</span>
+
+    <span class="n">_module</span> <span class="o">=</span> <span class="n">mocker</span><span class="o">.</span><span class="n">MagicMock</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;azure_mock&quot;</span><span class="p">)</span>
+    <span class="n">_module</span><span class="o">.</span><span class="n">BlockBlobService</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">blob_service_mock</span>
+    <span class="n">mocker</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="s2">&quot;sys.modules&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;azure.storage.blob&quot;</span><span class="p">:</span> <span class="n">_module</span><span class="p">})</span>
+
+    <span class="k">yield</span> <span class="n">create_blob_mock</span>
+</pre></div>
+
+
+<p>Our test case can be written as follows:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_dag</span><span class="p">(</span><span class="n">patched_adapter</span><span class="p">,</span> <span class="n">patched_azure</span><span class="p">):</span>
+    <span class="c1"># Arrange</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;data&quot;</span>
+    <span class="n">patched_adapter</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
+
+    <span class="c1"># Act</span>
+    <span class="n">download_file_to_azure</span><span class="p">()</span>
+
+    <span class="c1"># Assert</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">patched_azure</span><span class="o">.</span><span class="n">mock_calls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">patched_azure</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;blob&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">blob</span>
+</pre></div>
+
+
+<p><strong>Note:</strong> I did not use the <code>@patch</code> decorator in the example above. Stacking decorators to inject parameters as function arguments is not a Python pattern I like using. With pytest, we can create fixtures that can be inserted into our test case in any order. This pattern enables us to separate each patch into its own function resulting in tests that are easier to write, and more importantly, easier to read. This pattern also enables us to create complex test objects using composition.</p>
+<h2>Dependency Injection</h2>
+<p>Patching <code>sys.modules</code> is a bit too much for my delicate sensibilities. While the pattern works, it's not something I enjoy doing. Enter <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection</a>.</p>
+<p>Dependency Injection (DI) is a technique in which we pass dependencies into functions that require them. DI is widely used in the Java ecosystem; it's also how I learned to test so I find myself using it when monkey patching is awkward. While DI requires additional boilerplate, it forces us to think about our interface in more depth. I think the tradeoff is worth it.</p>
+<p>We'll need to modify the above example to inject our Azure storage blob dependency into <code>upload_bytes_to_azure</code>:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">upload_bytes_to_azure</span><span class="p">(</span><span class="n">azure_blob</span><span class="p">,</span> <span class="n">bytes_blob</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">):</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Save to Azure Blob Storage -- start&quot;</span><span class="p">)</span>
+
+    <span class="c1"># set parameters</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">month</span><span class="p">}</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;status_{year}{month}.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">hook</span> <span class="o">=</span> <span class="n">azure_blob</span><span class="o">.</span><span class="n">BlockBlobService</span><span class="p">(</span><span class="n">account_name</span><span class="o">=</span><span class="n">account_name</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">account_key</span><span class="p">)</span>
+    <span class="n">hook</span><span class="o">.</span><span class="n">create_blob_from_bytes</span><span class="p">(</span><span class="n">container_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">blob</span><span class="o">=</span><span class="n">bytes_blob</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Save to Azure Blob Storage -- success&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>At runtime, the function requires an Azure instance as a function parameter (<code>azure_blob</code>). For testing purposes, we can pass in a test double without having to monkey patch. Dependency injection makes testing easy!</p>
+<p>This is not to say that dependency injection is perfect. Every time we need to run a function, we have to pass in all of its requirements which leads to additional complexity. In the Java world, there are <a href="https://spring.io/">dependency injection frameworks</a> built for this purpose. It's all about tradeoffs. Do you feel comfortable with the approach you took?</p>
+<p><strong>Aside:</strong> I recently saw a talk by Brandon Rhodes about <a href="https://www.youtube.com/watch?v=DJtef410XaM">Clean Architecture in Python</a>. This design methodology eschews both monkey patching and dependency injection. By focusing on how data moves in our system, we can change how we structure our code. I need to spend more time thinking about Clean Architecture. Might even need to read Uncle Bob's book. Brandon's talk has changed how I approach design, development, and testing. Highly recommend a watch.</p>
+  </div>
+
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="./tag/testing.html"><i class="fa fa-tag"></i>testing</a>&nbsp;
+	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="./patching-import-inside-function.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
+        </div><!-- /content -->
+
+        <div class="col-md-3 sidebar-nav" id="sidebar">
+
+<div class="row">
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-comment fa-fw fa-lg"></i> Social</h4>
+<ul class="list-unstyled social-links">
+    <li><a href="http://linkedin.com/in/alysivji/" target="_blank">
+	  <i class="fa fa-linkedin-square fa-fw fa-lg" title="LinkedIn"></i>
+		LinkedIn
+	</a></li>
+    <li><a href="http://github.com/alysivji" target="_blank">
+	  <i class="fa fa-github-square fa-fw fa-lg" title="GitHub"></i>
+		GitHub
+	</a></li>
+    <li><a href="https://twitter.com/CaiusSivjus" target="_blank">
+	  <i class="fa fa-twitter-square fa-fw fa-lg" title="Twitter"></i>
+		Twitter
+	</a></li>
+</ul>
+</div>
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
+<ul class="list-unstyled category-links">
+  <li><a href="./category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
+  <li><a href="./category/deep-dives.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Deep Dives</a></li>
+  <li><a href="./category/quick-hits.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Quick Hits</a></li>
+  <li><a href="./category/thoughts.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
+  <li><a href="./category/tutorials.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
+</ul>
+</div>
+
+</div> <!-- /row -->
+
+<h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
+<p class="tag-cloud">
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/art-of-developer-testing.html">
+          <i class="fa fa-tag"></i>
+        art-of-developer-testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/elasticsearch.html">
+          <i class="fa fa-tag"></i>
+        elasticsearch
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/mac.html">
+          <i class="fa fa-tag"></i>
+        mac
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+</p>
+<h4><i class="fa fa-rss fa-fw fa-lg"></i> Feeds</h4>
+<ul class="list-unstyled">
+    <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+		   type="application/atom+xml" rel="alternate">
+		<i class="fa fa-rss-square fa-fw fa-lg"></i> Atom Feed</a></li>
+</ul>
+
+<hr />
+
+        </div><!--/sidebar -->
+      </div><!--/row-->
+    </div><!--/.container /#main-container -->
+
+    <footer id="site-footer">
+      <address id="site-colophon">
+        <p class="text-center text-muted">
+        Site built using <a href="http://getpelican.com/" target="_blank">Pelican</a>
+        &nbsp;&bull;&nbsp; Theme based on
+        <a href="http://www.voidynullness.net/page/voidy-bootstrap-pelican-theme/"
+           target="_blank">VoidyBootstrap</a> by
+        <a href="http://www.robertiwancz.com/"
+           target="_blank">RKI</a>
+        </p>
+      </address><!-- /colophon  -->
+    </footer>
+
+<!-- DISQUS script for displaying comment count -->
+<script type="text/javascript">
+    var disqus_shortname = 'siv-scripts';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
+</html>

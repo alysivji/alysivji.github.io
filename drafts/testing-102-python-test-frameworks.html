@@ -132,7 +132,7 @@
 
 <p>Status: Draft</p>
 <p>In order to understand the principles of testing, we have to understand the underlying theory about testing. This was covered in Testing 101: An Introduction to Testing. In this post, we will delve into Test Frameworks.</p>
-<p>It's still highly theoretical, but we have a lot of ground to cover. This foundation will help you think about tests in a deeper way.</p>
+<p>(change) It's still highly theoretical, but we have a lot of ground to cover. This foundation will help you think about tests in a deeper way. Know that we know the theory behind testing, we can start looking into tools that will help us test more efficiently. While we can definitely write tests, it helps to have something that does the work for us. Start talking about test frameworks and how they are useful.</p>
 <hr>
 <h2>Definitions</h2>
 <p>There is a lot of testing specific terminology that we should cover to make sure we are all on the same page.</p>
@@ -183,12 +183,11 @@
 <p>Like with every kind of framework, you have to function within the bounds defined by the framework. Every framework has it's own way of setting up and tearing down fixtures and verify post-conditions.</p>
 <p>By following the parameters defined by the framework, it is able to hook into and drive the System Under Test (SUT).</p>
 <h4>Test Runner</h4>
-<p>When you run your tests: the framework will go out find all the tests you have written; this process is called <em>test discovery</em>.</p>
-<p>As the test framework runs through the test suite, it tracks passes and failures.</p>
+<p>When you run your tests: the framework will go out find all the tests you have written; this process is called <em>test discovery</em>. As the test framework runs through the test suite, it tracks which tests pass and which tests fail.</p>
 <h4>Results Reporting</h4>
 <p>After all the tests are run, the framework will display a report detailing the pass/fail status for each test that was run along with a stack trace to provide contextual information around the failure.</p>
 <h3>Test Frameworks in Python</h3>
-<p>There are two main test frameworks in Python: unittest and pytest.</p>
+<p>There are two main test frameworks in Python: <code>unittest</code> and <code>pytest</code>.</p>
 <h4>unittest</h4>
 <p>✅ Part of Standard Library<br>
 ✅ Familiar xUnit-style test pattern<br>
@@ -316,6 +315,21 @@ Parameterized Fixtures</p>
 <h4>Continuous Integration / Continuous Delivery</h4>
 <p>codes are here</p>
 <hr>
+<h2>pytest Plugins</h2>
+<p>This is its own post. Maybe?</p>
+<h3>pytest-mock</h3>
+<p>Wrapper around <code>unittest.mock</code></p>
+<p>how to use it to patch versus the patch decorator</p>
+<h3>pytest-cov</h3>
+<p>options i always use with it (.coveragerc with the omit <code>*tests*</code>)</p>
+<h3>pytest-freezegun</h3>
+<p>freeze time</p>
+<h3>lazy fixture</h3>
+<p>figure out how to use</p>
+<h3>pytest-deterministic one</h3>
+<p>runs things in random order</p>
+<h3>other ones</h3>
+<hr>
 <h2>Conclusion</h2>
 <p>There is a lot of theory to get thru before we can actually start writing tests.</p>
 <p>You need to know how to test, you need to know about your testing framework. Now you are ready to write tests.</p>
@@ -397,106 +411,10 @@ Parameterized Fixtures</p>
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
-    <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
     <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
+      <a href="../tag/web-development.html">
           <i class="fa fa-tag"></i>
-        elasticsearch
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-viz.html">
-          <i class="fa fa-tag"></i>
-        data-viz
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pandas.html">
-          <i class="fa fa-tag"></i>
-        pandas
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/art-of-developer-testing.html">
-          <i class="fa fa-tag"></i>
-        art-of-developer-testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/mac.html">
-          <i class="fa fa-tag"></i>
-        mac
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
+        web-development
       </a>
     </span>
     <span class="tag-2">
@@ -506,15 +424,9 @@ Parameterized Fixtures</p>
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/flask.html">
+      <a href="../tag/software-engineering.html">
           <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
+        software-engineering
       </a>
     </span>
     <span class="tag-2">
@@ -524,39 +436,9 @@ Parameterized Fixtures</p>
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/terminal.html">
-          <i class="fa fa-tag"></i>
-        terminal
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-2">
       <a href="../tag/workflow.html">
           <i class="fa fa-tag"></i>
         workflow
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/web-development.html">
-          <i class="fa fa-tag"></i>
-        web-development
       </a>
     </span>
     <span class="tag-4">
@@ -566,9 +448,141 @@ Parameterized Fixtures</p>
       </a>
     </span>
     <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="../tag/vim.html">
           <i class="fa fa-tag"></i>
         vim
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/art-of-developer-testing.html">
+          <i class="fa fa-tag"></i>
+        art-of-developer-testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/elasticsearch.html">
+          <i class="fa fa-tag"></i>
+        elasticsearch
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/mac.html">
+          <i class="fa fa-tag"></i>
+        mac
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="../tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
       </a>
     </span>
 </p>
