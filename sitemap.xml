@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>./patching-import-inside-function.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./testing-101-introduction-to-testing.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./rsync-guide.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./downgrade-macos.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./find-security-issues-in-python.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./simple-plugin-system.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./python-sorting-multiple-attributes.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./elasticsearch-kibana-with-docker-compose.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./lock-your-mock.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./life-trust-the-process.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./review-peopleware.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./php-mysql-docker-containers.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./sending-emails-from-python.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./python-matrix-multiplication-operator.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./pytest-fixures-with-function-arguments.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./namedtuple-type-hints.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./life-2017-year-in-review.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./mocking-functions-inputs-args.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./importing-mongo-documents-into-pandas-dataframes.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./quick-hit-hashable-dict-keys.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./http-part1-the-protocol.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./life-sponge.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./life-detour.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./terminal-tricks-bashmarks.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./quick-hit-dictionary-dispatch.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./review-code-complete.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./quick-hit-visualizing-stacks.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./setting-up-pyenv-virtualenvwrapper.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./review-mhi408-system-acquisition-and-lifecycle.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./reactive-dashboards-with-dash.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./getting-started-with-public-speaking.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./containerized-development-environments.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./managing-resources-with-context-managers-pythonic.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./quick-hit-immutable-dict-keys.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./pl-analysis-part1-finding-longest-consecutive-position-streak.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./scrapy-part2-running-scrapy-on-pythonanywhere.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./flask-part2-building-a-flask-web-application.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./flask-part1-generating-html-pages-with-mongoengine-jinja2.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./getting-started-with-folium.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>./mongodb-pipelines-in-scrapy.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+
+  <url>
+    <loc>./pages/about.html</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>./pages/talks.html</loc>
+    <priority>1.0</priority>
+  </url>
+
+
+</urlset>
