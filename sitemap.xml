@@ -203,12 +203,12 @@
 
 
   <url>
-    <loc>./pages/about.html</loc>
+    <loc>https://alysivji.github.io/pages/about.html</loc>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>./pages/talks.html</loc>
+    <loc>https://alysivji.github.io/pages/talks.html</loc>
     <priority>1.0</priority>
   </url>
 
