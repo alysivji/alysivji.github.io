@@ -4,29 +4,29 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="My experience guest hosting Episode 162 of the PythonBytes podcast." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="First Month as a Professional Developer"/>
-    <meta property="og:url" content="./life-detour.html"/>
+    <meta property="og:title" content="Guest Hosting Python Bytes #162"/>
+    <meta property="og:url" content="./python-bytes-162.html"/>
+      <meta property="og:description" content="My experience guest hosting Episode 162 of the PythonBytes podcast."/>
       <meta property="article:section" content="Thoughts"/>
+        <meta property="article:tag" content="python"/>
         <meta property="article:tag" content="c'est-la-vie"/>
-        <meta property="article:tag" content="workflow"/>
-        <meta property="article:tag" content="vim"/>
-        <meta property="article:tag" content="terminal"/>
+        <meta property="article:tag" content="community"/>
         <meta property="og:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="First Month as a Professional Developer">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Guest Hosting Python Bytes #162">
+    <meta name="twitter:description" content="My experience guest hosting Episode 162 of the PythonBytes podcast.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
         <meta property="twitter:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>First Month as a Professional Developer - Siv Scripts</title>
+    <title>Guest Hosting Python Bytes #162 - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -111,11 +111,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sat 04 November 2017
+  Thu 09 January 2020
 </abbr> <h1>
-  <a href="./life-detour.html" rel="bookmark"
-     title="Permalink to First Month as a Professional Developer">
-    First Month as a Professional Developer
+  <a href="./python-bytes-162.html" rel="bookmark"
+     title="Permalink to Guest Hosting Python Bytes #162">
+    Guest Hosting Python Bytes #162
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -127,62 +127,37 @@
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<blockquote>
-<p><em>The best laid schemes o' mice an' men</em><br />
-<em>Gang aft agley</em></p>
-</blockquote>
-<p>I started a new job as a Mathematician / Software Engineer at a Chicago-based healthcare startup in October. It's my first <em>proper</em> development job and I could not be more excited.</p>
-<p>I get paid to write code. It's pretty awesome.</p>
-<p>Had always thought I would work in data, maybe transition into a data engineer role. But here we are. I'm working on a team of ~10 developers building a <a href="https://www.healthit.gov/policy-researchers-implementers/clinical-decision-support-cds">clinical decision support</a> web application.</p>
-<p>Guess this change isn't entirely out of left field; I had started to dig deeper into software engineering best practices over the past few months. Became fascinated by the different methodologies and frameworks that facilitate the production of good code. As a self-taught developer, I desired formality. There's only so much I could absorb by reading about other people's experiences and working on open source projects after work.</p>
-<p>I needed to get my hands dirty and get some real world practice writing code as part of a team. Thought it would be good to experience the process-based workflow of a structured Agile/Scrum development environment; to understand the pain of working (<a href="https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052">effectively</a>) with legacy code; and to have no choice but to write tests for the code I ship. And, preferably, have those <a href="https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530">tests be written first</a>.</p>
-<p>It's only been a month, but I think I made the right decision. In one of my first commits, I made a change and took time to refactor code to increase readability ala <a href="/review-code-complete.html">Code Complete</a>. Got a shout-out during code review. That felt awesome! Software Craftsmanship FTW!</p>
-<p>I will say that I find myself constantly studying after work and on weekends so that I'm not <em>completely</em> useless, but I wouldn't want it any other way. Coding at the edge of my abilities will increase my skills exponentially.</p>
-<p>While I eventually plan on going back to data, let's hold off thinking about when. Right now I'm enjoying life and want to stay on <a href="http://knowyourmeme.com/memes/mr-bones-wild-ride">Mr. Bones' Wild Ride</a>.</p>
-<hr>
-<h3>Mastering Development Tools</h3>
-<p>The main reason I took a backend developer role was to level up my dev chops. This means many different things such as writing clean code, being able to identify and correctly apply design patterns, recognizing anti-patterns (code smells), and, of course, learning the tools of the trade.</p>
-<p>Over the past couple of weeks, I've started transitioning away from the friendly confines of VSCode and iTerm2 into the magical world of <a href="http://www.vim.org/">Vim</a> and <a href="https://github.com/tmux/tmux/wiki">tmux</a>. Even though I'm fairly proficient with a graphical IDE, I thought it was worth investing in tools that enable me to work as fast as I think.</p>
-<p>By switching to a terminal-only development environment, I hope to reduce the context switching that occurs every time I reach for my mouse or trackpad. As an added bonus, I can SSH into any machine and feel at home. No more having to set up <a href="https://en.wikipedia.org/wiki/Rsync">rsync</a> or use <a href="https://www.nano-editor.org/">nano</a> as a crutch.</p>
-<p><a href="http://www.commitstrip.com/en/2016/12/22/terminal-forever/"><img src="/images/10-19/18_commit_strip_terminal_forever.jpg" alt="Commit Strip - Terminal Forever" width=650 /></a></p>
-<h4>How I'm Learning Vim</h4>
-<ol>
-<li>Worked my way through <code>$ vimtutor</code>. It's a rite of passage.</li>
-<li>Enabled Vim keybindings in all my text editors (VSCode &amp; Sublime) to get comfortable using the <code>h j k l</code> movement keys. Being in a familiar environment where I could get work done without having to Google every command did help flatten the learning curve.</li>
-<li>Once I was able to make the cursor go where I wanted, I watched <a href="https://www.youtube.com/watch?v=_NUO4JEtkDw">Learning Vim in a Week</a>. Key takeaways:<ul>
-<li>Set up a basic <code>.vimrc</code> file and throw it in Verison Control<ul>
-<li>My <a href="https://github.com/alysivji/dotfiles">dotfile repo</a> - Warning: Use at your own risk 😜</li>
-</ul>
-</li>
-<li>Remap [CapsLock] to [Esc]<ul>
-<li>I went a <a href="https://twitter.com/CaiusSivjus/status/924671391256981504">step further</a></li>
-</ul>
-</li>
-<li>Use plugins for development, with included recommendations<ul>
-<li>I recommend the <a href="https://github.com/junegunn/vim-plug">vim-plug</a> plugin manager</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<p>Last weekend, I installed tmux on my home machine so I could start getting familiar with how it works. My <code>.tmux.conf</code> is very basic, but all the pieces are in place to enable me to learn at my own pace. I just have to make an effort to learn a couple of new things every week. Like everything else in life, it's about putting in the reps.</p>
-<p>You're only as good as your tools so it's worth making an investment into optimizing your workflow. We're developers and we should always be tinkering with the software we use on a daily basis. It doesn't have to be Vim and I'm not suggesting everybody go out and learn it. But do take some time to learn your tools and the plugin ecosystem of your IDE.</p>
-<p>Shoutout to the folks who responded to my <a href="https://twitter.com/CaiusSivjus/status/924619886529253376">tweet</a> with helpful suggestions. <a href="http://knowyourmeme.com/memes/events/kevin-durant-mvp-speech">You Da Real MVPs</a>!</p>
-<h4>Additional Resources</h4>
-<ul>
-<li><a href="https://vimawesome.com/">List of Vim Plugins</a></li>
-<li><a href="http://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/">A Quick and Easy Guide to tmux</a></li>
-<li><a href="http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/">Making tmux Pretty and Usable - A Guide to Customizing your tmux.conf terminal</a></li>
-<li><a href="https://blog.bugsnag.com/tmux-and-vim/">tmux and Vim - even better together</a></li>
-</ul>
+	<p>Podcasts allowed me to immerse myself in the tech industry
+during the earlly stages of my career change.</p>
+<p><a href="https://talkpython.fm/">Talk Python</a>, <a href="https://pythonbytes.fm">PythonBytes</a>,
+<a href="https://testandcode.com/">Test &amp; Code</a>,
+<a href="https://www.pythonpodcast.com/">Podcast.<code>__init__</code></a>,
+<a href="https://www.se-radio.net/">Software Engineering Radio</a>,
+and the Atwood-Spolsky era <a href="https://stackoverflow.blog/podcast/">Stack Overflow Podcast</a>
+were instrumental in leveling up my skills
+and helping me get my first job.</p>
+<p>In mid-December 2019, I had dinner with <a href="https://twitter.com/brianokken">Brian Okken</a>
+of <a href="https://testandcode.com/">Test &amp; Code</a> and <a href="https://pythonbytes.fm">PythonBytes</a> fame.
+Brian was in Chicago teaching a class and
+we met up to discuss life, Python,
+and our experience building strong online and offline communities.</p>
+<p>Brian reached out a couple of weeks later and
+asked if I would be interested in guest hosting an episode of PythonBytes.
+I was more than happy to help a fellow Pythonista that has taught me so much!</p>
+<p>Check out <a href="https://pythonbytes.fm/episodes/show/162/retrofitting-async-and-await-into-django">Episode #162: Retrofitting async and await into Django</a>.</p>
+<iframe width="100%" height="166" scrolling="no" frameborder="no"
+     src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/737887960&color=ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false">
+</iframe>
+
+<p>What a great way to start 2020!</p>
+<p>BONUS: <a href="/images/40-49/41_hanging_with_brian_okken_in_chicago.jpg">Pic of me and Brian at dinner</a></p>
   </div>
 
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
+	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
 	<a href="./tag/cest-la-vie.html"><i class="fa fa-tag"></i>c'est-la-vie</a>&nbsp;
-	<a href="./tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
-	<a href="./tag/vim.html"><i class="fa fa-tag"></i>vim</a>&nbsp;
-	<a href="./tag/terminal.html"><i class="fa fa-tag"></i>terminal</a>&nbsp;
+	<a href="./tag/community.html"><i class="fa fa-tag"></i>community</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -196,7 +171,7 @@
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./life-detour.html" 
+        data-href="./python-bytes-162.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">

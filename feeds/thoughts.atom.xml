@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Thoughts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/thoughts.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-04-30T21:30:00-05:00</updated><entry><title>Trust the Process</title><link href="http://alysivji.github.io/life-trust-the-process.html" rel="alternate"></link><published>2018-04-30T21:30:00-05:00</published><updated>2018-04-30T21:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-04-30:/life-trust-the-process.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Thoughts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/thoughts.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-01-09T10:00:00-06:00</updated><entry><title>Guest Hosting Python Bytes #162</title><link href="http://alysivji.github.io/python-bytes-162.html" rel="alternate"></link><published>2020-01-09T10:00:00-06:00</published><updated>2020-01-09T10:00:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-01-09:/python-bytes-162.html</id><summary type="html">&lt;p&gt;Podcasts allowed me to immerse myself in the tech industry
+during the earlly stages of my career change.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://talkpython.fm/"&gt;Talk Python&lt;/a&gt;, &lt;a href="https://pythonbytes.fm"&gt;PythonBytes&lt;/a&gt;,
+&lt;a href="https://testandcode.com/"&gt;Test &amp;amp; Code&lt;/a&gt;,
+&lt;a href="https://www.pythonpodcast.com/"&gt;Podcast.&lt;code&gt;__init__&lt;/code&gt;&lt;/a&gt;,
+&lt;a href="https://www.se-radio.net/"&gt;Software Engineering Radio&lt;/a&gt;,
+and the Atwood-Spolsky era &lt;a href="https://stackoverflow.blog/podcast/"&gt;Stack Overflow Podcast&lt;/a&gt;
+were instrumental in leveling up my skills
+and helping me get my first job.&lt;/p&gt;
+&lt;p&gt;In …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Podcasts allowed me to immerse myself in the tech industry
+during the earlly stages of my career change.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://talkpython.fm/"&gt;Talk Python&lt;/a&gt;, &lt;a href="https://pythonbytes.fm"&gt;PythonBytes&lt;/a&gt;,
+&lt;a href="https://testandcode.com/"&gt;Test &amp;amp; Code&lt;/a&gt;,
+&lt;a href="https://www.pythonpodcast.com/"&gt;Podcast.&lt;code&gt;__init__&lt;/code&gt;&lt;/a&gt;,
+&lt;a href="https://www.se-radio.net/"&gt;Software Engineering Radio&lt;/a&gt;,
+and the Atwood-Spolsky era &lt;a href="https://stackoverflow.blog/podcast/"&gt;Stack Overflow Podcast&lt;/a&gt;
+were instrumental in leveling up my skills
+and helping me get my first job.&lt;/p&gt;
+&lt;p&gt;In mid-December 2019, I had dinner with &lt;a href="https://twitter.com/brianokken"&gt;Brian Okken&lt;/a&gt;
+of &lt;a href="https://testandcode.com/"&gt;Test &amp;amp; Code&lt;/a&gt; and &lt;a href="https://pythonbytes.fm"&gt;PythonBytes&lt;/a&gt; fame.
+Brian was in Chicago teaching a class and
+we met up to discuss life, Python,
+and our experience building strong online and offline communities.&lt;/p&gt;
+&lt;p&gt;Brian reached out a couple of weeks later and
+asked if I would be interested in guest hosting an episode of PythonBytes.
+I was more than happy to help a fellow Pythonista that has taught me so much!&lt;/p&gt;
+&lt;p&gt;Check out &lt;a href="https://pythonbytes.fm/episodes/show/162/retrofitting-async-and-await-into-django"&gt;Episode #162: Retrofitting async and await into Django&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe width="100%" height="166" scrolling="no" frameborder="no"
+     src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/737887960&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"&gt;
+&lt;/iframe&gt;
+
+&lt;p&gt;What a great way to start 2020!&lt;/p&gt;
+&lt;p&gt;BONUS: &lt;a href="/images/40-49/41_hanging_with_brian_okken_in_chicago.jpg"&gt;Pic of me and Brian at dinner&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="c'est-la-vie"></category><category term="community"></category></entry><entry><title>Trust the Process</title><link href="http://alysivji.github.io/life-trust-the-process.html" rel="alternate"></link><published>2018-04-30T21:30:00-05:00</published><updated>2018-04-30T21:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-04-30:/life-trust-the-process.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;The journey of a thousand miles begins with a single step.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Everything in life that's worth having requires effort. In tech, it also requires convincing somebody you are good enough to take a chance on.&lt;/p&gt;
@@ -315,15 +347,15 @@
 &lt;p&gt;The best way to learn something is to teach someone else.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;With this in mind, I started creating and presenting technical talks on a variety of subjects: &lt;a href="https://github.com/alysivji/talks/tree/master/201704-healthcare-big-data-analytics"&gt;Big Data in Healthcare&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/context-manager-intro"&gt;Python language features&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/201706-knights-tour"&gt;graph algorithms&lt;/a&gt;, etc.&lt;/p&gt;
-&lt;p&gt;Similiar to how writing about side projects on this blog helped develop my …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;Similar to how writing about side projects on this blog helped develop my …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
 &lt;p&gt;The best way to learn something is to teach someone else.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;With this in mind, I started creating and presenting technical talks on a variety of subjects: &lt;a href="https://github.com/alysivji/talks/tree/master/201704-healthcare-big-data-analytics"&gt;Big Data in Healthcare&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/context-manager-intro"&gt;Python language features&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/201706-knights-tour"&gt;graph algorithms&lt;/a&gt;, etc.&lt;/p&gt;
-&lt;p&gt;Similiar to how writing about side projects on this blog helped develop my problem solving skills, throwing myself into the deep end by presenting in front of a group of people spurred me to understand my topic in a lot more depth.&lt;/p&gt;
+&lt;p&gt;Similar to how writing about side projects on this blog helped develop my problem solving skills, throwing myself into the deep end by presenting in front of a group of people spurred me to understand my topic in a lot more depth.&lt;/p&gt;
 &lt;p&gt;This past Sunday, I gave my first conference talk. Thank you &lt;a href="https://pyohio.org/"&gt;PyOhio&lt;/a&gt; for the opportunity. My topic was &lt;a href="https://github.com/alysivji/talks/tree/master/data-science-workflows-using-docker-containers"&gt;Data Science Workflows using Docker Containers&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I added a last minute wrinkle and used the Terminal to live demo my Docker workflow. It was definitely nerve-racking, but it went really well. I had more than a few people come up and thank me for clearing up some of their fuzziness re: Docker. That felt good. If I can help even one person understand, all the hours of preparation were worth it.&lt;/p&gt;
 &lt;p&gt;I guess what I'm trying to say is that everyone should give a talk to their peers. It doesn't matter the size of your audience or even the topic itself, the act of preparation will make you a better programmer and help develop your communication skills.&lt;/p&gt;
-&lt;p&gt;With PyOhio wrapping up the end of my conference season, I have more time to work on side projects and write this blog. In the meanintime, check out the &lt;a href="https://github.com/alysivji/talks"&gt;GitHub repo of my talks&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;With PyOhio wrapping up the end of my conference season, I have more time to work on side projects and write this blog. In the meantime, check out the &lt;a href="https://github.com/alysivji/talks"&gt;GitHub repo of my talks&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I will post links to the recordings as soon as they are up on YouTube.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;YouTube Links&lt;/h2&gt;

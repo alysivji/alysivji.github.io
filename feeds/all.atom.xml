@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-11-21T20:20:00-06:00</updated><entry><title>Patching Import Inside Function</title><link href="http://alysivji.github.io/patching-import-inside-function.html" rel="alternate"></link><published>2018-11-21T20:20:00-06:00</published><updated>2018-11-21T20:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-11-21:/patching-import-inside-function.html</id><summary type="html">&lt;p&gt;I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-01-09T10:00:00-06:00</updated><entry><title>Guest Hosting Python Bytes #162</title><link href="http://alysivji.github.io/python-bytes-162.html" rel="alternate"></link><published>2020-01-09T10:00:00-06:00</published><updated>2020-01-09T10:00:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-01-09:/python-bytes-162.html</id><summary type="html">&lt;p&gt;Podcasts allowed me to immerse myself in the tech industry
+during the earlly stages of my career change.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://talkpython.fm/"&gt;Talk Python&lt;/a&gt;, &lt;a href="https://pythonbytes.fm"&gt;PythonBytes&lt;/a&gt;,
+&lt;a href="https://testandcode.com/"&gt;Test &amp;amp; Code&lt;/a&gt;,
+&lt;a href="https://www.pythonpodcast.com/"&gt;Podcast.&lt;code&gt;__init__&lt;/code&gt;&lt;/a&gt;,
+&lt;a href="https://www.se-radio.net/"&gt;Software Engineering Radio&lt;/a&gt;,
+and the Atwood-Spolsky era &lt;a href="https://stackoverflow.blog/podcast/"&gt;Stack Overflow Podcast&lt;/a&gt;
+were instrumental in leveling up my skills
+and helping me get my first job.&lt;/p&gt;
+&lt;p&gt;In …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Podcasts allowed me to immerse myself in the tech industry
+during the earlly stages of my career change.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://talkpython.fm/"&gt;Talk Python&lt;/a&gt;, &lt;a href="https://pythonbytes.fm"&gt;PythonBytes&lt;/a&gt;,
+&lt;a href="https://testandcode.com/"&gt;Test &amp;amp; Code&lt;/a&gt;,
+&lt;a href="https://www.pythonpodcast.com/"&gt;Podcast.&lt;code&gt;__init__&lt;/code&gt;&lt;/a&gt;,
+&lt;a href="https://www.se-radio.net/"&gt;Software Engineering Radio&lt;/a&gt;,
+and the Atwood-Spolsky era &lt;a href="https://stackoverflow.blog/podcast/"&gt;Stack Overflow Podcast&lt;/a&gt;
+were instrumental in leveling up my skills
+and helping me get my first job.&lt;/p&gt;
+&lt;p&gt;In mid-December 2019, I had dinner with &lt;a href="https://twitter.com/brianokken"&gt;Brian Okken&lt;/a&gt;
+of &lt;a href="https://testandcode.com/"&gt;Test &amp;amp; Code&lt;/a&gt; and &lt;a href="https://pythonbytes.fm"&gt;PythonBytes&lt;/a&gt; fame.
+Brian was in Chicago teaching a class and
+we met up to discuss life, Python,
+and our experience building strong online and offline communities.&lt;/p&gt;
+&lt;p&gt;Brian reached out a couple of weeks later and
+asked if I would be interested in guest hosting an episode of PythonBytes.
+I was more than happy to help a fellow Pythonista that has taught me so much!&lt;/p&gt;
+&lt;p&gt;Check out &lt;a href="https://pythonbytes.fm/episodes/show/162/retrofitting-async-and-await-into-django"&gt;Episode #162: Retrofitting async and await into Django&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe width="100%" height="166" scrolling="no" frameborder="no"
+     src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/737887960&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"&gt;
+&lt;/iframe&gt;
+
+&lt;p&gt;What a great way to start 2020!&lt;/p&gt;
+&lt;p&gt;BONUS: &lt;a href="/images/40-49/41_hanging_with_brian_okken_in_chicago.jpg"&gt;Pic of me and Brian at dinner&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="c'est-la-vie"></category><category term="community"></category></entry><entry><title>Patching Import Inside Function</title><link href="http://alysivji.github.io/patching-import-inside-function.html" rel="alternate"></link><published>2018-11-21T20:20:00-06:00</published><updated>2018-11-21T20:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-11-21:/patching-import-inside-function.html</id><summary type="html">&lt;p&gt;I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.&lt;/p&gt;
 &lt;p&gt;While I'm …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.&lt;/p&gt;
 &lt;p&gt;While I'm having a ton of fun building containerized data pipelines in &lt;a href="https://airflow.apache.org"&gt;Airflow&lt;/a&gt;, I still need to deal with the limitations of internal systems that were designed to support many different use cases. This part isn't so different from startup life; we all have to do things in a certain way because decisions that were made earlier hamper our efficiency and force us to use tools &lt;strong&gt;ahem&lt;/strong&gt; &lt;em&gt;creatively&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;This is okay. Working around limitations is what programming is all about. We have to design creative solutions within the constraints of our problem space.&lt;/p&gt;
@@ -488,7 +520,7 @@
 &lt;p&gt;Hope this helps others who are looking to downgrade the OS on their Mac.&lt;/p&gt;
 &lt;h3&gt;Mojave Review&lt;/h3&gt;
 &lt;p&gt;This leads me to my review of macOS Mojave.&lt;/p&gt;
-&lt;p&gt;I like it. I like it a lot. &lt;a href="https://www.macworld.com/article/3283342/os-x/article.html"&gt;Dark Mode&lt;/a&gt; is the best mode. Shockingly, I am not a fan of how Mojave drains my battery.; it's a bit of a deal breaker.&lt;/p&gt;
+&lt;p&gt;I like it. I like it a lot. &lt;a href="https://www.macworld.com/article/3283342/os-x/article.html"&gt;Dark Mode&lt;/a&gt; is the best mode. Shockingly, I am not a fan of how Mojave drains my battery; it's a bit of a deal breaker.&lt;/p&gt;
 &lt;p&gt;Gonna see how the Mojave patch will fix things before I decide to upgrade. This time I won't forget to backup via Time Machine, it's just the smart thing to do.&lt;/p&gt;
 &lt;p&gt;Learned my lesson by being Apple's guinea pig and upgrading without a patch release. Never again.&lt;/p&gt;</content><category term="review"></category><category term="how-to"></category><category term="mac"></category></entry><entry><title>Finding Common Security Issues in Python Code with Bandit</title><link href="http://alysivji.github.io/find-security-issues-in-python.html" rel="alternate"></link><published>2018-09-07T16:15:00-05:00</published><updated>2018-09-07T16:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-09-07:/find-security-issues-in-python.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
 &lt;p&gt;I ran Bandit on a few of my repositories and found I was using &lt;code&gt;md5&lt;/code&gt; to hash passwords …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://github.com/PyCQA/bandit"&gt;Bandit&lt;/a&gt; is a static analysis tool that can find common security issues in Python code. The command line utility scans &lt;code&gt;.py&lt;/code&gt; files and generates a report detailing issues by confidence and severity.&lt;/p&gt;
@@ -17797,15 +17829,15 @@ pyenv virtualenvwrapper_lazy
 &lt;p&gt;The best way to learn something is to teach someone else.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;With this in mind, I started creating and presenting technical talks on a variety of subjects: &lt;a href="https://github.com/alysivji/talks/tree/master/201704-healthcare-big-data-analytics"&gt;Big Data in Healthcare&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/context-manager-intro"&gt;Python language features&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/201706-knights-tour"&gt;graph algorithms&lt;/a&gt;, etc.&lt;/p&gt;
-&lt;p&gt;Similiar to how writing about side projects on this blog helped develop my …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;Similar to how writing about side projects on this blog helped develop my …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
 &lt;p&gt;The best way to learn something is to teach someone else.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;With this in mind, I started creating and presenting technical talks on a variety of subjects: &lt;a href="https://github.com/alysivji/talks/tree/master/201704-healthcare-big-data-analytics"&gt;Big Data in Healthcare&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/context-manager-intro"&gt;Python language features&lt;/a&gt;, &lt;a href="https://github.com/alysivji/talks/tree/master/201706-knights-tour"&gt;graph algorithms&lt;/a&gt;, etc.&lt;/p&gt;
-&lt;p&gt;Similiar to how writing about side projects on this blog helped develop my problem solving skills, throwing myself into the deep end by presenting in front of a group of people spurred me to understand my topic in a lot more depth.&lt;/p&gt;
+&lt;p&gt;Similar to how writing about side projects on this blog helped develop my problem solving skills, throwing myself into the deep end by presenting in front of a group of people spurred me to understand my topic in a lot more depth.&lt;/p&gt;
 &lt;p&gt;This past Sunday, I gave my first conference talk. Thank you &lt;a href="https://pyohio.org/"&gt;PyOhio&lt;/a&gt; for the opportunity. My topic was &lt;a href="https://github.com/alysivji/talks/tree/master/data-science-workflows-using-docker-containers"&gt;Data Science Workflows using Docker Containers&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I added a last minute wrinkle and used the Terminal to live demo my Docker workflow. It was definitely nerve-racking, but it went really well. I had more than a few people come up and thank me for clearing up some of their fuzziness re: Docker. That felt good. If I can help even one person understand, all the hours of preparation were worth it.&lt;/p&gt;
 &lt;p&gt;I guess what I'm trying to say is that everyone should give a talk to their peers. It doesn't matter the size of your audience or even the topic itself, the act of preparation will make you a better programmer and help develop your communication skills.&lt;/p&gt;
-&lt;p&gt;With PyOhio wrapping up the end of my conference season, I have more time to work on side projects and write this blog. In the meanintime, check out the &lt;a href="https://github.com/alysivji/talks"&gt;GitHub repo of my talks&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;With PyOhio wrapping up the end of my conference season, I have more time to work on side projects and write this blog. In the meantime, check out the &lt;a href="https://github.com/alysivji/talks"&gt;GitHub repo of my talks&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I will post links to the recordings as soon as they are up on YouTube.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;YouTube Links&lt;/h2&gt;
@@ -25351,6 +25383,7 @@ West Ham was 18th for 27 days
 &lt;li&gt;Synopsis: Start with Flask, switch to Django if we need to scale&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.tivix.com/blog/django-vs-flask-picking-the-right-python-framework"&gt;Django vs. Flask: Picking the Right Python Web Framework&lt;/a&gt; - Tivix&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Flask&lt;/h2&gt;

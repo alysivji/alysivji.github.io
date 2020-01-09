@@ -29,7 +29,7 @@
 &lt;p&gt;Hope this helps others who are looking to downgrade the OS on their Mac.&lt;/p&gt;
 &lt;h3&gt;Mojave Review&lt;/h3&gt;
 &lt;p&gt;This leads me to my review of macOS Mojave.&lt;/p&gt;
-&lt;p&gt;I like it. I like it a lot. &lt;a href="https://www.macworld.com/article/3283342/os-x/article.html"&gt;Dark Mode&lt;/a&gt; is the best mode. Shockingly, I am not a fan of how Mojave drains my battery.; it's a bit of a deal breaker.&lt;/p&gt;
+&lt;p&gt;I like it. I like it a lot. &lt;a href="https://www.macworld.com/article/3283342/os-x/article.html"&gt;Dark Mode&lt;/a&gt; is the best mode. Shockingly, I am not a fan of how Mojave drains my battery; it's a bit of a deal breaker.&lt;/p&gt;
 &lt;p&gt;Gonna see how the Mojave patch will fix things before I decide to upgrade. This time I won't forget to backup via Time Machine, it's just the smart thing to do.&lt;/p&gt;
 &lt;p&gt;Learned my lesson by being Apple's guinea pig and upgrading without a patch release. Never again.&lt;/p&gt;</content><category term="review"></category><category term="how-to"></category><category term="mac"></category></entry><entry><title>Sending Emails using Python 3.6+</title><link href="http://alysivji.github.io/sending-emails-from-python.html" rel="alternate"></link><published>2018-02-25T11:45:00-06:00</published><updated>2018-02-25T11:45:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-02-25:/sending-emails-from-python.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://docs.python.org/3/whatsnew/3.6.html"&gt;Python 3.6 feature&lt;/a&gt; that has flown under the radar is the revamped &lt;a href="https://docs.python.org/3/library/email.html"&gt;&lt;code&gt;email&lt;/code&gt;&lt;/a&gt; package.&lt;/p&gt;
 &lt;p&gt;In this post we will explore &lt;code&gt;email&lt;/code&gt; and walk through an example of creating and sending an email using the Python Standard Library.&lt;/p&gt;
@@ -3294,6 +3294,7 @@ exception handled
 &lt;li&gt;Synopsis: Start with Flask, switch to Django if we need to scale&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.tivix.com/blog/django-vs-flask-picking-the-right-python-framework"&gt;Django vs. Flask: Picking the Right Python Web Framework&lt;/a&gt; - Tivix&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2&gt;Flask&lt;/h2&gt;

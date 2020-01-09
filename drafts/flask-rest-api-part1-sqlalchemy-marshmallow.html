@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Flask Design Patterns: Exceptions. marshmallow. serialize. deserialize JSON. flask. exceptions to reduce boilerplate code." />
+    <meta name="description" content="In this series, we will build a Python REST API using Flask, SQLAlchemy, marshmallow, and apispec. Part 1 describes the problem and delves into how these" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Building a REST API with Flask, SQLAlchemy, and Marshmallow (Flask REST API Part 1)"/>
     <meta property="og:url" content="../drafts/flask-rest-api-part1-sqlalchemy-marshmallow.html"/>
-      <meta property="og:description" content="Flask Design Patterns: Exceptions. marshmallow. serialize. deserialize JSON. flask. exceptions to reduce boilerplate code."/>
+      <meta property="og:description" content="In this series, we will build a Python REST API using Flask, SQLAlchemy, marshmallow, and apispec. Part 1 describes the problem and delves into how these"/>
       <meta property="article:section" content="Python"/>
         <meta property="article:tag" content="rest-api"/>
         <meta property="article:tag" content="flask"/>
@@ -20,7 +20,7 @@
             content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Building a REST API with Flask, SQLAlchemy, and Marshmallow (Flask REST API Part 1)">
-    <meta name="twitter:description" content="Flask Design Patterns: Exceptions. marshmallow. serialize. deserialize JSON. flask. exceptions to reduce boilerplate code.">
+    <meta name="twitter:description" content="In this series, we will build a Python REST API using Flask, SQLAlchemy, marshmallow, and apispec. Part 1 describes the problem and delves into how these">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content="..">
@@ -112,7 +112,7 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 03 December 2010
+  Sat 05 October 2019
 </abbr> <h1>
   <a href="../drafts/flask-rest-api-part1-sqlalchemy-marshmallow.html" rel="bookmark"
      title="Permalink to Building a REST API with Flask, SQLAlchemy, and Marshmallow (Flask REST API Part 1)">
@@ -137,75 +137,62 @@
 </ul>
 </blockquote>
 <hr>
-<p>I just finished reading <a href="https://www.amazon.com/Philosophy-Software-Design-John-Ousterhout/dp/1732102201">A Philosophy of Software Design</a> by John Ousterhout. I learned how to decompose complex software systems into small components that can be implemented independently. Each chapter illustrates a design principle and goes into detail on how it improves overall system design. Hint: it's <strong>all</strong> about <em>reducing complexity</em>. Software Design is difficult and this book fills in a much needed knowledge gap.</p>
-<p>Chapter 10 describes how to "Define Errors Out of Existence":</p>
-<blockquote>
-<p>If a system processes a series of requests, it's useful to define an exception that aborts the current request, cleans up the system's state, and continues with the next request. The exception is caught in a single place near the top of the system's request-handling loop. This exception can be thrown at any point in the processing of a request to abort the request. ... Exception aggregation works best if an exception propagates several levels up the stack before it is handled; this allows more exceptions from more methods to be handled in the same place.</p>
-</blockquote>
-<p>Been using Flask quite extensively over the past few months; love most things about the framework, but I found error handling a bit clunky. I didn't know what I wanted until I read the above passage, at which point I Googled "flask HTTP exception" and found the <a href="http://flask.pocoo.org/docs/1.0/patterns/apierrors/">API Exception pattern</a>.</p>
-<p>Of course it's built-in! This is why we should read documentation. Can't use best practices if you don't know what they are. I'll take this a step further: if you import a library, you are responsible for its behaviour; you need to read (or, at least, skim) the source code of all your dependencies. It's what <a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer">Pragmatic Programmers</a> do.</p>
-<p>In this post, we will build a REST API using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy</a>, and <a href="https://marshmallow.readthedocs.io/en/latest/">Marshmallow</a>. We'll also leverage the API Exception pattern to consolidate error handling logic and reduce boilerplate code.</p>
-<hr>
-<h2>What You Need to Follow Along</h2>
-<h3>Development Tools (Stack)</h3>
+<p>In this post we will build a Python REST API using <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy</a>, <a href="https://marshmallow.readthedocs.io/en/latest/">marshmallow</a>, and <a href="https://apispec.readthedocs.io/en/latest/">apispec</a>.</p>
 <ul>
-<li><a href="https://www.python.org/downloads/">Python 3.6+</a></li>
-<li><a href="https://www.postgresql.org/download/">Postgres</a></li>
-<li><a href="https://pypi.org/project/psycopg2-binary/">psycopg2-binary</a></li>
-<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Flask</a></li>
-<li><a href="http://docs.sqlalchemy.org/en/latest/intro.html#installation-guide">SQLAlchemy</a></li>
-<li><a href="https://marshmallow.readthedocs.io/en/latest/install.html">Marshmallow</a> v3.0+</li>
+<li><a href="http://flask.pocoo.org/">Flask</a> is a Python micro web framework</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy</a> is an Object Relational Mapper (ORM) that allows Python to communicate with the database. With an ORM, database rows can be read into Python as objects. We can also use the ORM to convert Python objects to database rows.</li>
+<li><a href="https://marshmallow.readthedocs.io/en/latest/">marshmallow</a> is library for <a href="https://en.wikipedia.org/wiki/Marshalling_(computer_science)">marshalling</a> tool that can be used to validate, serialize, and deserialize JSON data</li>
+<li><a href="https://apispec.readthedocs.io/en/latest/">apispec</a> generates API documentation using the OpenAPI Specification (aka Swagger docs).</li>
 </ul>
-<p>You will need to change some of the configuration settings. Export some variables and run.</p>
-<p>-or-</p>
-<ul>
-<li><a href="https://docs.docker.com/compose/install/">Docker Compose</a></li>
-</ul>
-<p>Note: I have created a docker-compose.yml that can be use to bootstrap this project. I have instructions on how to get started using Docker Compose in README for this repo.</p>
-<h3>Code</h3>
-<ul>
-<li><a href="https://github.com/alysivji/movie-recommendation-example">Github Repo</a> - Tag: <a href="TODO">blog-flask</a></li>
-</ul>
-<p>We can checkout the code from the git repository as follows:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> git checkout tags/TODO
-<span class="go">Note: checking out &#39;tags/TODO&#39;.</span>
-</pre></div>
-
-
-<p>Or we can use <a href="http://kinolien.github.io/gitzip/">GitZip</a> to download the tagged commit by URL.</p>
+<p>Combining these libraries with the <a href="http://flask.pocoo.org/docs/1.0/patterns/apierrors/">Flask API Exception pattern</a> enables us to consolidate error handling logic and reduce boilerplate code. This will leave us free to focus on solving actual business problems.</p>
+<p>In this part we will provide some background information on the problem we are solving, describe how each of the libraries helps us achieve our goals, and start putting together a local development environment.</p>
 <hr>
 <h2>Project Overview</h2>
 <p>We are building a Netflix clone using Flask with the following architecture:</p>
-<p><img src="/images/30-39/flask-rest-api.png" width="600" alt="Web Application Architecture" /></p>
+<p>TODO
+<img src="/images/30-39/flask-rest-api.png" width="600" alt="Web Application Architecture" /></p>
+<p>We'll dig into the individual components and how they are used in the next few sections:</p>
 <h3>Flask</h3>
 <p><a href="http://flask.pocoo.org/">Flask</a> is an unopinionated Python web framework that allows us to create scalable web applications. I provided a detailed overview of web frameworks and Flask in a <a href="/flask-part2-building-a-flask-web-application.html#flask-overview">previous post</a>.</p>
-<p>We will be building <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST API</a> that will serve JSON data to a variety of clients (website, mobile app, 3rd party integration API, etc).</p>
-<p>Flask is <a href="https://github.com/pallets/flask/stargazers">popular</a>, has <a href="http://flask.pocoo.org/docs/">great documentation</a>, a <a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world">fantastic third party tutorial</a>, and <a href="http://flask.pocoo.org/extensions/">lots of extensions</a>.</p>
-<p>If you are using Flask for serious projects, I recommend reading about the <a href="http://flask.pocoo.org/docs/1.0/quickstart/#accessing-request-data">global request object and context locals</a>. Flask abstracts this all away, but its good to peel back a layer to understand the underlying implementation.</p>
-<h3>Postgres</h3>
-<p>Before we select a database, we need to understand the problem we are solving. This requires us to research the problem domain to find a data model that best fits what we are trying to do.</p>
-<p>We are trying to build a Netflix clone so we'll need to examine that problem space in a bit more detail. I've done <a href="">this somewhere else</a>.</p>
-<!-- TODO HERE -->
-
+<p>We will be building <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST API</a> that serves JSON data to a variety of clients (website, mobile app, 3rd party integration API, etc).</p>
+<p>Flask is <a href="https://github.com/pallets/flask/stargazers">popular</a>, has <a href="http://flask.pocoo.org/docs/">great documentation</a>, a <a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world">fantastic third party tutorial</a>, and <a href="http://flask.pocoo.org/extensions/">lots of extensions</a>. If you are using Flask in production, I recommend reading about the <a href="http://flask.pocoo.org/docs/1.0/quickstart/#accessing-request-data">global request object and context locals</a>. Flask abstracts this all away, but its good to peel back a layer to understand the underlying implementation.</p>
+<p>For this project we will be using <a href="http://flask.pocoo.org/docs/1.0/views/">pluggable views</a> to build out our API endpoints. Pluggable views are the Flask equivalent to Django <a href="https://docs.djangoproject.com/en/2.2/topics/class-based-views/">Class-based views</a>.</p>
+<h3>PostgreSQL</h3>
+<p>We are going to be dealing with movie data which is structured and can be defined by a schema in a database. Unless you can articulate <strong>why</strong> you need a NoSQL Database, it's best to stick with a relational solution. Recommend looking into <a href="https://www.innoarchitech.com/blog/how-choose-right-database-system-relational-rdbms-vs-nosql-vs-newsql">how to choose the right database system</a>.</p>
+<p><a href="https://www.postgresql.org/">PostgreSQL</a> was selected over MySQL and MariaDB as it is open-source and the flavor that is most closely related to SQL standards.</p>
+<h3>SQLAlchemy</h3>
+<p>High level overivew -- ORM layer we can integrate with Flask.</p>
+<p>Unit of work vs active record</p>
+<p>core vs orm</p>
+<p>We will be using the Flask-SQL variant which has some nice helpers, such as sessions being created for each request.</p>
+<h3>Marshmallow</h3>
+<p>it's great because you can do validation</p>
+<p>serialization
+deserialization</p>
+<p>Can combine using <a href="https://github.com/marshmallow-code/marshmallow-sqlalchemy">marshmallow-sqlalchemy</a> to reduce the amount of code required. I've only used it for side projects, would have to play around with it more before recommending for use in production.</p>
+<h3>Maybe Webargs</h3>
+<p>what does webargs do? can it read params?</p>
+<p>https://github.com/marshmallow-code/webargs</p>
+<h3>apispec</h3>
+<p>APIs require documentation. Docs are the contract between our front-and-back end. We can add docstrings to our API endpoints and use marshmallow schemas to specify</p>
+<p>flask-apispec has some helpers, but my goal is to make a framework for our app versus having to use somebody els's best practices.
+https://github.com/jmcarp/flask-apispec</p>
+<hr>
+<h2>Project Deep Dive</h2>
+<h3>Structure</h3>
+<p>Talk about how we used flask and how things are set up.</p>
+<p>Flask is the middle man that coordinates everything for us.</p>
+<p>High level overview. Have a video that goes into more details.</p>
+<h3>Models</h3>
+<ul>
+<li>describe endpoints and the things we need to cover them</li>
+</ul>
 <p>What do we need to model data. we need users. need to movies, actors, genres</p>
 <p>our problem spaces seems to be best modelled by</p>
 <p>whole field of study called <a href="https://en.wikipedia.org/wiki/Domain-driven_design">Domain-driven design</a>
 http://web.cerritos.edu/dwhitney/SitePages/CIS201/LectureNotesOnTalonNet/Chapter04Lecture.pdf</p>
-<h3>SQLAlchemy</h3>
-<p>High level overivew</p>
-<p>Unit of work vs active record</p>
-<p>core vs orm</p>
-<h3>Marshmallow</h3>
-<p>serialization
-deserialization</p>
-<p>it's great because you can do validation</p>
-<p>Can combine using <a href="https://github.com/marshmallow-code/marshmallow-sqlalchemy">marshmallow-sqlalchemy</a> to reduce the amount of code required. I haven't used it myself, butgood to nkow a solution exists if I find the code too boilerplate.</p>
-<h3>Project Structure</h3>
-<p>Talk about how we used flask and how things are set up. <a href="http://flask.pocoo.org/docs/1.0/views/">Pluggable views</a></p>
-<p>Flask is the middle man that coordinates everything for us.</p>
-<p>High level overview. Have a video that goes into more details.</p>
 <hr>
-<h2>API Exception Pattern</h2>
+<h3>API Exception Pattern</h3>
 <h3>Create Exception Classes</h3>
 <p>asdf</p>
 <h2>Register Handler</h2>
@@ -223,6 +210,12 @@ deserialization</p>
 <p>Show example with code. Name a commit for the blog</p>
 <p>So i wrote a helper function that abstracts it away. All the logic is isolated so now we can just load our schema and it'll work properly and if not, it'll be handled by some other system.</p>
 <p><a href="https://www.youtube.com/watch?v=IZmlkoOO8Mg">System Testing with Pytest, Docker, and Flask</a></p>
+<hr>
+<h2>Setup Instructions</h2>
+<p>Code is available on GitHub. Used <a href="https://docs.docker.com/compose/install/">Docker Compose</a> to setup a reproducible development environment. Download the repo, <code>cd</code> into the director, and <code>docker-compose up</code> to follow along.</p>
+<p>Additional information in the project <a href=""><code>README</code></a>.</p>
+<hr>
+<p>in flask post, start with the application factory pattern. this will make it easier to test....</p>
   </div>
 
 <div class="article-tag-list">
@@ -310,15 +303,39 @@ deserialization</p>
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
-      <a href="../tag/web-development.html">
+      <a href="../tag/gis.html">
           <i class="fa fa-tag"></i>
-        web-development
+        gis
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/mongodb.html">
+      <a href="../tag/pandas.html">
           <i class="fa fa-tag"></i>
-        mongodb
+        pandas
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/community.html">
+          <i class="fa fa-tag"></i>
+        community
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/mac.html">
+          <i class="fa fa-tag"></i>
+        mac
       </a>
     </span>
     <span class="tag-2">
@@ -328,9 +345,33 @@ deserialization</p>
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
+      <a href="../tag/web-development.html">
           <i class="fa fa-tag"></i>
-        elasticsearch
+        web-development
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
       </a>
     </span>
     <span class="tag-2">
@@ -339,16 +380,10 @@ deserialization</p>
         data-viz
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/book.html">
+    <span class="tag-4">
+      <a href="../tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
-        book
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
+        elasticsearch
       </a>
     </span>
     <span class="tag-2">
@@ -358,9 +393,27 @@ deserialization</p>
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/terminal.html">
+      <a href="../tag/mongodb.html">
           <i class="fa fa-tag"></i>
-        terminal
+        mongodb
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="../tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
       </a>
     </span>
     <span class="tag-3">
@@ -369,34 +422,34 @@ deserialization</p>
         grad-school
       </a>
     </span>
-    <span class="tag-2">
-      <a href="../tag/docker.html">
-          <i class="fa fa-tag"></i>
-        docker
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
-          <i class="fa fa-tag"></i>
-        exploring-pypi
-      </a>
-    </span>
     <span class="tag-1">
       <a href="../tag/python.html">
           <i class="fa fa-tag"></i>
         python
       </a>
     </span>
-    <span class="tag-3">
-      <a href="../tag/flask.html">
+    <span class="tag-1">
+      <a href="../tag/how-to.html">
           <i class="fa fa-tag"></i>
-        flask
+        how-to
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pandas.html">
+      <a href="../tag/terminal.html">
           <i class="fa fa-tag"></i>
-        pandas
+        terminal
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="../tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="../tag/art-of-developer-testing.html">
+          <i class="fa fa-tag"></i>
+        art-of-developer-testing
       </a>
     </span>
     <span class="tag-4">
@@ -412,75 +465,21 @@ deserialization</p>
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/testing.html">
+      <a href="../tag/docker.html">
           <i class="fa fa-tag"></i>
-        testing
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="../tag/software-engineering.html">
-          <i class="fa fa-tag"></i>
-        software-engineering
+        docker
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+      <a href="../tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="../tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/php.html">
-          <i class="fa fa-tag"></i>
-        php
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/art-of-developer-testing.html">
-          <i class="fa fa-tag"></i>
-        art-of-developer-testing
-      </a>
-    </span>
-    <span class="tag-1">
-      <a href="../tag/how-to.html">
-          <i class="fa fa-tag"></i>
-        how-to
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
+        exploring-pypi
       </a>
     </span>
     <span class="tag-2">
       <a href="../tag/cest-la-vie.html">
           <i class="fa fa-tag"></i>
         c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/math.html">
-          <i class="fa fa-tag"></i>
-        math
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="../tag/mac.html">
-          <i class="fa fa-tag"></i>
-        mac
       </a>
     </span>
 </p>
