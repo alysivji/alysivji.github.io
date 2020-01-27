@@ -1,5 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2018-11-21T20:20:00-06:00</updated><entry><title>Patching Import Inside Function</title><link href="http://alysivji.github.io/patching-import-inside-function.html" rel="alternate"></link><published>2018-11-21T20:20:00-06:00</published><updated>2018-11-21T20:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-11-21:/patching-import-inside-function.html</id><summary type="html">&lt;p&gt;I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-01-27T09:00:00-06:00</updated><entry><title>Managing Python dependencies with pip-tools and requirements.txt</title><link href="http://alysivji.github.io/python-managing-dependencies-with-pip-tools.html" rel="alternate"></link><published>2020-01-27T09:00:00-06:00</published><updated>2020-01-27T09:00:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-01-27:/python-managing-dependencies-with-pip-tools.html</id><summary type="html">&lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/The_Paradox_of_Choice"&gt;paradox of choice&lt;/a&gt;
+in Python packaging tools makes dependency management more complex than it needs to be.
+In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;,
+we will explore Python dependency management and
+demonstrate an easy-to-implement workflow to
+generate reproducible environments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; this article assumes familiarity with
+&lt;a href="https://realpython.com/python-virtual-environments-a-primer/"&gt;virtual environments&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;We use dependency management …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/The_Paradox_of_Choice"&gt;paradox of choice&lt;/a&gt;
+in Python packaging tools makes dependency management more complex than it needs to be.
+In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;,
+we will explore Python dependency management and
+demonstrate an easy-to-implement workflow to
+generate reproducible environments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; this article assumes familiarity with
+&lt;a href="https://realpython.com/python-virtual-environments-a-primer/"&gt;virtual environments&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;We use dependency management tools to create a list of modules
+that our application requires.
+In Python the standard convention for tracking dependencies
+is to list them in a &lt;code&gt;requirements.txt&lt;/code&gt; file stored
+in the root project directory.&lt;/p&gt;
+&lt;h4&gt;Why is Dependency Management Important&lt;/h4&gt;
+&lt;p&gt;Including all application dependencies in &lt;code&gt;requirements.txt&lt;/code&gt;
+ensures  correct packages will be downloaded
+and installed when we distribute code.&lt;/p&gt;
+&lt;p&gt;Python will not notice missing dependencies until it tries to
+&lt;code&gt;import&lt;/code&gt; them into the program.
+This can lead to lead to runtime exceptions around missing modules.&lt;/p&gt;
+&lt;h2&gt;Problems with Python Dependency Management&lt;/h2&gt;
+&lt;p&gt;When we add packages to &lt;code&gt;requirements.txt&lt;/code&gt;,
+we have to ensure we pin the correct version
+and include all sub-dependencies.&lt;/p&gt;
+&lt;h4&gt;Correct Version&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Pin dependency to exact version in &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;All listings in &lt;code&gt;requirements.txt&lt;/code&gt; must be pinned to an exact version,
+i.e. &lt;code&gt;requests==2.22.0&lt;/code&gt; versus &lt;code&gt;requests&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This ensures that we install the correct package when distributing code.
+Unpinned dependencies can silently update
+resulting in unexpected behavior.&lt;/p&gt;
+&lt;h4&gt;Include Sub-dependencies&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Include all dependencies in &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Our dependencies have dependencies.
+Their dependencies have dependencies.
+And those dependencies have even more dependencies.
+Not pinning dependencies and sub-dependencies adds risk to our deployment.
+It results in an environment that is not completely reproducible.&lt;/p&gt;
+&lt;p&gt;Pinning all dependencies does have one disadvantage:
+we have to be careful when upgrade dependencies.
+We need a way to separate direct dependencies and sub-dependencies.&lt;/p&gt;
+&lt;h2&gt;pip-tools&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/jazzband/pip-tools"&gt;pip-tools&lt;/a&gt; is a package
+that allows us to separate direct dependencies
+from their sub-dependencies.
+pip-tools generates a dependency graph
+and uses this information to create a bespoke
+&lt;code&gt;requirements.txt&lt;/code&gt; file for our project.&lt;/p&gt;
+&lt;h4&gt;Instructions&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;pip install pip-tools&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;List all of direct dependencies in &lt;code&gt;requirements.in&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Generate requirements file: &lt;code&gt;pip-compile --output-file=requirements.txt requirements.in&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can now use the &lt;code&gt;requirements.txt&lt;/code&gt; file in all of our build processes.&lt;/p&gt;
+&lt;h4&gt;Adding new dependency&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Add pinned requirement to &lt;code&gt;requirements.in&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Generate requirements file: &lt;code&gt;pip-compile --output-file=requirements.txt requirements.in&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Upgrading dependency&lt;/h4&gt;
+&lt;p&gt;When we upgrade packages, we only want to update our direct dependencies:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Update requirement in &lt;code&gt;requirements.in&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Generate requirements file: &lt;code&gt;pip-compile --output-file=requirements.txt requirements.in&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Test to ensure functionality is as expected&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If tests pass, we can safely update the package.&lt;/p&gt;
+&lt;h4&gt;Advantages&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Leverage existing workflows that use &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Does not require us to learn new tools that add unnecessary complexity&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Disadvantages&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Manual process to add and update dependencies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Comparison to Other Tools&lt;/h2&gt;
+&lt;h4&gt;&lt;a href="https://pip.pypa.io/en/stable/"&gt;pip&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Keep track of direct dependencies and sub-dependencies in &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Great for simple project&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;&lt;a href="https://github.com/pypa/pipenv"&gt;Pipenv&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a &lt;code&gt;Piplock&lt;/code&gt; file to keep track of direct dependencies and sub-dependencies&lt;/li&gt;
+&lt;li&gt;Manage virtual environment&lt;/li&gt;
+&lt;li&gt;Can generate &lt;code&gt;requirement.txt&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;&lt;a href="https://python-poetry.org/"&gt;Poetry&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a &lt;code&gt;poetry.lock&lt;/code&gt; file to keep track of direct dependencies and sub-dependencies&lt;/li&gt;
+&lt;li&gt;Manage virtual environment&lt;/li&gt;
+&lt;li&gt;Can generate &lt;code&gt;requirement.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Build packages and publishes artifacts to PyPI&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;There are many dependency management options
+in the Python ecosystem.
+Before adding unnecessary complexity
+to your workflow, take a look at &lt;code&gt;pip-tools&lt;/code&gt;
+and see if its fits what you are trying to do.&lt;/p&gt;</content><category term="python"></category><category term="productivity"></category><category term="workflow"></category></entry><entry><title>Patching Import Inside Function</title><link href="http://alysivji.github.io/patching-import-inside-function.html" rel="alternate"></link><published>2018-11-21T20:20:00-06:00</published><updated>2018-11-21T20:20:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-11-21:/patching-import-inside-function.html</id><summary type="html">&lt;p&gt;I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.&lt;/p&gt;
 &lt;p&gt;While I'm …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I started my first tech job at a large corporation. We have lots of internal tools and systems that allow us to solve large-scale data problems. It's been an interesting change from startup life where platforms weren't as mature, where systems weren't as integrated into workflows and processes.&lt;/p&gt;
 &lt;p&gt;While I'm having a ton of fun building containerized data pipelines in &lt;a href="https://airflow.apache.org"&gt;Airflow&lt;/a&gt;, I still need to deal with the limitations of internal systems that were designed to support many different use cases. This part isn't so different from startup life; we all have to do things in a certain way because decisions that were made earlier hamper our efficiency and force us to use tools &lt;strong&gt;ahem&lt;/strong&gt; &lt;em&gt;creatively&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;This is okay. Working around limitations is what programming is all about. We have to design creative solutions within the constraints of our problem space.&lt;/p&gt;
