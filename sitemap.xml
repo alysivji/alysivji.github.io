@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
+    <loc>https://alysivji.github.io/helm-post-rendering-hook.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://alysivji.github.io/python-managing-dependencies-with-pip-tools.html</loc>
     <priority>0.8</priority>
   </url>

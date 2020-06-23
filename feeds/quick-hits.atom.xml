@@ -274,7 +274,7 @@ and see if its fits what you are trying to do.&lt;/p&gt;</content><category term
 &lt;p&gt;There are many benefits to building apps with a plugin framework:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;3rd party developers can create and extend upon your app&lt;/li&gt;
-&lt;li&gt;new features are easier to developer&lt;/li&gt;
+&lt;li&gt;new features are easier to develop&lt;/li&gt;
 &lt;li&gt;your application becomes smaller and easier to understand&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Sample Application Flow&lt;/h3&gt;

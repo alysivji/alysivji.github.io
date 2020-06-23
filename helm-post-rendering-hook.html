@@ -4,30 +4,29 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="How to use Helm post render hooks and kustomize to modify Kubernetes manifests before they are installed on your cluster." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper"/>
-    <meta property="og:url" content="./setting-up-pyenv-virtualenvwrapper.html"/>
+    <meta property="og:title" content="Modify Kubernetes Manifests with Helm Post Render Hooks"/>
+    <meta property="og:url" content="./helm-post-rendering-hook.html"/>
+      <meta property="og:description" content="How to use Helm post render hooks and kustomize to modify Kubernetes manifests before they are installed on your cluster."/>
       <meta property="article:section" content="Tutorials"/>
-        <meta property="article:tag" content="python"/>
-        <meta property="article:tag" content="terminal"/>
-        <meta property="article:tag" content="how-to"/>
-        <meta property="article:tag" content="productivity"/>
+        <meta property="article:tag" content="kubernetes"/>
         <meta property="article:tag" content="workflow"/>
+        <meta property="article:tag" content="how-to"/>
         <meta property="og:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Modify Kubernetes Manifests with Helm Post Render Hooks">
+    <meta name="twitter:description" content="How to use Helm post render hooks and kustomize to modify Kubernetes manifests before they are installed on your cluster.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
         <meta property="twitter:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper - Siv Scripts</title>
+    <title>Modify Kubernetes Manifests with Helm Post Render Hooks - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -112,11 +111,11 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Mon 28 August 2017
+  Tue 23 June 2020
 </abbr> <h1>
-  <a href="./setting-up-pyenv-virtualenvwrapper.html" rel="bookmark"
-     title="Permalink to Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper">
-    Ultimate Solution to Python Virtual Environments: pyenv + virtualenvwrapper
+  <a href="./helm-post-rendering-hook.html" rel="bookmark"
+     title="Permalink to Modify Kubernetes Manifests with Helm Post Render Hooks">
+    Modify Kubernetes Manifests with Helm Post Render Hooks
   </a>
 </h1><div class="article-header-info">
   <p>
@@ -128,202 +127,119 @@
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>I love using the Command Line; it's my favourite part of programming. It wasn't always this way. I used to worry that the commands I entered would destory the delicate equilibrium where everything <em>just worked</em>. Would this be the <code>pip install</code> that ended it all?</p>
-<p>Enter virtual environments.</p>
-<p>A <strong>virtual environment</strong> (<code>venv</code>) is a tool that allows us to keep project dependencies isolated. If Project A requires pandas version 0.17 and Project B requires pandas version 0.21, we can create a venv for each project and keep workflows independent. More info in the <a href="https://docs.python.org/3/library/venv.html#venv-def">Python documentation</a>.</p>
-<p>It's been around a year since I started using virtual environments in my projects, but I had yet to find the perfect dev workflow.</p>
-<p>Tried <a href="https://www.continuum.io/what-is-anaconda">Anaconda</a>; it was too bloated for non-Data Science work.</p>
-<p>Next came <a href="https://virtualenv.pypa.io/en/stable/">virtualenv</a> + <a href="http://virtualenvwrapper.readthedocs.io/en/latest/">virtualevnwrapper</a>. Did everything I wanted, but I had to manually manage Python installations when setting up environments for different versions.</p>
-<p>Like everyone who learns Docker, I went thru a <a href="containerized-development-environments.html">containerize all the things phase</a>. The non-existent battery life on my Mac told me this wasn't the most feasible solution.</p>
-<p>Then I found pyenv...<br />
-<img src="/images/10-19/13_penv_just_right_meme.jpg" alt="Just Right" width=500/></p>
-<p>In this post, I will describe how to install pyenv and pyenv-virtualenvwrapper. I will also walk through the steps required to setup and use a new virtual environment.</p>
+	<p>As a learning exercise, I migrated all my side projects to Kubernetes. I was using <a href="https://fluentbit.io/">Fluent Bit</a> to forward application container logs to my ElasticSearch instance.</p>
+<p>Everything was working as expected, but the cluster was starting to get expensive. <a href="https://www.digitalocean.com/products/kubernetes/">DigitalOcean Kubernetes</a> is competitively priced, but paying $80/month to run side projects is steep. Using a <a href="http://logz.io">third-party logging and monitoring service with a generous free-tier</a> would require fewer nodes in my cluster.</p>
+<p>In order to get logs forwarded correctly, I had to use <a href="https://helm.sh">Helm</a>'s <a href="https://helm.sh/docs/topics/advanced/#post-rendering">Post Rendering</a> hooks to modify Kubernetes manifests before the respective chart is installed / upgraded on my cluster. I hacked together a solution that isn't the most secure, but it saves me $30 a month. It's also for a side project. Specifically, it's side project logs. My solution is good enough for now.</p>
+<p>I am writing this post to document how I used Helm's Post Render hooks to forward my application logs to logz.io.</p>
 <hr>
-<h2>pyenv</h2>
+<h3>Introduction to Post Rendering Hooks</h3>
+<p>You can read the <a href="https://helm.sh/docs/topics/advanced/#post-rendering">Helm docs</a> for more details, but here are the highlights:</p>
 <blockquote>
-<p><a href="https://github.com/pyenv/pyenv#simple-python-version-management-pyenv">pyenv lets you easily switch between multiple versions of Python</a></p>
+<p>Post rendering gives chart installers the ability to manually manipulate, configure, and/or validate rendered manifests before they are installed by Helm</p>
 </blockquote>
-<h3>Background</h3>
-<p>Anytime we run a command, the OS goes looking for the executible within the list of directories in the <code>$PATH</code> environment variable.</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">echo</span> <span class="nv">$PATH</span>
-<span class="go">/Users/alysivji/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/alysivji/bin</span>
-<span class="gp">$</span> which python
-<span class="go">/usr/bin/python</span>
-<span class="gp">$</span> which python3
-<span class="go">/usr/local/bin/python3</span>
-</pre></div>
-
-
-<p>We see both the default Python and Python3.6 installations are located in the <code>$PATH</code> var.</p>
-<p>When we install pyenv, we add an additional directory of <a href="https://en.wikipedia.org/wiki/Shim_(computing)">shims</a> to the front of our <code>$PATH</code>. Each shim intercepts commands (<code>python</code>, <code>pip</code>, etc) and redirects them to the appropriate location.</p>
-<h3>Installation</h3>
-<p>Check the project's Github for <a href="https://github.com/pyenv/pyenv#installation">detailed installation instructions</a>. These instructions assume you have macOS + <a href="https://brew.sh/">Homebrew</a> installed.</p>
-<div class="highlight"><pre><span></span><span class="go">brew update</span>
-<span class="go">brew install pyenv</span>
-</pre></div>
-
-
-<p>Add the following line to <code>~/.bash_profile</code>:</p>
-<div class="highlight"><pre><span></span><span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>pyenv init -<span class="k">)</span><span class="s2">&quot;</span>
-</pre></div>
-
-
-<p>Let's make sure our installation worked:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> ~/.bash_profile
-<span class="gp">$</span> <span class="nb">echo</span> <span class="nv">$PATH</span>
-<span class="go">/Users/alysivji/.pyenv/shims:/Users/alysivji/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/alysivji/bin</span>
-</pre></div>
-
-
-<p>Looks good! The shims at the front of our <code>$PATH</code> variable will intercept and redirect all python-related commands.</p>
-<h3>Commands</h3>
-<p>We use <code>pyenv install --list</code> to get a list of all Python versions available for installation. Let's install a few different versions of Python so we can see how pyenv works.</p>
-<div class="highlight"><pre><span></span><span class="go">pyenv install 2.7.13</span>
-<span class="go">pyenv install pypy-5.7.1</span>
-<span class="go">pyenv install 3.6.2</span>
-<span class="go">pyenv install 3.7-dev</span>
-</pre></div>
-
-
-<p>Set the Python we want as our default version:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> pyenv global <span class="m">3</span>.6.2
-<span class="gp">$</span> pyenv versions
-<span class="go">  system</span>
-<span class="go">  2.7.13</span>
-<span class="go">* 3.6.2 (set by /Users/alysivji/.pyenv/version)</span>
-<span class="go">  3.7-dev</span>
-<span class="go">  pypy-5.7.1</span>
-</pre></div>
-
-
-<p>How does the shim know which version of Python to use? It goes down the <a href="https://github.com/pyenv/pyenv#choosing-the-python-version">hierarchy</a> until it finds what it's looking for.</p>
-<p>Activate different versions of Python using the <code>pyenv shell [version]</code> command.</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> which python
-<span class="go">/Users/alysivji/.pyenv/shims/python</span>
-<span class="gp">$</span> python
-<span class="go">Python 3.6.2 (default, Aug 24 2017, 00:00:01)</span>
-<span class="go">[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin</span>
-<span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
-<span class="gp">&gt;</span>&gt;&gt; exit<span class="o">()</span>
-<span class="gp">$</span> pyenv shell <span class="m">2</span>.7.13
-<span class="gp">$</span> which python
-<span class="go">/Users/alysivji/.pyenv/shims/python</span>
-<span class="gp">$</span> python
-<span class="go">Python 2.7.13 (default, Aug 24 2017, 00:14:24)</span>
-<span class="go">[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin</span>
-<span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
-<span class="gp">&gt;</span>&gt;&gt;
-</pre></div>
-
-
-<p>Notice how the pyenv shims take care of everything for us. Next, we'll learn how to create a <code>venv</code>.</p>
-<hr>
-<h2>pyenv-virtualenvwrapper</h2>
+<p>Post rendering hooks allows you to use community-maintained Helm charts while providing the flexibility to make small customizations.</p>
 <blockquote>
-<p><a href="https://github.com/pyenv/pyenv-virtualenvwrapper">pyenv-virtualenvwrapper is a pyenv plugin ... to manage your virtualenvs with virtualenvwrapper</a></p>
+<p>A post-renderer can be any executable that accepts rendered Kubernetes manifests on STDIN and returns valid Kubernetes manifests on STDOUT. It should return an non-0 exit code in the event of a failure.</p>
 </blockquote>
-<h3>Installation</h3>
-<p>Detailed <a href="https://github.com/pyenv/pyenv-virtualenvwrapper">instructions</a> are on Github. macOS + <a href="https://brew.sh/">Homebrew</a> users can follow along:</p>
-<div class="highlight"><pre><span></span><span class="go">brew install pyenv-virtualenvwrapper</span>
+<p>This generic interface means you can use any tool you want to modify the manifest YAML. Writing up a bash script is the easiest way to get started. More complex workflows can be solved with scripts written in your favourite programming language.</p>
+<blockquote>
+<p>A post renderer can be used with <code>install</code>, <code>upgrade</code>, and <code>template</code></p>
+</blockquote>
+<p>Link to docs for:
+- <a href="https://helm.sh/docs/helm/helm_install/#helm-install"><code>helm install</code></a>
+- <a href="https://helm.sh/docs/helm/helm_upgrade/"><code>helm upgrade</code></a>
+- <a href="https://helm.sh/docs/helm/helm_template/"><code>helm template</code></a></p>
+<h3>Process</h3>
+<h4>Understand the Helm Deployment</h4>
+<p>Once you have the Helm chart you want to modify, spend a few minutes understanding how the chart works. Run a <code>helm template</code> to render charts locally. Get a rough idea of how things fit together.</p>
+<h4>Focus on ConfigMap</h4>
+<p>The <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"><code>ConfigMap</code></a> type allows you to modify files and settings for applications running on Kubernetes. This is what most post render hooks will modify.</p>
+<h4>Install Helm Chart</h4>
+<p>In order to customize the Helm chart, you must first understand the Helm chart. Do a <code>helm install</code>, check the container logs, examine the Kubernetes objects. Are the Kubernetes resources that were created the ones you expected to see?</p>
+<h4>Customizing Kubernetes Manifests</h4>
+<p>Figure out which configurations you want to modify and write up a <code>kustomization.yaml</code> that specifies the key, value pairs you want in the final YAML being applied to your Kubernetes cluster.</p>
+<p>In my case, I wanted to replace the <code>fluent-bit-output.conf</code> and <code>fluent-bit-service.conf</code> files -- this forwards all application logs to logz.io. I did this by creating a <code>patch.yaml</code> file that contained the configuration I wanted:</p>
+<div class="highlight"><pre><span></span><span class="c1"># patch.yaml</span>
+
+<span class="l l-Scalar l-Scalar-Plain">apiVersion</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="l l-Scalar l-Scalar-Plain">metadata</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">doesNotMatter</span>  <span class="c1"># can be anything</span>
+<span class="l l-Scalar l-Scalar-Plain">data</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">fluent-bit-service.conf</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|</span>
+    <span class="no">[SERVICE]</span>
+        <span class="no">Flush        1</span>
+        <span class="no">Daemon       Off</span>
+        <span class="no">Log_Level    info</span>
+        <span class="no">Parsers_File parsers.conf</span>
+        <span class="no">Plugins_File plugins.conf</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">fluent-bit-output.conf</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|</span>
+    <span class="no">[OUTPUT]</span>
+        <span class="no">Name  logzio</span>
+        <span class="no">Match *</span>
+        <span class="no">logzio_token token-goes-here</span>
+        <span class="no">logzio_url   https://listener.logz.io:8071</span>
 </pre></div>
 
 
-<p>Append to <code>~/.bash_profile</code>:</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
-<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/.virtualenvs
-pyenv virtualenvwrapper_lazy
+<p>You can use <a href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/"><code>kustomize</code></a> to modify YAML.</p>
+<p>The following <code>kustomization.yaml</code> configuration will take the key, values from our <code>patch.yaml</code> and overwrite them in my Helm generated YAML, which is stored in <code>all.yaml</code></p>
+<div class="highlight"><pre><span></span><span class="c1"># kustomization.yaml</span>
+
+<span class="l l-Scalar l-Scalar-Plain">apiVersion</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+
+<span class="c1"># list of Resource Config to be Applied</span>
+<span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">all.yaml</span>
+
+<span class="l l-Scalar l-Scalar-Plain">patches</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">patch.yaml</span>
+    <span class="l l-Scalar l-Scalar-Plain">target</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+      <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;*&quot;</span>
 </pre></div>
 
 
-<p>Reload the shell:</p>
-<div class="highlight"><pre><span></span><span class="go">source ~/.bash_profile</span>
-</pre></div>
-
-
-<h3>Commands</h3>
-<p>Anytime we install a new version of Python, we will need to install virtualenvwrapper. This is done with either the <code>pyenv virtualenvwrapper</code> or <code>pyenv virtualenvwrapper_lazy</code> (<strong>preferred</strong>) command:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> pyenv shell <span class="m">3</span>.6.2
-<span class="gp">$</span> pyenv virtualenvwrapper_lazy
-<span class="go">Collecting virtualenvwrapper</span>
-<span class="go">Collecting stevedore (from virtualenvwrapper)</span>
-<span class="go">  Using cached stevedore-1.25.0-py2.py3-none-any.whl</span>
-<span class="go">Collecting virtualenv (from virtualenvwrapper)</span>
-<span class="go">  Using cached virtualenv-15.1.0-py2.py3-none-any.whl</span>
-<span class="go">Collecting virtualenv-clone (from virtualenvwrapper)</span>
-<span class="go">  Using cached virtualenv-clone-0.2.6.tar.gz</span>
-<span class="go">Collecting pbr!=2.1.0,&gt;=2.0.0 (from stevedore-&gt;virtualenvwrapper)</span>
-<span class="go">  Using cached pbr-3.1.1-py2.py3-none-any.whl</span>
-<span class="go">Collecting six&gt;=1.9.0 (from stevedore-&gt;virtualenvwrapper)</span>
-<span class="go">  Using cached six-1.10.0-py2.py3-none-any.whl</span>
-<span class="go">Installing collected packages: pbr, six, stevedore, virtualenv, virtualenv-clone, virtualenvwrapper</span>
-<span class="go">  Running setup.py install for virtualenv-clone ... done</span>
-<span class="go">Successfully installed pbr-3.1.1 six-1.10.0 stevedore-1.25.0 virtualenv-15.1.0 virtualenv-clone-0.2.6 virtualenvwrapper-4.7.2</span>
-</pre></div>
-
-
-<p>Now we can use the <a href="http://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html">virtualenvwrapper shell commands</a> to manage our environment:</p>
-<div class="highlight"><pre><span></span><span class="gp">$</span> mkvirtualenv venv_test
-<span class="go">Using base prefix &#39;/Users/alysivji/.pyenv/versions/3.6.2&#39;</span>
-<span class="go">New python executable in /Users/alysivji/.virtualenvs/venv_test/bin/python3.6</span>
-<span class="go">Also creating executable in /Users/alysivji/.virtualenvs/venv_test/bin/python</span>
-<span class="go">Installing setuptools, pip, wheel...done.</span>
-<span class="go">virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/predeactivate</span>
-<span class="go">virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/postdeactivate</span>
-<span class="go">virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/preactivate</span>
-<span class="go">virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/postactivate</span>
-<span class="go">virtualenvwrapper.user_scripts creating /Users/alysivji/.virtualenvs/venv_test/bin/get_env_details</span>
-<span class="gp">(venv_test) $</span> which python
-<span class="go">/Users/alysivji/.virtualenvs/venv_test/bin/python</span>
-<span class="gp">(venv_test) $</span> python
-<span class="go">Python 3.6.2 (default, Aug 24 2017, 00:00:01)</span>
-<span class="go">[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin</span>
-<span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
-<span class="gp">&gt;</span>&gt;&gt;
-</pre></div>
-
-
-<p>We can also switch between virtual environments using the <code>deactivate</code> and <code>workon</code> commands:</p>
-<div class="highlight"><pre><span></span><span class="gp">(venv_test) $</span> deactivate
-<span class="gp">$</span> workon venv_test
-<span class="gp">(venv_test) $</span> python
-<span class="go">Python 3.6.2 (default, Aug 24 2017, 00:00:01)</span>
-<span class="go">[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)] on darwin</span>
-<span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
-<span class="gp">&gt;</span>&gt;&gt;
-</pre></div>
-
-
-<p>That's pretty much it. We can create a virtual environment for any version of Python in two commands.</p>
-<h4>Notes</h4>
+<p>Check the docs for <a href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#how-to-apply-view-delete-objects-using-kustomize">additional YAML manipulation options</a>.</p>
+<h4>Post Render Executable</h4>
+<p>In order to execute the post render hook, you need to:</p>
 <ul>
-<li><code>virtualenvwrapper_lazy</code> <a href="https://www.reddit.com/r/Python/comments/11e773/tip_virtualenvwrapper_has_a_lazy_version_you_can/">decreases shell load time</a></li>
+<li>create bash script that takes saves input to a file</li>
+<li>use <code>kustomize</code> to post-process</li>
+<li>send the YAML to be applied on the Kubernetes cluster</li>
+<li>delete files created during intermediate steps</li>
 </ul>
-<hr>
-<h2>Conclusion</h2>
-<p>We should always look for ways to optimize our development workflows. There are tools out there to help us manage complexity and make our life easy. Find these tools. Use them. It'll make you more productive in the long run.</p>
-<hr>
+<p>Added these steps to an executable bash script:</p>
+<div class="highlight"><pre><span></span><span class="go">printf &#39;#!/bin/bash\n\ncat &lt;&amp;0 &gt; all.yaml\n\nkustomize build . &amp;&amp; rm all.yaml&#39; &gt;&gt; kustomize</span>
+<span class="go">chmod +x kustomize</span>
+</pre></div>
+
+
+<h4>Install Chart with Post Render Hook</h4>
+<div class="highlight"><pre><span></span><span class="go">helm install stable/fluent-bit --generate-name -f ../helm/values__fluent_bit.yaml --post-renderer ./kustomize</span>
+</pre></div>
+
+
+<p>Recommend using the <code>--dry-run</code> and <code>--debug</code> to ensure you are applying the manifests you expect to your cluster</p>
+<h3>Conclusion</h3>
+<p>Helm's Post Rendering hooks allow you to customize Helm deployment without having to fork charts. I was able to hack together a solution that forwards my application logs to logz.io using Fluent Bit in an afternoon.</p>
+<p>While the solution isn't the most secure, it saves me $30/month. When I have time, it might be worth looking at ways I can template out this workflow using Helm and the Go templating language.</p>
 <h5>Additional Resources</h5>
 <ul>
-<li><a href="https://realpython.com/blog/python/python-virtual-environments-a-primer/">Real Python Primer on Virtual Environments</a></li>
-<li><a href="http://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html">virtualenvwrapper Command List</a></li>
-<li><a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md">pyenv Command Reference</a></li>
-<li><a href="https://github.com/pyenv/pyenv-virtualenv">pyenv-virtualenv</a> - Alternative virtual environment manager for pyenv</li>
-<li><a href="https://direnv.net/">direnv</a></li>
-</ul>
-<hr>
-<h2>Updates</h2>
-<ul>
-<li><strong>10/02</strong>: Updated <code>~/.bash_profile</code> code</li>
+<li>Helm Docs: <a href="https://helm.sh/docs/topics/advanced/#post-rendering">Post Rendering</a></li>
+<li>thomastaylor312/Advanced Helm Demos: <a href="https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render/kustomize">Post render example</a></li>
+<li><a href="https://app.logz.io/#/dashboard/data-sources/Fluent-Bit">logz.io Fluent Bit config</a></li>
+<li>GitHub: <a href="https://github.com/helm/charts/blob/master/stable/fluent-bit/">Fluent Bit Helm chart</a></li>
 </ul>
   </div>
 
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
-	<a href="./tag/terminal.html"><i class="fa fa-tag"></i>terminal</a>&nbsp;
-	<a href="./tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
-	<a href="./tag/productivity.html"><i class="fa fa-tag"></i>productivity</a>&nbsp;
+	<a href="./tag/kubernetes.html"><i class="fa fa-tag"></i>kubernetes</a>&nbsp;
 	<a href="./tag/workflow.html"><i class="fa fa-tag"></i>workflow</a>&nbsp;
+	<a href="./tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -337,7 +253,7 @@ pyenv virtualenvwrapper_lazy
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./setting-up-pyenv-virtualenvwrapper.html" 
+        data-href="./helm-post-rendering-hook.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
