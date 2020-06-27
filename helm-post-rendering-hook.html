@@ -145,18 +145,24 @@
 <blockquote>
 <p>A post renderer can be used with <code>install</code>, <code>upgrade</code>, and <code>template</code></p>
 </blockquote>
-<p>Link to docs for:
-- <a href="https://helm.sh/docs/helm/helm_install/#helm-install"><code>helm install</code></a>
-- <a href="https://helm.sh/docs/helm/helm_upgrade/"><code>helm upgrade</code></a>
-- <a href="https://helm.sh/docs/helm/helm_template/"><code>helm template</code></a></p>
+<p>Link to docs for:</p>
+<ul>
+<li><a href="https://helm.sh/docs/helm/helm_install/#helm-install"><code>helm install</code></a></li>
+<li><a href="https://helm.sh/docs/helm/helm_upgrade/"><code>helm upgrade</code></a></li>
+<li><a href="https://helm.sh/docs/helm/helm_template/"><code>helm template</code></a></li>
+</ul>
+<h4>Diagram</h4>
+<p><img src="/images/40-49/helm_post_render_diagram.png" width="600" alt="Helm Post Render Hooks get applied before the manifest gets send to Kubernetes" /></p>
+<hr>
 <h3>Process</h3>
+<p>This section contains an overview of the workflow</p>
 <h4>Understand the Helm Deployment</h4>
 <p>Once you have the Helm chart you want to modify, spend a few minutes understanding how the chart works. Run a <code>helm template</code> to render charts locally. Get a rough idea of how things fit together.</p>
 <h4>Focus on ConfigMap</h4>
 <p>The <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"><code>ConfigMap</code></a> type allows you to modify files and settings for applications running on Kubernetes. This is what most post render hooks will modify.</p>
 <h4>Install Helm Chart</h4>
 <p>In order to customize the Helm chart, you must first understand the Helm chart. Do a <code>helm install</code>, check the container logs, examine the Kubernetes objects. Are the Kubernetes resources that were created the ones you expected to see?</p>
-<h4>Customizing Kubernetes Manifests</h4>
+<h4>Customize Kubernetes Manifest</h4>
 <p>Figure out which configurations you want to modify and write up a <code>kustomization.yaml</code> that specifies the key, value pairs you want in the final YAML being applied to your Kubernetes cluster.</p>
 <p>In my case, I wanted to replace the <code>fluent-bit-output.conf</code> and <code>fluent-bit-service.conf</code> files -- this forwards all application logs to logz.io. I did this by creating a <code>patch.yaml</code> file that contained the configuration I wanted:</p>
 <div class="highlight"><pre><span></span><span class="c1"># patch.yaml</span>
@@ -204,14 +210,18 @@
 
 <p>Check the docs for <a href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#how-to-apply-view-delete-objects-using-kustomize">additional YAML manipulation options</a>.</p>
 <h4>Post Render Executable</h4>
-<p>In order to execute the post render hook, you need to:</p>
-<ul>
-<li>create bash script that takes saves input to a file</li>
-<li>use <code>kustomize</code> to post-process</li>
-<li>send the YAML to be applied on the Kubernetes cluster</li>
-<li>delete files created during intermediate steps</li>
-</ul>
-<p>Added these steps to an executable bash script:</p>
+<p>I created the following executable script called <code>kustomize</code>:</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># save incoming YAML to file</span>
+cat &lt;<span class="p">&amp;</span><span class="m">0</span> &gt; all.yaml
+
+<span class="c1"># modify the YAML with kustomize</span>
+kustomize build . <span class="o">&amp;&amp;</span> rm all.yaml
+</pre></div>
+
+
+<p>Copy and paste into the terminal:</p>
 <div class="highlight"><pre><span></span><span class="go">printf &#39;#!/bin/bash\n\ncat &lt;&amp;0 &gt; all.yaml\n\nkustomize build . &amp;&amp; rm all.yaml&#39; &gt;&gt; kustomize</span>
 <span class="go">chmod +x kustomize</span>
 </pre></div>
@@ -226,7 +236,7 @@
 <h3>Conclusion</h3>
 <p>Helm's Post Rendering hooks allow you to customize Helm deployment without having to fork charts. I was able to hack together a solution that forwards my application logs to logz.io using Fluent Bit in an afternoon.</p>
 <p>While the solution isn't the most secure, it saves me $30/month. When I have time, it might be worth looking at ways I can template out this workflow using Helm and the Go templating language.</p>
-<h5>Additional Resources</h5>
+<h4>Additional Resources</h4>
 <ul>
 <li>Helm Docs: <a href="https://helm.sh/docs/topics/advanced/#post-rendering">Post Rendering</a></li>
 <li>thomastaylor312/Advanced Helm Demos: <a href="https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render/kustomize">Post render example</a></li>
@@ -318,70 +328,16 @@
 
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
-    <span class="tag-4">
-      <a href="./tag/community.html">
-          <i class="fa fa-tag"></i>
-        community
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/kubernetes.html">
-          <i class="fa fa-tag"></i>
-        kubernetes
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/vim.html">
-          <i class="fa fa-tag"></i>
-        vim
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/productivity.html">
-          <i class="fa fa-tag"></i>
-        productivity
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/web-scraping.html">
-          <i class="fa fa-tag"></i>
-        web-scraping
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/gis.html">
-          <i class="fa fa-tag"></i>
-        gis
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/data-science.html">
-          <i class="fa fa-tag"></i>
-        data-science
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/mac.html">
-          <i class="fa fa-tag"></i>
-        mac
-      </a>
-    </span>
     <span class="tag-1">
-      <a href="./tag/how-to.html">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
-        how-to
+        python
       </a>
     </span>
-    <span class="tag-3">
-      <a href="./tag/software-engineering.html">
+    <span class="tag-2">
+      <a href="./tag/pythonic.html">
           <i class="fa fa-tag"></i>
-        software-engineering
-      </a>
-    </span>
-    <span class="tag-4">
-      <a href="./tag/web-development.html">
-          <i class="fa fa-tag"></i>
-        web-development
+        pythonic
       </a>
     </span>
     <span class="tag-2">
@@ -390,22 +346,10 @@
         workflow
       </a>
     </span>
-    <span class="tag-3">
-      <a href="./tag/flask.html">
+    <span class="tag-4">
+      <a href="./tag/community.html">
           <i class="fa fa-tag"></i>
-        flask
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/mongodb.html">
-          <i class="fa fa-tag"></i>
-        mongodb
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/book.html">
-          <i class="fa fa-tag"></i>
-        book
+        community
       </a>
     </span>
     <span class="tag-4">
@@ -414,10 +358,16 @@
         math
       </a>
     </span>
-    <span class="tag-3">
-      <a href="./tag/docker.html">
+    <span class="tag-2">
+      <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
-        docker
+        data-science
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
       </a>
     </span>
     <span class="tag-2">
@@ -433,51 +383,39 @@
       </a>
     </span>
     <span class="tag-4">
+      <a href="./tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-4">
       <a href="./tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
         elasticsearch
       </a>
     </span>
-    <span class="tag-1">
-      <a href="./tag/python.html">
-          <i class="fa fa-tag"></i>
-        python
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/cest-la-vie.html">
-          <i class="fa fa-tag"></i>
-        c'est-la-vie
-      </a>
-    </span>
-    <span class="tag-3">
-      <a href="./tag/grad-school.html">
-          <i class="fa fa-tag"></i>
-        grad-school
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/reddit-scraper.html">
-          <i class="fa fa-tag"></i>
-        reddit-scraper
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/review.html">
-          <i class="fa fa-tag"></i>
-        review
-      </a>
-    </span>
     <span class="tag-4">
-      <a href="./tag/art-of-developer-testing.html">
+      <a href="./tag/gis.html">
           <i class="fa fa-tag"></i>
-        art-of-developer-testing
-      </a>
-    </span>
-    <span class="tag-2">
-      <a href="./tag/testing.html">
-          <i class="fa fa-tag"></i>
-        testing
+        gis
       </a>
     </span>
     <span class="tag-3">
@@ -486,22 +424,94 @@
         pandas
       </a>
     </span>
+    <span class="tag-3">
+      <a href="./tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/art-of-developer-testing.html">
+          <i class="fa fa-tag"></i>
+        art-of-developer-testing
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/kubernetes.html">
+          <i class="fa fa-tag"></i>
+        kubernetes
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/mac.html">
+          <i class="fa fa-tag"></i>
+        mac
+      </a>
+    </span>
     <span class="tag-4">
       <a href="./tag/php.html">
           <i class="fa fa-tag"></i>
         php
       </a>
     </span>
-    <span class="tag-2">
-      <a href="./tag/pythonic.html">
-          <i class="fa fa-tag"></i>
-        pythonic
-      </a>
-    </span>
     <span class="tag-3">
       <a href="./tag/data-viz.html">
           <i class="fa fa-tag"></i>
         data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
       </a>
     </span>
 </p>

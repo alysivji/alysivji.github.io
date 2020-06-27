@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-06-23T09:45:00-05:00</updated><entry><title>Modify Kubernetes Manifests with Helm Post Render Hooks</title><link href="http://alysivji.github.io/helm-post-rendering-hook.html" rel="alternate"></link><published>2020-06-23T09:45:00-05:00</published><updated>2020-06-23T09:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-23:/helm-post-rendering-hook.html</id><summary type="html">&lt;p&gt;As a learning exercise, I migrated all my side projects to Kubernetes. I was using &lt;a href="https://fluentbit.io/"&gt;Fluent Bit&lt;/a&gt; to forward application container logs to my ElasticSearch instance.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-06-27T12:00:00-05:00</updated><entry><title>Customize git for all projects in a directory</title><link href="http://alysivji.github.io/multiple-gitconfig-files.html" rel="alternate"></link><published>2020-06-27T12:00:00-05:00</published><updated>2020-06-27T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-27:/multiple-gitconfig-files.html</id><summary type="html">&lt;p&gt;Yesterday I gave an abridged version of my &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;Data Science Workflows using Docker Containers&lt;/a&gt; talk at my employer's Biweekly Engineering Lunch session.&lt;/p&gt;
+&lt;p&gt;It had been a minute since I last gave this talk so I ran through the examples to make sure everything worked. Having all my examples containerized is …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Yesterday I gave an abridged version of my &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;Data Science Workflows using Docker Containers&lt;/a&gt; talk at my employer's Biweekly Engineering Lunch session.&lt;/p&gt;
+&lt;p&gt;It had been a minute since I last gave this talk so I ran through the examples to make sure everything worked. Having all my examples containerized is a bit of a cheat code, but I did modify a couple of &lt;code&gt;Dockerfile&lt;/code&gt;s to make the demo function. Pushing my changes back to GitHub required me to change my local git repo config:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;git config user.name &amp;quot;Aly Sivji&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;git config user.email &amp;quot;alysivji@gmail.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is great, but it only works for that one project. And what if I forgot to change this setting?&lt;/p&gt;
+&lt;p&gt;I decided to overengineer this solution by creating a &lt;code&gt;.gitconfig&lt;/code&gt; that only applies in certain folders. This post documents how to enable multiple &lt;code&gt;.gitconfig&lt;/code&gt; files to control how Git looks and operates in different directories.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Git Config&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup"&gt;From git-scm&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates.&lt;/p&gt;
+&lt;p&gt;First, a quick review: Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in the system-wide /etc/gitconfig file, which contains settings that are applied to every user on the system and all of their repositories. If you pass the option --system to git config, it reads and writes from this file specifically.&lt;/p&gt;
+&lt;p&gt;The next place Git looks is the ~/.gitconfig (or ~/.config/git/config) file, which is specific to each user. You can make Git read and write to this file by passing the --global option.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Process&lt;/h3&gt;
+&lt;p&gt;Let's say that we want to have all folders inside of &lt;code&gt;~/siv-dev/client-work&lt;/code&gt; to have a different Name and Email in the commit logs.&lt;/p&gt;
+&lt;h4&gt;Create a &lt;code&gt;.gitconfig&lt;/code&gt; File&lt;/h4&gt;
+&lt;p&gt;This configuration file will contain settings we want to apply to all subdirectories. Create the following files and save to &lt;code&gt;~/siv-dev/client-world/.gitconfig&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[user]&lt;/span&gt;
+    &lt;span class="na"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;Aly Sivji&lt;/span&gt;
+&lt;span class="s"&gt;    email = client-work@alysivji.com&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Update Global &lt;code&gt;.gitconfig&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;We will need to add the following lines to our global &lt;code&gt;~/.gitconfig&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[includeIf &amp;quot;gitdir:~/siv-dev/client-work/&amp;quot;]&lt;/span&gt;
+    &lt;span class="na"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;~/siv-dev/client-work/.gitconfig&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's it. Now all repos inside of &lt;code&gt;~/siv-dev/client-work/&lt;/code&gt; will use the custom &lt;code&gt;.gitconfig&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;Happy Gitting!&lt;/p&gt;</content><category term="how-to"></category></entry><entry><title>Modify Kubernetes Manifests with Helm Post Render Hooks</title><link href="http://alysivji.github.io/helm-post-rendering-hook.html" rel="alternate"></link><published>2020-06-23T09:45:00-05:00</published><updated>2020-06-23T09:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-23:/helm-post-rendering-hook.html</id><summary type="html">&lt;p&gt;As a learning exercise, I migrated all my side projects to Kubernetes. I was using &lt;a href="https://fluentbit.io/"&gt;Fluent Bit&lt;/a&gt; to forward application container logs to my ElasticSearch instance.&lt;/p&gt;
 &lt;p&gt;Everything was working as expected, but the cluster was starting to get expensive. &lt;a href="https://www.digitalocean.com/products/kubernetes/"&gt;DigitalOcean Kubernetes&lt;/a&gt; is competitively priced, but paying $80/month to run …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As a learning exercise, I migrated all my side projects to Kubernetes. I was using &lt;a href="https://fluentbit.io/"&gt;Fluent Bit&lt;/a&gt; to forward application container logs to my ElasticSearch instance.&lt;/p&gt;
 &lt;p&gt;Everything was working as expected, but the cluster was starting to get expensive. &lt;a href="https://www.digitalocean.com/products/kubernetes/"&gt;DigitalOcean Kubernetes&lt;/a&gt; is competitively priced, but paying $80/month to run side projects is steep. Using a &lt;a href="http://logz.io"&gt;third-party logging and monitoring service with a generous free-tier&lt;/a&gt; would require fewer nodes in my cluster.&lt;/p&gt;
 &lt;p&gt;In order to get logs forwarded correctly, I had to use &lt;a href="https://helm.sh"&gt;Helm&lt;/a&gt;'s &lt;a href="https://helm.sh/docs/topics/advanced/#post-rendering"&gt;Post Rendering&lt;/a&gt; hooks to modify Kubernetes manifests before the respective chart is installed / upgraded on my cluster. I hacked together a solution that isn't the most secure, but it saves me $30 a month. It's also for a side project. Specifically, it's side project logs. My solution is good enough for now.&lt;/p&gt;
@@ -18,18 +54,24 @@
 &lt;blockquote&gt;
 &lt;p&gt;A post renderer can be used with &lt;code&gt;install&lt;/code&gt;, &lt;code&gt;upgrade&lt;/code&gt;, and &lt;code&gt;template&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Link to docs for:
-- &lt;a href="https://helm.sh/docs/helm/helm_install/#helm-install"&gt;&lt;code&gt;helm install&lt;/code&gt;&lt;/a&gt;
-- &lt;a href="https://helm.sh/docs/helm/helm_upgrade/"&gt;&lt;code&gt;helm upgrade&lt;/code&gt;&lt;/a&gt;
-- &lt;a href="https://helm.sh/docs/helm/helm_template/"&gt;&lt;code&gt;helm template&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Link to docs for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://helm.sh/docs/helm/helm_install/#helm-install"&gt;&lt;code&gt;helm install&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://helm.sh/docs/helm/helm_upgrade/"&gt;&lt;code&gt;helm upgrade&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://helm.sh/docs/helm/helm_template/"&gt;&lt;code&gt;helm template&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Diagram&lt;/h4&gt;
+&lt;p&gt;&lt;img src="/images/40-49/helm_post_render_diagram.png" width="600" alt="Helm Post Render Hooks get applied before the manifest gets send to Kubernetes" /&gt;&lt;/p&gt;
+&lt;hr&gt;
 &lt;h3&gt;Process&lt;/h3&gt;
+&lt;p&gt;This section contains an overview of the workflow&lt;/p&gt;
 &lt;h4&gt;Understand the Helm Deployment&lt;/h4&gt;
 &lt;p&gt;Once you have the Helm chart you want to modify, spend a few minutes understanding how the chart works. Run a &lt;code&gt;helm template&lt;/code&gt; to render charts locally. Get a rough idea of how things fit together.&lt;/p&gt;
 &lt;h4&gt;Focus on ConfigMap&lt;/h4&gt;
 &lt;p&gt;The &lt;a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"&gt;&lt;code&gt;ConfigMap&lt;/code&gt;&lt;/a&gt; type allows you to modify files and settings for applications running on Kubernetes. This is what most post render hooks will modify.&lt;/p&gt;
 &lt;h4&gt;Install Helm Chart&lt;/h4&gt;
 &lt;p&gt;In order to customize the Helm chart, you must first understand the Helm chart. Do a &lt;code&gt;helm install&lt;/code&gt;, check the container logs, examine the Kubernetes objects. Are the Kubernetes resources that were created the ones you expected to see?&lt;/p&gt;
-&lt;h4&gt;Customizing Kubernetes Manifests&lt;/h4&gt;
+&lt;h4&gt;Customize Kubernetes Manifest&lt;/h4&gt;
 &lt;p&gt;Figure out which configurations you want to modify and write up a &lt;code&gt;kustomization.yaml&lt;/code&gt; that specifies the key, value pairs you want in the final YAML being applied to your Kubernetes cluster.&lt;/p&gt;
 &lt;p&gt;In my case, I wanted to replace the &lt;code&gt;fluent-bit-output.conf&lt;/code&gt; and &lt;code&gt;fluent-bit-service.conf&lt;/code&gt; files -- this forwards all application logs to logz.io. I did this by creating a &lt;code&gt;patch.yaml&lt;/code&gt; file that contained the configuration I wanted:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# patch.yaml&lt;/span&gt;
@@ -77,14 +119,18 @@
 
 &lt;p&gt;Check the docs for &lt;a href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#how-to-apply-view-delete-objects-using-kustomize"&gt;additional YAML manipulation options&lt;/a&gt;.&lt;/p&gt;
 &lt;h4&gt;Post Render Executable&lt;/h4&gt;
-&lt;p&gt;In order to execute the post render hook, you need to:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;create bash script that takes saves input to a file&lt;/li&gt;
-&lt;li&gt;use &lt;code&gt;kustomize&lt;/code&gt; to post-process&lt;/li&gt;
-&lt;li&gt;send the YAML to be applied on the Kubernetes cluster&lt;/li&gt;
-&lt;li&gt;delete files created during intermediate steps&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Added these steps to an executable bash script:&lt;/p&gt;
+&lt;p&gt;I created the following executable script called &lt;code&gt;kustomize&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="c1"&gt;# save incoming YAML to file&lt;/span&gt;
+cat &amp;lt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &amp;gt; all.yaml
+
+&lt;span class="c1"&gt;# modify the YAML with kustomize&lt;/span&gt;
+kustomize build . &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm all.yaml
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Copy and paste into the terminal:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;printf &amp;#39;#!/bin/bash\n\ncat &amp;lt;&amp;amp;0 &amp;gt; all.yaml\n\nkustomize build . &amp;amp;&amp;amp; rm all.yaml&amp;#39; &amp;gt;&amp;gt; kustomize&lt;/span&gt;
 &lt;span class="go"&gt;chmod +x kustomize&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -99,7 +145,7 @@
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Helm's Post Rendering hooks allow you to customize Helm deployment without having to fork charts. I was able to hack together a solution that forwards my application logs to logz.io using Fluent Bit in an afternoon.&lt;/p&gt;
 &lt;p&gt;While the solution isn't the most secure, it saves me $30/month. When I have time, it might be worth looking at ways I can template out this workflow using Helm and the Go templating language.&lt;/p&gt;
-&lt;h5&gt;Additional Resources&lt;/h5&gt;
+&lt;h4&gt;Additional Resources&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Helm Docs: &lt;a href="https://helm.sh/docs/topics/advanced/#post-rendering"&gt;Post Rendering&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;thomastaylor312/Advanced Helm Demos: &lt;a href="https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render/kustomize"&gt;Post render example&lt;/a&gt;&lt;/li&gt;

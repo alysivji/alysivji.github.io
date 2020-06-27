@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-01-27T09:00:00-06:00</updated><entry><title>Managing Python dependencies with pip-tools and requirements.txt</title><link href="http://alysivji.github.io/python-managing-dependencies-with-pip-tools.html" rel="alternate"></link><published>2020-01-27T09:00:00-06:00</published><updated>2020-01-27T09:00:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-01-27:/python-managing-dependencies-with-pip-tools.html</id><summary type="html">&lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/The_Paradox_of_Choice"&gt;paradox of choice&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Quick Hits</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/quick-hits.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-06-27T12:00:00-05:00</updated><entry><title>Customize git for all projects in a directory</title><link href="http://alysivji.github.io/multiple-gitconfig-files.html" rel="alternate"></link><published>2020-06-27T12:00:00-05:00</published><updated>2020-06-27T12:00:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-27:/multiple-gitconfig-files.html</id><summary type="html">&lt;p&gt;Yesterday I gave an abridged version of my &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;Data Science Workflows using Docker Containers&lt;/a&gt; talk at my employer's Biweekly Engineering Lunch session.&lt;/p&gt;
+&lt;p&gt;It had been a minute since I last gave this talk so I ran through the examples to make sure everything worked. Having all my examples containerized is …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Yesterday I gave an abridged version of my &lt;a href="https://www.youtube.com/watch?v=oO8n3y23b6M"&gt;Data Science Workflows using Docker Containers&lt;/a&gt; talk at my employer's Biweekly Engineering Lunch session.&lt;/p&gt;
+&lt;p&gt;It had been a minute since I last gave this talk so I ran through the examples to make sure everything worked. Having all my examples containerized is a bit of a cheat code, but I did modify a couple of &lt;code&gt;Dockerfile&lt;/code&gt;s to make the demo function. Pushing my changes back to GitHub required me to change my local git repo config:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;git config user.name &amp;quot;Aly Sivji&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;git config user.email &amp;quot;alysivji@gmail.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is great, but it only works for that one project. And what if I forgot to change this setting?&lt;/p&gt;
+&lt;p&gt;I decided to overengineer this solution by creating a &lt;code&gt;.gitconfig&lt;/code&gt; that only applies in certain folders. This post documents how to enable multiple &lt;code&gt;.gitconfig&lt;/code&gt; files to control how Git looks and operates in different directories.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Git Config&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup"&gt;From git-scm&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates.&lt;/p&gt;
+&lt;p&gt;First, a quick review: Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in the system-wide /etc/gitconfig file, which contains settings that are applied to every user on the system and all of their repositories. If you pass the option --system to git config, it reads and writes from this file specifically.&lt;/p&gt;
+&lt;p&gt;The next place Git looks is the ~/.gitconfig (or ~/.config/git/config) file, which is specific to each user. You can make Git read and write to this file by passing the --global option.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Process&lt;/h3&gt;
+&lt;p&gt;Let's say that we want to have all folders inside of &lt;code&gt;~/siv-dev/client-work&lt;/code&gt; to have a different Name and Email in the commit logs.&lt;/p&gt;
+&lt;h4&gt;Create a &lt;code&gt;.gitconfig&lt;/code&gt; File&lt;/h4&gt;
+&lt;p&gt;This configuration file will contain settings we want to apply to all subdirectories. Create the following files and save to &lt;code&gt;~/siv-dev/client-world/.gitconfig&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[user]&lt;/span&gt;
+    &lt;span class="na"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;Aly Sivji&lt;/span&gt;
+&lt;span class="s"&gt;    email = client-work@alysivji.com&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Update Global &lt;code&gt;.gitconfig&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;We will need to add the following lines to our global &lt;code&gt;~/.gitconfig&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[includeIf &amp;quot;gitdir:~/siv-dev/client-work/&amp;quot;]&lt;/span&gt;
+    &lt;span class="na"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;~/siv-dev/client-work/.gitconfig&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's it. Now all repos inside of &lt;code&gt;~/siv-dev/client-work/&lt;/code&gt; will use the custom &lt;code&gt;.gitconfig&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;Happy Gitting!&lt;/p&gt;</content><category term="how-to"></category></entry><entry><title>Managing Python dependencies with pip-tools and requirements.txt</title><link href="http://alysivji.github.io/python-managing-dependencies-with-pip-tools.html" rel="alternate"></link><published>2020-01-27T09:00:00-06:00</published><updated>2020-01-27T09:00:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-01-27:/python-managing-dependencies-with-pip-tools.html</id><summary type="html">&lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/The_Paradox_of_Choice"&gt;paradox of choice&lt;/a&gt;
 in Python packaging tools makes dependency management more complex than it needs to be.
 In this &lt;a href="/category/quick-hits.html"&gt;Quick Hit&lt;/a&gt;,
 we will explore Python dependency management and
