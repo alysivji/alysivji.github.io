@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-06-28T03:15:00-05:00</updated><entry><title>Zip Zap Zop: Improv Level A at The Second City</title><link href="http://alysivji.github.io/second-city-improv-level-a.html" rel="alternate"></link><published>2020-06-28T03:15:00-05:00</published><updated>2020-06-28T03:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-28:/second-city-improv-level-a.html</id><summary type="html">&lt;p&gt;I started taking classes at &lt;a href="https://www.secondcity.com/courses/chicago/general-information/"&gt;The Second City Training Center&lt;/a&gt; in January this year. I was only able to complete &lt;a href="https://www.secondcity.com/courses/chicago/improv-program/"&gt;Level A&lt;/a&gt; before the world shut down because of COVID-19.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-09-07T16:45:00-05:00</updated><entry><title>Docker Tips: Install Package from a Private Git Repository</title><link href="http://alysivji.github.io/docker-tips-private-git-repo.html" rel="alternate"></link><published>2020-09-07T16:45:00-05:00</published><updated>2020-09-07T16:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-09-07:/docker-tips-private-git-repo.html</id><summary type="html">&lt;h3&gt;Problem&lt;/h3&gt;
+&lt;p&gt;Need to access a private Git repo inside of a Dockerfile during the &lt;code&gt;docker build&lt;/code&gt; process.&lt;/p&gt;
+&lt;h3&gt;Solution&lt;/h3&gt;
+&lt;p&gt;The main idea is to use HTTP Basic Authentication while downloading files using the &lt;code&gt;git&lt;/code&gt; command line client.&lt;/p&gt;
+&lt;h4&gt;Steps&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Personal Access Token with repo scope using your Git provider's interface …&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;h3&gt;Problem&lt;/h3&gt;
+&lt;p&gt;Need to access a private Git repo inside of a Dockerfile during the &lt;code&gt;docker build&lt;/code&gt; process.&lt;/p&gt;
+&lt;h3&gt;Solution&lt;/h3&gt;
+&lt;p&gt;The main idea is to use HTTP Basic Authentication while downloading files using the &lt;code&gt;git&lt;/code&gt; command line client.&lt;/p&gt;
+&lt;h4&gt;Steps&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Personal Access Token with repo scope using your Git provider's interface. Links for &lt;a href="https://github.com/settings/tokens"&gt;GitHub&lt;/a&gt;, &lt;a href="https://gitlab.com/profile/personal_access_tokens"&gt;GitLab&lt;/a&gt;, &lt;a href="https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html"&gt;BitBucket&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You will need to configure git to use the Access Token for authentication. Add the following line to your Dockerfile:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ARG GIT_ACCESS_TOKEN
+
+&lt;span class="c"&gt;# GitHub&lt;/span&gt;
+&lt;span class="k"&gt;RUN&lt;/span&gt; git config --global url.&lt;span class="s2"&gt;&amp;quot;https://&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;GIT_ACCESS_TOKEN&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;@github.com&amp;quot;&lt;/span&gt;.insteadOf &lt;span class="s2"&gt;&amp;quot;ssh://git@github.com&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;# GitLab&lt;/span&gt;
+&lt;span class="k"&gt;RUN&lt;/span&gt; git config --global url.&lt;span class="s2"&gt;&amp;quot;https://[insert_username]:&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;GIT_ACCESS_TOKEN&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;@gitlab.com&amp;quot;&lt;/span&gt;.insteadOf &lt;span class="s2"&gt;&amp;quot;ssh://git@gitlab.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;Run the &lt;code&gt;docker build&lt;/code&gt; command and pass in the access token created in Step 1:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;docker build --build-arg GIT_ACCESS_TOKEN=[insert-access-token-here] -t [image_name]:[image_tag] .&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Notes&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Your access token will be baked into the image and can be viewed using the &lt;code&gt;docker image inspect [image-name]&lt;/code&gt; command. If you are using this method in production, I recommend rotating your access keys every 15 minutes to ensure they do not get compromised.&lt;/li&gt;
+&lt;li&gt;Can also use &lt;a href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage builds&lt;/a&gt; to copy assets from private repos into the final image. While this method works, it adds a lot of unnecessary complication to the image building process just to keep sensitive information out of the image. Writing up a script to rotate keys is fairly trivial.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;code&gt;pip install&lt;/code&gt; from a Private Repo&lt;/h3&gt;
+&lt;p&gt;Personally, I use this workflow to &lt;code&gt;pip install&lt;/code&gt; a Python package from a private repo. In my &lt;code&gt;requirements.txt&lt;/code&gt; file, I list private packages in the following format:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git+ssh://git@github.com/{org-name}/{repo-name}.git@{commit}#egg={package-name}
+&lt;/pre&gt;&lt;/div&gt;</content><category term="how-to"></category></entry><entry><title>Zip Zap Zop: Improv Level A at The Second City</title><link href="http://alysivji.github.io/second-city-improv-level-a.html" rel="alternate"></link><published>2020-06-28T03:15:00-05:00</published><updated>2020-06-28T03:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-28:/second-city-improv-level-a.html</id><summary type="html">&lt;p&gt;I started taking classes at &lt;a href="https://www.secondcity.com/courses/chicago/general-information/"&gt;The Second City Training Center&lt;/a&gt; in January this year. I was only able to complete &lt;a href="https://www.secondcity.com/courses/chicago/improv-program/"&gt;Level A&lt;/a&gt; before the world shut down because of COVID-19.&lt;/p&gt;
 &lt;p&gt;It was a great experience and I was looking forward to more classes, but that wasn't in the cards for …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I started taking classes at &lt;a href="https://www.secondcity.com/courses/chicago/general-information/"&gt;The Second City Training Center&lt;/a&gt; in January this year. I was only able to complete &lt;a href="https://www.secondcity.com/courses/chicago/improv-program/"&gt;Level A&lt;/a&gt; before the world shut down because of COVID-19.&lt;/p&gt;
 &lt;p&gt;It was a great experience and I was looking forward to more classes, but that wasn't in the cards for the past few months.&lt;/p&gt;
 &lt;p&gt;Now that Chicago is slowly opening up again, I've started hanging out with my improv friends. It made me realize I should document my experience in Level A before I start my next class.&lt;/p&gt;
@@ -63,7 +108,7 @@
 
 
 &lt;p&gt;That's it. Now all repos inside of &lt;code&gt;~/siv-dev/client-work/&lt;/code&gt; will use the custom &lt;code&gt;.gitconfig&lt;/code&gt; file.&lt;/p&gt;
-&lt;p&gt;Happy Gitting!&lt;/p&gt;</content><category term="how-to"></category></entry><entry><title>Modify Kubernetes Manifests with Helm Post Render Hooks</title><link href="http://alysivji.github.io/helm-post-rendering-hook.html" rel="alternate"></link><published>2020-06-23T09:45:00-05:00</published><updated>2020-06-23T09:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-23:/helm-post-rendering-hook.html</id><summary type="html">&lt;p&gt;As a learning exercise, I migrated all my side projects to Kubernetes. I was using &lt;a href="https://fluentbit.io/"&gt;Fluent Bit&lt;/a&gt; to forward application container logs to my ElasticSearch instance.&lt;/p&gt;
+&lt;p&gt;Happy Gitting!&lt;/p&gt;</content><category term="how-to"></category></entry><entry><title>How to implement Helm Post Render Hooks</title><link href="http://alysivji.github.io/helm-post-rendering-hook.html" rel="alternate"></link><published>2020-06-23T09:45:00-05:00</published><updated>2020-06-23T09:45:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-06-23:/helm-post-rendering-hook.html</id><summary type="html">&lt;p&gt;As a learning exercise, I migrated all my side projects to Kubernetes. I was using &lt;a href="https://fluentbit.io/"&gt;Fluent Bit&lt;/a&gt; to forward application container logs to my ElasticSearch instance.&lt;/p&gt;
 &lt;p&gt;Everything was working as expected, but the cluster was starting to get expensive. &lt;a href="https://www.digitalocean.com/products/kubernetes/"&gt;DigitalOcean Kubernetes&lt;/a&gt; is competitively priced, but paying $80/month to run …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As a learning exercise, I migrated all my side projects to Kubernetes. I was using &lt;a href="https://fluentbit.io/"&gt;Fluent Bit&lt;/a&gt; to forward application container logs to my ElasticSearch instance.&lt;/p&gt;
 &lt;p&gt;Everything was working as expected, but the cluster was starting to get expensive. &lt;a href="https://www.digitalocean.com/products/kubernetes/"&gt;DigitalOcean Kubernetes&lt;/a&gt; is competitively priced, but paying $80/month to run side projects is steep. Using a &lt;a href="http://logz.io"&gt;third-party logging and monitoring service with a generous free-tier&lt;/a&gt; would require fewer nodes in my cluster.&lt;/p&gt;
 &lt;p&gt;In order to get logs forwarded correctly, I had to use &lt;a href="https://helm.sh"&gt;Helm&lt;/a&gt;'s &lt;a href="https://helm.sh/docs/topics/advanced/#post-rendering"&gt;Post Rendering&lt;/a&gt; hooks to modify Kubernetes manifests before the respective chart is installed / upgraded on my cluster. I hacked together a solution that isn't the most secure, but it saves me $30 a month. It's also for a side project. Specifically, it's side project logs. My solution is good enough for now.&lt;/p&gt;

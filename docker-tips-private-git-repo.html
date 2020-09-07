@@ -4,28 +4,27 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Description for search engine" />
+    <meta name="description" content="Workflow to access private Git repositories inside of the docker build process." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="My super title"/>
-    <meta property="og:url" content="../drafts/my-super-post.html"/>
-      <meta property="og:description" content="Description for search engine"/>
-      <meta property="article:section" content="Python"/>
-        <meta property="article:tag" content="pelican"/>
-        <meta property="article:tag" content="publishing"/>
-      <meta property="og:image"
-            content="https://alysivji.github.io/images/main/siv.jpeg"/>
+    <meta property="og:title" content="Docker Tips: Install Package from a Private Git Repository"/>
+    <meta property="og:url" content="./docker-tips-private-git-repo.html"/>
+      <meta property="og:description" content="Workflow to access private Git repositories inside of the docker build process."/>
+      <meta property="article:section" content="Quick Hits"/>
+        <meta property="article:tag" content="how-to"/>
+        <meta property="og:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="My super title">
-    <meta name="twitter:description" content="Description for search engine">
+    <meta name="twitter:title" content="Docker Tips: Install Package from a Private Git Repository">
+    <meta name="twitter:description" content="Workflow to access private Git repositories inside of the docker build process.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
-    <meta name="twitter:domain" content="..">
-      <meta property="twitter:image"
-            content="https://alysivji.github.io/images/main/siv.jpeg"/>
+    <meta name="twitter:domain" content=".">
+        <meta property="twitter:image"
+              content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>My super title - Siv Scripts</title>
+    <title>Docker Tips: Install Package from a Private Git Repository - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -37,17 +36,17 @@
             crossorigin="anonymous">
 
 
-      <link rel="stylesheet" href="../theme/css/tango.css" />
-      <link rel="stylesheet" href="../theme/css/voidybootstrap.css" />
-      <link rel="stylesheet" href="../theme/css/dataframe.css" />
-      <link rel="stylesheet" href="../theme/css/custom.css" />
+      <link rel="stylesheet" href="./theme/css/tango.css" />
+      <link rel="stylesheet" href="./theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="./theme/css/dataframe.css" />
+      <link rel="stylesheet" href="./theme/css/custom.css" />
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
 
-    <link rel="shortcut icon" href="../files/favicon.ico" />
+    <link rel="shortcut icon" href="./files/favicon.ico" />
         <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -72,21 +71,21 @@
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="../" rel="home">
+		<a class="navbar-brand" href="./" rel="home">
           <i class="fa fa-home fa-fw fa-lg"> </i> </a>
        </div>
 
       <div class="collapse navbar-collapse" id="main-navbar-collapse">
         <ul class="nav navbar-nav">
               <li>
-                <a href="../pages/about.html">About</a>
+                <a href="./pages/about.html">About</a>
               </li>
               <li>
-                <a href="../pages/talks.html">Talks</a>
+                <a href="./pages/talks.html">Talks</a>
               </li>
             <li class="divider"></li>
             <li class="">
-              <a href="../archives.html">Archives</a>
+              <a href="./archives.html">Archives</a>
             </li>
           <li class="divider"></li>
             <li><a href="http://alysivji.github.io/feeds/all.atom.xml"
@@ -99,7 +98,7 @@
 
 	<div class="jumbotron" id="overview">
 	  <div class="container">
-		<h1><a href="../">Siv Scripts</a></h1>
+		<h1><a href="./">Siv Scripts</a></h1>
 		<p class="lead">Solving Problems Using Code</p>
 	  </div>
 	</div>
@@ -110,36 +109,66 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Fri 03 December 2010
+  Mon 07 September 2020
 </abbr> <h1>
-  <a href="../drafts/my-super-post.html" rel="bookmark"
-     title="Permalink to My super title">
-    My super title
+  <a href="./docker-tips-private-git-repo.html" rel="bookmark"
+     title="Permalink to Docker Tips: Install Package from a Private Git Repository">
+    Docker Tips: Install Package from a Private Git Repository
   </a>
 </h1><div class="article-header-info">
   <p>
-      Posted by <a href="../author/aly-sivji.html">Aly Sivji</a>
+      Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="../category/python.html">
-      Python</a>
+    <a href="./category/quick-hits.html">
+      Quick Hits</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>Article content...
-https://github.com/robulouski/voidy-bootstrap#custom-metadata-tags</p>
-<p>http://docs.getpelican.com/en/latest/faq.html#can-i-use-arbitrary-metadata-in-my-templates</p>
-<p>https://moz.com/blog/seo-meta-tags</p>
-<p>https://cards-dev.twitter.com/validator
-https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary</p>
-<p>view-source:http://pbpython.com/visualization-tools-1.html</p>
-<p>https://developers.facebook.com/docs/sharing/webmasters/</p>
+	<h3>Problem</h3>
+<p>Need to access a private Git repo inside of a Dockerfile during the <code>docker build</code> process.</p>
+<h3>Solution</h3>
+<p>The main idea is to use HTTP Basic Authentication while downloading files using the <code>git</code> command line client.</p>
+<h4>Steps</h4>
+<ol>
+<li>
+<p>Create a Personal Access Token with repo scope using your Git provider's interface. Links for <a href="https://github.com/settings/tokens">GitHub</a>, <a href="https://gitlab.com/profile/personal_access_tokens">GitLab</a>, <a href="https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html">BitBucket</a>.</p>
+</li>
+<li>
+<p>You will need to configure git to use the Access Token for authentication. Add the following line to your Dockerfile:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span>ARG GIT_ACCESS_TOKEN
+
+<span class="c"># GitHub</span>
+<span class="k">RUN</span> git config --global url.<span class="s2">&quot;https://</span><span class="si">${</span><span class="nv">GIT_ACCESS_TOKEN</span><span class="si">}</span><span class="s2">@github.com&quot;</span>.insteadOf <span class="s2">&quot;ssh://git@github.com&quot;</span>
+
+<span class="c"># GitLab</span>
+<span class="k">RUN</span> git config --global url.<span class="s2">&quot;https://[insert_username]:</span><span class="si">${</span><span class="nv">GIT_ACCESS_TOKEN</span><span class="si">}</span><span class="s2">@gitlab.com&quot;</span>.insteadOf <span class="s2">&quot;ssh://git@gitlab.com&quot;</span>
+</pre></div>
+
+
+<ol>
+<li>Run the <code>docker build</code> command and pass in the access token created in Step 1:</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="go">docker build --build-arg GIT_ACCESS_TOKEN=[insert-access-token-here] -t [image_name]:[image_tag] .</span>
+</pre></div>
+
+
+<h3>Notes</h3>
+<ul>
+<li>Your access token will be baked into the image and can be viewed using the <code>docker image inspect [image-name]</code> command. If you are using this method in production, I recommend rotating your access keys every 15 minutes to ensure they do not get compromised.</li>
+<li>Can also use <a href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage builds</a> to copy assets from private repos into the final image. While this method works, it adds a lot of unnecessary complication to the image building process just to keep sensitive information out of the image. Writing up a script to rotate keys is fairly trivial.</li>
+</ul>
+<h3><code>pip install</code> from a Private Repo</h3>
+<p>Personally, I use this workflow to <code>pip install</code> a Python package from a private repo. In my <code>requirements.txt</code> file, I list private packages in the following format:</p>
+<div class="highlight"><pre><span></span>git+ssh://git@github.com/{org-name}/{repo-name}.git@{commit}#egg={package-name}
+</pre></div>
   </div>
 
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="../tag/pelican.html"><i class="fa fa-tag"></i>pelican</a>&nbsp;
-	<a href="../tag/publishing.html"><i class="fa fa-tag"></i>publishing</a>&nbsp;
+	<a href="./tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -153,7 +182,7 @@ https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summar
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="../drafts/my-super-post.html" 
+        data-href="./docker-tips-private-git-repo.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
@@ -201,15 +230,15 @@ https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summar
 <div class="col-xs-6 col-md-12">
 <h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
 <ul class="list-unstyled category-links">
-  <li><a href="../category/data-analysis.html" >
+  <li><a href="./category/data-analysis.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
-  <li><a href="../category/deep-dives.html" >
+  <li><a href="./category/deep-dives.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Deep Dives</a></li>
-  <li><a href="../category/quick-hits.html" >
+  <li><a href="./category/quick-hits.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Quick Hits</a></li>
-  <li><a href="../category/thoughts.html" >
+  <li><a href="./category/thoughts.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
-  <li><a href="../category/tutorials.html" >
+  <li><a href="./category/tutorials.html" >
     <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
 </ul>
 </div>
@@ -219,187 +248,187 @@ https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summar
 <h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
 <p class="tag-cloud">
     <span class="tag-4">
-      <a href="../tag/kubernetes.html">
+      <a href="./tag/kubernetes.html">
           <i class="fa fa-tag"></i>
         kubernetes
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/testing.html">
+      <a href="./tag/testing.html">
           <i class="fa fa-tag"></i>
         testing
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/mongodb.html">
+      <a href="./tag/mongodb.html">
           <i class="fa fa-tag"></i>
         mongodb
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/python.html">
+      <a href="./tag/python.html">
           <i class="fa fa-tag"></i>
         python
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/vim.html">
+      <a href="./tag/vim.html">
           <i class="fa fa-tag"></i>
         vim
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/web-scraping.html">
+      <a href="./tag/web-scraping.html">
           <i class="fa fa-tag"></i>
         web-scraping
       </a>
     </span>
     <span class="tag-1">
-      <a href="../tag/how-to.html">
+      <a href="./tag/how-to.html">
           <i class="fa fa-tag"></i>
         how-to
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/community.html">
+      <a href="./tag/community.html">
           <i class="fa fa-tag"></i>
         community
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/mac.html">
+      <a href="./tag/mac.html">
           <i class="fa fa-tag"></i>
         mac
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/review.html">
+      <a href="./tag/review.html">
           <i class="fa fa-tag"></i>
         review
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/book.html">
+      <a href="./tag/book.html">
           <i class="fa fa-tag"></i>
         book
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/art-of-developer-testing.html">
+      <a href="./tag/art-of-developer-testing.html">
           <i class="fa fa-tag"></i>
         art-of-developer-testing
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/web-development.html">
+      <a href="./tag/web-development.html">
           <i class="fa fa-tag"></i>
         web-development
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/data-viz.html">
+      <a href="./tag/data-viz.html">
           <i class="fa fa-tag"></i>
         data-viz
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/math.html">
+      <a href="./tag/math.html">
           <i class="fa fa-tag"></i>
         math
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/exploring-pypi.html">
+      <a href="./tag/exploring-pypi.html">
           <i class="fa fa-tag"></i>
         exploring-pypi
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/workflow.html">
+      <a href="./tag/workflow.html">
           <i class="fa fa-tag"></i>
         workflow
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/pandas.html">
+      <a href="./tag/pandas.html">
           <i class="fa fa-tag"></i>
         pandas
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/pythonic.html">
+      <a href="./tag/pythonic.html">
           <i class="fa fa-tag"></i>
         pythonic
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/cest-la-vie.html">
+      <a href="./tag/cest-la-vie.html">
           <i class="fa fa-tag"></i>
         c'est-la-vie
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/elasticsearch.html">
+      <a href="./tag/elasticsearch.html">
           <i class="fa fa-tag"></i>
         elasticsearch
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/docker.html">
+      <a href="./tag/docker.html">
           <i class="fa fa-tag"></i>
         docker
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/productivity.html">
+      <a href="./tag/productivity.html">
           <i class="fa fa-tag"></i>
         productivity
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/flask.html">
+      <a href="./tag/flask.html">
           <i class="fa fa-tag"></i>
         flask
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/reddit-scraper.html">
+      <a href="./tag/reddit-scraper.html">
           <i class="fa fa-tag"></i>
         reddit-scraper
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/grad-school.html">
+      <a href="./tag/grad-school.html">
           <i class="fa fa-tag"></i>
         grad-school
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/php.html">
+      <a href="./tag/php.html">
           <i class="fa fa-tag"></i>
         php
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/software-engineering.html">
+      <a href="./tag/software-engineering.html">
           <i class="fa fa-tag"></i>
         software-engineering
       </a>
     </span>
     <span class="tag-2">
-      <a href="../tag/data-science.html">
+      <a href="./tag/data-science.html">
           <i class="fa fa-tag"></i>
         data-science
       </a>
     </span>
     <span class="tag-3">
-      <a href="../tag/terminal.html">
+      <a href="./tag/terminal.html">
           <i class="fa fa-tag"></i>
         terminal
       </a>
     </span>
     <span class="tag-4">
-      <a href="../tag/gis.html">
+      <a href="./tag/gis.html">
           <i class="fa fa-tag"></i>
         gis
       </a>
