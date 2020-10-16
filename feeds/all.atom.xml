@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-10-16T14:30:00-05:00</updated><entry><title>Redirecting requests in Kubernetes</title><link href="http://alysivji.github.io/kubernetes-redirect-requests.html" rel="alternate"></link><published>2020-10-16T14:30:00-05:00</published><updated>2020-10-16T14:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-10-16:/kubernetes-redirect-requests.html</id><summary type="html">&lt;p&gt;This canonical URL for this blog is &lt;a href="https://alysivji.github.io/"&gt;alysivji.github.io&lt;/a&gt;. I have also set up nginx to forward requests to alysivji.com and sivji.com to this blog.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/all.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-10-16T15:15:00-05:00</updated><entry><title>My Week of JavaScript</title><link href="http://alysivji.github.io/week-of-javascript.html" rel="alternate"></link><published>2020-10-16T15:15:00-05:00</published><updated>2020-10-16T15:15:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-10-16:/week-of-javascript.html</id><summary type="html">&lt;p&gt;I had two weeks of vacation planned around PyCon, but canceled it since it didn't make sense to take time off when I couldn't go anywhere because of COVID-19.&lt;/p&gt;
+&lt;p&gt;I was feeling pretty down when the conference start date passed. I had spent the past few months looking forward to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I had two weeks of vacation planned around PyCon, but canceled it since it didn't make sense to take time off when I couldn't go anywhere because of COVID-19.&lt;/p&gt;
+&lt;p&gt;I was feeling pretty down when the conference start date passed. I had spent the past few months looking forward to connecting with all my friends in the Python community. It was hard to get work done and I found myself working longer hours to accomplish the same task.&lt;/p&gt;
+&lt;p&gt;I needed a break; decided to take a week off to learn a new language.&lt;/p&gt;
+&lt;p&gt;I choose JavaScript.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Why JavaScript&lt;/h3&gt;
+&lt;p&gt;JavaScript was the first language I started with when got serious about learning how to code. While I could hack together a solution, my underlying mental model of how things fit together wasn't that strong.&lt;/p&gt;
+&lt;p&gt;This is because I first learned JavaScript through the lens of a framework: first Angular and then React. It's a testament to framework creators that users are able to create functioning applications without having a firm grasp of the underlying language.&lt;/p&gt;
+&lt;p&gt;I appreciate the value of a framework once I understand the underlying principles they are trying to abstract. But when you're first starting out... learning a framework forces you to solve all problems using the framework's way of doing things. When I had to leave the comforts of Angular, I was lost. I didn't know the first thing about manipulating DOM objects without importing a library.&lt;/p&gt;
+&lt;p&gt;After spending the last few years diving deep into Python and Software Design, I wanted to relearn JavaScript for the ground up.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;How I Learned JavaScript&lt;/h3&gt;
+&lt;p&gt;I found a copy of &lt;a href="https://eloquentjavascript.net/"&gt;Eloquent JavaScript&lt;/a&gt;. Started on Page 1 and started working my way through the book. Read a chapter, did most of the exercises. Rinse. Repeat.&lt;/p&gt;
+&lt;p&gt;By the time I was done reading the book, I had written a fair amount of JavaScript.&lt;/p&gt;
+&lt;p&gt;Next I decided to work on focused projects where my goal was to reimplement games I already knew how to make. Once each MVP was done, I forced myself to do something I had not done before.&lt;/p&gt;
+&lt;p&gt;For example, when making pong, I decided to implement a multiplayer version using WebSockets. It wasn't hard to do, but figuring out all the components required forced me to research and learn more about the node ecosystem.&lt;/p&gt;
+&lt;p&gt;I also implemented a mostly-functioning Chess engine. My original solution used HTML and Chess piece emojis to make the game interactive in the browser. To stretch my skills, I added &lt;a href="https://chessboardjs.com/"&gt;chessboard.js&lt;/a&gt; as my front-end. This helped me understand how I can plug in 3rd party tools into JavaScript. Also helped me get better at writing Object-Oriented JavaScript.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Retrospective&lt;/h3&gt;
+&lt;p&gt;The only way to improve is to take a step back and assess your progress; &lt;a href="https://www.agilealliance.org/glossary/heartbeatretro/"&gt;retrospectives&lt;/a&gt; help me fine-tune my problem-solving skills.&lt;/p&gt;
+&lt;h4&gt;What went well&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;there are a lot of resources to help you learn JavaScript&lt;/li&gt;
+&lt;li&gt;YouTube is an incredible education platform&lt;/li&gt;
+&lt;li&gt;tools like &lt;a href="https://parceljs.org/"&gt;Parcel&lt;/a&gt; reduce complexity&lt;/li&gt;
+&lt;li&gt;no more having to dig into WebPack&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;What did not go well&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;not having a firm grasp of which type of JavaScript code I can use&lt;/li&gt;
+&lt;li&gt;ES5, ES6, ES7, node, TypeSrcipt. Lots of different &lt;em&gt;types&lt;/em&gt; of JavaScript&lt;/li&gt;
+&lt;li&gt;Parcel handled a lot of this complexity for me&lt;/li&gt;
+&lt;li&gt;not knowing what errors to search due to unfamiliarity of the ecosystem&lt;/li&gt;
+&lt;li&gt;the infamous &lt;a href="https://en.wikipedia.org/wiki/There_are_known_knowns"&gt;unknown unknowns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;have to deal with this every time we learn a new language or tool&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;What can I do better next time&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;ask people what books they would recommend if they had a week to learn&lt;/li&gt;
+&lt;li&gt;did poll friends for advice and got a helpful hint about setting up a minimal development environment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3&gt;Takeaways&lt;/h3&gt;
+&lt;h4&gt;Sandbox Development Environment&lt;/h4&gt;
+&lt;p&gt;A minimal development environment makes it easy to quickly iterate and debug. This recommendation is from my buddy Ian.&lt;/p&gt;
+&lt;h5&gt;Folder Structure&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="go"&gt;.&lt;/span&gt;
+&lt;span class="go"&gt;├── Makefile&lt;/span&gt;
+&lt;span class="go"&gt;├── index.css&lt;/span&gt;
+&lt;span class="go"&gt;├── index.html&lt;/span&gt;
+&lt;span class="go"&gt;└── index.js&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;File Contents&lt;/h4&gt;
+&lt;p&gt;Both &lt;code&gt;index.js&lt;/code&gt; and &lt;code&gt;index.css&lt;/code&gt; are empty.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;# Makefile&lt;/span&gt;
+&lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    parcel index.html
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- index.html --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;link&lt;/span&gt; &lt;span class="na"&gt;rel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;index.css&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;main&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;./index.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Learning Your Second Language&lt;/h4&gt;
+&lt;p&gt;It's a lot easier to learn a new language when you've already mastered a language.&lt;/p&gt;
+&lt;p&gt;Python looks like pseudocode. It makes code easy to write and easier to read. It's a fantastic first language. It's also a great language to learn new concepts in. I spent the past 3-4 years diving deep into Python and Software Design concepts.&lt;/p&gt;
+&lt;p&gt;When I was learning JavaScript, my brain was connecting dots. I was able to connect what I was learning into a concept I already knew.&lt;/p&gt;
+&lt;h4&gt;Fast Feedback Cycle&lt;/h4&gt;
+&lt;p&gt;I can see why JavaScript is one of the most popular languages. It's awesome to see the result of your work every time you refresh a page. It's the same feeling I get when I use the principles of Test-Driven Development.&lt;/p&gt;
+&lt;h4&gt;Vanilla JavaScript Can Only Take You So Far&lt;/h4&gt;
+&lt;p&gt;I spend the last day of my JS week relearning React. It was eyeopening to see all the ways a framework made front-end development easy. While vanilla JavaScript is great and can get the job done, it doesn't scale to large front-end projects.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Next Steps&lt;/h3&gt;
+&lt;p&gt;One of my goals in the next year is to complete &lt;a href="https://www.freecodecamp.org/learn"&gt;freecodecamp&lt;/a&gt;'s Responsive Web Design Certification.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Learning a language is a great way to stretch your skills. It makes you a better programmer by helping you connect dots in your head.&lt;/p&gt;</content><category term="c'est-la-vie"></category><category term="languages"></category><category term="javascript"></category></entry><entry><title>Redirecting requests in Kubernetes</title><link href="http://alysivji.github.io/kubernetes-redirect-requests.html" rel="alternate"></link><published>2020-10-16T14:30:00-05:00</published><updated>2020-10-16T14:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-10-16:/kubernetes-redirect-requests.html</id><summary type="html">&lt;p&gt;This canonical URL for this blog is &lt;a href="https://alysivji.github.io/"&gt;alysivji.github.io&lt;/a&gt;. I have also set up nginx to forward requests to alysivji.com and sivji.com to this blog.&lt;/p&gt;
 &lt;p&gt;This is all well and good when are you running nginx out of a VM, but what if  you are using the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This canonical URL for this blog is &lt;a href="https://alysivji.github.io/"&gt;alysivji.github.io&lt;/a&gt;. I have also set up nginx to forward requests to alysivji.com and sivji.com to this blog.&lt;/p&gt;
 &lt;p&gt;This is all well and good when are you running nginx out of a VM, but what if  you are using the &lt;a href="https://kubernetes.github.io/ingress-nginx/"&gt;Kubernetes NGINX Ingress Controller&lt;/a&gt;? Unless you are paying for NGINX Plus, you won't be able to &lt;a href="https://github.com/nginxinc/kubernetes-ingress/tree/master/examples/externalname-services"&gt;set up URL redirects using the ingress controller&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This post walkthrough my workaround to set up URL redirects in Kubernetes.&lt;/p&gt;

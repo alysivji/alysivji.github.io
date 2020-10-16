@@ -4,27 +4,29 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="Discussing my experience spending a week in the JavaScript ecosystem." />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Visualizing Stacks"/>
-    <meta property="og:url" content="./quick-hit-visualizing-stacks.html"/>
-      <meta property="article:section" content="Quick Hits"/>
-        <meta property="article:tag" content="python"/>
-        <meta property="article:tag" content="exploring-pypi"/>
+    <meta property="og:title" content="My Week of JavaScript"/>
+    <meta property="og:url" content="./week-of-javascript.html"/>
+      <meta property="og:description" content="Discussing my experience spending a week in the JavaScript ecosystem."/>
+      <meta property="article:section" content="Thoughts"/>
+        <meta property="article:tag" content="c'est-la-vie"/>
+        <meta property="article:tag" content="languages"/>
+        <meta property="article:tag" content="javascript"/>
         <meta property="og:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Visualizing Stacks">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="My Week of JavaScript">
+    <meta name="twitter:description" content="Discussing my experience spending a week in the JavaScript ecosystem.">
     <meta name="twitter:site" content="@CaiusSivjus">
     <meta name="twitter:creator" content="@CaiusSivjus">
     <meta name="twitter:domain" content=".">
         <meta property="twitter:image"
               content="https://alysivji.github.io/images/main/siv.jpeg"/>
 
-    <title>Visualizing Stacks - Siv Scripts</title>
+    <title>My Week of JavaScript - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -109,207 +111,120 @@
 <article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
   <header class="article-header">
 <abbr class="article-header-date">
-  Sat 09 September 2017
+  Fri 16 October 2020
 </abbr> <h1>
-  <a href="./quick-hit-visualizing-stacks.html" rel="bookmark"
-     title="Permalink to Visualizing Stacks">
-    Visualizing Stacks
+  <a href="./week-of-javascript.html" rel="bookmark"
+     title="Permalink to My Week of JavaScript">
+    My Week of JavaScript
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="./category/quick-hits.html">
-      Quick Hits</a>
+    <a href="./category/thoughts.html">
+      Thoughts</a>
     &nbsp;&nbsp;
   </p>
 </div> <!-- /.article-header-info -->  </header>
   <div class="content-body" itemprop="text articleBody">
-	<p>A <strong>stack</strong> is a linear data structure that holds a collection of items. We can define operations performed in a stack from the point of view of a user:</p>
+	<p>I had two weeks of vacation planned around PyCon, but canceled it since it didn't make sense to take time off when I couldn't go anywhere because of COVID-19.</p>
+<p>I was feeling pretty down when the conference start date passed. I had spent the past few months looking forward to connecting with all my friends in the Python community. It was hard to get work done and I found myself working longer hours to accomplish the same task.</p>
+<p>I needed a break; decided to take a week off to learn a new language.</p>
+<p>I choose JavaScript.</p>
+<hr>
+<h3>Why JavaScript</h3>
+<p>JavaScript was the first language I started with when got serious about learning how to code. While I could hack together a solution, my underlying mental model of how things fit together wasn't that strong.</p>
+<p>This is because I first learned JavaScript through the lens of a framework: first Angular and then React. It's a testament to framework creators that users are able to create functioning applications without having a firm grasp of the underlying language.</p>
+<p>I appreciate the value of a framework once I understand the underlying principles they are trying to abstract. But when you're first starting out... learning a framework forces you to solve all problems using the framework's way of doing things. When I had to leave the comforts of Angular, I was lost. I didn't know the first thing about manipulating DOM objects without importing a library.</p>
+<p>After spending the last few years diving deep into Python and Software Design, I wanted to relearn JavaScript for the ground up.</p>
+<hr>
+<h3>How I Learned JavaScript</h3>
+<p>I found a copy of <a href="https://eloquentjavascript.net/">Eloquent JavaScript</a>. Started on Page 1 and started working my way through the book. Read a chapter, did most of the exercises. Rinse. Repeat.</p>
+<p>By the time I was done reading the book, I had written a fair amount of JavaScript.</p>
+<p>Next I decided to work on focused projects where my goal was to reimplement games I already knew how to make. Once each MVP was done, I forced myself to do something I had not done before.</p>
+<p>For example, when making pong, I decided to implement a multiplayer version using WebSockets. It wasn't hard to do, but figuring out all the components required forced me to research and learn more about the node ecosystem.</p>
+<p>I also implemented a mostly-functioning Chess engine. My original solution used HTML and Chess piece emojis to make the game interactive in the browser. To stretch my skills, I added <a href="https://chessboardjs.com/">chessboard.js</a> as my front-end. This helped me understand how I can plug in 3rd party tools into JavaScript. Also helped me get better at writing Object-Oriented JavaScript.</p>
+<hr>
+<h3>Retrospective</h3>
+<p>The only way to improve is to take a step back and assess your progress; <a href="https://www.agilealliance.org/glossary/heartbeatretro/">retrospectives</a> help me fine-tune my problem-solving skills.</p>
+<h4>What went well</h4>
 <ul>
-<li><code>.push()</code> - add item to top</li>
-<li><code>.pop()</code> - remove and return item from top</li>
-<li><code>.peek()</code> - return top most element</li>
-<li><code>.is_empty()</code> - <code>True</code> if stack is empty, else <code>False</code></li>
+<li>there are a lot of resources to help you learn JavaScript</li>
+<li>YouTube is an incredible education platform</li>
+<li>tools like <a href="https://parceljs.org/">Parcel</a> reduce complexity</li>
+<li>no more having to dig into WebPack</li>
 </ul>
-<p>Elements inside of a stack follow a LIFO (<strong>l</strong>ast <strong>i</strong>n, <strong>f</strong>irst <strong>o</strong>ut) order of operations. Stacks can be implemented as a <a href="http://www.geeksforgeeks.org/linked-list-set-1-introduction/">linked list</a> with a pointer to the top element.</p>
-<p>In this post, we will explore the Stack <a href="https://en.wikipedia.org/wiki/Abstract_data_type">ADT</a> using the <a href="https://github.com/parrt/lolviz">lolviz</a> package that was featured in <a href="https://pythonbytes.fm/episodes/show/41/python-concurrency-from-the-ground-up-and-caring-for-our-community">Episode 41</a> of the <a href="https://pythonbytes.fm">Python Bytes</a> podcast.</p>
-<hr>
-<p>Import the <code>lolviz</code> library to visualize data structures.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lolviz</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-
-
-<p>Create <code>Node</code> class. This will be the basis of the linked list.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;Holds data and pointer to next node&#39;&#39;&#39;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">next_node</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">next_node</span> <span class="o">=</span> <span class="n">next_node</span>
-</pre></div>
-
-
-<p>Create <code>Stack</code> class with a pointer to the top element and a variable with the number of elements.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Stack</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;Implement Stack as a linked list&#39;&#39;&#39;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">False</span>
-
-    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
-
-    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Push item into stack&#39;&#39;&#39;</span>
-
-        <span class="c1"># point to where head is pointing</span>
-        <span class="n">next_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
-        <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">next_node</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node</span>
-
-    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;pop from empty stack&#39;</span><span class="p">)</span>
-
-        <span class="n">node_to_pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node_to_pop</span><span class="o">.</span><span class="n">next_node</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
-
-        <span class="k">return</span> <span class="n">node_to_pop</span><span class="o">.</span><span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;stack is empty&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Use lolviz to visualize data structure&#39;&#39;&#39;</span>
-
-        <span class="k">return</span> <span class="n">llistviz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">,</span> <span class="n">valuefield</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">nextfield</span><span class="o">=</span><span class="s1">&#39;next_node&#39;</span><span class="p">)</span>
-</pre></div>
-
-
-<hr>
-<p>Let's create a new Stack and add elements to it.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/10-19/14_output_11_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/10-19/14_output_12_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/10-19/14_output_13_0.svg"></p>
-<p>If we take a <code>.peak()</code> at the top most element, we should expect to get 3 back.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">peek</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>3
-</pre></div>
-
-
-<p>Looks good!</p>
-<p>Now we'll start to <code>.pop()</code> elements off the Stack.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>3
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/10-19/14_output_18_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>2
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/10-19/14_output_20_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>1
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="svg" src="/images/10-19/14_output_22_0.svg"></p>
-<p>The stack is now empty, we should get <code>IndexError</code> exception if we try to <code>.pop()</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>---------------------------------------------------------------------------
-
-IndexError                                Traceback (most recent call last)
-
-&lt;ipython-input-15-50ea7ec13fbe&gt; in &lt;module&gt;()
-----&gt; 1 stack.pop()
-
-
-&lt;ipython-input-3-3f28f4042a94&gt; in pop(self)
-     24     def pop(self):
-     25         if self.is_empty():
----&gt; 26             raise IndexError(&#39;pop from empty stack&#39;)
-     27
-     28         node_to_pop = self.head
-
-
-IndexError: pop from empty stack
-</pre></div>
-
-
-<hr>
-<p>In this post we used <a href="https://github.com/parrt/lolviz">lolviz</a> to visualize a linked list implementation of a Stack. It seems like a great utility that can be used to teach introductory Computer Science concepts.</p>
-<hr>
-<h4>Additional Resources</h4>
+<h4>What did not go well</h4>
 <ul>
-<li><a href="http://www.geeksforgeeks.org/stack-data-structure/">Stack Data Structure - GeeksforGeeks</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">Stack (abstract data type) - Wikipedia</a></li>
+<li>not having a firm grasp of which type of JavaScript code I can use</li>
+<li>ES5, ES6, ES7, node, TypeSrcipt. Lots of different <em>types</em> of JavaScript</li>
+<li>Parcel handled a lot of this complexity for me</li>
+<li>not knowing what errors to search due to unfamiliarity of the ecosystem</li>
+<li>the infamous <a href="https://en.wikipedia.org/wiki/There_are_known_knowns">unknown unknowns</a></li>
+<li>have to deal with this every time we learn a new language or tool</li>
 </ul>
+<h4>What can I do better next time</h4>
+<ul>
+<li>ask people what books they would recommend if they had a week to learn</li>
+<li>did poll friends for advice and got a helpful hint about setting up a minimal development environment</li>
+</ul>
+<hr>
+<h3>Takeaways</h3>
+<h4>Sandbox Development Environment</h4>
+<p>A minimal development environment makes it easy to quickly iterate and debug. This recommendation is from my buddy Ian.</p>
+<h5>Folder Structure</h5>
+<div class="highlight"><pre><span></span><span class="go">.</span>
+<span class="go">├── Makefile</span>
+<span class="go">├── index.css</span>
+<span class="go">├── index.html</span>
+<span class="go">└── index.js</span>
+</pre></div>
+
+
+<h4>File Contents</h4>
+<p>Both <code>index.js</code> and <code>index.css</code> are empty.</p>
+<div class="highlight"><pre><span></span><span class="c"># Makefile</span>
+<span class="nf">run</span><span class="o">:</span>
+    parcel index.html
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c">&lt;!-- index.html --&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;index.css&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;main&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./index.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<h4>Learning Your Second Language</h4>
+<p>It's a lot easier to learn a new language when you've already mastered a language.</p>
+<p>Python looks like pseudocode. It makes code easy to write and easier to read. It's a fantastic first language. It's also a great language to learn new concepts in. I spent the past 3-4 years diving deep into Python and Software Design concepts.</p>
+<p>When I was learning JavaScript, my brain was connecting dots. I was able to connect what I was learning into a concept I already knew.</p>
+<h4>Fast Feedback Cycle</h4>
+<p>I can see why JavaScript is one of the most popular languages. It's awesome to see the result of your work every time you refresh a page. It's the same feeling I get when I use the principles of Test-Driven Development.</p>
+<h4>Vanilla JavaScript Can Only Take You So Far</h4>
+<p>I spend the last day of my JS week relearning React. It was eyeopening to see all the ways a framework made front-end development easy. While vanilla JavaScript is great and can get the job done, it doesn't scale to large front-end projects.</p>
+<hr>
+<h3>Next Steps</h3>
+<p>One of my goals in the next year is to complete <a href="https://www.freecodecamp.org/learn">freecodecamp</a>'s Responsive Web Design Certification.</p>
+<hr>
+<h3>Conclusion</h3>
+<p>Learning a language is a great way to stretch your skills. It makes you a better programmer by helping you connect dots in your head.</p>
   </div>
 
 <div class="article-tag-list">
 <span class="label label-default">Tags</span>
-	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
-	<a href="./tag/exploring-pypi.html"><i class="fa fa-tag"></i>exploring-pypi</a>&nbsp;
+	<a href="./tag/cest-la-vie.html"><i class="fa fa-tag"></i>c'est-la-vie</a>&nbsp;
+	<a href="./tag/languages.html"><i class="fa fa-tag"></i>languages</a>&nbsp;
+	<a href="./tag/javascript.html"><i class="fa fa-tag"></i>javascript</a>&nbsp;
 </div>  <hr />
   <div class="well well-sm">  <!-- Social media sharing buttons -->
     <!-- Twitter -->
@@ -323,7 +238,7 @@ IndexError: pop from empty stack
 
     <!-- Facebook -->
     <div class="fb-like" 
-        data-href="./quick-hit-visualizing-stacks.html" 
+        data-href="./week-of-javascript.html" 
         data-layout="button_count" 
         data-action="like" data-show-faces="true" 
         data-share="true">
