@@ -702,7 +702,7 @@ pyenv virtualenvwrapper_lazy
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h5&gt;Notes:&lt;/h5&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;We used HTML &lt;code&gt;&amp;lt;DIV&amp;gt;&lt;/code&gt; elements and the &lt;a href="https://codepen.io/chriddyp/pen/bWLwgP"&gt;Dash Style Guide&lt;/a&gt; to design the layout&lt;/li&gt;
 &lt;li&gt;Tables can be rendered two different ways: &lt;a href="https://community.plot.ly/t/display-tables-in-dash/4707/13"&gt;Native HTML or Plotly Table&lt;/a&gt;&lt;/li&gt;
@@ -924,7 +924,7 @@ pyenv virtualenvwrapper_lazy
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h5&gt;Notes:&lt;/h5&gt;
+&lt;h5&gt;Notes&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;Data is queried from the database each time there is an interaction&lt;ul&gt;
 &lt;li&gt;We can &lt;a href="https://plot.ly/dash/performance"&gt;improve performance through memoization&lt;/a&gt;&lt;/li&gt;

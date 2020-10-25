@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explore how the Facade Design Pattern can be used in conjunction with the Clean Architecture and Hexagonal Architecture methodologies to wrap third-party integrations and add layers to your software design." />
+    <meta name="author" content="Aly Sivji" />
+    <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Using the Facade Pattern to Wrap Third-Party Integrations"/>
+    <meta property="og:url" content="./clean-architecture-with-the-facade-pattern.html"/>
+      <meta property="og:description" content="Explore how the Facade Design Pattern can be used in conjunction with the Clean Architecture and Hexagonal Architecture methodologies to wrap third-party integrations and add layers to your software design."/>
+      <meta property="article:section" content="Deep Dives"/>
+        <meta property="article:tag" content="python"/>
+        <meta property="article:tag" content="design-patterns"/>
+      <meta property="og:image"
+            content="https://alysivji.github.io/images/40-49/49_social.png"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Using the Facade Pattern to Wrap Third-Party Integrations">
+    <meta name="twitter:description" content="Explore how the Facade Design Pattern can be used in conjunction with the Clean Architecture and Hexagonal Architecture methodologies to wrap third-party integrations and add layers to your software design.">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content=".">
+      <meta property="twitter:image"
+            content="https://alysivji.github.io/images/40-49/49_social.png"/>
+
+    <title>Using the Facade Pattern to Wrap Third-Party Integrations - Siv Scripts</title>
+
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous">
+
+
+      <link rel="stylesheet" href="./theme/css/tango.css" />
+      <link rel="stylesheet" href="./theme/css/voidybootstrap.css" />
+      <link rel="stylesheet" href="./theme/css/dataframe.css" />
+      <link rel="stylesheet" href="./theme/css/custom.css" />
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" integrity="sha384-FFgGfda92tXC8nCNOxrCQ3R8x1TNkMFqDZVQdDaaJiiVbjkPBXIJBx0o7ETjy8Bh" crossorigin="anonymous"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="./files/favicon.ico" />
+        <link href="http://alysivji.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Siv Scripts Atom Feed" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90986575-1', '');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+	   <div class="navbar-header">
+		<button type="button" class="navbar-toggle"
+				data-toggle="collapse" data-target="#main-navbar-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="./" rel="home">
+          <i class="fa fa-home fa-fw fa-lg"> </i> </a>
+       </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+        <ul class="nav navbar-nav">
+              <li>
+                <a href="./pages/about.html">About</a>
+              </li>
+              <li>
+                <a href="./pages/talks.html">Talks</a>
+              </li>
+            <li class="divider"></li>
+            <li class="">
+              <a href="./archives.html">Archives</a>
+            </li>
+          <li class="divider"></li>
+            <li><a href="http://alysivji.github.io/feeds/all.atom.xml"
+                   type="application/atom+xml" rel="alternate">
+                <i class="fa fa-rss fa-fw fa-lg"></i> </a></li>
+        </ul> <!-- /nav -->
+      </div> <!-- /navbar-collapse -->
+	  </div> <!-- /container -->
+    </nav> <!-- /navbar -->
+
+	<div class="jumbotron" id="overview">
+	  <div class="container">
+		<h1><a href="./">Siv Scripts</a></h1>
+		<p class="lead">Solving Problems Using Code</p>
+	  </div>
+	</div>
+
+    <div class="container" id="main-container">
+      <div class="row">
+        <div class="col-md-9" id="content">
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Sun 25 October 2020
+</abbr> <h1>
+  <a href="./clean-architecture-with-the-facade-pattern.html" rel="bookmark"
+     title="Permalink to Using the Facade Pattern to Wrap Third-Party Integrations">
+    Using the Facade Pattern to Wrap Third-Party Integrations
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="./author/aly-sivji.html">Aly Sivji</a>
+    in 
+    <a href="./category/deep-dives.html">
+      Deep Dives</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p>The main idea behind Software Architecture Methodologies
+such as <a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a>
+and <a href="https://alistair.cockburn.us/hexagonal-architecture/">Hexagonal Architecture</a> is
+to create <a href="https://en.wikipedia.org/wiki/Loose_coupling">loosely coupled</a> components
+that can be organized into layers.
+This way of writing code
+leverages the <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation of concerns</a> design principle
+and makes our application easier to maintain, i.e. we can easily modify our code and test it using stubs.</p>
+<p>There are many ways we can create systems with layered architecture;
+one of the more popular techniques is
+to leverage <a href="https://en.wikipedia.org/wiki/Structural_pattern">Structural Design Patterns</a>
+to create explicit relationships between classes.
+This post explores how the <a href="https://en.wikipedia.org/wiki/Facade_pattern">Facade Pattern</a>
+can be used to wrap third-party integrations to improve software design.</p>
+<p>Note: this is a companion writeup to my talk,
+<a href="https://www.youtube.com/watch?v=zNbEdj3aGx0">Everyday Design Patterns: Facade Pattern</a>.</p>
+<hr>
+<h4>Table of Contents</h4>
+<!-- TOC -->
+
+<ul>
+<li><a href="#what-you-need-to-follow-along">What You Need to Follow Along</a></li>
+<li><a href="#project-description">Project Description</a></li>
+<li><a href="#direct-integration-implementation">Direct Integration Implementation</a></li>
+<li><a href="#facade-pattern">Facade Pattern</a></li>
+<li><a href="#facade-pattern-implementation">Facade Pattern Implementation</a></li>
+<li><a href="#facade-pattern-migrate-to-github-graphql-api">Facade Pattern: Migrate to GitHub GraphQL API</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#appendix-a-full-featured-facade">Appendix A: Full-Featured Facade</a></li>
+<li><a href="#appendix-b-testing-with-vcrpy">Appendix B: Testing with VCR.py</a></li>
+</ul>
+<!-- /TOC -->
+
+<hr>
+<p><a name="what-you-need-to-follow-along"></a></p>
+<h2>What You Need to Follow Along</h2>
+<h3>Language</h3>
+<ul>
+<li><a href="https://www.python.org/downloads/">Python 3.6+</a></li>
+</ul>
+<h3>Code</h3>
+<ul>
+<li><a href="https://github.com/siv-scripts/facade-pattern-blog-post">Github Repo</a></li>
+<li>contains a <a href="https://github.com/siv-scripts/facade-pattern-blog-post/blob/main/requirements.txt">requirements.txt</a> with pinned dependencies</li>
+</ul>
+<hr>
+<p><a name="project-description"></a></p>
+<h2>Project Description</h2>
+<p>We will be creating a <a href="https://en.wikipedia.org/wiki/Changelog">changelog</a> generator.</p>
+<p>When I cut a new release for software that I own,
+I include a CHANGELOG that describes all the changes made
+since the last release.</p>
+<p>Below is an example changelog;
+it contains a list
+of changes with links to the relevant GitHub Pull Request:</p>
+<p><center>
+<img src="/images/40-49/changelog_example.png" width="500" alt="Example changelog; list of changes with links to the relevant GitHub Pull Request" /><br />
+<em>Figure 1. Example Changelog</em>
+</center></p>
+<p>To simplify our example we'll make some assumptions:</p>
+<ul>
+<li>the master / main branch is protected and all changes need to be made through a Pull Request</li>
+<li>we squash all commits before merging into master; this means each commit in the master / main branch represents one change</li>
+</ul>
+<p>The process to generate a changelog is fairly straightforward:</p>
+<ul>
+<li>get the date of the last release using the GitHub API</li>
+<li>get all the commit messages since that date from the GitHub API</li>
+<li>format commit message into a changelog</li>
+</ul>
+<hr>
+<p><a name="direct-integration-implementation"></a></p>
+<h2>Direct Integration Implementation</h2>
+<p>In this section we will walk through our initial implementation of
+a changelog generator script;
+this script directly interacts with the GitHub API.</p>
+<h3>Changelog Script</h3>
+<p>Our command-line script looks as follows:</p>
+<div class="highlight"><pre><span></span><span class="c1"># changelog/a_direct_integration.py</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<span class="k">def</span> <span class="nf">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="n">BASE_URL</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;https://api.github.com/repos/{owner}/{repo}&quot;</span>
+
+    <span class="c1"># get release date</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{BASE_URL}/releases/tags/{version}&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Version does not exist&quot;</span><span class="p">)</span>
+    <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;published_at&quot;</span><span class="p">]</span>
+
+    <span class="c1"># get commit messages</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sha&quot;</span><span class="p">:</span> <span class="s2">&quot;master&quot;</span><span class="p">,</span> <span class="s2">&quot;since&quot;</span><span class="p">:</span> <span class="n">release_dt</span><span class="p">}</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{BASE_URL}/commits&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="n">commit_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;commit&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
+
+    <span class="c1"># format</span>
+    <span class="n">changelog</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">commit_messages</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">changelog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;- {message}&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">changelog</span>
+
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Generate changelog for repository&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--repo&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path to repository, (abc/xyz)&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--version&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Version to generate CHANGELOG from&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;repo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid repo&quot;</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">changelog</span><span class="p">))</span>
+</pre></div>
+
+
+<p>We can run this script as follows:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> python changelog/a_direct_integration.py -r busy-beaver-dev/busy-beaver -v <span class="m">2</span>.9.0
+
+<span class="go">CHANGELOG</span>
+
+<span class="go">- Merge dictionaries using new operator in Python 3.9 (#336)</span>
+</pre></div>
+
+
+<h4>Notes</h4>
+<ul>
+<li>used <a href="https://requests.readthedocs.io/en/master/">requests</a> to interact with the GitHub API</li>
+<li>used <a href="https://docs.python.org/3/library/argparse.html">argparse</a> to capture and parse command-line arguments</li>
+</ul>
+<h3>Testing Script</h3>
+<p>To figure out what / how to test,
+we need to understand our current workflow.</p>
+<p><center>
+<img src="/images/40-49/changelog_workflow_with_github.png" width="500" alt="Diagram of Changelog Script workflow: script interacts with the GitHub API" /><br />
+<em>Figure 2. Diagram of Changelog Script workflow: script interacts with the GitHub API.</em>
+</center></p>
+<p>The GitHub API is an external dependency
+that adds complexity to our testing process.
+It makes our tests slow as we have the
+additional overhead of making API requests across the internet.
+Also, what if GitHub goes down?
+The tests which depend on GitHub are going to fail.
+That doesn't make a lot of sense.</p>
+<p>This is why we replace our dependency on the GitHub API
+with a stub that returns canned responses.</p>
+<p><center>
+<img src="/images/40-49/changelog_workflow_with_stub.png" width="500" alt="Diagram of Changelog Script workflow: script interacts with the GitHub API" /><br />
+<em>Figure 3. Diagram of Changelog Script workflow for tests: script interacts with the GitHub API Stub.</em>
+</center></p>
+<p>In Python, we can use the <a href="https://github.com/getsentry/responses">responses</a> library
+to create and return canned responses
+for interactions made using the requests library.
+We can specify the JSON to return when a specified endpoint is hit with a known HTTP verb.
+Stubbing out external dependencies also makes our tests <a href="testing-101-introduction-to-testing.html#what-is-testing-deterministic">determinstic</a>.</p>
+<p>Our tests look as follows:</p>
+<div class="highlight"><pre><span></span><span class="c1"># tests/test_a_direct_integration.py</span>
+
+<span class="kn">import</span> <span class="nn">responses</span>
+
+<span class="kn">from</span> <span class="nn">changelog.a_direct_integration</span> <span class="kn">import</span> <span class="n">generate_changelog</span>
+
+
+<span class="nd">@responses.activate</span>
+<span class="k">def</span> <span class="nf">test_generate_changelog</span><span class="p">():</span>
+    <span class="c1"># Arrange -- created canned responses</span>
+    <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span>
+        <span class="s2">&quot;https://api.github.com/repos/owner/repo/releases/tags/1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;published_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2020-01-26&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span>
+        <span class="s2">&quot;https://api.github.com/repos/owner/repo/commits&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;last commit&quot;</span><span class="p">}},</span>
+            <span class="p">{</span><span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;first commit&quot;</span><span class="p">}},</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Act</span>
+    <span class="n">changelog</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="s2">&quot;repo&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Assert</span>
+    <span class="k">assert</span> <span class="n">changelog</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;- first commit&quot;</span><span class="p">,</span> <span class="s2">&quot;- last commit&quot;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>To run our test:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> pytest tests/test_a_direct_integration.py
+
+<span class="go">================== test session starts ==================</span>
+<span class="go">platform darwin -- Python 3.9.0, pytest-6.1.1, py-1.9.0, pluggy-0.13.1</span>
+<span class="go">rootdir: /Users/alysivji/siv-dev/siv-scripts/clean-architecture--facade-pattern</span>
+<span class="go">collected 1 item</span>
+
+<span class="go">tests/test_a_direct_integration.py .              [100%]</span>
+
+<span class="go">=================== 1 passed in 0.12s ===================</span>
+</pre></div>
+
+
+<h3>Problem with Current Approach</h3>
+<p>The implementation above works,
+but it <a href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)">couples</a> our code
+to something we do not control.
+If there is a change to our external dependency,
+we will have to update the <code>generate_changelog</code> function.
+Possible changes include:</p>
+<ul>
+<li>having to modify our code if there is a GitHub API version upgrade</li>
+<li>rewriting our entire integration logic if we move our project to GitLab</li>
+</ul>
+<p>Neither of these changes would affect our actual business logic,
+but we would still have to modify our code
+as it is tightly coupled with the integration.</p>
+<p>This is where the Facade Pattern comes in.
+The Facade Pattern helps us
+separate parts of our code that change
+from parts of our code that stay the same.</p>
+<hr>
+<p><a name="facade-pattern"></a></p>
+<h2>Facade Pattern</h2>
+<blockquote>
+<p>Provides a unified interface to a set of interfaces in a subsystem. The Facade defines a higher-level interface that makes the subsystem easier to use.</p>
+<ul>
+<li><em>Head First Design Patterns</em></li>
+</ul>
+</blockquote>
+<p>In this section, we will discuss the Facade Pattern.</p>
+<h3>Real World Example</h3>
+<p>(This example from Head First Design Patterns)</p>
+<p>Imagine we have a home theatre system
+with many different components:
+TV, cable box, receiver, BluRay player, and some lights.
+Each of the components of this home theatre system
+has its own remote we can use to interact with it.</p>
+<p><center>
+<img src="/images/40-49/lots-of-remotes.png" width="400" alt="Lots of remotes; one for each component of a home theatre system" /><br />
+<em>Figure 4. Remote for each component of a home theatre system.</em>
+</center></p>
+<p>Or we can program a <a href="https://www.google.com/search?tbm=isch&amp;q=logitech+harmony+remote">universal remote</a>
+with a simple interface.
+This remote will be our Facade
+to our home theatre system.</p>
+<p><center>
+<img src="/images/40-49/universal_remote.png" width="500" alt="Universal remote with a simple interface" /><br />
+<em>Figure 5. Universal remote with a simple interface</em>
+</center></p>
+<p>We can interact with our interface:</p>
+<ul>
+<li>The "Watch TV" button can turn on your TV and cable box</li>
+<li>The "Watch a DVD" button can turn on your TV and BluRay player, also dim your lights</li>
+</ul>
+<p>If we need to access advanced features of any of our devices,
+we can use its supplied remote.
+But for most use cases,
+the universal remote does what we need.</p>
+<h3>Class Diagram</h3>
+<p>We can visualize the Facade Pattern using the following diagram:</p>
+<p><center>
+<img src="/images/40-49/facade_pattern_class_diagram.png" width="500" alt="Facade Pattern Class Diagram" /><br />
+<em>Figure 6. Facade Pattern Class Diagram</em>
+</center></p>
+<p>In the above diagram, we have multiple clients interacting with a complex subsystem through a Facade.</p>
+<h3>Use Cases</h3>
+<p>We can use the Facade Pattern to:</p>
+<h4>Wrap Third-Party Integrations</h4>
+<p>Third-party integrations (libraries, APIs, SDKs)
+are general-purpose tools
+designed to solve many different types of problems.
+Usually, we only require a small subset
+of the functionality a library provides.</p>
+<p>We can use the Facade Pattern
+to "wrap" our integration
+and only expose the functionality we require.</p>
+<p>If our clients requires additional functionality
+from a third-party integration,
+we can expand the interface of our Facade
+for that use case.
+Our <a href="https://devopedia.org/leaky-abstractions">abstraction starts to leak</a>
+if clients start bypassing the Facade.</p>
+<h4>Break Apart a Monolith</h4>
+<p>We can use the Facade Pattern to move from a monolith to microservices.
+Once we know the functionality we are migrating into a new service,
+we place this logic inside of a Facade.
+Then we rewrite our monolith's business logic to use the Facade.</p>
+<p>Then when we are ready,
+we can replace method calls inside of the Facade
+with calls to another service via an API
+or by putting tasks on a queue.</p>
+<h3>Benefits of the Facade Pattern</h3>
+<p>Using the Facade Pattern provides the following benefits:</p>
+<h4>Reduces interface of 3rd party integrations</h4>
+<p>Usually, we only require a small subset
+of functionality from third-party libraries.
+We can use the Facade Pattern
+to simplify a library's interface
+to only the subset we require.</p>
+<p>This can also improve our code's readability.
+Instead of directly integrating dependencies using each library's API,
+we can write business logic in the language of our problem domain.</p>
+<h4>Weak Coupling</h4>
+<p>Our clients do not need to know about
+the underlying implementation of the integration.
+They only need to know the integration's interface:
+function names, what parameters it takes, what it sends back.</p>
+<p>We can change the implementation of the integration
+and our clients wouldn't know as long as the interface stayed the same.
+Another way to say this is:
+we <a href="https://stackoverflow.com/questions/2697783/what-does-program-to-interfaces-not-implementations-mean">"program to interfaces, not to implementations"</a>
+.</p>
+<h4>Separation of concerns</h4>
+<p>We abstract parts of our code that change,
+from parts of our code that stay the same.
+This allows us to develop and
+test each component independently.</p>
+<h4>Test by replacing each component boundary with a value</h4>
+<p>Just like we stubbed out the GitHub API,
+we can stub out each boundary and unit test our
+component.
+There is a <a href="https://www.youtube.com/watch?v=eOYal8elnZk">great talk by Gary Bernhardt</a>
+that explores this topic in a lot more depth.</p>
+<hr>
+<p><a name="facade-pattern-implementation"></a></p>
+<h2>Facade Pattern Implementation</h2>
+<p>We will refactor our previous script using the Facade Pattern.
+To do this we need to wrap all the logic associated
+with the GitHub API in a class.</p>
+<p>Another way to say this is:
+we want to <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)">encapsulate</a> the GitHub API
+into a higher-order <a href="https://en.wikipedia.org/wiki/Abstraction_(computer_science)#Abstraction_in_object_oriented_programming">abstraction</a>
+that we can use in our business logic.</p>
+<h3>Changelog Script</h3>
+<p>Our updated command-line script looks as follows:</p>
+<div class="highlight"><pre><span></span><span class="c1"># changelog/b_facade.py</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://api.github.com&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">()</span>
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_release_date</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="n">commit_messages</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_commit_messages</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">)</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">commit_messages</span><span class="p">:</span>
+        <span class="n">changelog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;- {message}&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">changelog</span>
+
+
+<span class="k">class</span> <span class="nc">GitHubClient</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Facade around GitHub REST API&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_release_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{BASE_URL}/repos/{owner}/{repo}/releases/tags/{version}&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Version does not exist&quot;</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;published_at&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_commit_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{BASE_URL}/repos/{owner}/{repo}/commits&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sha&quot;</span><span class="p">:</span> <span class="s2">&quot;master&quot;</span><span class="p">,</span> <span class="s2">&quot;since&quot;</span><span class="p">:</span> <span class="n">release_dt</span><span class="p">}</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;commit&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="n">messages</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Generate changelog for repository&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--repo&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path to repository, (abc/xyz)&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--version&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Version to generate CHANGELOG from&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;repo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid repo&quot;</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">changelog</span><span class="p">))</span>
+</pre></div>
+
+
+<p>We can run this script as follows:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> python changelog/b_facade.py -r busy-beaver-dev/busy-beaver -v <span class="m">2</span>.9.0
+
+<span class="go">CHANGELOG</span>
+
+<span class="go">- Merge dictionaries using new operator in Python 3.9 (#336)</span>
+</pre></div>
+
+
+<h4>Notes</h4>
+<ul>
+<li>this is a simple Facade that retrieves information from public GitHub repos</li>
+<li>using sessions can improve performance, see <a href="#appendix-a-full-featured-facade">Appendix A</a></li>
+</ul>
+<h3>Testing Script</h3>
+<p>To test the above script,
+we need to use responses as we did before.
+We will also need to test the <code>generate_changelog</code> driver function
+which interacts with the Facade to create a changelog.</p>
+<p>This looks as follows:</p>
+<div class="highlight"><pre><span></span><span class="c1"># tests/test_b_facade.py</span>
+
+<span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span>
+<span class="kn">import</span> <span class="nn">responses</span>
+
+<span class="kn">from</span> <span class="nn">changelog.b_facade</span> <span class="kn">import</span> <span class="n">generate_changelog</span><span class="p">,</span> <span class="n">GitHubClient</span>
+
+
+<span class="nd">@responses.activate</span>
+<span class="k">def</span> <span class="nf">test_github_client_get_release_date</span><span class="p">():</span>
+    <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span>
+        <span class="s2">&quot;https://api.github.com/repos/owner/repo/releases/tags/1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;published_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2020-01-26&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">()</span>
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_release_date</span><span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="s2">&quot;repo&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">release_dt</span> <span class="o">==</span> <span class="s2">&quot;2020-01-26&quot;</span>
+
+
+<span class="nd">@responses.activate</span>
+<span class="k">def</span> <span class="nf">test_github_client_get_commit_messages</span><span class="p">():</span>
+    <span class="n">responses</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">responses</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span>
+        <span class="s2">&quot;https://api.github.com/repos/owner/repo/commits&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;last commit&quot;</span><span class="p">}},</span>
+            <span class="p">{</span><span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;first commit&quot;</span><span class="p">}},</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">()</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_commit_messages</span><span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="s2">&quot;repo&quot;</span><span class="p">,</span> <span class="s2">&quot;release_dt&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">messages</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;first commit&quot;</span><span class="p">,</span> <span class="s2">&quot;last commit&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">GitHubClientStub</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commit_messages</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commit_messages</span> <span class="o">=</span> <span class="n">commit_messages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mock</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">Mock</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_release_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mock</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_commit_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mock</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_messages</span>
+
+
+<span class="nd">@mock.patch</span><span class="p">(</span><span class="s2">&quot;changelog.b_facade.GitHubClient&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_generate_changelog</span><span class="p">(</span><span class="n">github_mock</span><span class="p">):</span>
+    <span class="n">commit_messages</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;first commit&quot;</span><span class="p">,</span> <span class="s2">&quot;last commit&quot;</span><span class="p">]</span>
+    <span class="n">github_mock</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">GitHubClientStub</span><span class="p">(</span><span class="n">commit_messages</span><span class="p">)</span>
+
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="s2">&quot;repo&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">messages</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;- first commit&quot;</span><span class="p">,</span> <span class="s2">&quot;- last commit&quot;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>To run our test:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> pytest tests/test_b_facade.py
+
+<span class="go">================== test session starts ==================</span>
+<span class="go">platform darwin -- Python 3.9.0, pytest-6.1.1, py-1.9.0, pluggy-0.13.1</span>
+<span class="go">rootdir: /Users/alysivji/siv-dev/siv-scripts/clean-architecture--facade-pattern</span>
+<span class="go">collected 3 items</span>
+
+<span class="go">tests/test_b_facade.py ...                        [100%]</span>
+
+<span class="go">=================== 3 passed in 0.11s ===================</span>
+</pre></div>
+
+
+<h4>Notes</h4>
+<ul>
+<li>in addition to replacing our GitHub integration boundary with a stub, we also replaced our internal integration boundary with a value<ul>
+<li>this way of development allows us write robust tests; we can write loads of unit tests to make sure each component works as expected</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><a name="facade-pattern-migrate-to-github-graphql-api"></a></p>
+<h2>Facade Pattern: Migrate to GitHub GraphQL API</h2>
+<p>Now that we wrapped the GitHub API,
+let's explore how to refactor the underlying implementation
+in the Facade without changing business logic.</p>
+<p>Throughout this post,
+we have been interacting with GitHub using the REST API interface.
+In this section,
+we will be migrating our integration to use the GraphQL API.</p>
+<p>There are many videos that describe
+what <a href="https://www.youtube.com/watch?v=zvZP0PVAdR0">GraphQL is and how to use it</a>,
+but that's beyond the scope of what we need to know.
+For our purposes,
+GraphQL is a query language
+that retrieves the exact data we ask for.
+Instead of having to parse through large JSON blobs,
+we can make requests to get the exact information we need.</p>
+<h3>Changelog Script</h3>
+<p>Our refactored integration looks as follows:</p>
+<div class="highlight"><pre><span></span><span class="c1"># changelog/c_graphyql.py</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="kn">from</span> <span class="nn">sgqlc.endpoint.requests</span> <span class="kn">import</span> <span class="n">RequestsEndpoint</span>
+
+<span class="n">GITHUB_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GITHUB_TOKEN&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://api.github.com&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">(</span><span class="n">GITHUB_TOKEN</span><span class="p">)</span>
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_release_date</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="n">commit_messages</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_commit_messages</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">)</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">commit_messages</span><span class="p">:</span>
+        <span class="n">changelog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;- {message}&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">changelog</span>
+
+
+<span class="k">class</span> <span class="nc">GitHubClient</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Facade around GitHub GraphQL API&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth_token</span><span class="p">):</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;Bearer {GITHUB_TOKEN}&quot;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">RequestsEndpoint</span><span class="p">(</span><span class="s2">&quot;https://api.github.com/graphql&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_release_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        query findReleaseDt($owner: String!, $repo: String!, $tag: String!) {</span>
+<span class="s2">            repository(owner: $owner, name: $repo) {</span>
+<span class="s2">                release(tagName: $tag) {</span>
+<span class="s2">                    publishedAt</span>
+<span class="s2">                }</span>
+<span class="s2">            }</span>
+<span class="s2">        }</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="n">owner</span><span class="p">,</span> <span class="s2">&quot;repo&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="n">tag</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;repository&quot;</span><span class="p">][</span><span class="s2">&quot;release&quot;</span><span class="p">][</span><span class="s2">&quot;publishedAt&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># returns {&quot;release&quot;: None} if tag does not exist</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Version does not exist&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_commit_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        query commitsSinceDt($owner: String!, $repo: String!, $branch: String!, $since_dt: GitTimestamp) {</span>
+<span class="s2">            repository(owner: $owner, name: $repo) {</span>
+<span class="s2">                object(expression: $branch) {</span>
+<span class="s2">                    ... on Commit {</span>
+<span class="s2">                        history(since: $since_dt) {</span>
+<span class="s2">                            nodes {</span>
+<span class="s2">                                messageHeadline</span>
+<span class="s2">                            }</span>
+<span class="s2">                        }</span>
+<span class="s2">                    }</span>
+<span class="s2">                }</span>
+<span class="s2">            }</span>
+<span class="s2">        }</span>
+<span class="s2">        &quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="n">owner</span><span class="p">,</span>
+            <span class="s2">&quot;repo&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="p">,</span>
+            <span class="s2">&quot;branch&quot;</span><span class="p">:</span> <span class="s2">&quot;master&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;since_dt&quot;</span><span class="p">:</span> <span class="n">release_dt</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;errors&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c1"># loop thru this: data[&quot;errors&quot;][0][&quot;message&quot;]</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+
+        <span class="n">commits</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;repository&quot;</span><span class="p">][</span><span class="s2">&quot;object&quot;</span><span class="p">][</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;nodes&quot;</span><span class="p">]</span>
+        <span class="n">commit_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">commit</span><span class="p">[</span><span class="s2">&quot;messageHeadline&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">commit</span> <span class="ow">in</span> <span class="n">commits</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">commit_messages</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Generate changelog for repository&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--repo&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path to repository, (abc/xyz)&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--version&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Version to generate CHANGELOG from&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;repo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid repo&quot;</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">changelog</span><span class="p">))</span>
+</pre></div>
+
+
+<p>We can run this script as follows:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> python changelog/c_graphql.py -r busy-beaver-dev/busy-beaver -v <span class="m">2</span>.9.0
+
+<span class="go">CHANGELOG</span>
+
+<span class="go">- Merge dictionaries using new operator in Python 3.9 (#336)</span>
+</pre></div>
+
+
+<h4>Notes</h4>
+<ul>
+<li>used <a href="https://github.com/profusion/sgqlc">Simple GraphQL Client</a> to interact with GitHub's GraphQL endpoint</li>
+<li>created a <a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token">GitHub Personal Access Token</a> as it is required to make GraphQL queries</li>
+</ul>
+<h3>Discussion</h3>
+<p>Notice that the only change we made was to our GitHub integration,
+our actual business logic stayed the same.
+This is exactly what we should expect because
+our business logic doesn't care
+if we use the GitHub REST API or the GitHub GraphQL API.</p>
+<p>It treats the GitHub integration like a black box.
+As long as the integration's interface stays the same,
+our code will work as expected.</p>
+<p>To complete this task, we will need to update our contract tests.
+I will leave this as an exercise for the reader.
+<a href="#appendix-b-testing-with-vcrpy">Appendix B</a>
+walks through an API testing strategy that records requests and responses.</p>
+<hr>
+<p><a name="conclusion"></a></p>
+<h2>Conclusion</h2>
+<p>In this post,
+we wrapped a third-party integration
+using the Facade Pattern.
+This results in loosely coupled code that
+is easy to maintain and even easier to test.</p>
+<p>In the Appendices below,
+we will build a full-featured Facade
+and show an easy way to test API integrations.</p>
+<h4>Additional Resources</h4>
+<ul>
+<li>Freeman, Eric &amp; Robson, Elizabeth. (2004). Head First Design Patterns: A Brain-Friendly Guide. 1st ed. Sebastopol, CA: O’Reilly Media</li>
+<li>“Gang of Four”. (1994). Design Patterns: Elements of Reusable Object-Oriented Software. 1st ed. Boston, MA: Addison-Wesley Professional</li>
+<li>Gary Bernhardt: <a href="https://www.youtube.com/watch?v=eOYal8elnZk">Boundaries</a></li>
+<li>Martin, Robert. (2017). Clean Architecture. 1st ed. Upper Saddle River, NJ: Prentice Hall</li>
+</ul>
+<hr>
+<p><a name="appendix-a-full-featured-facade"></a></p>
+<h2>Appendix A: Full-Featured Facade</h2>
+<p>Our running example created a simple Facade
+to demonstrate concepts without additional overhead.
+While the code does work,
+it's not something we would use in production.</p>
+<p>To create a proper abstraction around the GitHub API
+we need the following:</p>
+<ul>
+<li><a href="https://requests.readthedocs.io/en/master/user/advanced/#session-objects">request.Sessions</a> to improve performance</li>
+<li>set HTTP headers (<code>Content-Type</code>, <code>User-Agent</code>, <code>Accept</code>, etc) to be a good citizen of the web</li>
+<li>HTTP Basic Authentication using a GitHub Access Token with repo permissions<ul>
+<li>will allow us to access private repos</li>
+</ul>
+</li>
+</ul>
+<h3>Implementation</h3>
+<div class="highlight"><pre><span></span><span class="c1"># changelog/d_full_featured_facade.py</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">GITHUB_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GITHUB_TOKEN&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://api.github.com&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">(</span><span class="n">GITHUB_TOKEN</span><span class="p">)</span>
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_release_date</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="n">commit_messages</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_commit_messages</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">)</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">commit_messages</span><span class="p">:</span>
+        <span class="n">changelog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;- {message}&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">changelog</span>
+
+
+<span class="k">class</span> <span class="nc">GitHubClient</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth_token</span><span class="p">):</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Change Log&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/vnd.github.v3+json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;token {oauth_token}&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
+
+    <span class="k">def</span> <span class="nf">get_release_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{BASE_URL}/repos/{owner}/{repo}/releases/tags/{version}&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Version does not exist&quot;</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;published_at&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_commit_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{BASE_URL}/repos/{owner}/{repo}/commits&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sha&quot;</span><span class="p">:</span> <span class="s2">&quot;master&quot;</span><span class="p">,</span> <span class="s2">&quot;since&quot;</span><span class="p">:</span> <span class="n">release_dt</span><span class="p">}</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;commit&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="n">messages</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Generate changelog for repository&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--repo&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path to repository, (abc/xyz)&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--version&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Version to generate CHANGELOG from&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;repo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid repo&quot;</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+    <span class="n">changelog</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">changelog</span><span class="p">))</span>
+</pre></div>
+
+
+<hr>
+<p><a name="appendix-b-testing-with-vcrpy"></a></p>
+<h2>Appendix B: Testing with VCR.py</h2>
+<p>We used the responses library
+to stub out an external API
+in order to create <a href="testing-101-introduction-to-testing.html#what-is-testing-deterministic">determinstic tests</a>..
+While this method does work,
+it requires us to manually construct each response payload.</p>
+<p>An alternative approach to testing is
+to utilize <a href="https://vcrpy.readthedocs.io/en/latest/">VCR.py</a>.
+VCR.py records requests and responses
+and save them to disk as <code>yaml</code> files; these files are called cassettes.
+When we run our tests, VCR.py will
+use cassettes to replay the recorded requests and responses.</p>
+<p>This approach deserves its own post
+but that's beyond the scope of this essay.</p>
+<h3>Implementation</h3>
+<p>We need to replace the Authorization header
+which contains our GitHub Access Token
+with a dummy value to ensure secrets do not get saved in our cassettes.
+With pytest, we can add the following snippet in our <code>conftest.py</code>:</p>
+<div class="highlight"><pre><span></span><span class="c1"># conftest.py</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">vcr_config</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Overwrite headers where key can be leaked&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;filter_headers&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;DUMMY&quot;</span><span class="p">)],</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>Our tests will look as follows:</p>
+<div class="highlight"><pre><span></span><span class="c1"># tests/test_vcrpy.py</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">changelog.d_full_featured_facade</span> <span class="kn">import</span> <span class="n">generate_changelog</span><span class="p">,</span> <span class="n">GitHubClient</span>
+
+
+<span class="k">class</span> <span class="nc">GitHubClientStub</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commit_messages</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commit_messages</span> <span class="o">=</span> <span class="n">commit_messages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mock</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">Mock</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_release_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mock</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_commit_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mock</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_messages</span>
+
+
+<span class="nd">@mock.patch</span><span class="p">(</span><span class="s2">&quot;changelog.d_full_featured_facade.GitHubClient&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_generate_changelog</span><span class="p">(</span><span class="n">github_mock</span><span class="p">):</span>
+    <span class="n">commit_messages</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;first commit&quot;</span><span class="p">,</span> <span class="s2">&quot;last commit&quot;</span><span class="p">]</span>
+    <span class="n">github_mock</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">GitHubClientStub</span><span class="p">(</span><span class="n">commit_messages</span><span class="p">)</span>
+
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">generate_changelog</span><span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="s2">&quot;repo&quot;</span><span class="p">,</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">messages</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;CHANGELOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;- first commit&quot;</span><span class="p">,</span> <span class="s2">&quot;- last commit&quot;</span><span class="p">]</span>
+
+
+<span class="nd">@pytest.mark.vcr</span><span class="p">(</span><span class="n">cassette_library_dir</span><span class="o">=</span><span class="s2">&quot;tests/cassettes/rest&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_github_client_get_release_date</span><span class="p">():</span>
+    <span class="n">GITHUB_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GITHUB_TOKEN&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">(</span><span class="n">GITHUB_TOKEN</span><span class="p">)</span>
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_release_date</span><span class="p">(</span><span class="s2">&quot;busy-beaver-dev&quot;</span><span class="p">,</span> <span class="s2">&quot;busy-beaver&quot;</span><span class="p">,</span> <span class="s2">&quot;1.3.2&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">release_dt</span> <span class="o">==</span> <span class="s2">&quot;2020-01-26T19:04:10Z&quot;</span>
+
+
+<span class="nd">@pytest.mark.vcr</span><span class="p">(</span><span class="n">cassette_library_dir</span><span class="o">=</span><span class="s2">&quot;tests/cassettes/rest&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_github_client_get_commit_messages</span><span class="p">():</span>
+    <span class="n">GITHUB_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GITHUB_TOKEN&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">github</span> <span class="o">=</span> <span class="n">GitHubClient</span><span class="p">(</span><span class="n">GITHUB_TOKEN</span><span class="p">)</span>
+
+    <span class="n">release_dt</span> <span class="o">=</span> <span class="s2">&quot;2020-01-25T19:04:10Z&quot;</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">get_commit_messages</span><span class="p">(</span><span class="s2">&quot;busy-beaver-dev&quot;</span><span class="p">,</span> <span class="s2">&quot;busy-beaver&quot;</span><span class="p">,</span> <span class="n">release_dt</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="s2">&quot;Update to Python 3.9 (#335)&quot;</span> <span class="ow">in</span> <span class="n">messages</span>
+</pre></div>
+  </div>
+
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="./tag/python.html"><i class="fa fa-tag"></i>python</a>&nbsp;
+	<a href="./tag/design-patterns.html"><i class="fa fa-tag"></i>design-patterns</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
+
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="./clean-architecture-with-the-facade-pattern.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
+        </div><!-- /content -->
+
+        <div class="col-md-3 sidebar-nav" id="sidebar">
+
+<div class="row">
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-comment fa-fw fa-lg"></i> Social</h4>
+<ul class="list-unstyled social-links">
+    <li><a href="http://linkedin.com/in/alysivji/" target="_blank">
+	  <i class="fa fa-linkedin-square fa-fw fa-lg" title="LinkedIn"></i>
+		LinkedIn
+	</a></li>
+    <li><a href="http://github.com/alysivji" target="_blank">
+	  <i class="fa fa-github-square fa-fw fa-lg" title="GitHub"></i>
+		GitHub
+	</a></li>
+    <li><a href="https://twitter.com/CaiusSivjus" target="_blank">
+	  <i class="fa fa-twitter-square fa-fw fa-lg" title="Twitter"></i>
+		Twitter
+	</a></li>
+</ul>
+</div>
+
+<div class="col-xs-6 col-md-12">
+<h4><i class="fa fa-folder fa-fw fa-lg"></i> Categories</h4>
+<ul class="list-unstyled category-links">
+  <li><a href="./category/data-analysis.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Data Analysis</a></li>
+  <li><a href="./category/deep-dives.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Deep Dives</a></li>
+  <li><a href="./category/quick-hits.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Quick Hits</a></li>
+  <li><a href="./category/thoughts.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Thoughts</a></li>
+  <li><a href="./category/tutorials.html" >
+    <i class="fa fa-folder-open fa-fw fa-lg"></i> Tutorials</a></li>
+</ul>
+</div>
+
+</div> <!-- /row -->
+
+<h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
+<p class="tag-cloud">
+    <span class="tag-2">
+      <a href="./tag/exploring-pypi.html">
+          <i class="fa fa-tag"></i>
+        exploring-pypi
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/community.html">
+          <i class="fa fa-tag"></i>
+        community
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/php.html">
+          <i class="fa fa-tag"></i>
+        php
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/flask.html">
+          <i class="fa fa-tag"></i>
+        flask
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/workflow.html">
+          <i class="fa fa-tag"></i>
+        workflow
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/vim.html">
+          <i class="fa fa-tag"></i>
+        vim
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/pandas.html">
+          <i class="fa fa-tag"></i>
+        pandas
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/software-engineering.html">
+          <i class="fa fa-tag"></i>
+        software-engineering
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/languages.html">
+          <i class="fa fa-tag"></i>
+        languages
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/design-patterns.html">
+          <i class="fa fa-tag"></i>
+        design-patterns
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/art-of-developer-testing.html">
+          <i class="fa fa-tag"></i>
+        art-of-developer-testing
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/testing.html">
+          <i class="fa fa-tag"></i>
+        testing
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/mac.html">
+          <i class="fa fa-tag"></i>
+        mac
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/kubernetes.html">
+          <i class="fa fa-tag"></i>
+        kubernetes
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/review.html">
+          <i class="fa fa-tag"></i>
+        review
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/web-scraping.html">
+          <i class="fa fa-tag"></i>
+        web-scraping
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/grad-school.html">
+          <i class="fa fa-tag"></i>
+        grad-school
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/web-development.html">
+          <i class="fa fa-tag"></i>
+        web-development
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/mongodb.html">
+          <i class="fa fa-tag"></i>
+        mongodb
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/docker.html">
+          <i class="fa fa-tag"></i>
+        docker
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/gis.html">
+          <i class="fa fa-tag"></i>
+        gis
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/book.html">
+          <i class="fa fa-tag"></i>
+        book
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/reddit-scraper.html">
+          <i class="fa fa-tag"></i>
+        reddit-scraper
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/math.html">
+          <i class="fa fa-tag"></i>
+        math
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/data-science.html">
+          <i class="fa fa-tag"></i>
+        data-science
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/terminal.html">
+          <i class="fa fa-tag"></i>
+        terminal
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/javascript.html">
+          <i class="fa fa-tag"></i>
+        javascript
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/python.html">
+          <i class="fa fa-tag"></i>
+        python
+      </a>
+    </span>
+    <span class="tag-4">
+      <a href="./tag/elasticsearch.html">
+          <i class="fa fa-tag"></i>
+        elasticsearch
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/pythonic.html">
+          <i class="fa fa-tag"></i>
+        pythonic
+      </a>
+    </span>
+    <span class="tag-1">
+      <a href="./tag/how-to.html">
+          <i class="fa fa-tag"></i>
+        how-to
+      </a>
+    </span>
+    <span class="tag-3">
+      <a href="./tag/data-viz.html">
+          <i class="fa fa-tag"></i>
+        data-viz
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/productivity.html">
+          <i class="fa fa-tag"></i>
+        productivity
+      </a>
+    </span>
+    <span class="tag-2">
+      <a href="./tag/cest-la-vie.html">
+          <i class="fa fa-tag"></i>
+        c'est-la-vie
+      </a>
+    </span>
+</p>
+<h4><i class="fa fa-rss fa-fw fa-lg"></i> Feeds</h4>
+<ul class="list-unstyled">
+    <li><a href="http://alysivji.github.io/feeds/all.atom.xml" 
+		   type="application/atom+xml" rel="alternate">
+		<i class="fa fa-rss-square fa-fw fa-lg"></i> Atom Feed</a></li>
+</ul>
+
+<hr />
+
+        </div><!--/sidebar -->
+      </div><!--/row-->
+    </div><!--/.container /#main-container -->
+
+    <footer id="site-footer">
+      <address id="site-colophon">
+        <p class="text-center text-muted">
+        Site built using <a href="http://getpelican.com/" target="_blank">Pelican</a>
+        &nbsp;&bull;&nbsp; Theme based on
+        <a href="http://www.voidynullness.net/page/voidy-bootstrap-pelican-theme/"
+           target="_blank">VoidyBootstrap</a> by
+        <a href="http://www.robertiwancz.com/"
+           target="_blank">RKI</a>
+        </p>
+      </address><!-- /colophon  -->
+    </footer>
+
+<!-- DISQUS script for displaying comment count -->
+<script type="text/javascript">
+    var disqus_shortname = 'siv-scripts';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
+</html>
