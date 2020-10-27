@@ -20,7 +20,7 @@ to leverage &lt;a href="https://en.wikipedia.org/wiki/Structural_pattern"&gt;Str
 to create explicit relationships between classes.
 This post explores how the &lt;a href="https://en.wikipedia.org/wiki/Facade_pattern"&gt;Facade Pattern&lt;/a&gt;
 can be used to wrap third-party integrations to improve software design.&lt;/p&gt;
-&lt;p&gt;Note: this is a companion writeup to my PyTexas 2020 talk,
+&lt;p&gt;Note: this is a companion writeup to my PyTexas talk,
 &lt;a href="https://www.youtube.com/watch?v=zNbEdj3aGx0"&gt;Everyday Design Patterns: Facade Pattern&lt;/a&gt;.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4&gt;Table of Contents&lt;/h4&gt;
