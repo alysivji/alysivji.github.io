@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Deep Dives</title><link href="http://alysivji.github.io/" rel="alternate"></link><link href="http://alysivji.github.io/feeds/deep-dives.atom.xml" rel="self"></link><id>http://alysivji.github.io/</id><updated>2020-10-25T14:30:00-05:00</updated><entry><title>Using the Facade Pattern to Wrap Third-Party Integrations</title><link href="http://alysivji.github.io/clean-architecture-with-the-facade-pattern.html" rel="alternate"></link><published>2020-10-25T14:30:00-05:00</published><updated>2020-10-25T14:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2020-10-25:/clean-architecture-with-the-facade-pattern.html</id><summary type="html">&lt;p&gt;The main idea behind Software Architecture Methodologies
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Siv Scripts - Deep Dives</title><link href="https://alysivji.com/" rel="alternate"></link><link href="https://alysivji.com/feeds/deep-dives.atom.xml" rel="self"></link><id>https://alysivji.com/</id><updated>2020-10-25T14:30:00-05:00</updated><entry><title>Using the Facade Pattern to Wrap Third-Party Integrations</title><link href="https://alysivji.com/clean-architecture-with-the-facade-pattern.html" rel="alternate"></link><published>2020-10-25T14:30:00-05:00</published><updated>2020-10-25T14:30:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.com,2020-10-25:/clean-architecture-with-the-facade-pattern.html</id><summary type="html">&lt;p&gt;The main idea behind Software Architecture Methodologies
 such as &lt;a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html"&gt;Clean Architecture&lt;/a&gt;
 and &lt;a href="https://alistair.cockburn.us/hexagonal-architecture/"&gt;Hexagonal Architecture&lt;/a&gt; is
 to create &lt;a href="https://en.wikipedia.org/wiki/Loose_coupling"&gt;loosely coupled&lt;/a&gt; components
@@ -318,7 +318,7 @@ if clients start bypassing the Facade.&lt;/p&gt;
 &lt;p&gt;We can use the Facade Pattern to move from a monolith to microservices.
 Once we know the functionality we are migrating into a new service,
 we place this logic inside of a Facade.
-Then we rewrite our monolith's business logic to use the Facade.&lt;/p&gt;
+Next we rewrite our monolith's business logic to use the Facade.&lt;/p&gt;
 &lt;p&gt;Then when we are ready,
 we can replace method calls inside of the Facade
 with calls to another service via an API
@@ -352,7 +352,7 @@ test each component independently.&lt;/p&gt;
 &lt;h4&gt;Test by replacing each component boundary with a value&lt;/h4&gt;
 &lt;p&gt;Just like we stubbed out the GitHub API,
 we can stub out each boundary and unit test our
-component.
+components.
 There is a &lt;a href="https://www.youtube.com/watch?v=eOYal8elnZk"&gt;great talk by Gary Bernhardt&lt;/a&gt;
 that explores this topic in a lot more depth.&lt;/p&gt;
 &lt;hr&gt;
@@ -542,7 +542,7 @@ which interacts with the Facade to create a changelog.&lt;/p&gt;
 &lt;h4&gt;Notes&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;in addition to replacing our GitHub integration boundary with a stub, we also replaced our internal integration boundary with a value&lt;ul&gt;
-&lt;li&gt;this way of development allows us write robust tests; we can write loads of unit tests to make sure each component works as expected&lt;/li&gt;
+&lt;li&gt;this way of development allows us write robust tests; we can write lots of unit tests to make sure each component works as expected&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -701,7 +701,7 @@ if we use the GitHub REST API or the GitHub GraphQL API.&lt;/p&gt;
 &lt;p&gt;It treats the GitHub integration like a black box.
 As long as the integration's interface stays the same,
 our code will work as expected.&lt;/p&gt;
-&lt;p&gt;To complete this task, we will need to update our contract tests.
+&lt;p&gt;To complete this task, we need to update our contract tests.
 I will leave this as an exercise for the reader.
 &lt;a href="#appendix-b-testing-with-vcrpy"&gt;Appendix B&lt;/a&gt;
 walks through an API testing strategy that records requests and responses.&lt;/p&gt;
@@ -832,7 +832,7 @@ we need the following:&lt;/p&gt;
 &lt;h2&gt;Appendix B: Testing with VCR.py&lt;/h2&gt;
 &lt;p&gt;We used the responses library
 to stub out an external API
-in order to create &lt;a href="testing-101-introduction-to-testing.html#what-is-testing-deterministic"&gt;determinstic tests&lt;/a&gt;..
+in order to create &lt;a href="testing-101-introduction-to-testing.html#what-is-testing-deterministic"&gt;determinstic tests&lt;/a&gt;.
 While this method does work,
 it requires us to manually construct each response payload.&lt;/p&gt;
 &lt;p&gt;An alternative approach to testing is
@@ -913,7 +913,7 @@ With pytest, we can add the following snippet in our &lt;code&gt;conftest.py&lt;
     &lt;span class="n"&gt;messages&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_commit_messages&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;busy-beaver-dev&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;busy-beaver&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;release_dt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Update to Python 3.9 (#335)&amp;quot;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;messages&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="python"></category><category term="design-patterns"></category></entry><entry><title>Testing 101: Introduction to Testing</title><link href="http://alysivji.github.io/testing-101-introduction-to-testing.html" rel="alternate"></link><published>2018-10-21T08:10:00-05:00</published><updated>2018-10-21T08:10:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2018-10-21:/testing-101-introduction-to-testing.html</id><summary type="html">&lt;p&gt;Programming is writing code to solve problems. Software Engineering is the practice of using a &lt;strong&gt;structured process&lt;/strong&gt; to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Programming is writing code to solve problems. Software Engineering is the practice of using a &lt;strong&gt;structured process&lt;/strong&gt; to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do not break existing functionality.&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="python"></category><category term="design-patterns"></category></entry><entry><title>Testing 101: Introduction to Testing</title><link href="https://alysivji.com/testing-101-introduction-to-testing.html" rel="alternate"></link><published>2018-10-21T08:10:00-05:00</published><updated>2018-10-21T08:10:00-05:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.com,2018-10-21:/testing-101-introduction-to-testing.html</id><summary type="html">&lt;p&gt;Programming is writing code to solve problems. Software Engineering is the practice of using a &lt;strong&gt;structured process&lt;/strong&gt; to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Programming is writing code to solve problems. Software Engineering is the practice of using a &lt;strong&gt;structured process&lt;/strong&gt; to solve problems. As engineers, we want to have a codebase we can change, extend, and refactor as required. Tests ensure our program works as intended and that changes to the codebase do not break existing functionality.&lt;/p&gt;
 &lt;p&gt;At my last job, I worked with a Senior Engineer to build out a microservices-based backend to replace our existing Django monolith. It was a greenfield project and we were encouraged to try new things. I was reading &lt;a href="https://pragprog.com/book/bopytest/python-testing-with-pytest"&gt;Python Testing with pytest&lt;/a&gt; and convinced the Senior Engineer to let me bring &lt;a href="http://pytest.org/"&gt;pytest&lt;/a&gt; into our project. This was fortuitous as it forced me to take the lead in writing the initial set of tests we used as a template for all of our services.&lt;/p&gt;
 &lt;p&gt;This experience reinforced the principles highlighted in &lt;a href="https://en.wikipedia.org/wiki/The_Pragmatic_Programmer"&gt;The Pragmatic Programmer&lt;/a&gt;. It's about being pragmatic in &lt;strong&gt;what&lt;/strong&gt; we test, &lt;strong&gt;how&lt;/strong&gt; we test, and &lt;strong&gt;when&lt;/strong&gt; we test; we should leverage tools and techniques that allow us to test our code as efficiently as possible. Testing needs to be easy and free of barriers; once testing feels like a chore, programmers won't do it... and this is how software quality slips.&lt;/p&gt;
 &lt;p&gt;We dread going into the code because either there are no tests or the tests that exist are so brittle that we're forced to rewrite tests as we write code. This is not what Software Engineering is about. Test should enable refactoring, not hamper our ability to make changes to the codebase. We should spend our time writing business logic, not wrestling with tests.&lt;/p&gt;
@@ -1233,7 +1233,7 @@ With pytest, we can add the following snippet in our &lt;code&gt;conftest.py&lt;
 &lt;li&gt;Code Simplicity: &lt;a href="https://www.codesimplicity.com/post/the-philosophy-of-testing/"&gt;The Philosophy of Testing&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Katy Huff: &lt;a href="https://katyhuff.github.io/python-testing/"&gt;Python Testing and Continuous Integration&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://testandcode.com/"&gt;Test and Code Podcast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="art-of-developer-testing"></category><category term="testing"></category><category term="python"></category></entry><entry><title>HTTP: Hypertext Transfer Protocol</title><link href="http://alysivji.github.io/http-part1-the-protocol.html" rel="alternate"></link><published>2017-11-19T14:22:00-06:00</published><updated>2017-11-19T14:22:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.github.io,2017-11-19:/http-part1-the-protocol.html</id><summary type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
+&lt;/ul&gt;</content><category term="art-of-developer-testing"></category><category term="testing"></category><category term="python"></category></entry><entry><title>HTTP: Hypertext Transfer Protocol</title><link href="https://alysivji.com/http-part1-the-protocol.html" rel="alternate"></link><published>2017-11-19T14:22:00-06:00</published><updated>2017-11-19T14:22:00-06:00</updated><author><name>Aly Sivji</name></author><id>tag:alysivji.com,2017-11-19:/http-part1-the-protocol.html</id><summary type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
 &lt;p&gt;We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The startup I work for is making a transition into a microservices-based architecture. I'm working with a Senior Engineer to design a new backend platform based off our current monolith.&lt;/p&gt;
 &lt;p&gt;We plan on having a bunch of REST API endpoints in containers that DevOps will orchestrate using Kubernetes. The current plan is to use Python3 and &lt;a href="https://falconframework.org/"&gt;Falcon&lt;/a&gt;; we are open to using Go (or &lt;a href="https://pypy.org/"&gt;PyPy&lt;/a&gt;) on a container-by-container basis if performance becomes an issue.&lt;/p&gt;
 &lt;p&gt;Very exciting! But I do feel like I'm a bit over my head.&lt;/p&gt;

@@ -4,14 +4,28 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content=" Posts tagged with javascript" />
+    <meta name="description" content="[]" />
     <meta name="author" content="Aly Sivji" />
     <meta name="generator" content="Pelican (VoidyBootstrap theme)" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Siv Scripts"/>
-        <meta property="og:url" content="https://alysivji.com"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Processing Twilio Webhooks with AWS Lambda"/>
+    <meta property="og:url" content="https://alysivji.com/drafts/validating-twilio-webhook-in-aws-lambda.html"/>
+      <meta property="og:description" content="[]"/>
+      <meta property="article:section" content="Quick Hits"/>
+        <meta property="article:tag" content="how-to"/>
+        <meta property="article:tag" content="aws"/>
+        <meta property="article:tag" content="aws-lambda"/>
+        <meta property="og:image"
+              content="https://alysivji.com/images/main/siv.jpeg"/>
+      <meta name="twitter:card" content="summary">
+      <meta property="twitter:image" content="https://alysivji.com/images/main/siv.jpeg" />
+    <meta name="twitter:title" content="Processing Twilio Webhooks with AWS Lambda">
+    <meta name="twitter:description" content="[]">
+    <meta name="twitter:site" content="@CaiusSivjus">
+    <meta name="twitter:creator" content="@CaiusSivjus">
+    <meta name="twitter:domain" content="https://alysivji.com">
 
-    <title>Tag:javascript - Siv Scripts</title>
+    <title>Processing Twilio Webhooks with AWS Lambda - Siv Scripts</title>
 
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -46,7 +60,7 @@
 
 </script>
 
-    <link rel="canonical" href="https://alysivji.com/tag/javascript.html">
+    <link rel="canonical" href="https://alysivji.com/drafts/validating-twilio-webhook-in-aws-lambda.html">
   </head>
 
   <body>
@@ -95,41 +109,85 @@
     <div class="container" id="main-container">
       <div class="row">
         <div class="col-md-9" id="content">
-<ol class="breadcrumb">
-    <li><a href="https://alysivji.com/" title="Home" rel="home">
-		<i class="fa fa-home fa-fw fa-lg"></i> </a></li>
-    <li>Tags </li>
-    <li class="active">javascript</li>
-</ol>
-    <article>
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
 <abbr class="article-header-date">
-  Fri 16 October 2020
+  Sun 02 May 2021
 </abbr> <h1>
-  <a href="https://alysivji.com/week-of-javascript.html" rel="bookmark"
-     title="Permalink to My Week of JavaScript">
-    My Week of JavaScript
+  <a href="https://alysivji.com/drafts/validating-twilio-webhook-in-aws-lambda.html" rel="bookmark"
+     title="Permalink to Processing Twilio Webhooks with AWS Lambda">
+    Processing Twilio Webhooks with AWS Lambda
   </a>
 </h1><div class="article-header-info">
   <p>
       Posted by <a href="https://alysivji.com/author/aly-sivji.html">Aly Sivji</a>
     in 
-    <a href="https://alysivji.com/category/thoughts.html">
-      Thoughts</a>
+    <a href="https://alysivji.com/category/quick-hits.html">
+      Quick Hits</a>
     &nbsp;&nbsp;
   </p>
-</div> <!-- /.article-header-info -->
-      <div class="summary">
-		<p>I had two weeks of vacation planned around PyCon, but canceled it since it didn't make sense to take time off when I couldn't go anywhere because of COVID-19.</p>
-<p>I was feeling pretty down when the conference start date passed. I had spent the past few months looking forward to …</p>
-		<p class="content-emphasis"><a href="https://alysivji.com/week-of-javascript.html">
-			Read more... <i class="fa fa-arrow-circle-right fa-fw fa-lg"></i> 
-		</a></p>
-      </div>    </article>
-    <hr />
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+	<p><a href="https://www.twilio.com/">Twilio</a> has a fantastic suite of communication tools that make it easy to build products that integrate SMS and voice functionality.</p>
+<p>Twilio documentation has great quickstarts with code examples, but their <a href="https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-python-amazon-lambda#setting-up-amazon-api-gateway">AWS Lambda setup guide</a> leaves a lot to be desired. The Serverless abstraction is supposed to make deployment and configuration easier. Having to set up API Gateway to map incoming request data from <code>application/x-www-form-urlencoded</code> to <code>application/json</code> is adding a lot of unnecessary complication.</p>
+<p>In this post, we'll walk through the process of setting up an AWS Lambda function that processes inbound requests from Twilio.</p>
+<h3>Project Description</h3>
+<p>Call routing app
+https://www.twilio.com/blog/2009/05/dialing-multiple-numbers-simultaneously-with-twilio.html</p>
+<h3>Webhook</h3>
+<p>is not the way I would write a <a href="https://en.wikipedia.org/wiki/Webhook">webhook Lambda</a>.</p>
+<h3>TwiML</h3>
+<blockquote>
+<p>TwiML (the Twilio Markup Language) is a set of instructions you can use to tell Twilio what to do when you receive an incoming call, SMS, or fax.</p>
+</blockquote>
+<p>https://www.twilio.com/docs/voice/twiml</p>
+<p>https://www.twilio.com/docs/voice/twiml/dial</p>
+<p>https://www.twilio.com/docs/messaging/twiml</p>
+<h3>Validating Requests</h3>
+<p>need to make sure it's also from blah</p>
+<p><a href="https://www.twilio.com/docs/usage/security#validating-requests">validates requests</a> and</p>
+<p>Can also make this into a decorator</p>
+  </div>
 
-<nav class="index-pager">
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="https://alysivji.com/tag/how-to.html"><i class="fa fa-tag"></i>how-to</a>&nbsp;
+	<a href="https://alysivji.com/tag/aws.html"><i class="fa fa-tag"></i>aws</a>&nbsp;
+	<a href="https://alysivji.com/tag/aws-lambda.html"><i class="fa fa-tag"></i>aws-lambda</a>&nbsp;
+</div>  <hr />
+  <div class="well well-sm">  <!-- Social media sharing buttons -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+       data-via="CaiusSivjus" >Tweet</a>&nbsp;
 
-</nav> <!-- /index-pager -->
+    <!-- Google+ -->
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="g-plusone" data-size="medium"></div>&nbsp;
+
+    <!-- Facebook -->
+    <div class="fb-like" 
+        data-href="https://alysivji.com/drafts/validating-twilio-webhook-in-aws-lambda.html" 
+        data-layout="button_count" 
+        data-action="like" data-show-faces="true" 
+        data-share="true">
+    </div>
+    &nbsp;
+  </div> <!-- /Social media sharing buttons -->
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//siv-scripts.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
         </div><!-- /content -->
 
         <div class="col-md-3 sidebar-nav" id="sidebar">
@@ -423,5 +481,30 @@
             crossorigin="anonymous"></script>
 
 
-  </body>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google+ -->
+<!-- Synchronous 
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+-->
+<!-- Asynchronous -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>  </body>
 </html>
